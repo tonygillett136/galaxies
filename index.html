@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Galaxy Collisions</title>
+<style>
+:root{
+  --bg:#04050a; --ink:#e8ecf5; --dim:#8c96ad; --faint:#4d566b;
+  --line:rgba(255,255,255,.09); --panel:rgba(10,13,22,.72);
+  --accent:#7db4ff; --warm:#ffb27d;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans)}
+#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#view:active{cursor:grabbing}
+
+/* ---------- panel ---------- */
+#panel{
+  position:fixed;top:0;left:0;bottom:0;width:310px;padding:18px 18px 22px;
+  background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-right:1px solid var(--line);overflow-y:auto;overscroll-behavior:contain;
+  transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:10;
+}
+body.collapsed #panel{transform:translateX(-310px)}
+#panelToggle{
+  position:fixed;top:14px;left:326px;z-index:11;width:34px;height:34px;
+  border:1px solid var(--line);border-radius:9px;background:var(--panel);
+  backdrop-filter:blur(18px);color:var(--dim);cursor:pointer;font-size:15px;
+  transition:left .28s cubic-bezier(.4,0,.2,1);
+}
+body.collapsed #panelToggle{left:14px}
+#panelToggle:hover{color:var(--ink);border-color:rgba(255,255,255,.22)}
+
+h1{font-size:15px;font-weight:600;letter-spacing:.2px}
+h1 small{display:block;font-size:11px;font-weight:400;color:var(--faint);letter-spacing:.3px;margin-top:3px}
+h2{font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;
+   color:var(--faint);margin:22px 0 9px}
+
+#blurb{font-size:12px;line-height:1.55;color:var(--dim);margin:12px 0 4px}
+
+#scenarios{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#scenarios button{
+  font:inherit;font-size:11.5px;padding:8px 7px;border-radius:8px;cursor:pointer;
+  background:rgba(255,255,255,.045);color:var(--dim);
+  border:1px solid transparent;text-align:left;line-height:1.25;
+}
+#scenarios button:hover{background:rgba(255,255,255,.09);color:var(--ink)}
+#scenarios button.on{background:rgba(125,180,255,.16);color:var(--accent);border-color:rgba(125,180,255,.4)}
+
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:11px 0}
+.row label{font-size:11.5px;color:var(--dim);flex:1}
+.row output{font-family:var(--mono);font-size:11px;color:var(--ink);min-width:56px;text-align:right}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:3px;
+  background:rgba(255,255,255,.14);outline:none;margin:7px 0 0
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+  background:var(--ink);cursor:pointer;border:0;box-shadow:0 0 0 3px rgba(4,5,10,.7)
+}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);cursor:pointer;border:0}
+select{
+  font:inherit;font-size:11.5px;background:rgba(255,255,255,.06);color:var(--ink);
+  border:1px solid var(--line);border-radius:7px;padding:5px 7px;cursor:pointer
+}
+.check{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);cursor:pointer;margin:11px 0}
+.check input{accent-color:var(--accent);cursor:pointer}
+
+.buttons{display:flex;gap:7px;margin-top:12px}
+.buttons button{
+  flex:1;font:inherit;font-size:12px;padding:9px;border-radius:8px;cursor:pointer;
+  background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--line)
+}
+.buttons button:hover{background:rgba(255,255,255,.11)}
+.buttons button.on{background:rgba(125,180,255,.18);border-color:rgba(125,180,255,.42);color:var(--accent)}
+
+.note{font-size:10.5px;line-height:1.5;color:var(--faint);margin-top:9px}
+kbd{font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.08);
+    border:1px solid var(--line);border-radius:4px;padding:1px 4px}
+
+/* ---------- instruments ---------- */
+.hud{position:fixed;z-index:9;pointer-events:none;font-family:var(--mono)}
+#hudTop{top:14px;right:16px;text-align:right;font-size:11px;color:var(--dim);line-height:1.75}
+#hudTop b{color:var(--ink);font-weight:500}
+/* clears the timeline, which also lives bottom-right; they overlapped */
+#hudBottom{left:auto;right:16px;bottom:74px;text-align:right}
+body.collapsed #timeline{left:16px}
+#scalebar{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+#barfill{height:2px;background:var(--ink);border-radius:2px;min-width:20px;
+         box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+#barlabel{font-size:10.5px;color:var(--dim);letter-spacing:.4px}
+#clockbox{margin-bottom:14px}
+#clock{font-size:22px;color:var(--ink);letter-spacing:-.4px;font-weight:300}
+#clocknote{font-size:10px;color:var(--faint);letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+
+#timeline{position:fixed;left:326px;right:16px;bottom:16px;z-index:9;
+          transition:left .28s cubic-bezier(.4,0,.2,1)}
+#timeline .track{display:flex;align-items:center;gap:12px}
+#scrub{flex:1;margin:0}
+#timeline .ends{display:flex;justify-content:space-between;font-family:var(--mono);
+                font-size:10px;color:var(--faint);margin-top:5px;letter-spacing:.4px}
+
+body.science{--accent:#9fe870}
+body.science #hudTop b{color:#9fe870}
+
+@media (max-width:760px){
+  #panel{width:100%;transform:translateX(-100%)}
+  body:not(.collapsed) #panel{transform:none}
+  #panelToggle{left:14px}
+  body:not(.collapsed) #panelToggle{left:auto;right:14px}
+  #timeline{left:16px}
+  #hudTop{font-size:10px}
+}
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<button id="panelToggle" title="Toggle panel">☰</button>
+
+<aside id="panel">
+  <h1>Galaxy Collisions<small>Restricted three-body, WebGPU</small></h1>
+
+  <h2>Encounter</h2>
+  <div id="scenarios"></div>
+  <p id="blurb"></p>
+
+  <h2>Orbit</h2>
+  <div class="row"><label for="massRatio">Mass ratio</label><output id="massRatiov"></output></div>
+  <input type="range" id="massRatio" min="0.05" max="1" step="0.05" value="1">
+  <div class="row"><label for="rPeri">Pericentre</label><output id="rPeriv"></output></div>
+  <input type="range" id="rPeri" min="0.3" max="14" step="0.1" value="4">
+  <div class="row"><label for="ecc">Eccentricity</label><output id="eccv"></output></div>
+  <input type="range" id="ecc" min="0.4" max="2" step="0.05" value="1">
+
+  <h2>Disc orientation</h2>
+  <div class="row"><label for="inc1">Primary tilt</label><output id="inc1v"></output></div>
+  <input type="range" id="inc1" min="-1.57" max="1.57" step="0.05" value="0">
+  <div class="row"><label for="inc2">Secondary tilt</label><output id="inc2v"></output></div>
+  <input type="range" id="inc2" min="-1.57" max="1.57" step="0.05" value="0.35">
+  <label class="check"><input type="checkbox" id="retro"> Retrograde spin (both discs)</label>
+
+  <h2>Playback</h2>
+  <div class="row"><label for="speed">Speed</label><output id="speedv"></output></div>
+  <input type="range" id="speed" min="0.05" max="3" step="0.05" value="1">
+  <div class="buttons">
+    <button id="play" class="on">Pause</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <h2>Appearance</h2>
+  <div class="row"><label for="size">Splat size</label><output id="sizev"></output></div>
+  <input type="range" id="size" min="0.01" max="0.25" step="0.005" value="0.055">
+  <div class="row"><label for="intensity">Intensity</label><output id="intensityv"></output></div>
+  <input type="range" id="intensity" min="0.002" max="0.12" step="0.002" value="0.03">
+  <div class="row"><label for="exposure">Exposure</label><output id="exposurev"></output></div>
+  <input type="range" id="exposure" min="0.1" max="4" step="0.05" value="1">
+  <div class="row"><label for="bloom">Bloom</label><output id="bloomv"></output></div>
+  <input type="range" id="bloom" min="0" max="1" step="0.02" value="0.55">
+  <div class="row"><label for="colour">Colour by</label>
+    <select id="colour">
+      <option value="0">Stellar population</option>
+      <option value="1">Origin galaxy</option>
+      <option value="2">Speed</option>
+    </select>
+  </div>
+  <label class="check"><input type="checkbox" id="science"> Science view (linear, no bloom)</label>
+
+  <p class="note">
+    Drag to orbit, shift-drag to pan, scroll to zoom.
+    <kbd>space</kbd> play/pause, <kbd>←</kbd> <kbd>→</kbd> step in time, <kbd>r</kbd> reset, <kbd>s</kbd> science view.
+    Time runs backwards as genuine reversed integration, not replayed frames.
+  </p>
+</aside>
+
+<div class="hud" id="hudTop">
+  <div><b id="fps">—</b> · <span id="ms">—</span></div>
+  <div><b id="count">—</b> test particles</div>
+  <div>separation <b id="sep">—</b></div>
+</div>
+
+<div class="hud" id="hudBottom">
+  <div id="clockbox">
+    <div id="clock">—</div>
+    <div id="clocknote">&nbsp;</div>
+  </div>
+  <div id="scalebar"><div id="barfill"></div><div id="barlabel">—</div></div>
+</div>
+
+<div id="timeline">
+  <div class="track">
+    <input type="range" id="scrub" min="-30" max="60" step="0.02" value="-22">
+  </div>
+  <div class="ends"><span>before pericentre</span><span>after pericentre</span></div>
+</div>
+
+<script type="module">
+import { App } from './src/app/app.js';
+const app = new App();
+app.start().catch((e) => {
+  document.body.innerHTML =
+    '<div style="padding:3rem;font:14px/1.7 ui-monospace,monospace;color:#e8ecf5;max-width:44rem">'
+    + '<h2 style="margin-bottom:1rem">WebGPU unavailable</h2>'
+    + '<p style="color:#8c96ad">This needs WebGPU. It is available in Chrome 113+, Edge, and Safari 26+. '
+    + 'On Firefox it may need enabling in about:config.</p>'
+    + '<pre style="margin-top:1.5rem;color:#ff9b8a;white-space:pre-wrap">' + (e.stack || e.message) + '</pre></div>';
+  console.error(e);
+});
+globalThis.__app = app;
+</script>
+</body>
+</html>
