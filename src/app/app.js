@@ -120,7 +120,8 @@ export class App {
     $('count').textContent = particles.count.toLocaleString();
     const s = $('scrub');
     s.min = String(this.spec.tStart);
-    s.max = String(this.spec.tStart + 90);
+    s.max = String(this.spec.tStart + 200);   // Milky Way-scale times are longer
+    s.step = '0.05';
     if (viewTime !== null) this.seek(viewTime);
   }
 
@@ -401,6 +402,10 @@ export class App {
     $('science').onchange = (e) => {
       rs.scienceMode = e.target.checked;
       document.body.classList.toggle('science', e.target.checked);
+      // State the mapping on screen. A readout with an unstated scale is a
+      // picture, and the whole point of this view is that it is not one.
+      $('sciNote').style.display = e.target.checked ? 'block' : 'none';
+      $('sciScale').textContent = rs.scienceFullScale.toFixed(2);
     };
 
     const param = (id, key, fmt) => {

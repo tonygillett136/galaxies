@@ -88,6 +88,7 @@ export class Renderer {
       dustInner: 0.9,       // central hole scale length
       dustOuter: 3.4,       // outer falloff scale length
       dustSoftness: 2.5,    // kpc over which near/far blend, killing the hard edge
+      scienceFullScale: 2.0, // accumulated splat density mapped to display 1.0
     };
   }
 
@@ -254,7 +255,10 @@ export class Renderer {
 
     this.compScratch.set([st.exposure, st.scienceMode ? 0 : st.bloomMix,
                           st.scienceMode ? 1 : 0, st.scienceMode ? 0 : st.vignette], 0);
-    this.compScratch.set([st.scienceMode ? 0 : st.starfield, time, aspect, 0], 4);
+    // params2.w is the science view's FIXED full-scale constant. Deliberately
+    // not derived from exposure or any other control: a readout whose mapping
+    // moves with a slider is not a readout.
+    this.compScratch.set([st.scienceMode ? 0 : st.starfield, time, aspect, st.scienceFullScale], 4);
     dev.queue.writeBuffer(this.compUniform, 0, this.compScratch);
 
     const splatBind = dev.createBindGroup({ layout: this.splatBGL, entries: [

@@ -46,8 +46,11 @@ async function runEncounter(device, spec, steps, dt) {
   return result;
 }
 
+// Retuned with the Milky Way-scale mass model: 25 kpc pericentre (outside the
+// ~13.5 kpc discs, so this is a tidal encounter and not a collision), and times
+// that match a dynamical time of roughly 120 units at 20 kpc.
 const BASE = {
-  massRatio: 1.0, rPeri: 4.0, ecc: 1.0, tStart: -22, particles: 60000, seed: 11,
+  massRatio: 1.0, rPeri: 25, ecc: 1.0, tStart: -45, particles: 60000, seed: 11,
   disc1: { inclination: 0.0, argPeri: 0 },
   disc2: { inclination: 0.35, argPeri: 1.1 },
 };
@@ -56,7 +59,15 @@ export async function runMorphologyTests(device) {
   expectChecks(4);
   group('morphology — the physics claims, measured with controls');
 
-  const STEPS = 2300, DT = 0.02, RCUT = 9.0;   // ~46 time units; rCut ~3x disc rMax
+  // ~85 time units (about 400 Myr past pericentre), where the tidal signal is
+  // near its peak. rCut = 20 kpc is ~1.5x the disc outer radius, so only
+  // genuinely displaced material counts.
+  //
+  // The absolute fractions are much lower than the old dwarf model gave (a few
+  // per cent against 27), and that is the physics, not a regression: a dominant
+  // dark halo binds the disc far more tightly and suppresses tidal stripping.
+  // The prograde/retrograde CONTRAST is the claim, and it survives.
+  const STEPS = 2125, DT = 0.04, RCUT = 20.0;
 
   await checkAsync('prograde produces far more tidal material than retrograde', async () => {
     // THE control experiment. Same orbit, same masses, same pericentre, same
@@ -75,11 +86,25 @@ export async function runMorphologyTests(device) {
     // the orbits must be identical: if they are not, the discs are not the only difference
     ok(Math.abs(pro.separation - retro.separation) < 1e-6,
       `orbits differ (${pro.separation} vs ${retro.separation}); the control is not controlled`);
-    ok(fp.total > 0.02, `prograde produced almost no tidal material (${(fp.total * 100).toFixed(2)}%); nothing to compare`);
+    ok(fp.total > 0.01, `prograde produced almost no tidal material (${(fp.total * 100).toFixed(2)}%); nothing to compare`);
 
-    const ratio = fp.total / Math.max(fr.total, 1e-9);
+    // Report a RATIO only when the denominator is a measurement. Retrograde
+    // frequently produces exactly zero particles beyond the cut, and dividing by
+    // a 1e-9 floor manufactured a headline "47,016,666x" that is an artefact of
+    // the guard, not a result. Zero out of N is the stronger and honest claim,
+    // and it carries its own resolution limit: 1/N.
+    const nRetro = Math.round(fr.total * retro.count);
+    const bound = 1 / retro.count;
+    if (nRetro === 0) {
+      above(fp.total / bound, 3.0, 'prograde fraction vs the 1/N detection limit');
+      return `prograde ${(fp.total * 100).toFixed(1)}% beyond ${RCUT} kpc; retrograde ZERO of ${retro.count} particles `
+           + `(so <${(bound * 100).toFixed(3)}%, a limit set by particle count, not a measured value). `
+           + `Identical orbits, separation ${pro.separation.toFixed(3)}.`;
+    }
+    const ratio = fp.total / fr.total;
     above(ratio, 3.0, 'prograde/retrograde tidal fraction ratio');
-    return `prograde ${(fp.total * 100).toFixed(1)}% beyond ${RCUT} kpc vs retrograde ${(fr.total * 100).toFixed(1)}%, ratio ${ratio.toFixed(1)}x (identical orbits, separation ${pro.separation.toFixed(3)})`;
+    return `prograde ${(fp.total * 100).toFixed(1)}% vs retrograde ${(fr.total * 100).toFixed(2)}% beyond ${RCUT} kpc, `
+         + `ratio ${ratio.toFixed(1)}x on ${nRetro} retrograde particles (identical orbits, separation ${pro.separation.toFixed(3)})`;
   });
 
   await checkAsync('the result is not a resolution artefact', async () => {
@@ -100,7 +125,7 @@ export async function runMorphologyTests(device) {
     // Same physical end time, three timesteps. A silent knob is only silent
     // until someone turns it.
     const fracs = [];
-    for (const [dt, steps] of [[0.04, 1150], [0.02, 2300], [0.01, 4600]]) {
+    for (const [dt, steps] of [[0.08, 1063], [0.04, 2125], [0.02, 4250]]) {
       const r = await runEncounter(device, structuredClone(BASE), steps, dt);
       fracs.push(tidalFraction(r.pos, r.origin, r.galaxies, r.count, RCUT).total);
     }
@@ -117,12 +142,17 @@ export async function runMorphologyTests(device) {
     const fracs = [];
     for (const mult of [0.5, 1.0, 2.0]) {
       const s = structuredClone(BASE);
-      s.disc1.scaleLength = 1.6; s.disc2.scaleLength = 1.6;
-      s.softeningScale = mult;                // consumed by buildEncounter if supported
+      // Do NOT override the disc scale here. An earlier version pinned it to the
+      // old 1.6 kpc value, which in a Milky Way halo puts every particle far
+      // inside the cut and reported 0.00% at all three softenings with a NaN
+      // spread — a test that could not vary reporting that nothing varied.
+      s.softeningScale = mult;
       const r = await runEncounter(device, s, STEPS, DT);
       fracs.push(tidalFraction(r.pos, r.origin, r.galaxies, r.count, RCUT).total);
     }
-    const spread = (Math.max(...fracs) - Math.min(...fracs)) / Math.max(...fracs);
+    const peak = Math.max(...fracs);
+    ok(peak > 0.005, `all three softenings gave <0.5% tidal material; the sweep cannot detect anything`);
+    const spread = (peak - Math.min(...fracs)) / peak;
     return `tidal fraction ${fracs.map((f) => (f * 100).toFixed(2) + '%').join(' / ')} at 0.5x/1x/2x softening, spread ${(spread * 100).toFixed(1)}% — RECORDED, not asserted`;
   });
 }

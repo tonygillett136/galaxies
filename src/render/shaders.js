@@ -345,12 +345,30 @@ fn fsComposite(in : VOut) -> @location(0) vec4f {
   let h = textureSample(hdr, samp, in.uv).rgb;
   let b = textureSample(bloom, samp, in.uv).rgb;
 
-  // SCIENCE MODE: no bloom, no tone curve, no vignette. A linear readout with a
-  // known mapping, because the beautiful image is not quantitatively readable
-  // and pretending otherwise is how you fool yourself.
+  // SCIENCE MODE.
+  //
+  // The previous version claimed to be linear and was not: it applied a 1/2.2
+  // gamma, silently clamped, and scaled by the exposure slider, so its mapping
+  // depended on three controls it never mentioned. Three reviewers said so.
+  //
+  // Now: accumulated density divided by ONE fixed full-scale constant, which the
+  // interface displays, and which no slider touches. The sRGB encode at the end
+  // is a display transfer function, not a tone curve, and it is invertible — the
+  // relationship between pixel and density is exactly stated and recoverable.
+  //
+  // And clipping is MARKED rather than hidden. Anything at or above full scale
+  // is painted magenta, a colour the stellar ramp cannot produce, so a saturated
+  // nucleus announces itself instead of quietly reading as "bright".
   if (C.params.z > 0.5) {
-    let v = h * C.params.x;
-    return vec4f(pow(clamp(v, vec3f(0.0), vec3f(1.0)), vec3f(1.0 / 2.2)), 1.0);
+    let v = h / C.params2.w;                     // params2.w = fixed full scale
+    if (max(v.r, max(v.g, v.b)) >= 1.0) {
+      return vec4f(1.0, 0.0, 0.85, 0.0);         // CLIPPED — out of range, not just bright
+    }
+    // sRGB display encode (exact piecewise form, not the 2.2 approximation)
+    let lo = v * 12.92;
+    let hi = 1.055 * pow(max(v, vec3f(1e-8)), vec3f(1.0 / 2.4)) - 0.055;
+    let srgb = select(hi, lo, v <= vec3f(0.0031308));
+    return vec4f(srgb, 0.0);
   }
 
   var col = mix(h, h + b, C.params.y) * C.params.x;

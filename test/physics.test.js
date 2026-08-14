@@ -16,11 +16,12 @@ import { pointMass, plummer, hernquist, composite } from '../src/engine/potentia
 import * as K from '../src/engine/kepler.js';
 import { RestrictedSim } from '../src/engine/cpu.js';
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
+import { galaxyModel, buildEncounter } from '../src/engine/encounter.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(30);
+  expectChecks(33);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -96,6 +97,46 @@ export function runPhysicsTests() {
       return below(worst, 0, 'most positive radial accel at +x');
     });
   }
+
+  check('THE SHIPPED GALAXY has a flat, Milky Way-like rotation curve', () => {
+    // The previous model peaked at 118 km/s and fell as r^-0.33 — a dwarf with
+    // no halo, used for scenarios named after large spirals. Two reviewers
+    // caught it independently. A flat curve is the observational signature of a
+    // dark halo, and its absence changes tidal-tail behaviour measurably.
+    const P = galaxyModel(1.0);
+    const radii = [3, 5, 8, 12, 16, 20, 25];
+    const v = radii.map((r) => U.speedToKms(P.vcirc(r)));
+    const mean = v.reduce((a, b) => a + b, 0) / v.length;
+    const spread = (Math.max(...v) - Math.min(...v)) / mean;
+    ok(mean > 190 && mean < 245, `mean v_circ ${mean.toFixed(0)} km/s outside 190-245`);
+    below(spread, 0.14, 'peak-to-trough spread of v_circ over 3-25 kpc');
+    return `${v.map((x) => x.toFixed(0)).join('/')} km/s at ${radii.join('/')} kpc, mean ${mean.toFixed(0)}`;
+  });
+
+  check('THE SHIPPED GALAXY has a sensible total mass', () => {
+    const P = galaxyModel(1.0);
+    const msun = U.massToMsun(P.mass);
+    ok(msun > 3e11 && msun < 1.5e12, `total mass ${msun.toExponential(2)} Msun is not galaxy-scale`);
+    return `${(msun / 1e11).toFixed(1)}e11 Msun total`;
+  });
+
+  check('the encounter orbit uses the model mass, not the nominal spec mass', () => {
+    // Scaling the model to Milky Way mass exposed this: mu came from the spec's
+    // nominal m1 + m2 while the actual gravitating mass was 70x larger, which
+    // would put the galaxies on a trajectory they do not follow and make every
+    // pericentre and epoch in the interface a number about a different problem.
+    const { galaxies, spec } = buildEncounter({
+      massRatio: 1.0, rPeri: 25, ecc: 1.0, tStart: -45, particles: 64 });
+    const total = galaxies[0].mass + galaxies[1].mass;
+    close(spec.mu, total, 1e-12, 'orbit mu vs summed galaxy masses');
+    // and the separation at t=0 must actually be the requested pericentre
+    const sim = new RestrictedSim({ galaxies, particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) } });
+    let minSep = Infinity;
+    for (let i = 0; i < 9000; i++) { sim.step(0.01); minSep = Math.min(minSep, sim.diagnostics().separation); }
+    const err = Math.abs(minSep - 25) / 25;
+    below(err, 0.12, 'executed pericentre vs requested 25 kpc');
+    return `mu = ${spec.mu.toFixed(1)}, executed pericentre ${minSep.toFixed(1)} kpc vs requested 25`;
+  });
 
   check('plummer converges to point mass as a -> 0', () => {
     const a = [0, 0, 0], b = [0, 0, 0];
