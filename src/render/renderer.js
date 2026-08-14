@@ -16,7 +16,7 @@
  */
 
 import { SPLAT_WGSL, POST_WGSL, COMPOSITE_WGSL, COMBINE_WGSL } from './shaders.js';
-import { sub, norm, cross } from './mat4.js';
+// basis vectors now come from the camera, which owns the roll
 
 const HDR_FORMAT = 'rgba16float';
 const TAU_FORMAT = 'r16float';
@@ -220,9 +220,9 @@ export class Renderer {
   writeSplatUniforms(camera, aspect, galaxies) {
     const vp = camera.viewProjection(aspect);
     const eye = camera.eye;
-    const fwd = norm(sub(camera.target, eye));
-    const right = norm(cross(fwd, [0, 1, 0]));
-    const up = cross(right, fwd);
+    // ONE source for the basis, from the camera, so a roll applies to the
+    // splat billboards and the starfield as well as to the view matrix.
+    const { right, up, fwd } = camera.basis();
     const st = this.settings;
     const s = this.splatScratch;
 

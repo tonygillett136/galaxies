@@ -343,7 +343,10 @@ export class App {
       rg2: s.disc2?.retrograde ? '1' : '0',
       t: this.sim.time.toFixed(2),
       cd: String(this.renderer.settings.colourMode),
-      cam: [this.camera.distance.toFixed(1), this.camera.theta.toFixed(2), this.camera.phi.toFixed(2)].join(','),
+      // viewing geometry travels with the state: it is a fitted parameter, not
+      // a camera preference, so a shared link must reproduce the projection
+      cam: [this.camera.distance.toFixed(1), this.camera.theta.toFixed(3),
+            this.camera.phi.toFixed(3), this.camera.roll.toFixed(3)].join(','),
     }).toString();
   }
 
@@ -364,8 +367,9 @@ export class App {
       if (q.has('t')) { this.playing = false; this.seek(parseFloat(q.get('t'))); }
       if (q.has('cd')) { this.renderer.settings.colourMode = parseInt(q.get('cd'), 10); $('colour').value = q.get('cd'); }
       if (q.has('cam')) {
-        const [d, th, ph] = q.get('cam').split(',').map(Number);
-        Object.assign(this.camera._want, { distance: d, theta: th, phi: ph });
+        const [d, th, ph, rl] = q.get('cam').split(',').map(Number);
+        Object.assign(this.camera._want, { distance: d, theta: th, phi: ph, roll: rl || 0 });
+        if (Number.isFinite(rl)) { $('roll').value = String(rl); $('roll').dispatchEvent(new Event('input')); }
       }
       this.setMode(q.get('m') || 'sandbox');
       this.syncSpecControls();
@@ -433,6 +437,7 @@ export class App {
       if (this.mode === 'detective') $('backdrop').style.opacity = String(v);
     }, (v) => v.toFixed(2));
     bind('imgScale', (v) => { $('backdrop').style.transform = `scale(${v})`; }, (v) => `${v.toFixed(2)}x`);
+    bind('roll', (v) => { this.camera._want.roll = v; }, (v) => `${(v * 57.2958).toFixed(0)}°`);
 
     $('colour').onchange = (e) => {
       rs.colourMode = parseInt(e.target.value, 10);

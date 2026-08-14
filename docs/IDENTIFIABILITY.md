@@ -71,9 +71,16 @@ Honest gaps, so they are not mistaken for cleared ground:
   posteriors instead of obviously unbounded ones. Nothing here has searched for
   them. A Fisher-information or SVD analysis of the parameter Jacobian is the
   standard tool and has not been run.
-- **Viewing angle is not in the parameter set at all.** A real observation fixes
-  only the projection, and the same three-dimensional encounter seen from a
-  different direction is a different image. Until viewing angles are fitted, any
-  match is a match in projection and must not be described as recovering geometry.
+- **Viewing angle now EXISTS but is not yet fitted.** The camera supplies three
+  angles — azimuth, polar and roll — and all three travel in the shareable URL,
+  so a projection can be reproduced exactly. Roll matters specifically: it is the
+  position angle on the sky, and without it a model can match a shape and still be
+  wrong by an arbitrary rotation in the image plane.
+
+  They are not yet part of any optimisation, and until they are, **a match is a
+  match in projection** and must not be described as recovering three-dimensional
+  geometry. Note also that adding three viewing angles enlarges the search space
+  and will introduce its own near-degeneracies: an inclined disc seen face-on and
+  a face-on disc seen inclined are not always distinguishable from morphology.
 - **`beta`, in the Galaxy Zoo published fits, is unmapped**, so their parameter
   set and ours are not yet in correspondence.

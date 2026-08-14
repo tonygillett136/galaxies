@@ -7,19 +7,41 @@
  * knows its distance in kpc, so the scale bar can be honest at any zoom.
  */
 
-import { perspective, lookAt, multiply, add, scale } from './mat4.js';
+import { perspective, lookAt, multiply, add, scale, sub, norm, cross } from './mat4.js';
 
 export class OrbitCamera {
-  constructor({ distance = 60, theta = 0.6, phi = 1.1, target = [0, 0, 0], fov = 45 } = {}) {
+  constructor({ distance = 60, theta = 0.6, phi = 1.1, roll = 0, target = [0, 0, 0], fov = 45 } = {}) {
     this.distance = distance;
     this.theta = theta;       // azimuth
     this.phi = phi;           // polar, clamped away from the poles
+    // Roll about the view axis. Without it the model cannot be matched to the
+    // POSITION ANGLE of a real galaxy on the sky, so detective mode could line
+    // up a shape and still be wrong by an arbitrary rotation in the image plane.
+    this.roll = roll;
     this.target = target.slice();
     this.fov = (fov * Math.PI) / 180;
     this.near = 0.05;
     this.far = 5000;
     this.damping = 0.15;
-    this._want = { distance, theta, phi, target: target.slice() };
+    this._want = { distance, theta, phi, roll, target: target.slice() };
+  }
+
+  /**
+   * The camera basis, rolled. ONE source of truth: the renderer needs the same
+   * right/up vectors for billboarding splats and for anchoring the starfield,
+   * and computing them separately from a different up vector is how a roll ends
+   * up applied to the image but not to the sprites.
+   */
+  basis() {
+    const fwd = norm(sub(this.target, this.eye));
+    const r0 = norm(cross(fwd, [0, 1, 0]));
+    const u0 = cross(r0, fwd);
+    const c = Math.cos(this.roll), s = Math.sin(this.roll);
+    return {
+      fwd,
+      right: add(scale(r0, c), scale(u0, -s)),
+      up: add(scale(u0, c), scale(r0, s)),
+    };
   }
 
   get eye() {
@@ -58,11 +80,13 @@ export class OrbitCamera {
     this.distance += (this._want.distance - this.distance) * k;
     this.theta += (this._want.theta - this.theta) * k;
     this.phi += (this._want.phi - this.phi) * k;
+    this.roll += ((this._want.roll ?? 0) - this.roll) * k;
     for (let i = 0; i < 3; i++) this.target[i] += (this._want.target[i] - this.target[i]) * k;
   }
 
   viewProjection(aspect) {
-    return multiply(perspective(this.fov, aspect, this.near, this.far), lookAt(this.eye, this.target, [0, 1, 0]));
+    return multiply(perspective(this.fov, aspect, this.near, this.far),
+                    lookAt(this.eye, this.target, this.basis().up));
   }
 
   /**

@@ -200,6 +200,13 @@ body.science #hudTop b{color:var(--good)}
     <div class="row"><label for="imgScale">Image scale</label><output id="imgScalev"></output></div>
     <input type="range" id="imgScale" min="0.3" max="2.5" step="0.02" value="1" autocomplete="off">
 
+    <h2>Viewing geometry</h2>
+    <p class="note" style="margin-top:0">The orientation you are looking from is part of the fit,
+      not a camera convenience. Drag in the view for the two angles; roll sets the position
+      angle on the sky, which nothing else can supply.</p>
+    <div class="row"><label for="roll">Roll (position angle)</label><output id="rollv"></output></div>
+    <input type="range" id="roll" min="-3.15" max="3.15" step="0.02" value="0" autocomplete="off">
+
     <h2>Published fit</h2>
     <table class="fit" id="fitTable"></table>
     <div class="buttons"><button id="loadFit">Load published fit</button></div>
