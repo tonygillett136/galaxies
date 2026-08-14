@@ -163,13 +163,13 @@ body.science #hudTop b{color:var(--good)}
 
     <h2>Orbit</h2>
     <div class="row"><label for="massRatio">Mass ratio</label><output id="massRatiov"></output></div>
-    <input type="range" id="massRatio" min="0.05" max="1" step="0.05" value="1">
+    <input type="range" id="massRatio" min="0.05" max="1" step="0.05" value="1" autocomplete="off">
     <div class="row"><label for="rPeri">Pericentre</label><output id="rPeriv"></output></div>
-    <input type="range" id="rPeri" min="1" max="90" step="0.5" value="25">
+    <input type="range" id="rPeri" min="1" max="90" step="0.5" value="25" autocomplete="off">
     <div class="row"><label for="ecc">Eccentricity</label><output id="eccv"></output></div>
-    <input type="range" id="ecc" min="0.4" max="2" step="0.05" value="1">
+    <input type="range" id="ecc" min="0.4" max="2" step="0.05" value="1" autocomplete="off">
     <div class="row"><label for="friction">Dynamical friction (lnΛ)</label><output id="frictionv"></output></div>
-    <input type="range" id="friction" min="0" max="6" step="0.25" value="0">
+    <input type="range" id="friction" min="0" max="6" step="0.25" value="0" autocomplete="off">
     <p class="warn" id="frictionNote" style="display:none">
       Friction is dissipative, so time reversal is no longer exact: running the clock
       backwards will not retrace the path it came along. That is the physics, not a bug —
@@ -178,11 +178,11 @@ body.science #hudTop b{color:var(--good)}
 
     <h2>Disc orientation</h2>
     <div class="row"><label for="inc1">Primary tilt</label><output id="inc1v"></output></div>
-    <input type="range" id="inc1" min="-1.57" max="1.57" step="0.05" value="0">
+    <input type="range" id="inc1" min="-1.57" max="1.57" step="0.05" value="0" autocomplete="off">
     <div class="row"><label for="inc2">Secondary tilt</label><output id="inc2v"></output></div>
-    <input type="range" id="inc2" min="-1.57" max="1.57" step="0.05" value="0.35">
-    <label class="check"><input type="checkbox" id="retro1"> Primary disc retrograde</label>
-    <label class="check"><input type="checkbox" id="retro2"> Secondary disc retrograde</label>
+    <input type="range" id="inc2" min="-1.57" max="1.57" step="0.05" value="0.35" autocomplete="off">
+    <label class="check"><input type="checkbox" id="retro1" autocomplete="off"> Primary disc retrograde</label>
+    <label class="check"><input type="checkbox" id="retro2" autocomplete="off"> Secondary disc retrograde</label>
     <p class="note">Spin direction matters more than closeness. Set one retrograde and one
       prograde to get a long tail on one galaxy and almost nothing on the other — that
       asymmetry, not the closeness of the passage, is the central result of Toomre &amp;
@@ -194,11 +194,11 @@ body.science #hudTop b{color:var(--good)}
   <section class="mode" data-mode="detective">
     <h2>Observed system</h2>
     <div class="row"><label for="target">Target</label></div>
-    <select id="target" style="max-width:100%;width:100%"></select>
+    <select id="target" autocomplete="off" style="max-width:100%;width:100%"></select>
     <div class="row"><label for="imgOpacity">Image blend</label><output id="imgOpacityv"></output></div>
-    <input type="range" id="imgOpacity" min="0" max="1" step="0.02" value="0.85">
+    <input type="range" id="imgOpacity" min="0" max="1" step="0.02" value="0.85" autocomplete="off">
     <div class="row"><label for="imgScale">Image scale</label><output id="imgScalev"></output></div>
-    <input type="range" id="imgScale" min="0.3" max="2.5" step="0.02" value="1">
+    <input type="range" id="imgScale" min="0.3" max="2.5" step="0.02" value="1" autocomplete="off">
 
     <h2>Published fit</h2>
     <table class="fit" id="fitTable"></table>
@@ -232,13 +232,13 @@ body.science #hudTop b{color:var(--good)}
     </div>
     <div class="row"><label>Tilt</label><output id="atlasTilt">—</output></div>
     <div class="row"><label>Pericentre</label><output id="atlasPeri">—</output></div>
-    <label class="check"><input type="checkbox" id="atlasRetro"> Retrograde</label>
+    <label class="check"><input type="checkbox" id="atlasRetro" autocomplete="off"> Retrograde</label>
   </section>
 
   <!-- ---------------- SHARED ---------------- -->
   <h2>Playback</h2>
   <div class="row"><label for="speed">Speed</label><output id="speedv"></output></div>
-  <input type="range" id="speed" min="0.05" max="3" step="0.05" value="1">
+  <input type="range" id="speed" min="0.05" max="3" step="0.05" value="1" autocomplete="off">
   <div class="buttons">
     <button id="play" class="on">Pause</button>
     <button id="reset">Reset</button>
@@ -246,23 +246,23 @@ body.science #hudTop b{color:var(--good)}
 
   <h2>Appearance</h2>
   <div class="row"><label for="size">Splat size</label><output id="sizev"></output></div>
-  <input type="range" id="size" min="0.03" max="1.0" step="0.01" value="0.22">
+  <input type="range" id="size" min="0.03" max="1.0" step="0.01" value="0.22" autocomplete="off">
   <div class="row"><label for="intensity">Intensity</label><output id="intensityv"></output></div>
-  <input type="range" id="intensity" min="0.002" max="0.09" step="0.001" value="0.022">
+  <input type="range" id="intensity" min="0.002" max="0.09" step="0.001" value="0.022" autocomplete="off">
   <div class="row"><label for="exposure">Exposure</label><output id="exposurev"></output></div>
-  <input type="range" id="exposure" min="0.1" max="4" step="0.05" value="1">
+  <input type="range" id="exposure" min="0.1" max="4" step="0.05" value="1" autocomplete="off">
   <div class="row"><label for="bloom">Bloom</label><output id="bloomv"></output></div>
-  <input type="range" id="bloom" min="0" max="1" step="0.02" value="0.55">
+  <input type="range" id="bloom" min="0" max="1" step="0.02" value="0.55" autocomplete="off">
   <div class="row"><label for="dust">Dust extinction</label><output id="dustv"></output></div>
-  <input type="range" id="dust" min="0" max="8" step="0.1" value="1.9">
+  <input type="range" id="dust" min="0" max="8" step="0.1" value="1.9" autocomplete="off">
   <div class="row"><label for="colour">Colour by</label>
-    <select id="colour">
+    <select id="colour" autocomplete="off">
       <option value="0">Stellar population</option>
       <option value="1">Origin galaxy</option>
       <option value="2">Speed</option>
     </select>
   </div>
-  <label class="check"><input type="checkbox" id="science"> Science view (linear, no bloom, no dust)</label>
+  <label class="check"><input type="checkbox" id="science" autocomplete="off"> Science view (linear, no bloom, no dust)</label>
 
   <div class="buttons"><button id="share">Copy link to this state</button></div>
 
@@ -310,7 +310,7 @@ body.science #hudTop b{color:var(--good)}
 
 <div id="timeline">
   <div style="position:relative">
-    <input type="range" id="scrub" min="-30" max="60" step="0.02" value="-22">
+    <input type="range" id="scrub" min="-30" max="60" step="0.02" value="-22" autocomplete="off">
     <!-- pericentre marker: the one instant the whole encounter is organised around,
          and it was nowhere on the timeline -->
     <div id="periMark" style="position:absolute;top:-5px;width:1px;height:13px;

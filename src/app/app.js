@@ -511,6 +511,21 @@ export class App {
       if (e.key === 'ArrowUp' && this.mode === 'tour') this.gotoTourStep(this.tourStep - 1);
     });
 
+    // Sync renderer state FROM the DOM, do not assume they start equal.
+    //
+    // Browsers restore form control state across a reload, so the science
+    // checkbox can come back checked while renderer.settings.scienceMode
+    // defaults to false. The result is a HUD announcing "SCIENCE VIEW — linear,
+    // no tone curve" over a frame that plainly has bloom and a starfield: the
+    // interface asserting something about the image that is not true, which is
+    // the exact failure this project spends its time avoiding elsewhere.
+    // ONLY the display-level controls. The retrograde checkboxes are driven the
+    // other way — syncSpecControls sets them FROM the spec — and firing their
+    // handlers here runs before this.spec exists.
+    for (const id of ['science', 'colour']) {
+      const el = $(id);
+      if (el) el.dispatchEvent(new Event('change'));
+    }
     this.updateLegend();
     this.setMode('sandbox');
   }

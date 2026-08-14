@@ -342,12 +342,35 @@ fn agxDefaultContrast(x : vec3f) -> vec3f {
        - 0.00232;
 }
 
+/**
+ * The AgX LOOK stage, which was missing.
+ *
+ * AgX is three parts: an inset matrix, a tonescale, and a look. I had the first
+ * two. The inset matrix deliberately desaturates on the way in so the tonescale
+ * behaves, and the look is what puts the chroma back on the way out. Without it
+ * everything comes through pale and slightly grey — which an art-director
+ * reviewer described exactly, before knowing why.
+ *
+ * Mild rather than the "punchy" preset: this is emission against black, and a
+ * heavy look would exaggerate the faint tails into something the physics does
+ * not support.
+ */
+fn agxLook(c : vec3f) -> vec3f {
+  let slope = 1.0;
+  let power = 1.12;
+  let sat   = 1.28;
+  let luma  = dot(c, vec3f(0.2126, 0.7152, 0.0722));
+  let v     = pow(max(c * slope, vec3f(0.0)), vec3f(power));
+  return luma + sat * (v - luma);
+}
+
 fn agx(colour : vec3f) -> vec3f {
   let minEv = -12.47393;
   let maxEv = 4.026069;
   var c = AGX_IN * max(colour, vec3f(0.0));
   c = clamp((log2(max(c, vec3f(1e-10))) - minEv) / (maxEv - minEv), vec3f(0.0), vec3f(1.0));
   c = agxDefaultContrast(c);
+  c = agxLook(c);
   c = AGX_OUT * c;
   return clamp(c, vec3f(0.0), vec3f(1.0));
 }
