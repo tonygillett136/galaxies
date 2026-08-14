@@ -53,7 +53,7 @@ function lossOf(x0, v0, s, dt, target, gridBuf) {
 }
 
 export function runAdjointTests() {
-  expectChecks(4);
+  expectChecks(5);
   group('adjoint — analytic gradient against finite differences');
 
   const s = scene();
@@ -120,6 +120,72 @@ export function runAdjointTests() {
     }
     below(worst, 2e-5, `worst relative gradient error (${worstAt})`);
     return `worst rel err ${worst.toExponential(1)} over ${idx.length} components`;
+  });
+
+  /**
+   * Gradient with respect to the two disc angles.
+   *
+   * Analytic through TIME (the expensive part, thousands of steps), finite
+   * differences through the IC map (two parameters, two extra evaluations of a
+   * closed-form rotation). That split is deliberate engineering rather than a
+   * shortcut: the adjoint through time is what is hard and what has been
+   * validated above, and hand-deriving the IC Jacobian as well would risk one
+   * error masking another in exactly the place it would be hardest to see.
+   */
+  function gradAngles(inc, arg) {
+    const ic = discFromAngles(s.radii, s.phases, s.vc, inc, arg, [0, 0, 0], [0, 0, 0]);
+    const { L, xEnd, xs } = lossOf(ic.x, ic.v, s, dt, target, grid);
+    const lxEnd = splatBackward(xEnd, grid, target, W, H, EXTENT, SIGMA);
+    const { dx0, dv0 } = backward(xs, null, s.traj, dt, s.comps, lxEnd);
+
+    const e = 1e-6;
+    const chain = (pa, pb) => {
+      let g = 0;
+      for (let k = 0; k < dx0.length; k++) {
+        g += dx0[k] * (pa.x[k] - pb.x[k]) / (2 * e) + dv0[k] * (pa.v[k] - pb.v[k]) / (2 * e);
+      }
+      return g;
+    };
+    const gi = chain(discFromAngles(s.radii, s.phases, s.vc, inc + e, arg, [0, 0, 0], [0, 0, 0]),
+                     discFromAngles(s.radii, s.phases, s.vc, inc - e, arg, [0, 0, 0], [0, 0, 0]));
+    const ga = chain(discFromAngles(s.radii, s.phases, s.vc, inc, arg + e, [0, 0, 0], [0, 0, 0]),
+                     discFromAngles(s.radii, s.phases, s.vc, inc, arg - e, [0, 0, 0], [0, 0, 0]));
+    return { L, g: [gi, ga] };
+  }
+
+  check('RECOVERY: gradient descent finds the parameters that made the target', () => {
+    // The first end-to-end demonstration that the inverse problem works, on a
+    // deliberately easy case: two parameters, synthetic target, same forward
+    // model. Per docs/IDENTIFIABILITY.md this tests the OPTIMISER, not the
+    // model — recovering your own simulation's parameters says nothing about
+    // whether the simulation is right. It is still the necessary first rung.
+    let inc = 0.20, arg = 0.30;
+    const TRUE = [0.55, 0.90];
+    const start = Math.hypot(inc - TRUE[0], arg - TRUE[1]);
+    let L0 = gradAngles(inc, arg).L;
+
+    // Adam: the loss surface here is not well scaled between the two angles,
+    // and plain descent with one step size stalls on the flatter of them.
+    let m = [0, 0], vv = [0, 0];
+    const lr = 0.03, b1 = 0.9, b2 = 0.999, epsA = 1e-8;
+    let L = L0;
+    for (let it = 1; it <= 220; it++) {
+      const r = gradAngles(inc, arg);
+      L = r.L;
+      for (let j = 0; j < 2; j++) {
+        m[j] = b1 * m[j] + (1 - b1) * r.g[j];
+        vv[j] = b2 * vv[j] + (1 - b2) * r.g[j] * r.g[j];
+        const mh = m[j] / (1 - Math.pow(b1, it));
+        const vh = vv[j] / (1 - Math.pow(b2, it));
+        const step = lr * mh / (Math.sqrt(vh) + epsA);
+        if (j === 0) inc -= step; else arg -= step;
+      }
+    }
+    const err = Math.hypot(inc - TRUE[0], arg - TRUE[1]);
+    ok(start > 0.5, `start is already close (${start.toFixed(3)}); the recovery would be vacuous`);
+    below(err, 0.02, `parameter error after 220 iterations (started ${start.toFixed(3)} away)`);
+    return `recovered inc ${inc.toFixed(4)} (true 0.55), argPeri ${arg.toFixed(4)} (true 0.90); `
+         + `|err| ${start.toFixed(3)} -> ${err.toFixed(4)}, loss ${L0.toFixed(1)} -> ${L.toExponential(2)}`;
   });
 
   check('SENSITIVITY: a deliberately wrong adjoint fails this check', () => {
