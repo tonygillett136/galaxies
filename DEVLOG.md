@@ -301,6 +301,13 @@ pictures**, which is precisely what this project's own check table forbids. So i
 material now beyond 9 kpc **from its own centre**, so a wide separation cannot masquerade as a
 tail.
 
+> **These numbers are from the DWARF model and are superseded.** They are kept because the
+> method is the point, but the model they were measured on was wrong — see "The galaxies were
+> dwarfs" below. The current figures, on the Milky Way-scale model, are **prograde 4.7 per cent
+> of a disc beyond 20 kpc against ZERO of 60,000 particles retrograde**, a detection limit set
+> by particle count rather than a measured value. A referee caught this section still
+> presenting the old numbers as the project's headline validation result.
+
 **Prograde 27.2 per cent. Retrograde 0.2 per cent. A ratio of 131.5.**
 
 The control is the important part: same masses, same pericentre, same eccentricity, same

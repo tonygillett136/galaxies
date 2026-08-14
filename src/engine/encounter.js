@@ -9,9 +9,12 @@
  *
  * The angles are what decide whether an encounter is spectacular or dull.
  * Prograde and near-coplanar produces long tidal tails; retrograde produces
- * almost nothing from the same orbit. That asymmetry is the central result of
- * Toomre & Toomre 1972 and it is worth seeing directly, so the scenarios below
- * include a matched prograde/retrograde pair.
+ * almost nothing from the same orbit. That asymmetry is measured here (4.7 per
+ * cent of a disc beyond 20 kpc against zero of 60,000 particles), and it is
+ * associated with Toomre & Toomre 1972 — though that paper has NOT been read in
+ * full by this project, so calling it "their central result" would be a claim
+ * about a source rather than about a measurement. The scenarios below include a
+ * matched prograde/retrograde pair so the asymmetry can be seen directly.
  */
 
 import { plummer, hernquist, composite } from './potentials.js';
@@ -270,10 +273,19 @@ export function buildEncounter(spec) {
  */
 /**
  * Retuned for the Milky Way-scale mass model. Discs now extend to about 13.5 kpc
- * (scale length 3, rMax 4.5), so pericentres of a few kpc would be penetrating
- * collisions rather than tidal encounters — an astronomer reviewer counted four
- * of the seven old scenarios with pericentre INSIDE the primary's disc. Real
- * interacting pairs pass at tens of kpc, which is what these now do.
+ * (scale length 3, rMax 4.5), and the scenarios span 1.2 to 55 kpc pericentre.
+ *
+ * A correction worth keeping. An earlier version of this comment justified the
+ * retune by claiming "real interacting pairs pass at tens of kpc". A reviewer
+ * checked that against this project's OWN data and it is false: across the 59
+ * Galaxy Zoo systems with a published fit, the median r_min is 12.1 kpc, the
+ * quartiles are 6.4 / 12.1 / 18.6, and 81 per cent are under 20 kpc. Real pairs
+ * routinely pass INSIDE the disc radius, so a penetrating encounter is a normal
+ * observed configuration and not a modelling error.
+ *
+ * What the retune actually fixed was that the OLD scenarios used a few kpc while
+ * the model was a dwarf — the numbers were small for the wrong reason. The span
+ * now covers the observed range rather than sitting above it.
  *
  * Times are longer to match: the dynamical time at 20 kpc is roughly 120 time
  * units, so an encounter is followed over hundreds rather than tens.
@@ -288,7 +300,7 @@ export const SCENARIOS = {
   },
   retrograde: {
     label: 'Retrograde passage',
-    blurb: 'The same orbit, both discs spinning against it. Almost no tails. This contrast, not the closeness of the passage, is the central result of Toomre & Toomre 1972.',
+    blurb: 'The same orbit, both discs spinning against it. Almost no tails. This contrast, not the closeness of the passage, is the dominant effect in a tidal encounter — measured here at 4.7 per cent of a disc thrown beyond 20 kpc prograde against zero of 60,000 particles retrograde.',
     spec: { massRatio: 1.0, rPeri: 25, ecc: 1.0, tStart: -45, particles: 300000,
             disc1: { inclination: 0.0, argPeri: 0, retrograde: true },
             disc2: { inclination: 0.35, argPeri: 1.1, retrograde: true } },

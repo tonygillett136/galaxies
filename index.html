@@ -73,6 +73,15 @@ input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;
   border-radius:50%;background:var(--ink);cursor:pointer;border:0;box-shadow:0 0 0 3px rgba(0,0,0,.65)}
 input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);border:0}
+/* Focus indicators. There were none on eighteen sliders, two selects and every
+   button, so the interface was unusable by keyboard: you could tab through it
+   with no way to know where you were. */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+input[type=range]:focus-visible{outline-offset:6px}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px rgba(4,5,10,.65),0 0 0 6px var(--accent)}
+button:focus-visible,select:focus-visible,input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* and a skip target so the canvas controls are reachable */
+#view:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 select{font:inherit;font-size:11.5px;background:rgba(255,255,255,.06);color:var(--ink);
   border:1px solid var(--line);border-radius:7px;padding:5px 7px;cursor:pointer;max-width:170px}
 .check{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim);cursor:pointer;margin:11px 0}
@@ -194,9 +203,9 @@ body.science #hudTop b{color:var(--good)}
     <label class="check"><input type="checkbox" id="retro2" autocomplete="off"> Secondary disc retrograde</label>
     <p class="note">Spin direction matters more than closeness. Set one retrograde and one
       prograde to get a long tail on one galaxy and almost nothing on the other — that
-      asymmetry, not the closeness of the passage, is the central result of Toomre &amp;
-      Toomre 1972. Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde
-      throws none of 60,000 particles.</p>
+      asymmetry, not the closeness of the passage, is the dominant effect in a tidal encounter.
+      Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde throws none of
+      60,000 particles.</p>
   </section>
 
   <!-- ---------------- DETECTIVE ---------------- -->

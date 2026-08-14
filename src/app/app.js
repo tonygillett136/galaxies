@@ -407,6 +407,9 @@ export class App {
       nd2: (s.disc2?.node ?? 0).toFixed(3),
       t: this.sim.time.toFixed(2),
       cd: String(this.renderer.settings.colourMode),
+      sci: this.renderer.settings.scienceMode ? '1' : '0',
+      sp: String(this.speed),
+      fo: this.follow,
       // viewing geometry travels with the state: it is a fitted parameter, not
       // a camera preference, so a shared link must reproduce the projection
       cam: [this.camera.distance.toFixed(1), this.camera.theta.toFixed(3),
@@ -433,6 +436,9 @@ export class App {
       this.rebuild();
       if (q.has('t')) { this.playing = false; this.seek(parseFloat(q.get('t'))); }
       if (q.has('cd')) { this.renderer.settings.colourMode = parseInt(q.get('cd'), 10); $('colour').value = q.get('cd'); }
+      if (q.get('sci') === '1') { $('science').checked = true; $('science').dispatchEvent(new Event('change')); }
+      if (q.has('sp')) { $('speed').value = q.get('sp'); $('speed').dispatchEvent(new Event('input')); }
+      if (q.has('fo')) { this.follow = q.get('fo'); $('follow').value = this.follow; }
       if (q.has('cam')) {
         const [d, th, ph, rl] = q.get('cam').split(',').map(Number);
         Object.assign(this.camera._want, { distance: d, theta: th, phi: ph, roll: rl || 0 });

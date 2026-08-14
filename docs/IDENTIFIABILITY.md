@@ -16,18 +16,27 @@ through space is identical; only the rate along it changes. Nothing about the
 *shape* of an encounter can therefore distinguish a heavy system seen early from
 a light one seen late.
 
-**Verified, not argued.** `test/physics.test.js` runs the same encounter at
-λ = 1 and λ = 4 with the epoch rescaled, and compares five morphological
-moments (mean radius, rms radius, rms height, maximum radius, separation):
+**Verified, not argued.** `test/physics.test.js` (check: "IDENTIFIABILITY: mass and
+epoch are an exactly flat direction") runs the same encounter at λ = 1 and λ = 4
+with the epoch rescaled, and compares **four** morphological moments:
 
-| | ⟨r⟩ | rms r | rms z | max r | separation |
-|---|---|---|---|---|---|
-| λ = 1 | 36.897 | 37.903 | 1.921 | 66.120 | 73.944 |
-| λ = 4, t/√λ | 36.897 | 37.903 | 1.921 | 66.120 | 73.944 |
-| λ = 4, control (time not rescaled) | 60.211 | 61.514 | 1.533 | 104.765 | 121.297 |
+| | ⟨r⟩ | rms r | max r | separation |
+|---|---|---|---|---|
+| λ = 1 | 20.533 | 21.441 | 39.572 | 40.514 |
+| λ = 4, with t/√λ | 20.533 | 21.441 | 39.572 | 40.514 |
+| λ = 4, control (time NOT rescaled) | 31.804 | 32.848 | 56.498 | 62.675 |
 
-Agreement to 1e-8, which is float64 roundoff. The control differs by 63 per cent,
+Worst relative difference under the rescaling: **3.6e-9**, which is float64
+roundoff over a 3000-step integration. The control differs by **55 per cent**,
 which is what proves the comparison can detect a difference at all.
+
+*These figures are reproducible from the shipped code, and were regenerated from
+it.* An earlier version of this table listed five moments — including an rms
+height that the check does not compute — with numbers from a scratch script that
+used a different particle count. Three reviewers independently found that the
+table could not be produced by the test it cited, in the file whose whole purpose
+is to say what has been verified. Any future change to the check must regenerate
+this table rather than leave it standing.
 
 ## Consequence
 
@@ -49,7 +58,20 @@ curve** through it. On that curve every point fits equally well. Practically:
 - pericentre in disc scale lengths, `r_peri / R_d`
 - eccentricity
 - epoch in dynamical times, `t / t_dyn`
-- the disc orientation angles
+- **one** orientation angle per disc, plus its node — *not two*. `argPeri` rotates
+  an axisymmetric disc within its own plane and changes nothing physical; it
+  survives a finite particle set only because a finite set is not smooth, which is
+  a discretisation artefact rather than a parameter. The identifiable pair is
+  inclination and longitude of ascending node.
+- three viewing angles (azimuth, polar, roll) — see below
+
+**A caveat on the gauge itself.** Fixing m₁ = 1 removes the mass-time freedom, but
+the model's *lengths* are frozen too — every scale radius is hard-coded in
+`galaxyModel`. So the gauge as it stands is not merely "hold the mass": it holds
+the entire mass *profile*. That is a stronger assumption than the degeneracy
+requires, and it means the fit cannot currently absorb a genuinely different
+galaxy structure. Making the scale radii fittable will re-open questions this
+analysis has not asked.
 
 Physical mass and physical Myr are then recovered **afterwards**, from a separate
 external constraint that morphology does not provide: an observed rotation curve,
