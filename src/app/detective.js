@@ -44,6 +44,12 @@ export function specFromFit(fit, opts = {}) {
   if (!fit) return null;
   const mapped = [];
   const spec = {
+    // THE GAUGE, declared rather than defaulted. Mass and epoch are an exactly
+    // flat direction (verified to 1e-8; see docs/IDENTIFIABILITY.md), so total
+    // mass cannot be recovered from morphology and must be pinned. m1 = 1 is a
+    // Milky Way analogue at 7.0e11 Msun. Physical mass comes from an external
+    // constraint — a rotation curve or Tully-Fisher — never from a fit to shape.
+    // Do not "fix" this by making it free: free is exactly what it must not be.
     m1: 1.0,
     particles: opts.particles ?? 320000,
     seed: 7,

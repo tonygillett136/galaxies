@@ -21,7 +21,7 @@ import { galaxyModel, buildEncounter } from '../src/engine/encounter.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(33);
+  expectChecks(34);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -136,6 +136,39 @@ export function runPhysicsTests() {
     const err = Math.abs(minSep - 25) / 25;
     below(err, 0.12, 'executed pericentre vs requested 25 kpc');
     return `mu = ${spec.mu.toFixed(1)}, executed pericentre ${minSep.toFixed(1)} kpc vs requested 25`;
+  });
+
+  check('IDENTIFIABILITY: mass and epoch are an exactly flat direction', () => {
+    // Not a defect to fix — a property of Newtonian gravity, and one that would
+    // silently wreck the inverse problem. Scaling every mass by L and every time
+    // by 1/sqrt(L) with lengths fixed leaves the trajectory identical, so
+    // morphology alone cannot separate total mass from epoch.
+    //
+    // Asserting the invariance HOLDS, with a control that must fail, so the
+    // gauge in docs/IDENTIFIABILITY.md rests on a measurement rather than an
+    // argument.
+    const moments = (L, rescale) => {
+      const f = rescale ? Math.sqrt(L) : 1;
+      const { galaxies, particles } = buildEncounter({
+        m1: L, massRatio: 0.7, rPeri: 25, ecc: 1.0, tStart: -45 / f,
+        particles: 1500, seed: 5,
+        disc1: { inclination: 0.3, argPeri: 0 }, disc2: { inclination: -0.4, argPeri: 1.0 } });
+      const sim = new RestrictedSim({ galaxies, particles });
+      sim.run(0.02 / f, 3000);
+      let r1 = 0, r2 = 0, mx = 0;
+      for (let i = 0; i < particles.count; i++) {
+        const r = Math.hypot(sim.pos[i * 3], sim.pos[i * 3 + 1], sim.pos[i * 3 + 2]);
+        r1 += r; r2 += r * r; mx = Math.max(mx, r);
+      }
+      return [r1 / particles.count, Math.sqrt(r2 / particles.count), mx,
+              sim.diagnostics().separation];
+    };
+    const a = moments(1, true), b = moments(4, true), c = moments(4, false);
+    const worst = (p, q) => Math.max(...p.map((v, i) => Math.abs(v - q[i]) / Math.abs(v)));
+    const scaled = worst(a, b), control = worst(a, c);
+    above(control, 0.2, 'control (mass scaled, time NOT) must differ');
+    below(scaled, 1e-6, 'worst moment difference under the mass-time rescaling');
+    return `invariant to ${scaled.toExponential(1)}; control differs by ${(control * 100).toFixed(0)}%`;
   });
 
   check('plummer converges to point mass as a -> 0', () => {

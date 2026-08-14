@@ -13,6 +13,7 @@ import { plummer, hernquist, composite } from '../src/engine/potentials.js';
 import { RestrictedSim } from '../src/engine/cpu.js';
 import { GpuSim, createDevice } from '../src/engine/gpu.js';
 import { discOfRings } from '../src/engine/galaxy.js';
+import { buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
 import * as K from '../src/engine/kepler.js';
 
 /** An encounter with real structure: unequal masses, eccentric, inclined disc. */
@@ -105,26 +106,50 @@ export async function runGpuTests(device, info) {
     return out.join(', ');
   });
 
-  await checkAsync('GPU time reversal returns particles to their start', async () => {
-    const { galaxies, disc } = makeScenario();
-    const d0 = disc();
-    const gpu = new GpuSim(device, galaxies(), disc());
-    const dt = 0.01, n = 1500;
+  await checkAsync('CHARACTERISATION: float32 reversal residual on the SHIPPED configuration', async () => {
+    // The earlier float32 figure (4.3e-7) came from a toy case: one particle,
+    // a fixed point mass, float64 arithmetic quantised only at step boundaries.
+    // A reviewer measured 3.4e-4 on the real thing — three orders worse — and
+    // was right that the number underpinning the constant-memory adjoint was
+    // measured on the wrong system.
+    //
+    // This measures the actual shipped path: full float32 GPU arithmetic, a real
+    // scenario at the real timestep, through pericentre. Percentiles as well as
+    // the worst case, because the worst case is one pericentre-grazing particle
+    // and the distribution is what a gradient budget needs.
+    const spec = structuredClone(SCENARIOS.prograde.spec);
+    spec.particles = 20000;
+    const { galaxies, particles } = buildEncounter(spec);
+    const start = Float64Array.from(particles.pos);
+    const gpu = new GpuSim(device, galaxies, particles);
+
+    const dt = 0.02, n = 3000;                    // the shipped timestep
     gpu.run(dt, n);
     await device.queue.onSubmittedWorkDone();
     const mid = await gpu.readPositions();
-    const moved = worstOf(mid, d0.pos, gpu.count);
-    ok(moved > 0.5, `particles barely moved (${moved.toExponential(2)}); test is vacuous`);
+    const moved = worstOf(mid, start, gpu.count);
+    ok(moved > 5, `particles barely moved (${moved.toExponential(2)} kpc); test is vacuous`);
 
     gpu.run(-dt, n);
     await device.queue.onSubmittedWorkDone();
-    const worst = worstOf(await gpu.readPositions(), d0.pos, gpu.count);
+    const back = await gpu.readPositions();
     gpu.destroy();
-    // float32 KDK: algebraically exact, numerically limited by precision. This
-    // is the honest bound on how far the UI can scrub backwards before the state
-    // stops being the state it came from.
-    return below(worst, 5e-3,
-      `worst return error after ${n} forward + ${n} backward (moved ${moved.toFixed(1)} at turnaround)`);
+
+    const errs = [];
+    for (let i = 0; i < particles.count; i++) {
+      errs.push(Math.hypot(back[i * 4] - start[i * 3],
+                           back[i * 4 + 1] - start[i * 3 + 1],
+                           back[i * 4 + 2] - start[i * 3 + 2]));
+    }
+    errs.sort((a, b) => a - b);
+    const q = (p) => errs[Math.min(errs.length - 1, Math.floor(p * errs.length))];
+    // Bounded loosely so a catastrophic regression trips, but the VALUE is the
+    // point: it is the floor on gradient accuracy through a reversible-recompute
+    // adjoint, and it decides the checkpoint interval.
+    below(q(0.999), 5.0, 'p99.9 reversal residual (kpc)');
+    return `median ${q(0.5).toExponential(1)} / p99 ${q(0.99).toExponential(1)} / p99.9 ${q(0.999).toExponential(1)} `
+         + `/ worst ${errs[errs.length - 1].toExponential(1)} kpc, after ${n}+${n} steps at dt=${dt} `
+         + `(particles moved up to ${moved.toFixed(0)} kpc)`;
   });
 }
 
