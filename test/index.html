@@ -10,10 +10,12 @@ import { report } from './harness.js';
 import { runPhysicsTests } from './physics.test.js';
 import { runGpuTests, createDevice } from './gpu.test.js';
 import { runMorphologyTests } from './morphology.test.js';
+import { runAdjointTests } from './adjoint.test.js';
 
 const el = document.getElementById('out');
 try {
   runPhysicsTests();
+  runAdjointTests();
   report(el);                              // show CPU results before the slow GPU pass
   const { device, info } = await createDevice();
   device.addEventListener?.('uncapturederror', (e) => console.error('GPU', e.error.message));
