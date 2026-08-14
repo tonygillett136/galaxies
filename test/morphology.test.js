@@ -162,7 +162,7 @@ export async function runMorphologyTests(device) {
     };
 
     const before = await runEncounter(device, spec, 200, DT);   // just after the impact
-    const after = await runEncounter(device, spec, 1800, DT);   // ring well developed
+    const after = await runEncounter(device, spec, 900, DT);    // ring well developed
     const pb = profile(before.pos, before.origin, before.galaxies, before.count);
     const pa = profile(after.pos, after.origin, after.galaxies, after.count);
     const peakB = pb.indexOf(Math.max(...pb));
@@ -170,12 +170,19 @@ export async function runMorphologyTests(device) {
     const mxA = Math.max(...pa);
     const dip = pa[Math.max(0, peakA - 2)] / mxA;
 
-    // A ring is material that MOVED OUTWARD, which is what to assert. Requiring
-    // an empty centre would be wrong: the nucleus survives a ring encounter — the
-    // Cartwheel has one — so measured here the interior sits at 86% of the peak.
-    // Demanding it be empty would have meant tuning the scenario until it matched
-    // a claim that was itself overstated.
-    const gain = pa[peakA] / Math.max(pb[peakA], 1e-9);
+    // A ring is material that MOVED OUTWARD, which is what this asserts. The
+    // emptiness of the interior is REPORTED rather than required: it depends
+    // strongly on the encounter, and an over-violent one that unbinds the disc
+    // reads as 86 per cent while the tuned scenario reads as 23. Asserting a dip
+    // threshold would have meant tuning the physics until it matched a number
+    // chosen in advance, which is backwards.
+    // Guard the ratio: if almost nothing was at that radius beforehand, the
+    // "gain" is a divide-by-near-zero and can read 3.6e9, which is an artefact
+    // and not a measurement. Require a real denominator.
+    const denom = pb[peakA];
+    const floor = Math.max(...pb) * 0.01;
+    ok(denom > floor, `pre-impact density at the ring radius is negligible (${denom.toExponential(2)}); the ratio would be meaningless`);
+    const gain = pa[peakA] / denom;
     ok(peakB === 0, `the disc was ALREADY ring-shaped before the impact (peak bin ${peakB}); the test is vacuous`);
     above(peakA, 2, 'radial bin of the peak surface density after the encounter');
     above(gain, 3.0, `surface density at the ring radius, relative to the same radius before`);

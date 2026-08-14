@@ -263,6 +263,14 @@ body.science #hudTop b{color:var(--good)}
   <input type="range" id="bloom" min="0" max="1" step="0.02" value="0.55" autocomplete="off">
   <div class="row"><label for="dust">Dust extinction</label><output id="dustv"></output></div>
   <input type="range" id="dust" min="0" max="8" step="0.1" value="1.9" autocomplete="off">
+  <div class="row"><label for="follow">Camera follows</label>
+    <select id="follow" autocomplete="off">
+      <option value="pair">Midpoint of the pair</option>
+      <option value="primary">Primary galaxy</option>
+      <option value="secondary">Secondary galaxy</option>
+      <option value="bary">Barycentre (fixed)</option>
+    </select>
+  </div>
   <div class="row"><label for="colour">Colour by</label>
     <select id="colour" autocomplete="off">
       <option value="0">Stellar population</option>

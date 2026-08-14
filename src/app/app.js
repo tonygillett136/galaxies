@@ -30,6 +30,7 @@ export class App {
     this.frameTimes = [];
     this.lastFrame = performance.now();
     this.tourStep = 0;
+    this.follow = 'pair';
     this.reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
@@ -94,6 +95,10 @@ export class App {
     this.scenarioKey = key;
     const sc = SCENARIOS[key];
     this.spec = structuredClone(sc.spec);
+    // Per-scenario follow target. Following the pair midpoint is right when they
+    // stay together and useless for a fly-by whose companion ends 400 kpc away.
+    this.follow = sc.follow ?? 'pair';
+    $('follow').value = this.follow;
     this.rebuild();
     $('blurb').textContent = sc.blurb;
     for (const b of document.querySelectorAll('[data-scenario]')) b.classList.toggle('on', b.dataset.scenario === key);
@@ -326,10 +331,30 @@ export class App {
       for (let i = 0; i < this.substeps; i++) this.sim.step(this.dt * this.speed);
     }
 
+    // Keep something in frame. The camera targeted the barycentre, which is
+    // stationary but is NOT where the galaxies are: in the ring scenario the
+    // pair reaches 444 kpc separation, putting the primary 148 kpc from the
+    // origin and entirely outside a 78 kpc view. The result was a black screen
+    // with correct physics behind it.
+    this.applyFollow();
     this.camera.update();
     this.renderer.render(this.ctx.getCurrentTexture().createView(), this.sim, this.camera, now * 0.001);
     this.updateInstruments(frameMs);
     requestAnimationFrame(() => this.frame());
+  }
+
+  /** Point the camera at whatever the user asked to follow. */
+  applyFollow() {
+    const g = this.sim?.orbit?.galaxies;
+    if (!g || this.follow === 'bary') return;
+    if (this.follow === 'primary') this.camera.setTarget(Array.from(g[0].pos));
+    else if (this.follow === 'secondary' && g[1]) this.camera.setTarget(Array.from(g[1].pos));
+    else if (this.follow === 'pair' && g[1]) {
+      this.camera.setTarget([
+        (g[0].pos[0] + g[1].pos[0]) / 2,
+        (g[0].pos[1] + g[1].pos[1]) / 2,
+        (g[0].pos[2] + g[1].pos[2]) / 2]);
+    }
   }
 
   updateInstruments(frameMs) {
@@ -471,6 +496,7 @@ export class App {
     bind('imgScale', (v) => { $('backdrop').style.transform = `scale(${v})`; }, (v) => `${v.toFixed(2)}x`);
     bind('roll', (v) => { this.camera._want.roll = v; }, (v) => `${(v * 57.2958).toFixed(0)}°`);
 
+    $('follow').onchange = (e) => { this.follow = e.target.value; };
     $('colour').onchange = (e) => {
       rs.colourMode = parseInt(e.target.value, 10);
       this.updateLegend();

@@ -52,11 +52,8 @@ export function galaxyModel(mass, rScale = 1.0, softeningScale = 1.0) {
 
 /**
  * Integrate the two galaxy centres alone and return the closest approach they
- * actually reach. No test particles, so this is cheap enough to run in a loop.
- */
-/**
- * Integrate the two galaxy centres alone and return the closest approach they
  * actually reach, WHEN it happens, and the relative velocity direction there.
+ * No test particles, so this is cheap enough to run inside a solver loop.
  *
  * The timing matters as much as the distance. The orbit precesses in an extended
  * potential, so closest approach does not occur at the Kepler pericentre epoch:
@@ -318,6 +315,7 @@ export const SCENARIOS = {
             disc2: { inclination: 0.9, argPeri: 1.6, scaleLength: 1.5 } },
   },
   flyby: {
+    follow: 'primary',
     label: 'Distant fly-by',
     blurb: 'A wide hyperbolic pass at 55 kpc. Bridges and warps but no merger: the two go their separate ways.',
     spec: { massRatio: 0.6, rPeri: 55, ecc: 1.6, tStart: -60, particles: 280000,
@@ -340,6 +338,7 @@ export const SCENARIOS = {
             disc2: { inclination: -0.5, argPeri: 1.7 } },
   },
   ring: {
+    follow: 'primary',
     label: 'Ring galaxy',
     blurb: 'A COMPACT companion fired through the centre of a large disc, perpendicular to it. The impulse drives an outward density wave: measured here, the surface density at the ring radius rises several-fold while the nucleus survives, which is what the Cartwheel looks like. Compactness matters as much as geometry — a companion as diffuse as a spiral produces no ring at any mass, because too little of it lies within a few kpc of the impact.',
     // The disc must be PERPENDICULAR to the orbital plane for the companion to
@@ -350,7 +349,11 @@ export const SCENARIOS = {
     // velocity at closest approach. A fixed inclination of pi/2 was 64.7 degrees
     // out once the orbit precessed, and produced a centrally-peaked profile at
     // every epoch — no ring.
-    spec: { massRatio: 0.5, compactness: 0.05, rPeri: 0.8, ecc: 1.1,
+    // Tuned so the RING is the event, not an explosion. A stronger impulse
+    // (q=0.5, compactness 0.05, r_p=0.8) unbinds most of the disc and throws it
+    // to 300 kpc, which buries the ring in debris. This keeps 100 per cent of
+    // the disc within 60 kpc while the density at the ring radius still trebles.
+    spec: { massRatio: 0.3, compactness: 0.08, rPeri: 1.2, ecc: 1.1,
             tStart: -34, tSpan: 220, particles: 320000,
             disc1: { alignToApproach: true, scaleLength: 3.0, rMax: 4.5 },
             disc2: { active: false } },
