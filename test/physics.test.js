@@ -21,7 +21,7 @@ import { galaxyModel, buildEncounter } from '../src/engine/encounter.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(39);
+  expectChecks(41);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -199,6 +199,24 @@ export function runPhysicsTests() {
       }
     }
     return below(worst, 1e-13, 'worst radius error');
+  });
+
+  check('bound orbits WRAP instead of saturating at apocentre', () => {
+    // The bisection searched [0, pi] — half a period — so any larger |t| pinned
+    // at apocentre and returned it as an ordinary answer. A reviewer found this
+    // affecting a third of the detective targets, whose published t_min exceeds
+    // half an orbit.
+    const mu = 1.0, e = 0.5, rp = 1.0, P = K.period(mu, e, rp);
+    // one full period later must be the same place
+    const a = K.trueAnomalyAtTime(mu, e, rp, 0.3 * P);
+    const b = K.trueAnomalyAtTime(mu, e, rp, 1.3 * P);
+    close(K.stateAtTrueAnomaly(mu, e, rp, a).radius,
+          K.stateAtTrueAnomaly(mu, e, rp, b).radius, 1e-9, 'radius after one extra period');
+    // and a time past apocentre must NOT pin there
+    const late = K.trueAnomalyAtTime(mu, e, rp, 0.72 * P);
+    ok(Math.abs(Math.abs(late) - Math.PI * 0.999) > 1e-3,
+      `t = 0.72 P still saturates at apocentre (nu = ${late.toFixed(6)})`);
+    return `nu(0.3P) = ${a.toFixed(4)}, radius matches at 1.3P; nu(0.72P) = ${late.toFixed(4)} (not pinned)`;
   });
 
   check('time <-> true anomaly round trips on all three conics', () => {
@@ -467,6 +485,52 @@ export function runPhysicsTests() {
     for (const [x, want] of REF) worst = Math.max(worst, Math.abs(erf(x) - want));
     ok(Math.abs(erf(-1) + erf(1)) < 1e-15, 'erf is not odd');
     return below(worst, 2e-7, 'worst absolute error vs known values of erf');
+  });
+
+  check('friction MAGNITUDE matches the analytic Chandrasekhar formula', () => {
+    // The check that was missing, and its absence let the drag ship at exactly
+    // half strength: the existing tests asserted energy falls and the orbit
+    // decays, and half the correct drag does both. The reference below is
+    // written out from the formula rather than taken from the implementation,
+    // so this is a comparison and not a tautology.
+    //
+    //   a_df = 4 pi lnL M_sat rho f(X) / v^2,  X = v / (sqrt(2) sigma)
+    //   f(X) = erf(X) - (2X/sqrt(pi)) exp(-X^2)
+    //
+    // A LIGHT satellite in a heavy halo, so the reciprocal drag on the primary
+    // is negligible and the total is the satellite's own term.
+    const lnL = 3.0;
+    const heavy = hernquist(60, 18);
+    const light = plummer(0.02, 0.3);            // 0.03% of the primary
+    const d = 22, v = 0.8;
+    const sim = new RestrictedSim({
+      friction: lnL,
+      galaxies: [
+        { mass: 60, potential: heavy, pos: [0, 0, 0], vel: [0, 0, 0] },
+        { mass: 0.02, potential: light, pos: [d, 0, 0], vel: [0, v, 0] },
+      ],
+      particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+    });
+    // measured: total acceleration on the satellite, minus the gravitational part
+    const withF = Array.from(sim.galaxies[1].acc);
+    const noF = new RestrictedSim({
+      friction: 0,
+      galaxies: [
+        { mass: 60, potential: heavy, pos: [0, 0, 0], vel: [0, 0, 0] },
+        { mass: 0.02, potential: light, pos: [d, 0, 0], vel: [0, v, 0] },
+      ],
+      particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+    });
+    const g = Array.from(noF.galaxies[1].acc);
+    const measured = Math.hypot(withF[0] - g[0], withF[1] - g[1], withF[2] - g[2]);
+
+    const rho = heavy.density(d);
+    const sigma = heavy.vcirc(d) / Math.SQRT2;
+    const X = v / (Math.SQRT2 * sigma);
+    const f = erf(X) - (2 * X / Math.sqrt(Math.PI)) * Math.exp(-X * X);
+    const expected = 4 * Math.PI * lnL * 0.02 * rho * f / (v * v);
+
+    return close(measured, expected, 0.02, 'satellite drag vs analytic Chandrasekhar');
   });
 
   check('friction conserves linear momentum exactly', () => {

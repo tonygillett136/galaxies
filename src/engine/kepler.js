@@ -61,15 +61,36 @@ export function timeSincePericentre(mu, e, rp, nu) {
  */
 export function trueAnomalyAtTime(mu, e, rp, t, tol = 1e-12) {
   if (t === 0) return 0;
-  const sign = Math.sign(t), T = Math.abs(t);
+  let sign = Math.sign(t), T = Math.abs(t);
+
+  // BOUND ORBITS WRAP. The bisection searches [0, pi], which covers only half a
+  // period, so any |t| beyond that used to saturate silently at apocentre and
+  // return it as though it were the answer — for a third of the detective
+  // targets, whose published t_min exceeds half an orbit. Fold the time into one
+  // period first, and reflect the second half back onto the first.
+  if (e < 1) {
+    const P = period(mu, e, rp);
+    T = T % P;
+    if (T > P / 2) { T = P - T; sign = -sign; }   // symmetric about apocentre
+  }
+
   let lo = 0, hi = Math.PI * 0.999;
-  if (e > 1) hi = Math.acos(-1 / e) * 0.999;    // asymptotic true anomaly
+  if (e > 1) hi = Math.acos(-1 / e) * 0.999;      // asymptotic true anomaly
   for (let i = 0; i < 200; i++) {
     const mid = 0.5 * (lo + hi);
     if (timeSincePericentre(mu, e, rp, mid) < T) lo = mid; else hi = mid;
     if (hi - lo < tol) break;
   }
-  return sign * 0.5 * (lo + hi);
+  const nu = sign * 0.5 * (lo + hi);
+
+  // Unbounded orbits genuinely cannot reach past their asymptote. Saturation is
+  // then correct, but say so rather than returning it as an ordinary answer.
+  if (e >= 1 && Math.abs(Math.abs(nu) - hi) < 1e-6) {
+    trueAnomalyAtTime.saturated = true;
+  } else {
+    trueAnomalyAtTime.saturated = false;
+  }
+  return nu;
 }
 
 /** Orbital period. Only finite for e < 1. */

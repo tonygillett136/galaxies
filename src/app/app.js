@@ -85,6 +85,12 @@ export class App {
     const showImg = mode === 'detective';
     $('backdrop').style.opacity = showImg ? String(this.imgOpacity ?? 0.85) : '0';
     $('targetName').style.display = showImg ? 'block' : 'none';
+    // No synthetic starfield or vignette over a REAL observation. The SDSS frame
+    // has its own real stars and its own real noise; adding invented ones on top
+    // and then inviting the user to judge a match is exactly the kind of quiet
+    // contamination this project is meant not to do.
+    this.renderer.settings.starfield = showImg ? 0 : 0.012;
+    this.renderer.settings.vignette = showImg ? 0 : 0.30;
     if (mode === 'tour') this.gotoTourStep(this.tourStep);
     if (mode === 'atlas') this.syncPad();
   }
@@ -296,7 +302,7 @@ export class App {
     const inc = this.spec.disc1?.inclination ?? 0;
     const rp = this.spec.rPeri ?? 4;
     const x = (inc + 1.57) / 3.14;
-    const y = 1 - (rp - 0.5) / 11.5;
+    const y = 1 - (rp - 2) / 78;
     $('padDot').style.left = `${x * 100}%`;
     $('padDot').style.top = `${Math.max(0, Math.min(1, y)) * 100}%`;
     $('atlasTilt').textContent = `${(inc * 57.2958).toFixed(0)}°`;
@@ -305,7 +311,11 @@ export class App {
 
   padTo(fx, fy) {
     const inc = fx * 3.14 - 1.57;
-    const rp = 0.5 + (1 - fy) * 11.5;
+    // 2-80 kpc, matching the retuned Milky Way-scale engine. The pad still
+    // spanned 0.5-12 kpc from the dwarf era, so EVERY point on it was a
+    // penetrating collision and the whole field explored one uninteresting
+    // corner of the space it claims to map.
+    const rp = 2 + (1 - fy) * 78;
     this.spec.disc1.inclination = inc;
     this.spec.disc2.inclination = -inc * 0.7;
     this.spec.rPeri = rp;

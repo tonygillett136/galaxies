@@ -122,6 +122,14 @@ body.collapsed #timeline{left:16px}
                 font-size:10px;color:var(--faint);margin-top:5px}
 #scrub{width:100%;margin:0}
 
+/* legend and science HUD track the panel, like the timeline, so neither is
+   drawn underneath the panel that explains them */
+#legend{left:334px;transition:left .28s cubic-bezier(.4,0,.2,1)}
+body.collapsed #legend{left:16px}
+#sciNote{left:334px;transition:left .28s cubic-bezier(.4,0,.2,1)}
+body.collapsed #sciNote{left:16px}
+@media (max-width:760px){ #legend,#sciNote{left:16px} }
+
 body.science{--accent:var(--good)}
 body.science #hudTop b{color:var(--good)}
 
@@ -165,7 +173,7 @@ body.science #hudTop b{color:var(--good)}
     <div class="row"><label for="massRatio">Mass ratio</label><output id="massRatiov"></output></div>
     <input type="range" id="massRatio" min="0.05" max="1" step="0.05" value="1" autocomplete="off">
     <div class="row"><label for="rPeri">Pericentre</label><output id="rPeriv"></output></div>
-    <input type="range" id="rPeri" min="1" max="90" step="0.5" value="25" autocomplete="off">
+    <input type="range" id="rPeri" min="0.5" max="90" step="0.5" value="25" autocomplete="off">
     <div class="row"><label for="ecc">Eccentricity</label><output id="eccv"></output></div>
     <input type="range" id="ecc" min="0.4" max="2" step="0.05" value="1" autocomplete="off">
     <div class="row"><label for="friction">Dynamical friction (lnΛ)</label><output id="frictionv"></output></div>
@@ -316,8 +324,9 @@ body.science #hudTop b{color:var(--good)}
 
 <!-- Colour legend. Colour was carrying meaning with no key anywhere, which makes
      it decoration that looks like data. -->
-<!-- bottom:74px clears the timeline, which also lives at the bottom -->
-<div class="hud" id="legend" style="left:16px;bottom:74px;font-size:10.5px;color:var(--dim)">
+<!-- bottom:74px clears the timeline; left tracks the panel so the legend is not
+     hidden underneath the panel it exists to explain -->
+<div class="hud" id="legend" style="bottom:74px;font-size:10.5px;color:var(--dim)">
   <div id="legendTitle" style="margin-bottom:5px;letter-spacing:.4px"></div>
   <div id="legendBar" style="width:150px;height:7px;border-radius:4px;margin-bottom:4px"></div>
   <div id="legendEnds" style="display:flex;justify-content:space-between;width:150px;

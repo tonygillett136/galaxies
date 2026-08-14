@@ -158,29 +158,67 @@ export class RestrictedSim {
       // Floor the separation used for density and dispersion. Chandrasekhar's
       // formula describes a compact satellite moving through a SMOOTH field; once
       // the cores overlap that picture has failed anyway, and a Hernquist density
-      // diverging as 1/r drives the drag to infinity. Without this floor the pair
-      // gained energy by a factor of 250 instead of losing it.
+      // diverging as 1/r drives the drag to infinity.
+      //
+      // The floor is a CORE scale, not the halo scale. It was half the LARGEST
+      // component radius, which for these models is the 20 kpc halo — a 10 kpc
+      // floor, wider than the 13.5 kpc discs, active on a tenth of all merger
+      // steps. That is not a cure for core overlap, it is a cap on the whole
+      // interesting range. Now half the SMALLEST component scale, which is the
+      // bulge and is what "cores overlap" actually refers to.
+      const coreScale = (P) => {
+        const parts = P.kind === 'composite' ? P.parts : [P];
+        return Math.min(...parts.map((p) => p.scale).filter((s) => s > 0));
+      };
       const dRaw = Math.hypot(dx, dy, dz);
-      const d = Math.max(dRaw, 0.5 * Math.max(gs[0].potential.scale, gs[1].potential.scale));
+      const d = Math.max(dRaw, 0.5 * Math.max(coreScale(gs[0].potential), coreScale(gs[1].potential)));
       const vx = gs[0].vel[0] - gs[1].vel[0];
       const vy = gs[0].vel[1] - gs[1].vel[1];
       const vz = gs[0].vel[2] - gs[1].vel[2];
       const v = Math.hypot(vx, vy, vz);
 
       if (v > 1e-9 && d > 1e-9) {
+        // Validity gate. Chandrasekhar's derivation assumes the perturber is
+        // COMPACT compared with the field it ploughs through. Applied blindly it
+        // gives nonsense in the reverse case: because the drag force scales as
+        // M^2, a heavy galaxy moving through a tiny satellite's wispy halo
+        // out-drags the satellite by a factor of 20, even against a density a
+        // million times lower. That term is not a small correction, it is the
+        // formula being used outside its domain.
+        //
+        // Weight is 1 while the perturber's core is no larger than the field's
+        // scale, and falls smoothly to 0 once it is three times larger. For two
+        // comparable galaxies both weights are 1, so the total is the sum of two
+        // genuinely distinct drag processes.
+        const coreOf = (P) => {
+          const parts = P.kind === 'composite' ? P.parts : [P];
+          return Math.min(...parts.map((p) => p.scale).filter((s) => s > 0));
+        };
         const chandra = (P, other) => {
           const rho = P.density ? P.density(d) : 0;
           if (rho <= 0) return 0;
+          const x = coreOf(other.potential) / Math.max(P.scale, 1e-9);
+          if (x >= 3) return 0;
+          const t = Math.max(0, Math.min(1, (x - 1) / 2));
+          const w = 1 - t * t * (3 - 2 * t);            // smoothstep 1 -> 0 over x in [1,3]
+          if (w <= 0) return 0;
           const sigma = Math.max(P.vcirc(d) / Math.SQRT2, 1e-6);
           const X = v / (Math.SQRT2 * sigma);
           const f = erf(X) - (2 * X / Math.sqrt(Math.PI)) * Math.exp(-X * X);
-          return 4 * Math.PI * this.friction * other.mass * rho * Math.max(f, 0) / (v * v * v);
+          return w * 4 * Math.PI * this.friction * other.mass * rho * Math.max(f, 0) / (v * v * v);
         };
-        // drag coefficient felt by each galaxy in the other's field
+        // Drag felt by each galaxy in the other's field. TWO DISTINCT PROCESSES,
+        // so the total is their SUM.
+        //
+        // I originally averaged them, copying the symmetrisation pattern used
+        // for gravity. That was wrong and cost exactly a factor of two, measured
+        // by a reviewer at 2.000 on every one of 17,942 merger steps. Gravity
+        // needed symmetrising because two one-sided estimates of ONE force
+        // disagreed; here each drag is already its own equal-and-opposite
+        // internal pair, and averaging them discards half the dissipation.
         const k0 = chandra(gs[1].potential, gs[0]);   // galaxy 0 through 1's halo
         const k1 = chandra(gs[0].potential, gs[1]);   // galaxy 1 through 0's halo
-        // symmetrise the FORCE, then apply equal and opposite along -v_rel
-        let F = 0.5 * (gs[0].mass * k0 + gs[1].mass * k1);
+        let F = gs[0].mass * k0 + gs[1].mass * k1;
 
         // Cap the per-step drag impulse. Drag is a stiff force: if F/m * dt
         // exceeds the relative velocity, an explicit integrator overshoots,

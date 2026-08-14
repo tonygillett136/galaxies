@@ -77,9 +77,13 @@ export function specFromFit(fit, opts = {}) {
   } else spec.massRatio = 1.0;
 
   if (Number.isFinite(fit.rMin_kpc)) {
-    spec.rPeri = clamp(fit.rMin_kpc, 0.3, 20, 'pericentre', ' kpc');
+    // Bound raised from 20 to 90 to match the retuned engine. 20 kpc was the
+    // dwarf model's limit and clamped published fits that this engine can now
+    // represent perfectly well — reporting a clamp that no longer needed to
+    // happen, which is its own kind of wrong.
+    spec.rPeri = clamp(fit.rMin_kpc, 0.5, 90, 'pericentre', ' kpc');
     mapped.push('rMin -> rPeri');
-  } else spec.rPeri = 4.0;
+  } else spec.rPeri = 25.0;
 
   if (Number.isFinite(fit.ecc)) {
     spec.ecc = clamp(fit.ecc, 0.4, 2.0, 'eccentricity');

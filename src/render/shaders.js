@@ -91,9 +91,14 @@ fn vs(@builtin(vertex_index) vi : u32, @builtin(instance_index) ii : u32) -> VSO
     // kinematics: speed, for reading the dynamics rather than the picture
     c = stellarColour(clamp(speed * 0.55, 0.0, 1.0));
   } else {
-    // stellar population by birth radius. Real discs have negative colour
+    // Stellar population by birth radius. Real discs have negative colour
     // gradients: redder, older populations inside, bluer outside.
-    c = stellarColour(clamp(birthR * 0.13 + 0.12, 0.0, 1.0));
+    //
+    // The scaling saturated at 6.8 kpc, so with discs reaching 13.5 kpc the
+    // entire outer half — and every tidal tail, which comes from exactly there —
+    // was one flat colour, and the advertised warm end never appeared at all.
+    // 0.055 puts the full ramp across a ~16 kpc disc.
+    c = stellarColour(clamp(birthR * 0.055 + 0.06, 0.0, 1.0));
   }
   out.colour = c;
 
