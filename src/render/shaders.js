@@ -205,7 +205,7 @@ fn fsCombine(in : VOut) -> @location(0) vec4f {
 export const POST_WGSL = /* wgsl */ `
 struct PostU {
   texel   : vec2f,
-  params  : vec2f,   // x = bloom strength / filter radius, y = exposure
+  params  : vec2f,   // x = filter radius, y = bright-pass threshold (first pass only)
 };
 @group(0) @binding(0) var samp : sampler;
 @group(0) @binding(1) var src  : texture_2d<f32>;
@@ -247,6 +247,22 @@ fn fsDown(in : VOut) -> @location(0) vec4f {
   o = o + (a + c + g + i) * 0.03125;
   o = o + (b + d + f + h) * 0.0625;
   o = o + (j + k + l + m) * 0.125;
+
+  // BRIGHT PASS, applied on the first downsample only (threshold > 0).
+  //
+  // Without it every pixel blooms, including faint ones, so glare is painted
+  // across regions that contain almost no light — which is both wrong and the
+  // reason the whole frame read as hazy. A soft knee rather than a hard cut, so
+  // a region crossing the threshold does not pop.
+  let thr = P.params.y;
+  if (thr > 0.0) {
+    let br = max(o.r, max(o.g, o.b));
+    let knee = thr * 0.6;
+    var soft = br - thr + knee;
+    soft = clamp(soft, 0.0, 2.0 * knee);
+    soft = soft * soft / (4.0 * knee + 1e-4);
+    o = o * (max(soft, br - thr) / max(br, 1e-4));
+  }
   return vec4f(o, 1.0);
 }
 

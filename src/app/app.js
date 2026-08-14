@@ -107,7 +107,8 @@ export class App {
     set('ecc', this.spec.ecc ?? 1);
     set('inc1', this.spec.disc1?.inclination ?? 0);
     set('inc2', this.spec.disc2?.inclination ?? 0);
-    $('retro').checked = !!this.spec.disc1?.retrograde;
+    $('retro1').checked = !!this.spec.disc1?.retrograde;
+    $('retro2').checked = !!this.spec.disc2?.retrograde;
   }
 
   /** Rebuild from the current spec, preserving camera and appearance. */
@@ -119,9 +120,14 @@ export class App {
     this.sim.orbit.time = this.spec.tStart;
     $('count').textContent = particles.count.toLocaleString();
     const s = $('scrub');
-    s.min = String(this.spec.tStart);
-    s.max = String(this.spec.tStart + 200);   // Milky Way-scale times are longer
+    const lo = this.spec.tStart, hi = lo + 200;   // Milky Way-scale times are longer
+    s.min = String(lo);
+    s.max = String(hi);
     s.step = '0.05';
+    // pericentre is t = 0 by construction; put it where it actually falls
+    const frac = Math.max(0, Math.min(1, (0 - lo) / (hi - lo)));
+    $('periMark').style.left = `${frac * 100}%`;
+    $('periLabel').style.left = `${frac * 100}%`;
     if (viewTime !== null) this.seek(viewTime);
   }
 
@@ -249,6 +255,7 @@ export class App {
     this.spec.rPeri = rp;
     this.spec.disc1.retrograde = $('atlasRetro').checked;
     this.spec.disc2.retrograde = $('atlasRetro').checked;
+    $('retro1').checked = $('retro2').checked = $('atlasRetro').checked;
     const t = this.sim ? this.sim.time : this.spec.tStart;
     this.rebuild();
     this.seek(Math.max(this.spec.tStart, t));
@@ -305,7 +312,8 @@ export class App {
       mr: (s.massRatio ?? 1).toFixed(2), rp: (s.rPeri ?? 4).toFixed(1),
       e: (s.ecc ?? 1).toFixed(2),
       i1: (s.disc1?.inclination ?? 0).toFixed(2), i2: (s.disc2?.inclination ?? 0).toFixed(2),
-      rg: s.disc1?.retrograde ? '1' : '0',
+      rg1: s.disc1?.retrograde ? '1' : '0',
+      rg2: s.disc2?.retrograde ? '1' : '0',
       t: this.sim.time.toFixed(2),
       cd: String(this.renderer.settings.colourMode),
       cam: [this.camera.distance.toFixed(1), this.camera.theta.toFixed(2), this.camera.phi.toFixed(2)].join(','),
@@ -323,7 +331,8 @@ export class App {
       this.spec.ecc = n('e', this.spec.ecc);
       this.spec.disc1.inclination = n('i1', this.spec.disc1.inclination);
       this.spec.disc2.inclination = n('i2', this.spec.disc2.inclination);
-      this.spec.disc1.retrograde = this.spec.disc2.retrograde = q.get('rg') === '1';
+      this.spec.disc1.retrograde = q.get('rg1') === '1' || q.get('rg') === '1';
+      this.spec.disc2.retrograde = q.get('rg2') === '1' || q.get('rg') === '1';
       this.rebuild();
       if (q.has('t')) { this.playing = false; this.seek(parseFloat(q.get('t'))); }
       if (q.has('cd')) { this.renderer.settings.colourMode = parseInt(q.get('cd'), 10); $('colour').value = q.get('cd'); }
@@ -428,10 +437,17 @@ export class App {
     param('ecc', 'ecc');
     param('inc1', 'inc1', (v) => `${(v * 57.2958).toFixed(0)}°`);
     param('inc2', 'inc2', (v) => `${(v * 57.2958).toFixed(0)}°`);
-    $('retro').onchange = (e) => {
-      this.spec.disc1.retrograde = this.spec.disc2.retrograde = e.target.checked;
-      const t = this.sim.time; this.rebuild(); this.seek(Math.max(this.spec.tStart, t));
+    // Per-disc spin. A single "both discs" toggle made the most instructive
+    // configuration in the whole subject — one prograde, one retrograde —
+    // literally unreachable from the interface.
+    const spin = (id, which) => {
+      $(id).onchange = (e) => {
+        this.spec[which].retrograde = e.target.checked;
+        const t = this.sim.time; this.rebuild(); this.seek(Math.max(this.spec.tStart, t));
+      };
     };
+    spin('retro1', 'disc1');
+    spin('retro2', 'disc2');
     $('atlasRetro').onchange = () => this.syncPad();
 
     // atlas pad

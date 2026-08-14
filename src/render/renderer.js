@@ -74,12 +74,17 @@ export class Renderer {
     this.postUniforms = [];
     this.width = 0; this.height = 0;
     this.settings = {
-      splatSize: 0.055,
-      intensity: 0.030,
-      minPixels: 0.75,
+      // Retuned for the Milky Way-scale model: discs are ~4x larger in kpc, so a
+      // 0.055 kpc splat became sub-pixel and the galaxy read as speckle rather
+      // than light — the art director's finding, and visible the moment the
+      // glare is removed.
+      splatSize: 0.22,
+      intensity: 0.022,
+      minPixels: 1.4,
       exposure: 1.0,
       bloomMix: 0.55,
       bloomRadius: 1.0,
+      bloomThreshold: 0.35,  // soft-knee bright pass; 0 blooms everything
       vignette: 0.30,
       starfield: 0.0016,
       colourMode: 0,        // 0 population, 1 provenance, 2 speed
@@ -313,7 +318,10 @@ export class Renderer {
       let sw = this.width, sh = this.height;
       for (let i = 0; i < BLOOM_LEVELS; i++) {
         const dst = this.bloom[i];
-        dev.queue.writeBuffer(this.postUniforms[u], 0, new Float32Array([1 / sw, 1 / sh, st.bloomRadius, 0]));
+        // bright-pass threshold on the FIRST downsample only; later levels are
+        // already filtered and re-thresholding them would eat the halo
+        dev.queue.writeBuffer(this.postUniforms[u], 0,
+          new Float32Array([1 / sw, 1 / sh, st.bloomRadius, i === 0 ? st.bloomThreshold : 0]));
         const bind = dev.createBindGroup({ layout: this.postBGL, entries: [
           { binding: 0, resource: this.sampler },
           { binding: 1, resource: srcView },

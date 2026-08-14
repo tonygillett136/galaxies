@@ -171,9 +171,13 @@ body.science #hudTop b{color:var(--good)}
     <input type="range" id="inc1" min="-1.57" max="1.57" step="0.05" value="0">
     <div class="row"><label for="inc2">Secondary tilt</label><output id="inc2v"></output></div>
     <input type="range" id="inc2" min="-1.57" max="1.57" step="0.05" value="0.35">
-    <label class="check"><input type="checkbox" id="retro"> Retrograde spin (both discs)</label>
-    <p class="note">Spin direction matters more than closeness. Prograde discs make long tails;
-      retrograde ones from the same orbit make almost none — measured here at 131x.</p>
+    <label class="check"><input type="checkbox" id="retro1"> Primary disc retrograde</label>
+    <label class="check"><input type="checkbox" id="retro2"> Secondary disc retrograde</label>
+    <p class="note">Spin direction matters more than closeness. Set one retrograde and one
+      prograde to get a long tail on one galaxy and almost nothing on the other — that
+      asymmetry, not the closeness of the passage, is the central result of Toomre &amp;
+      Toomre 1972. Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde
+      throws none of 60,000 particles.</p>
   </section>
 
   <!-- ---------------- DETECTIVE ---------------- -->
@@ -232,9 +236,9 @@ body.science #hudTop b{color:var(--good)}
 
   <h2>Appearance</h2>
   <div class="row"><label for="size">Splat size</label><output id="sizev"></output></div>
-  <input type="range" id="size" min="0.01" max="0.25" step="0.005" value="0.055">
+  <input type="range" id="size" min="0.03" max="1.0" step="0.01" value="0.22">
   <div class="row"><label for="intensity">Intensity</label><output id="intensityv"></output></div>
-  <input type="range" id="intensity" min="0.002" max="0.12" step="0.002" value="0.03">
+  <input type="range" id="intensity" min="0.002" max="0.09" step="0.001" value="0.022">
   <div class="row"><label for="exposure">Exposure</label><output id="exposurev"></output></div>
   <input type="range" id="exposure" min="0.1" max="4" step="0.05" value="1">
   <div class="row"><label for="bloom">Bloom</label><output id="bloomv"></output></div>
@@ -285,8 +289,16 @@ body.science #hudTop b{color:var(--good)}
 </div>
 
 <div id="timeline">
-  <input type="range" id="scrub" min="-30" max="60" step="0.02" value="-22">
-  <div class="ends"><span>before pericentre</span><span>after pericentre</span></div>
+  <div style="position:relative">
+    <input type="range" id="scrub" min="-30" max="60" step="0.02" value="-22">
+    <!-- pericentre marker: the one instant the whole encounter is organised around,
+         and it was nowhere on the timeline -->
+    <div id="periMark" style="position:absolute;top:-5px;width:1px;height:13px;
+         background:var(--warm);pointer-events:none;opacity:.85"></div>
+    <div id="periLabel" style="position:absolute;top:11px;font:10px var(--mono);
+         color:var(--warm);transform:translateX(-50%);pointer-events:none">pericentre</div>
+  </div>
+  <div class="ends" style="margin-top:16px"><span>before</span><span>after</span></div>
 </div>
 
 <script type="module">
