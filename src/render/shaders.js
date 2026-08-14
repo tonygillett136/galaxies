@@ -296,7 +296,10 @@ fn fsUp(in : VOut) -> @location(0) vec4f {
 export const COMPOSITE_WGSL = /* wgsl */ `
 struct CompU {
   params  : vec4f,   // x = exposure, y = bloom mix, z = scienceMode, w = vignette
-  params2 : vec4f,   // x = starfield density, y = time, z = aspect, w = unused
+  params2 : vec4f,   // x = starfield density, y = time, z = aspect, w = science full scale
+  right   : vec4f,   // camera basis, so the starfield sits on the SKY not the screen
+  up      : vec4f,
+  fwd     : vec4f,   // w = tan(fov/2)
 };
 @group(0) @binding(0) var samp  : sampler;
 @group(0) @binding(1) var hdr   : texture_2d<f32>;
@@ -349,11 +352,53 @@ fn agx(colour : vec3f) -> vec3f {
   return clamp(c, vec3f(0.0), vec3f(1.0));
 }
 
-/** Hash-based background starfield. Cheap, static in world terms, adds depth. */
-fn hash21(p : vec2f) -> f32 {
-  var q = fract(p * vec2f(233.34, 851.73));
-  q = q + dot(q, q + 23.45);
-  return fract(q.x * q.y);
+fn hash31(p : vec3f) -> f32 {
+  var q = fract(p * 0.1031);
+  q = q + dot(q, q.zyx + 31.32);
+  return fract((q.x + q.y) * q.z);
+}
+
+/**
+ * Background starfield, anchored to the SKY.
+ *
+ * The first version hashed screen coordinates, so the stars were painted onto
+ * the viewport and slid with the camera — the classic tell that a starfield is
+ * wallpaper. This hashes the world-space view direction instead, so they sit
+ * still while you orbit, which is what makes the scene feel like a place.
+ *
+ * Size, brightness, colour temperature and twinkle phase all vary per star from
+ * independent hashes. Uniform stars read as noise; varied ones read as a sky.
+ */
+fn starfield(uv : vec2f, density : f32, t : f32) -> vec3f {
+  if (density <= 0.0) { return vec3f(0.0); }
+  let ndc = vec2f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0);
+  let th = C.fwd.w;
+  let dir = normalize(C.fwd.xyz + C.right.xyz * (ndc.x * th * C.params2.z) + C.up.xyz * (ndc.y * th));
+
+  var col = vec3f(0.0);
+  // two shells at different cell sizes: a few bright stars over many faint ones
+  for (var layer : i32 = 0; layer < 2; layer = layer + 1) {
+    let cells = select(340.0, 130.0, layer == 1);
+    let amp   = select(0.055, 0.13, layer == 1);
+    let dens  = select(density, density * 0.22, layer == 1);
+    let g = dir * cells;
+    let cell = floor(g);
+    let h = hash31(cell);
+    if (h > 1.0 - dens) {
+      let h2 = hash31(cell + 17.7);
+      let h3 = hash31(cell + 91.3);
+      let jitter = vec3f(hash31(cell + 3.1), hash31(cell + 5.7), hash31(cell + 7.3)) - 0.5;
+      let d = length(fract(g) - 0.5 - jitter * 0.6);
+      let size = 0.16 + 0.30 * h2;                       // varied radii
+      let tw = 0.72 + 0.28 * sin(t * (0.7 + h3 * 1.9) + h * 63.0);   // varied phase AND rate
+      // colour temperature: cool orange dwarfs through to hot blue-white
+      let warm = vec3f(1.00, 0.72, 0.50);
+      let cold = vec3f(0.72, 0.82, 1.00);
+      let tint = mix(warm, cold, h3);
+      col = col + tint * smoothstep(size, 0.0, d) * amp * tw * (0.35 + 0.65 * h2);
+    }
+  }
+  return col;
 }
 
 @fragment
@@ -389,15 +434,7 @@ fn fsComposite(in : VOut) -> @location(0) vec4f {
 
   var col = mix(h, h + b, C.params.y) * C.params.x;
 
-  // faint starfield behind everything, so empty space is not dead flat
-  let sp = in.uv * vec2f(C.params2.z, 1.0) * 420.0;
-  let cell = floor(sp);
-  let r = hash21(cell);
-  if (r > 1.0 - C.params2.x) {
-    let d = length(fract(sp) - 0.5);
-    let tw = 0.65 + 0.35 * sin(C.params2.y * 1.7 + r * 90.0);
-    col = col + vec3f(0.55, 0.62, 0.78) * smoothstep(0.34, 0.0, d) * 0.06 * tw;
-  }
+  col = col + starfield(in.uv, C.params2.x, C.params2.y);
 
   col = agx(col);
 

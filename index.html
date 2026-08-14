@@ -6,8 +6,11 @@
 <title>Galaxy Collisions</title>
 <style>
 :root{
-  --bg:#04050a; --ink:#e8ecf5; --dim:#8c96ad; --faint:#4d566b;
-  --line:rgba(255,255,255,.09); --panel:rgba(10,13,22,.74);
+  --bg:#04050a; --ink:#e8ecf5; --dim:#9aa4ba; --faint:#7d879e;
+  /* --faint was #4d566b: about 2.6:1 against the panel, failing WCAG AA even for
+     large text, and it carried the section headings and the whole shortcut list.
+     #7d879e measures ~5.2:1. */
+  --line:rgba(255,255,255,.14); --panel:rgba(10,13,22,.78);
   --accent:#7db4ff; --warm:#ffb27d; --good:#9fe870;
   --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
@@ -293,6 +296,16 @@ body.science #hudTop b{color:var(--good)}
     <div id="clocknote">&nbsp;</div>
   </div>
   <div id="scalebar"><div id="barfill"></div><div id="barlabel">—</div></div>
+</div>
+
+<!-- Colour legend. Colour was carrying meaning with no key anywhere, which makes
+     it decoration that looks like data. -->
+<!-- bottom:74px clears the timeline, which also lives at the bottom -->
+<div class="hud" id="legend" style="left:16px;bottom:74px;font-size:10.5px;color:var(--dim)">
+  <div id="legendTitle" style="margin-bottom:5px;letter-spacing:.4px"></div>
+  <div id="legendBar" style="width:150px;height:7px;border-radius:4px;margin-bottom:4px"></div>
+  <div id="legendEnds" style="display:flex;justify-content:space-between;width:150px;
+       color:var(--faint);font-size:10px"></div>
 </div>
 
 <div id="timeline">

@@ -86,7 +86,7 @@ export class Renderer {
       bloomRadius: 1.0,
       bloomThreshold: 0.35,  // soft-knee bright pass; 0 blooms everything
       vignette: 0.30,
-      starfield: 0.0016,
+      starfield: 0.012,     // now a per-cell probability on a much finer sky grid
       colourMode: 0,        // 0 population, 1 provenance, 2 speed
       scienceMode: false,
       dustStrength: 1.9,    // optical depth scale
@@ -173,8 +173,10 @@ export class Renderer {
       vertex: { module: compModule, entryPoint: 'vsFull' },
       fragment: { module: compModule, entryPoint: 'fsComposite', targets: [{ format }] },
     });
-    this.compUniform = device.createBuffer({ size: 32, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
-    this.compScratch = new Float32Array(8);
+    // params[4] params2[4] right[4] up[4] fwd[4] = 20 floats / 80 bytes.
+    // Counted explicitly: getting this wrong once already cost a debugging round.
+    this.compUniform = device.createBuffer({ size: 80, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
+    this.compScratch = new Float32Array(20);
     return this;
   }
 
@@ -235,6 +237,8 @@ export class Renderer {
     s.set([st.splatSize, st.intensity, st.minPixels, wppPerUnit], 44);
     s.set([st.colourMode, 0, 0, aspect], 48);
     s.set([fwd[0], fwd[1], fwd[2], 0], 52);
+    // kept for the composite pass, which anchors the starfield to the sky
+    this._basis = { right, up, fwd, tanHalf: Math.tan(camera.fov / 2) };
 
     const g0 = galaxies?.[0]?.pos ?? [0, 0, 0];
     const g1 = galaxies?.[1]?.pos ?? g0;
@@ -264,6 +268,10 @@ export class Renderer {
     // not derived from exposure or any other control: a readout whose mapping
     // moves with a slider is not a readout.
     this.compScratch.set([st.scienceMode ? 0 : st.starfield, time, aspect, st.scienceFullScale], 4);
+    const b = this._basis;
+    this.compScratch.set([b.right[0], b.right[1], b.right[2], 0], 8);
+    this.compScratch.set([b.up[0], b.up[1], b.up[2], 0], 12);
+    this.compScratch.set([b.fwd[0], b.fwd[1], b.fwd[2], b.tanHalf], 16);
     dev.queue.writeBuffer(this.compUniform, 0, this.compScratch);
 
     const splatBind = dev.createBindGroup({ layout: this.splatBGL, entries: [

@@ -213,6 +213,29 @@ export class App {
     this.syncSpecControls();
   }
 
+  /**
+   * The colour key. Colour was carrying meaning with nothing to read it against,
+   * which makes it decoration that looks like data — and the stellar-population
+   * ramp in particular is physically MOTIVATED but not calibrated, so saying so
+   * matters more than the gradient does.
+   */
+  updateLegend() {
+    const mode = this.renderer.settings.colourMode;
+    const ramp = 'linear-gradient(90deg,#ff6b2e,#ffdbae,#9ec2ff)';
+    const spec = {
+      0: { title: 'Stellar population (by birth radius, indicative)',
+           bar: ramp, ends: ['older, inner', 'younger, outer'] },
+      1: { title: 'Origin galaxy',
+           bar: 'linear-gradient(90deg,#73b8ff 0 50%,#ff8c4d 50% 100%)',
+           ends: ['primary', 'secondary'] },
+      2: { title: 'Speed', bar: ramp, ends: ['slow', 'fast'] },
+    }[mode] ?? { title: '', bar: 'none', ends: ['', ''] };
+    $('legendTitle').textContent = spec.title;
+    $('legendBar').style.background = spec.bar;
+    $('legendEnds').innerHTML = spec.ends.map((e) => `<span>${e}</span>`).join('');
+    $('legend').style.display = this.renderer.settings.scienceMode ? 'none' : 'block';
+  }
+
   // ------------------------------------------------------------------ tour
 
   gotoTourStep(i) {
@@ -411,7 +434,10 @@ export class App {
     }, (v) => v.toFixed(2));
     bind('imgScale', (v) => { $('backdrop').style.transform = `scale(${v})`; }, (v) => `${v.toFixed(2)}x`);
 
-    $('colour').onchange = (e) => { rs.colourMode = parseInt(e.target.value, 10); };
+    $('colour').onchange = (e) => {
+      rs.colourMode = parseInt(e.target.value, 10);
+      this.updateLegend();
+    };
     $('science').onchange = (e) => {
       rs.scienceMode = e.target.checked;
       document.body.classList.toggle('science', e.target.checked);
@@ -419,6 +445,7 @@ export class App {
       // picture, and the whole point of this view is that it is not one.
       $('sciNote').style.display = e.target.checked ? 'block' : 'none';
       $('sciScale').textContent = rs.scienceFullScale.toFixed(2);
+      this.updateLegend();
     };
 
     const param = (id, key, fmt) => {
@@ -484,6 +511,7 @@ export class App {
       if (e.key === 'ArrowUp' && this.mode === 'tour') this.gotoTourStep(this.tourStep - 1);
     });
 
+    this.updateLegend();
     this.setMode('sandbox');
   }
 }
