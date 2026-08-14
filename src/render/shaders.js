@@ -371,6 +371,10 @@ fn fsComposite(in : VOut) -> @location(0) vec4f {
   let d = length(in.uv - vec2f(0.5)) * 1.414;
   col = col * (1.0 - C.params.w * d * d);
 
-  return vec4f(col, 1.0);
+  // Alpha 0 with premultiplied compositing means the canvas ADDS its light to
+  // whatever is behind it and never obscures it. In sandbox that is black, so
+  // nothing changes; in detective mode it is a real SDSS frame, and the
+  // simulation lays over the observation the way light actually would.
+  return vec4f(col, 0.0);
 }
 `;

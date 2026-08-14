@@ -1,0 +1,2826 @@
+{
+ "source": "Galaxy Zoo: Mergers (Holincheck et al. 2016, MNRAS 459, 720)",
+ "imageSource": "SDSS DR18 SkyServer ImgCutout",
+ "cutoutScaleArcsecPerPixel": 0.7,
+ "cutoutSizePx": 512,
+ "note": "Table 4 Min/Max columns are SEARCH BOUNDS, not credible intervals. Only the +- value is a spread.",
+ "count": 62,
+ "withImage": 56,
+ "targets": [
+  {
+   "order": 1,
+   "name": "Arp 240",
+   "sdssId": "587722984435351614",
+   "ra": 204.97,
+   "dec": 0.839833,
+   "aliases": "NGC 5257, UGC 8641, 13395227+0050224",
+   "fit": {
+    "massRatio": 1.167,
+    "massRatio_err": 0.391,
+    "rMin_kpc": 81.443,
+    "rMin_err": 10.206,
+    "tMin_Myr": 249.449,
+    "tMin_err": 31.503,
+    "ecc": 3.7,
+    "ecc_err": 2.349,
+    "beta": 0.291,
+    "beta_err": 0.056,
+    "searchBounds": {
+     "massRatio": [
+      "0.307",
+      "889.801"
+     ],
+     "rMin": [
+      "0.402",
+      "409.274"
+     ],
+     "tMin": [
+      "0.000",
+      "8602.542"
+     ],
+     "ecc": [
+      "0.001",
+      "677.694"
+     ],
+     "beta": [
+      "0.001",
+      "3920.725"
+     ]
+    }
+   },
+   "image": "images/Arp_240.jpg",
+   "z": 0.107211,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.96103,
+   "hasImage": true
+  },
+  {
+   "order": 2,
+   "name": "Arp 290",
+   "sdssId": "587724234257137777",
+   "ra": 30.957083,
+   "dec": 14.738639,
+   "aliases": "IC196, UGC 1556, 02034980+1444204",
+   "fit": {
+    "massRatio": 1.427,
+    "massRatio_err": 0.415,
+    "rMin_kpc": 18.813,
+    "rMin_err": 5.501,
+    "tMin_Myr": 479.844,
+    "tMin_err": 117.278,
+    "ecc": 0.79,
+    "ecc_err": 0.352,
+    "beta": 0.499,
+    "beta_err": 1.282,
+    "searchBounds": {
+     "massRatio": [
+      "0.020",
+      "272.820"
+     ],
+     "rMin": [
+      "0.128",
+      "199.207"
+     ],
+     "tMin": [
+      "0.000",
+      "8612.936"
+     ],
+     "ecc": [
+      "0.001",
+      "3080.303"
+     ],
+     "beta": [
+      "0.001",
+      "4361.565"
+     ]
+    }
+   },
+   "image": "images/Arp_290.jpg",
+   "z": 0.01212,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.24796,
+   "hasImage": true
+  },
+  {
+   "order": 3,
+   "name": "Arp 142",
+   "sdssId": "587726033843585146",
+   "ra": 144.433333,
+   "dec": 2.760139,
+   "aliases": "NGC 2936, UGC 5130, 09374413+0245394",
+   "fit": {
+    "massRatio": 0.712,
+    "massRatio_err": 0.2,
+    "rMin_kpc": 8.947,
+    "rMin_err": 1.142,
+    "tMin_Myr": 77.953,
+    "tMin_err": 6.293,
+    "ecc": 0.442,
+    "ecc_err": 0.141,
+    "beta": 2.937,
+    "beta_err": 0.505,
+    "searchBounds": {
+     "massRatio": [
+      "0.147",
+      "15.843"
+     ],
+     "rMin": [
+      "0.105",
+      "142.032"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "168.073"
+     ],
+     "beta": [
+      "0.009",
+      "7040.448"
+     ]
+    }
+   },
+   "image": "images/Arp_142.jpg",
+   "z": 0.024072,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.48541,
+   "hasImage": true
+  },
+  {
+   "order": 4,
+   "name": "Arp 318",
+   "sdssId": "587727177926508595",
+   "ra": 32.352083,
+   "dec": -10.136,
+   "aliases": "NGC 835, 02092458-1008091",
+   "fit": {
+    "massRatio": 0.358,
+    "massRatio_err": 0.074,
+    "rMin_kpc": 15.036,
+    "rMin_err": 2.608,
+    "tMin_Myr": 169.764,
+    "tMin_err": 7.645,
+    "ecc": 1.579,
+    "ecc_err": 0.34,
+    "beta": 0.732,
+    "beta_err": 0.214,
+    "searchBounds": {
+     "massRatio": [
+      "0.018",
+      "217.774"
+     ],
+     "rMin": [
+      "0.190",
+      "383.156"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.001",
+      "838.669"
+     ],
+     "beta": [
+      "0.002",
+      "2763.580"
+     ]
+    }
+   },
+   "image": "images/Arp_318.jpg",
+   "z": 0.012819,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.26204,
+   "hasImage": true
+  },
+  {
+   "order": 5,
+   "name": "Arp 256",
+   "sdssId": "587727178988388373",
+   "ra": 4.70875,
+   "dec": -10.361639,
+   "aliases": "00185015-1021414",
+   "fit": {
+    "massRatio": 1.036,
+    "massRatio_err": 0.403,
+    "rMin_kpc": 17.25,
+    "rMin_err": 2.751,
+    "tMin_Myr": 122.992,
+    "tMin_err": 24.529,
+    "ecc": 1.628,
+    "ecc_err": 0.335,
+    "beta": 0.801,
+    "beta_err": 0.351,
+    "searchBounds": {
+     "massRatio": [
+      "0.372",
+      "5.458"
+     ],
+     "rMin": [
+      "0.102",
+      "231.411"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.002",
+      "400.671"
+     ],
+     "beta": [
+      "0.002",
+      "12355.246"
+     ]
+    }
+   },
+   "image": "images/Arp_256.jpg",
+   "z": 0.027102,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.54452,
+   "hasImage": true
+  },
+  {
+   "order": 6,
+   "name": "UGC 11751",
+   "sdssId": "587727222471131318",
+   "ra": 322.2475,
+   "dec": 11.381972,
+   "aliases": "21285942+1122574",
+   "fit": {
+    "massRatio": 1.234,
+    "massRatio_err": 0.105,
+    "rMin_kpc": 16.299,
+    "rMin_err": 4.509,
+    "tMin_Myr": 502.363,
+    "tMin_err": 53.766,
+    "ecc": 0.991,
+    "ecc_err": 0.376,
+    "beta": 0.369,
+    "beta_err": 0.195,
+    "searchBounds": {
+     "massRatio": [
+      "0.185",
+      "8.147"
+     ],
+     "rMin": [
+      "0.207",
+      "379.329"
+     ],
+     "tMin": [
+      "0.000",
+      "8628.526"
+     ],
+     "ecc": [
+      "0.012",
+      "2272.374"
+     ],
+     "beta": [
+      "0.000",
+      "606.179"
+     ]
+    }
+   },
+   "image": "images/UGC_11751.jpg",
+   "z": 0.028533,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.57229,
+   "hasImage": true
+  },
+  {
+   "order": 7,
+   "name": "Arp 104",
+   "sdssId": "587728676861051075",
+   "ra": 203.0425,
+   "dec": 62.767333,
+   "aliases": "NGC 5218, UGC 8529, 13321042+6246039",
+   "fit": {
+    "massRatio": 1.845,
+    "massRatio_err": 0.564,
+    "rMin_kpc": 1.069,
+    "rMin_err": 0.831,
+    "tMin_Myr": 67.559,
+    "tMin_err": 26.077,
+    "ecc": 0.64,
+    "ecc_err": 0.112,
+    "beta": 101.6,
+    "beta_err": 37.321,
+    "searchBounds": {
+     "massRatio": [
+      "0.076",
+      "16.571"
+     ],
+     "rMin": [
+      "0.057",
+      "148.908"
+     ],
+     "tMin": [
+      "0.000",
+      "8635.455"
+     ],
+     "ecc": [
+      "0.001",
+      "464.457"
+     ],
+     "beta": [
+      "0.002",
+      "31287.255"
+     ]
+    }
+   },
+   "image": "images/Arp_104.jpg",
+   "z": 0.00966179,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.19826,
+   "hasImage": true
+  },
+  {
+   "order": 8,
+   "name": "Double Ring, Heart",
+   "sdssId": "587729227151704160",
+   "ra": 238.285833,
+   "dec": 54.147333,
+   "aliases": "15530935+5408557",
+   "fit": null,
+   "image": "images/Double_Ring,_Heart.jpg",
+   "z": 0.04674,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.9173,
+   "hasImage": true
+  },
+  {
+   "order": 9,
+   "name": "Arp 285",
+   "sdssId": "587731913110650988",
+   "ra": 141.012083,
+   "dec": 49.203917,
+   "aliases": "NGC 2854, UGC 4995, 09240315+4912156",
+   "fit": {
+    "massRatio": 0.05,
+    "massRatio_err": 0.284,
+    "rMin_kpc": 18.315,
+    "rMin_err": 5.899,
+    "tMin_Myr": 242.52,
+    "tMin_err": 127.64,
+    "ecc": 2.533,
+    "ecc_err": 0.74,
+    "beta": 0.228,
+    "beta_err": 0.25,
+    "searchBounds": {
+     "massRatio": [
+      "0.050",
+      "29.772"
+     ],
+     "rMin": [
+      "0.285",
+      "83.746"
+     ],
+     "tMin": [
+      "0.000",
+      "8614.668"
+     ],
+     "ecc": [
+      "0.002",
+      "841.036"
+     ],
+     "beta": [
+      "0.003",
+      "496.124"
+     ]
+    }
+   },
+   "image": "images/Arp_285.jpg",
+   "z": 0.009306077,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.19104,
+   "hasImage": true
+  },
+  {
+   "order": 10,
+   "name": "Arp 214",
+   "sdssId": "587732136993882121",
+   "ra": 173.1475,
+   "dec": 53.066667,
+   "aliases": "NGC 3718, UGC 6524, 11323494+5304041",
+   "fit": {
+    "massRatio": 1.151,
+    "massRatio_err": 0.147,
+    "rMin_kpc": 9.324,
+    "rMin_err": 2.821,
+    "tMin_Myr": 495.434,
+    "tMin_err": 16.927,
+    "ecc": 1.007,
+    "ecc_err": 0.346,
+    "beta": 0.675,
+    "beta_err": 0.994,
+    "searchBounds": {
+     "massRatio": [
+      "0.183",
+      "3.646"
+     ],
+     "rMin": [
+      "0.170",
+      "152.956"
+     ],
+     "tMin": [
+      "0.000",
+      "8635.455"
+     ],
+     "ecc": [
+      "0.004",
+      "3181.084"
+     ],
+     "beta": [
+      "0.001",
+      "833.729"
+     ]
+    }
+   },
+   "image": "images/Arp_214.jpg",
+   "z": 0.418853,
+   "zKind": "photo",
+   "kpcPerArcsec": 5.52387,
+   "hasImage": true
+  },
+  {
+   "order": 11,
+   "name": "NGC 4320",
+   "sdssId": "587732772130652231",
+   "ra": 185.740417,
+   "dec": 10.548,
+   "aliases": "UGC 7452, 12225772+1032540",
+   "fit": {
+    "massRatio": 0.709,
+    "massRatio_err": 0.255,
+    "rMin_kpc": 4.117,
+    "rMin_err": 6.748,
+    "tMin_Myr": 133.386,
+    "tMin_err": 12.646,
+    "ecc": 0.365,
+    "ecc_err": 0.466,
+    "beta": 12.037,
+    "beta_err": 5.096,
+    "searchBounds": {
+     "massRatio": [
+      "0.060",
+      "50.696"
+     ],
+     "rMin": [
+      "0.077",
+      "155.099"
+     ],
+     "tMin": [
+      "0.000",
+      "8651.046"
+     ],
+     "ecc": [
+      "0.002",
+      "1180.444"
+     ],
+     "beta": [
+      "0.002",
+      "10825.800"
+     ]
+    }
+   },
+   "image": "images/NGC_4320.jpg",
+   "z": 0.02594,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.5219,
+   "hasImage": true
+  },
+  {
+   "order": 12,
+   "name": "UGC 7905",
+   "sdssId": "587733080814583863",
+   "ra": 190.955833,
+   "dec": 54.904556,
+   "aliases": "12434940+5454181",
+   "fit": {
+    "massRatio": 0.177,
+    "massRatio_err": 0.109,
+    "rMin_kpc": 8.363,
+    "rMin_err": 2.48,
+    "tMin_Myr": 102.205,
+    "tMin_err": 10.118,
+    "ecc": 0.218,
+    "ecc_err": 0.068,
+    "beta": 2.548,
+    "beta_err": 8.124,
+    "searchBounds": {
+     "massRatio": [
+      "0.004",
+      "79.719"
+     ],
+     "rMin": [
+      "0.112",
+      "140.481"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.001",
+      "176.206"
+     ],
+     "beta": [
+      "0.006",
+      "6797.398"
+     ]
+    }
+   },
+   "image": "images/UGC_7905.jpg",
+   "z": 0.016535,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.33648,
+   "hasImage": true
+  },
+  {
+   "order": 13,
+   "name": "Arp 255",
+   "sdssId": "587734862680752822",
+   "ra": 148.287083,
+   "dec": 7.866167,
+   "aliases": "UGC 5304, 09530884+0751577",
+   "fit": {
+    "massRatio": 5.266,
+    "massRatio_err": 0.559,
+    "rMin_kpc": 20.493,
+    "rMin_err": 4.082,
+    "tMin_Myr": 247.717,
+    "tMin_err": 65.567,
+    "ecc": 0.375,
+    "ecc_err": 0.142,
+    "beta": 0.885,
+    "beta_err": 0.668,
+    "searchBounds": {
+     "massRatio": [
+      "1.578",
+      "15.792"
+     ],
+     "rMin": [
+      "0.188",
+      "150.749"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.002",
+      "309.546"
+     ],
+     "beta": [
+      "0.005",
+      "3510.090"
+     ]
+    }
+   },
+   "image": "images/Arp_255.jpg",
+   "z": 0.040674,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.80403,
+   "hasImage": true
+  },
+  {
+   "order": 14,
+   "name": "Arp 82",
+   "sdssId": "587735043609329845",
+   "ra": 122.80625,
+   "dec": 25.206611,
+   "aliases": "NGC 2535, UGC 4264, 08111348+2512249",
+   "fit": {
+    "massRatio": 1.986,
+    "massRatio_err": 0.454,
+    "rMin_kpc": 6.374,
+    "rMin_err": 1.638,
+    "tMin_Myr": 131.654,
+    "tMin_err": 20.967,
+    "ecc": 0.155,
+    "ecc_err": 0.134,
+    "beta": 5.021,
+    "beta_err": 1.694,
+    "searchBounds": {
+     "massRatio": [
+      "0.021",
+      "416.918"
+     ],
+     "rMin": [
+      "0.047",
+      "151.156"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "931.630"
+     ],
+     "beta": [
+      "0.004",
+      "47950.387"
+     ]
+    }
+   },
+   "image": "images/Arp_82.jpg",
+   "z": 0.013642,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.27858,
+   "hasImage": true
+  },
+  {
+   "order": 15,
+   "name": "Arp 239",
+   "sdssId": "587735665840881790",
+   "ra": 205.41375,
+   "dec": 55.670722,
+   "aliases": "NGC 5278, UGC 8677, 13413961+5540146",
+   "fit": {
+    "massRatio": 4.957,
+    "massRatio_err": 1.582,
+    "rMin_kpc": 4.592,
+    "rMin_err": 0.708,
+    "tMin_Myr": 131.654,
+    "tMin_err": 47.964,
+    "ecc": 0.119,
+    "ecc_err": 0.071,
+    "beta": 5.899,
+    "beta_err": 5.295,
+    "searchBounds": {
+     "massRatio": [
+      "0.314",
+      "11.597"
+     ],
+     "rMin": [
+      "0.138",
+      "129.854"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.000",
+      "118.606"
+     ],
+     "beta": [
+      "0.009",
+      "3637.425"
+     ]
+    }
+   },
+   "image": "images/Arp_239.jpg",
+   "z": 0.025219,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.50784,
+   "hasImage": true
+  },
+  {
+   "order": 16,
+   "name": "Arp 199",
+   "sdssId": "587736941981466667",
+   "ra": 214.260417,
+   "dec": 36.571278,
+   "aliases": "NGC 5544, UGC 9142, 14170522+3634308",
+   "fit": {
+    "massRatio": 1.569,
+    "massRatio_err": 0.391,
+    "rMin_kpc": 12.08,
+    "rMin_err": 2.682,
+    "tMin_Myr": 3.465,
+    "tMin_err": 8.72,
+    "ecc": 7.365,
+    "ecc_err": 2.416,
+    "beta": 0.257,
+    "beta_err": 0.621,
+    "searchBounds": {
+     "massRatio": [
+      "0.177",
+      "6.620"
+     ],
+     "rMin": [
+      "0.140",
+      "141.443"
+     ],
+     "tMin": [
+      "0.000",
+      "8595.613"
+     ],
+     "ecc": [
+      "0.005",
+      "244.303"
+     ],
+     "beta": [
+      "0.002",
+      "2238.622"
+     ]
+    }
+   },
+   "image": "images/Arp_199.jpg",
+   "z": 0.0102,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.20917,
+   "hasImage": true
+  },
+  {
+   "order": 17,
+   "name": "Arp 57",
+   "sdssId": "587738569246376675",
+   "ra": 199.197917,
+   "dec": 14.427694,
+   "aliases": "13164737+1425399",
+   "fit": {
+    "massRatio": 1.441,
+    "massRatio_err": 0.252,
+    "rMin_kpc": 14.738,
+    "rMin_err": 2.852,
+    "tMin_Myr": 289.292,
+    "tMin_err": 42.933,
+    "ecc": 4.378,
+    "ecc_err": 1.513,
+    "beta": 0.683,
+    "beta_err": 0.143,
+    "searchBounds": {
+     "massRatio": [
+      "0.382",
+      "5.886"
+     ],
+     "rMin": [
+      "0.648",
+      "231.592"
+     ],
+     "tMin": [
+      "0.000",
+      "8654.510"
+     ],
+     "ecc": [
+      "0.008",
+      "182.603"
+     ],
+     "beta": [
+      "0.002",
+      "337.144"
+     ]
+    }
+   },
+   "image": "images/Arp_57.jpg",
+   "z": 0.060498,
+   "zKind": "spec",
+   "kpcPerArcsec": 1.16816,
+   "hasImage": true
+  },
+  {
+   "order": 18,
+   "name": "Pair 18",
+   "sdssId": "587738569249390718",
+   "ra": 206.209583,
+   "dec": 13.921361,
+   "aliases": "13445034+1355178",
+   "fit": {
+    "massRatio": 0.395,
+    "massRatio_err": 0.273,
+    "rMin_kpc": 24.142,
+    "rMin_err": 4.36,
+    "tMin_Myr": 263.308,
+    "tMin_err": 73.111,
+    "ecc": 0.748,
+    "ecc_err": 0.318,
+    "beta": 0.665,
+    "beta_err": 0.425,
+    "searchBounds": {
+     "massRatio": [
+      "0.204",
+      "6.945"
+     ],
+     "rMin": [
+      "0.223",
+      "325.138"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "394.143"
+     ],
+     "beta": [
+      "0.002",
+      "2593.574"
+     ]
+    }
+   },
+   "image": "images/Pair_18.jpg",
+   "z": 0.082454,
+   "zKind": "spec",
+   "kpcPerArcsec": 1.5518,
+   "hasImage": true
+  },
+  {
+   "order": 19,
+   "name": "Arp 247",
+   "sdssId": "587739153356095531",
+   "ra": 125.891667,
+   "dec": 21.347306,
+   "aliases": "IC2339, UGC 4383, 08233424+2120514",
+   "fit": {
+    "massRatio": 2.069,
+    "massRatio_err": 0.7,
+    "rMin_kpc": 6.605,
+    "rMin_err": 5.446,
+    "tMin_Myr": 320.473,
+    "tMin_err": 128.951,
+    "ecc": 0.413,
+    "ecc_err": 0.23,
+    "beta": 3.025,
+    "beta_err": 5.967,
+    "searchBounds": {
+     "massRatio": [
+      "0.154",
+      "7.558"
+     ],
+     "rMin": [
+      "0.147",
+      "95.170"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "780.897"
+     ],
+     "beta": [
+      "0.002",
+      "3912.572"
+     ]
+    }
+   },
+   "image": "images/Arp_247.jpg",
+   "z": 0.018117,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.36796,
+   "hasImage": true
+  },
+  {
+   "order": 20,
+   "name": "Arp 241",
+   "sdssId": "587739407868690486",
+   "ra": 219.46,
+   "dec": 30.483194,
+   "aliases": "UGC 9425, 14375117+3028472",
+   "fit": {
+    "massRatio": 0.677,
+    "massRatio_err": 0.244,
+    "rMin_kpc": 7.389,
+    "rMin_err": 1.926,
+    "tMin_Myr": 329.135,
+    "tMin_err": 121.723,
+    "ecc": 0.219,
+    "ecc_err": 0.048,
+    "beta": 2.049,
+    "beta_err": 2.282,
+    "searchBounds": {
+     "massRatio": [
+      "0.130",
+      "28.202"
+     ],
+     "rMin": [
+      "0.064",
+      "150.308"
+     ],
+     "tMin": [
+      "0.000",
+      "8637.188"
+     ],
+     "ecc": [
+      "0.001",
+      "328.179"
+     ],
+     "beta": [
+      "0.002",
+      "17007.528"
+     ]
+    }
+   },
+   "image": "images/Arp_241.jpg",
+   "z": 0.034724,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.69131,
+   "hasImage": true
+  },
+  {
+   "order": 21,
+   "name": "Arp 313",
+   "sdssId": "587739505541578866",
+   "ra": 179.402083,
+   "dec": 32.277722,
+   "aliases": "NGC 3994, UGC 6936, 11573685+3216400",
+   "fit": {
+    "massRatio": 1.887,
+    "massRatio_err": 1.087,
+    "rMin_kpc": 17.512,
+    "rMin_err": 3.274,
+    "tMin_Myr": 109.134,
+    "tMin_err": 37.686,
+    "ecc": 6.253,
+    "ecc_err": 3.008,
+    "beta": 0.261,
+    "beta_err": 0.256,
+    "searchBounds": {
+     "massRatio": [
+      "0.150",
+      "6.748"
+     ],
+     "rMin": [
+      "0.226",
+      "127.950"
+     ],
+     "tMin": [
+      "0.000",
+      "8602.542"
+     ],
+     "ecc": [
+      "0.002",
+      "1065.720"
+     ],
+     "beta": [
+      "0.001",
+      "2176.819"
+     ]
+    }
+   },
+   "image": "images/Arp_313.jpg",
+   "z": 0.010304,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.21127,
+   "hasImage": true
+  },
+  {
+   "order": 22,
+   "name": "Arp 107",
+   "sdssId": "587739646743412797",
+   "ra": 163.061667,
+   "dec": 30.057889,
+   "aliases": "UGC 5984, 10521491+3003289",
+   "fit": {
+    "massRatio": 1.353,
+    "massRatio_err": 0.474,
+    "rMin_kpc": 6.741,
+    "rMin_err": 5.656,
+    "tMin_Myr": 420.946,
+    "tMin_err": 86.802,
+    "ecc": 0.4,
+    "ecc_err": 0.246,
+    "beta": 3.651,
+    "beta_err": 1.185,
+    "searchBounds": {
+     "massRatio": [
+      "0.167",
+      "21.220"
+     ],
+     "rMin": [
+      "0.203",
+      "201.900"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "732.706"
+     ],
+     "beta": [
+      "0.001",
+      "2552.681"
+     ]
+    }
+   },
+   "image": "images/Arp_107.jpg",
+   "z": 0.03451,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.68722,
+   "hasImage": true
+  },
+  {
+   "order": 23,
+   "name": "Arp 294",
+   "sdssId": "587739647284805725",
+   "ra": 174.926667,
+   "dec": 31.909278,
+   "aliases": "NGC 3786, UGC 6621, 11394247+3154337",
+   "fit": {
+    "massRatio": 0.648,
+    "massRatio_err": 0.22,
+    "rMin_kpc": 62.351,
+    "rMin_err": 18.874,
+    "tMin_Myr": 119.528,
+    "tMin_err": 56.493,
+    "ecc": 1.491,
+    "ecc_err": 2.354,
+    "beta": 0.078,
+    "beta_err": 0.136,
+    "searchBounds": {
+     "massRatio": [
+      "0.146",
+      "4.625"
+     ],
+     "rMin": [
+      "0.231",
+      "142.814"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.001",
+      "325.053"
+     ],
+     "beta": [
+      "0.003",
+      "1459.349"
+     ]
+    }
+   },
+   "image": "images/Arp_294.jpg",
+   "z": 0.128652,
+   "zKind": "photo",
+   "kpcPerArcsec": 2.29663,
+   "hasImage": true
+  },
+  {
+   "order": 24,
+   "name": "Arp 172",
+   "sdssId": "587739707420967061",
+   "ra": 241.387917,
+   "dec": 17.601278,
+   "aliases": "IC1178, UGC 10188, 16053310+1736048",
+   "fit": {
+    "massRatio": 1.4,
+    "massRatio_err": 0.343,
+    "rMin_kpc": 2.146,
+    "rMin_err": 0.519,
+    "tMin_Myr": 155.906,
+    "tMin_err": 19.514,
+    "ecc": 0.523,
+    "ecc_err": 0.15,
+    "beta": 37.757,
+    "beta_err": 8.052,
+    "searchBounds": {
+     "massRatio": [
+      "0.103",
+      "10.923"
+     ],
+     "rMin": [
+      "0.111",
+      "148.919"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.001",
+      "151.476"
+     ],
+     "beta": [
+      "0.013",
+      "8819.703"
+     ]
+    }
+   },
+   "image": "images/Arp_172.jpg",
+   "z": 0.034178,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.68088,
+   "hasImage": true
+  },
+  {
+   "order": 25,
+   "name": "Arp 302",
+   "sdssId": "587739721376202860",
+   "ra": 224.2525,
+   "dec": 24.617583,
+   "aliases": "UGC 9618, 14570066+2437026",
+   "fit": {
+    "massRatio": 2.692,
+    "massRatio_err": 1.014,
+    "rMin_kpc": 68.384,
+    "rMin_err": 27.017,
+    "tMin_Myr": 100.473,
+    "tMin_err": 844.061,
+    "ecc": 28.31,
+    "ecc_err": 12.875,
+    "beta": 0.017,
+    "beta_err": 7.741,
+    "searchBounds": {
+     "massRatio": [
+      "0.143",
+      "30.496"
+     ],
+     "rMin": [
+      "0.098",
+      "141.524"
+     ],
+     "tMin": [
+      "0.000",
+      "8649.314"
+     ],
+     "ecc": [
+      "0.002",
+      "668.570"
+     ],
+     "beta": [
+      "0.002",
+      "8194.417"
+     ]
+    }
+   },
+   "image": "images/Arp_302.jpg",
+   "z": 0.032746,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.65347,
+   "hasImage": true
+  },
+  {
+   "order": 26,
+   "name": "Arp 242",
+   "sdssId": "587739721900163101",
+   "ra": 191.5425,
+   "dec": 30.731306,
+   "aliases": "NGC 4676, UGC 7938, 12461005+3043546",
+   "fit": {
+    "massRatio": 0.597,
+    "massRatio_err": 0.522,
+    "rMin_kpc": 15.99,
+    "rMin_err": 5.001,
+    "tMin_Myr": 429.607,
+    "tMin_err": 192.852,
+    "ecc": 0.702,
+    "ecc_err": 0.274,
+    "beta": 0.655,
+    "beta_err": 2.415,
+    "searchBounds": {
+     "massRatio": [
+      "0.174",
+      "6.803"
+     ],
+     "rMin": [
+      "0.081",
+      "150.089"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "198.824"
+     ],
+     "beta": [
+      "0.005",
+      "12756.872"
+     ]
+    }
+   },
+   "image": "images/Arp_242.jpg",
+   "z": 0.021864,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.44206,
+   "hasImage": true
+  },
+  {
+   "order": 27,
+   "name": "Arp 72",
+   "sdssId": "587739810496708646",
+   "ra": 236.7425,
+   "dec": 17.884556,
+   "aliases": "NGC 5996, UGC 10033, 15465887+1753031",
+   "fit": {
+    "massRatio": 1.379,
+    "massRatio_err": 0.956,
+    "rMin_kpc": 14.658,
+    "rMin_err": 1.651,
+    "tMin_Myr": 162.835,
+    "tMin_err": 83.128,
+    "ecc": 4.699,
+    "ecc_err": 1.909,
+    "beta": 0.207,
+    "beta_err": 0.191,
+    "searchBounds": {
+     "massRatio": [
+      "0.599",
+      "10.777"
+     ],
+     "rMin": [
+      "0.213",
+      "157.070"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.002",
+      "5138.944"
+     ],
+     "beta": [
+      "0.000",
+      "736.442"
+     ]
+    }
+   },
+   "image": "images/Arp_72.jpg",
+   "z": 0.010971,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.22477,
+   "hasImage": true
+  },
+  {
+   "order": 28,
+   "name": "Arp 101",
+   "sdssId": "587739845393580192",
+   "ra": 241.132083,
+   "dec": 14.819139,
+   "aliases": "UGC 10169, 16043172+1449091",
+   "fit": {
+    "massRatio": 0.864,
+    "massRatio_err": 0.031,
+    "rMin_kpc": 4.873,
+    "rMin_err": 1.353,
+    "tMin_Myr": 214.804,
+    "tMin_err": 20.872,
+    "ecc": 0.636,
+    "ecc_err": 0.158,
+    "beta": 4.46,
+    "beta_err": 2.73,
+    "searchBounds": {
+     "massRatio": [
+      "0.097",
+      "9.110"
+     ],
+     "rMin": [
+      "0.137",
+      "71.771"
+     ],
+     "tMin": [
+      "0.000",
+      "8642.384"
+     ],
+     "ecc": [
+      "0.014",
+      "680.411"
+     ],
+     "beta": [
+      "0.003",
+      "3324.229"
+     ]
+    }
+   },
+   "image": "images/Arp_101.jpg",
+   "z": 0.015501,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.31583,
+   "hasImage": true
+  },
+  {
+   "order": 29,
+   "name": "Arp 58",
+   "sdssId": "587741391565422775",
+   "ra": 127.99,
+   "dec": 19.21125,
+   "aliases": "UGC 4457, 08315766+1912411",
+   "fit": {
+    "massRatio": 5.944,
+    "massRatio_err": 1.206,
+    "rMin_kpc": 21.807,
+    "rMin_err": 1.751,
+    "tMin_Myr": 256.379,
+    "tMin_err": 10.929,
+    "ecc": 0.58,
+    "ecc_err": 0.169,
+    "beta": 0.713,
+    "beta_err": 0.042,
+    "searchBounds": {
+     "massRatio": [
+      "0.088",
+      "9.070"
+     ],
+     "rMin": [
+      "0.245",
+      "148.497"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "304.237"
+     ],
+     "beta": [
+      "0.004",
+      "1843.127"
+     ]
+    }
+   },
+   "image": "images/Arp_58.jpg",
+   "z": 0.03723,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.73898,
+   "hasImage": true
+  },
+  {
+   "order": 30,
+   "name": "Arp 105",
+   "sdssId": "587741532784361481",
+   "ra": 167.80375,
+   "dec": 28.711778,
+   "aliases": "NGC 3561, UGC 6224, 11111301+2842423",
+   "fit": {
+    "massRatio": 0.211,
+    "massRatio_err": 0.035,
+    "rMin_kpc": 21.427,
+    "rMin_err": 3.171,
+    "tMin_Myr": 278.898,
+    "tMin_err": 30.897,
+    "ecc": 1.784,
+    "ecc_err": 0.16,
+    "beta": 0.649,
+    "beta_err": 0.223,
+    "searchBounds": {
+     "massRatio": [
+      "0.019",
+      "393.639"
+     ],
+     "rMin": [
+      "0.069",
+      "120.486"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.002",
+      "804.968"
+     ],
+     "beta": [
+      "0.002",
+      "8977.519"
+     ]
+    }
+   },
+   "image": "images/Arp_105.jpg",
+   "z": 0.02848,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.57126,
+   "hasImage": true
+  },
+  {
+   "order": 31,
+   "name": "Arp 97",
+   "sdssId": "587741534400217110",
+   "ra": 181.439167,
+   "dec": 31.058611,
+   "aliases": "UGC 7085A, 12054544+3103313",
+   "fit": {
+    "massRatio": 0.781,
+    "massRatio_err": 0.113,
+    "rMin_kpc": 17.261,
+    "rMin_err": 3.428,
+    "tMin_Myr": 325.67,
+    "tMin_err": 35.396,
+    "ecc": 0.824,
+    "ecc_err": 0.331,
+    "beta": 0.281,
+    "beta_err": 0.202,
+    "searchBounds": {
+     "massRatio": [
+      "0.415",
+      "9.752"
+     ],
+     "rMin": [
+      "0.085",
+      "146.805"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.001",
+      "1434.159"
+     ],
+     "beta": [
+      "0.002",
+      "3633.394"
+     ]
+    }
+   },
+   "image": "images/Arp_97.jpg",
+   "z": 0.02306,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.46557,
+   "hasImage": true
+  },
+  {
+   "order": 32,
+   "name": "Arp 305",
+   "sdssId": "587741602030026825",
+   "ra": 179.69,
+   "dec": 27.452056,
+   "aliases": "NGC 4017, UGC 6967, 11584562+2727084",
+   "fit": {
+    "massRatio": 1.809,
+    "massRatio_err": 0.097,
+    "rMin_kpc": 12.595,
+    "rMin_err": 2.398,
+    "tMin_Myr": 472.915,
+    "tMin_err": 45.624,
+    "ecc": 1.549,
+    "ecc_err": 0.556,
+    "beta": 0.59,
+    "beta_err": 0.219,
+    "searchBounds": {
+     "massRatio": [
+      "0.194",
+      "27.380"
+     ],
+     "rMin": [
+      "0.164",
+      "91.844"
+     ],
+     "tMin": [
+      "0.000",
+      "6423.324"
+     ],
+     "ecc": [
+      "0.006",
+      "1323.764"
+     ],
+     "beta": [
+      "0.001",
+      "1759.599"
+     ]
+    }
+   },
+   "image": "images/Arp_305.jpg",
+   "z": 0.011538,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.23622,
+   "hasImage": true
+  },
+  {
+   "order": 33,
+   "name": "Arp 106",
+   "sdssId": "587741722819493915",
+   "ra": 183.899167,
+   "dec": 28.177722,
+   "aliases": "NGC 4211, UGC 7277, 12153585+2810396",
+   "fit": {
+    "massRatio": 6.686,
+    "massRatio_err": 0.432,
+    "rMin_kpc": 7.088,
+    "rMin_err": 1.134,
+    "tMin_Myr": 124.725,
+    "tMin_err": 45.391,
+    "ecc": 0.626,
+    "ecc_err": 0.214,
+    "beta": 2.988,
+    "beta_err": 1.579,
+    "searchBounds": {
+     "massRatio": [
+      "1.194",
+      "14.136"
+     ],
+     "rMin": [
+      "0.083",
+      "147.802"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.000",
+      "179.424"
+     ],
+     "beta": [
+      "0.004",
+      "11209.197"
+     ]
+    }
+   },
+   "image": "images/Arp_106.jpg",
+   "z": 0.166741,
+   "zKind": "photo",
+   "kpcPerArcsec": 2.85276,
+   "hasImage": true
+  },
+  {
+   "order": 34,
+   "name": "NGC 2802/3",
+   "sdssId": "587741817851674654",
+   "ra": 139.1725,
+   "dec": 18.963722,
+   "aliases": "UGC 4897, 09164141+1857487",
+   "fit": null,
+   "image": "images/NGC_2802/3.jpg",
+   "z": 0.029168,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.58458,
+   "hasImage": false
+  },
+  {
+   "order": 35,
+   "name": "Arp 301",
+   "sdssId": "587741829658181698",
+   "ra": 167.464167,
+   "dec": 24.261611,
+   "aliases": "UGC 6207, 11095147+2415419",
+   "fit": {
+    "massRatio": 0.759,
+    "massRatio_err": 0.524,
+    "rMin_kpc": 16.455,
+    "rMin_err": 2.599,
+    "tMin_Myr": 65.827,
+    "tMin_err": 59.043,
+    "ecc": 1.301,
+    "ecc_err": 0.558,
+    "beta": 0.93,
+    "beta_err": 0.328,
+    "searchBounds": {
+     "massRatio": [
+      "0.016",
+      "284.456"
+     ],
+     "rMin": [
+      "0.092",
+      "197.674"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.000",
+      "882.459"
+     ],
+     "beta": [
+      "0.002",
+      "11681.497"
+     ]
+    }
+   },
+   "image": "images/Arp_301.jpg",
+   "z": 0.020104,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.40734,
+   "hasImage": true
+  },
+  {
+   "order": 36,
+   "name": "Arp 89",
+   "sdssId": "587742010583941189",
+   "ra": 130.66625,
+   "dec": 14.285639,
+   "aliases": "NGC 2648, UGC 4541, 08423982+1417078",
+   "fit": {
+    "massRatio": 1.655,
+    "massRatio_err": 5.332,
+    "rMin_kpc": 25.408,
+    "rMin_err": 4.28,
+    "tMin_Myr": 452.127,
+    "tMin_err": 128.352,
+    "ecc": 0.987,
+    "ecc_err": 0.441,
+    "beta": 0.292,
+    "beta_err": 0.242,
+    "searchBounds": {
+     "massRatio": [
+      "0.185",
+      "21.114"
+     ],
+     "rMin": [
+      "0.153",
+      "147.430"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "1136.358"
+     ],
+     "beta": [
+      "0.001",
+      "2150.949"
+     ]
+    }
+   },
+   "image": "images/Arp_89.jpg",
+   "z": 0.00714165,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.147,
+   "hasImage": true
+  },
+  {
+   "order": 37,
+   "name": "Arp 87",
+   "sdssId": "587742014353702970",
+   "ra": 175.183333,
+   "dec": 22.429417,
+   "aliases": "NGC 3808, UGC 6643, 11404420+2225459",
+   "fit": {
+    "massRatio": 0.868,
+    "massRatio_err": 0.261,
+    "rMin_kpc": 11.147,
+    "rMin_err": 2.234,
+    "tMin_Myr": 329.135,
+    "tMin_err": 103.689,
+    "ecc": 1.806,
+    "ecc_err": 0.146,
+    "beta": 0.522,
+    "beta_err": 0.105,
+    "searchBounds": {
+     "massRatio": [
+      "0.136",
+      "19.277"
+     ],
+     "rMin": [
+      "0.122",
+      "138.027"
+     ],
+     "tMin": [
+      "0.000",
+      "8538.447"
+     ],
+     "ecc": [
+      "0.003",
+      "2021.211"
+     ],
+     "beta": [
+      "0.001",
+      "2485.946"
+     ]
+    }
+   },
+   "image": "images/Arp_87.jpg",
+   "z": 0.023868,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.48141,
+   "hasImage": true
+  },
+  {
+   "order": 38,
+   "name": "Arp 191",
+   "sdssId": "587742571610243080",
+   "ra": 166.836667,
+   "dec": 18.432944,
+   "aliases": "UGC 6175, 11072082+1826018",
+   "fit": {
+    "massRatio": 0.602,
+    "massRatio_err": 0.077,
+    "rMin_kpc": 9.236,
+    "rMin_err": 2.566,
+    "tMin_Myr": 147.244,
+    "tMin_err": 32.344,
+    "ecc": 1.295,
+    "ecc_err": 0.517,
+    "beta": 1.916,
+    "beta_err": 2.567,
+    "searchBounds": {
+     "massRatio": [
+      "0.053",
+      "8.506"
+     ],
+     "rMin": [
+      "0.160",
+      "230.897"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.000",
+      "126.375"
+     ],
+     "beta": [
+      "0.003",
+      "4413.198"
+     ]
+    }
+   },
+   "image": "images/Arp_191.jpg",
+   "z": 0.059578,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.15164,
+   "hasImage": true
+  },
+  {
+   "order": 39,
+   "name": "Arp 237",
+   "sdssId": "587745402001817662",
+   "ra": 141.930833,
+   "dec": 12.28725,
+   "aliases": "UGC 5044, 09274356+1217154",
+   "fit": {
+    "massRatio": 2.413,
+    "massRatio_err": 0.317,
+    "rMin_kpc": 3.621,
+    "rMin_err": 1.768,
+    "tMin_Myr": 103.937,
+    "tMin_err": 33.587,
+    "ecc": 0.386,
+    "ecc_err": 0.119,
+    "beta": 13.322,
+    "beta_err": 8.121,
+    "searchBounds": {
+     "massRatio": [
+      "0.214",
+      "6.025"
+     ],
+     "rMin": [
+      "0.172",
+      "137.550"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.001",
+      "241.766"
+     ],
+     "beta": [
+      "0.004",
+      "3083.534"
+     ]
+    }
+   },
+   "image": "images/Arp_237.jpg",
+   "z": 0.028902,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.57943,
+   "hasImage": true
+  },
+  {
+   "order": 40,
+   "name": "Arp 181",
+   "sdssId": "587746029596311590",
+   "ra": 157.069583,
+   "dec": 79.823472,
+   "aliases": "NGC 3212, UGC 5643, 10281670+7949240",
+   "fit": {
+    "massRatio": 0.563,
+    "massRatio_err": 0.182,
+    "rMin_kpc": 2.169,
+    "rMin_err": 0.136,
+    "tMin_Myr": 20.787,
+    "tMin_err": 4.777,
+    "ecc": 0.336,
+    "ecc_err": 0.044,
+    "beta": 24.801,
+    "beta_err": 3.903,
+    "searchBounds": {
+     "massRatio": [
+      "0.109",
+      "6.013"
+     ],
+     "rMin": [
+      "0.065",
+      "148.946"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "109.481"
+     ],
+     "beta": [
+      "0.002",
+      "21124.506"
+     ]
+    }
+   },
+   "image": "images/Arp_181.jpg",
+   "z": 0.061346,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.18336,
+   "hasImage": true
+  },
+  {
+   "order": 41,
+   "name": "Arp 238",
+   "sdssId": "588011124116422756",
+   "ra": 198.879583,
+   "dec": 62.129194,
+   "aliases": "UGC 8335, 13153076+6207447",
+   "fit": {
+    "massRatio": 1.098,
+    "massRatio_err": 0.364,
+    "rMin_kpc": 13.54,
+    "rMin_err": 2.952,
+    "tMin_Myr": 58.898,
+    "tMin_err": 13.132,
+    "ecc": 0.106,
+    "ecc_err": 0.336,
+    "beta": 1.9,
+    "beta_err": 1.683,
+    "searchBounds": {
+     "massRatio": [
+      "0.197",
+      "5.019"
+     ],
+     "rMin": [
+      "0.174",
+      "275.404"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "192.612"
+     ],
+     "beta": [
+      "0.003",
+      "5201.787"
+     ]
+    }
+   },
+   "image": "images/Arp_238.jpg",
+   "z": 0.057162,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.10809,
+   "hasImage": true
+  },
+  {
+   "order": 42,
+   "name": "MCG +09-20-082",
+   "sdssId": "588013383816904792",
+   "ra": 181.164583,
+   "dec": 52.957194,
+   "aliases": "12043959+5257265",
+   "fit": null,
+   "image": "images/MCG_+09-20-082.jpg",
+   "z": 0.080801,
+   "zKind": "spec",
+   "kpcPerArcsec": 1.52361,
+   "hasImage": true
+  },
+  {
+   "order": 43,
+   "name": "Arp 297",
+   "sdssId": "588017604696408086",
+   "ra": 221.331667,
+   "dec": 38.73125,
+   "aliases": "NGC 5754, UGC 9505, 14451966+3843526",
+   "fit": {
+    "massRatio": 2.322,
+    "massRatio_err": 0.17,
+    "rMin_kpc": 18.567,
+    "rMin_err": 1.28,
+    "tMin_Myr": 562.994,
+    "tMin_err": 54.05,
+    "ecc": 0.587,
+    "ecc_err": 0.026,
+    "beta": 0.576,
+    "beta_err": 0.094,
+    "searchBounds": {
+     "massRatio": [
+      "0.068",
+      "77.628"
+     ],
+     "rMin": [
+      "0.069",
+      "146.923"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.001",
+      "937.365"
+     ],
+     "beta": [
+      "0.002",
+      "14854.786"
+     ]
+    }
+   },
+   "image": "images/Arp_297.jpg",
+   "z": 0.088315,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.65086,
+   "hasImage": true
+  },
+  {
+   "order": 44,
+   "name": "NGC 5753/5",
+   "sdssId": "588017604696408195",
+   "ra": 221.32875,
+   "dec": 38.805722,
+   "aliases": "UGC 9507, 14451887+3848206",
+   "fit": {
+    "massRatio": 1.761,
+    "massRatio_err": 0.963,
+    "rMin_kpc": 8.824,
+    "rMin_err": 3.845,
+    "tMin_Myr": 337.796,
+    "tMin_err": 93.307,
+    "ecc": 0.794,
+    "ecc_err": 0.292,
+    "beta": 1.374,
+    "beta_err": 1.092,
+    "searchBounds": {
+     "massRatio": [
+      "0.082",
+      "18.461"
+     ],
+     "rMin": [
+      "0.103",
+      "132.723"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.000",
+      "2069.538"
+     ],
+     "beta": [
+      "0.001",
+      "5754.884"
+     ]
+    }
+   },
+   "image": "images/NGC_5753/5.jpg",
+   "z": 0.059753,
+   "zKind": "spec",
+   "kpcPerArcsec": 1.15479,
+   "hasImage": false
+  },
+  {
+   "order": 45,
+   "name": "Arp 173",
+   "sdssId": "588017702948962343",
+   "ra": 222.872083,
+   "dec": 9.334833,
+   "aliases": "UGC 9561, 14512928+0920058",
+   "fit": {
+    "massRatio": 30.202,
+    "massRatio_err": 55.784,
+    "rMin_kpc": 4.775,
+    "rMin_err": 5.144,
+    "tMin_Myr": 174.961,
+    "tMin_err": 323.403,
+    "ecc": 0.341,
+    "ecc_err": 0.186,
+    "beta": 16.792,
+    "beta_err": 6.935,
+    "searchBounds": {
+     "massRatio": [
+      "0.138",
+      "1075.938"
+     ],
+     "rMin": [
+      "0.223",
+      "98.984"
+     ],
+     "tMin": [
+      "0.000",
+      "8637.188"
+     ],
+     "ecc": [
+      "0.000",
+      "171.560"
+     ],
+     "beta": [
+      "0.007",
+      "4792.330"
+     ]
+    }
+   },
+   "image": "images/Arp_173.jpg",
+   "z": 0.029352,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.58813,
+   "hasImage": true
+  },
+  {
+   "order": 46,
+   "name": "Arp 84",
+   "sdssId": "588017978901528612",
+   "ra": 209.657917,
+   "dec": 37.424694,
+   "aliases": "NGC 5395, UGC 8900, 13583793+3725284",
+   "fit": {
+    "massRatio": 4.089,
+    "massRatio_err": 0.959,
+    "rMin_kpc": 4.606,
+    "rMin_err": 3.279,
+    "tMin_Myr": 230.394,
+    "tMin_err": 31.216,
+    "ecc": 0.054,
+    "ecc_err": 0.309,
+    "beta": 4.418,
+    "beta_err": 1.349,
+    "searchBounds": {
+     "massRatio": [
+      "0.037",
+      "271.690"
+     ],
+     "rMin": [
+      "0.078",
+      "133.241"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.004",
+      "2237.097"
+     ],
+     "beta": [
+      "0.001",
+      "10030.263"
+     ]
+    }
+   },
+   "image": "images/Arp_84.jpg",
+   "z": 0.011636,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.2382,
+   "hasImage": true
+  },
+  {
+   "order": 47,
+   "name": "UGC 10650",
+   "sdssId": "588018055130710322",
+   "ra": 255.028333,
+   "dec": 23.131556,
+   "aliases": "17000690+2307533",
+   "fit": {
+    "massRatio": 0.945,
+    "massRatio_err": 0.41,
+    "rMin_kpc": 13.918,
+    "rMin_err": 3.706,
+    "tMin_Myr": 452.127,
+    "tMin_err": 59.788,
+    "ecc": 0.604,
+    "ecc_err": 0.163,
+    "beta": 0.788,
+    "beta_err": 2.122,
+    "searchBounds": {
+     "massRatio": [
+      "0.910",
+      "6.015"
+     ],
+     "rMin": [
+      "0.067",
+      "143.050"
+     ],
+     "tMin": [
+      "0.000",
+      "8654.510"
+     ],
+     "ecc": [
+      "0.000",
+      "345.020"
+     ],
+     "beta": [
+      "0.003",
+      "19540.015"
+     ]
+    }
+   },
+   "image": "images/UGC_10650.jpg",
+   "z": 0.056831,
+   "zKind": "spec",
+   "kpcPerArcsec": 1.10211,
+   "hasImage": true
+  },
+  {
+   "order": 48,
+   "name": "Arp 112",
+   "sdssId": "758874299603222717",
+   "ra": 0.36125,
+   "dec": 31.433389,
+   "aliases": "00012677+3126016",
+   "fit": {
+    "massRatio": 0.95,
+    "massRatio_err": 0.229,
+    "rMin_kpc": 5.867,
+    "rMin_err": 1.61,
+    "tMin_Myr": 58.898,
+    "tMin_err": 59.145,
+    "ecc": 0.05,
+    "ecc_err": 0.141,
+    "beta": 5.684,
+    "beta_err": 12.056,
+    "searchBounds": {
+     "massRatio": [
+      "0.007",
+      "149.897"
+     ],
+     "rMin": [
+      "0.063",
+      "149.720"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.000",
+      "171.140"
+     ],
+     "beta": [
+      "0.002",
+      "21353.400"
+     ]
+    }
+   },
+   "image": "images/Arp_112.jpg",
+   "z": 0.26089,
+   "zKind": "photo",
+   "kpcPerArcsec": 4.03398,
+   "hasImage": true
+  },
+  {
+   "order": 55,
+   "name": "Arp 274",
+   "sdssId": "587736523764334706",
+   "ra": 218.78625,
+   "dec": 5.358806,
+   "aliases": "NGC 5679, UGC 9383, 14350876+0521324",
+   "fit": {
+    "massRatio": 3.239,
+    "massRatio_err": 1.114,
+    "rMin_kpc": 59.21,
+    "rMin_err": 19.783,
+    "tMin_Myr": 0.0,
+    "tMin_err": 16.127,
+    "ecc": 16.797,
+    "ecc_err": 19.74,
+    "beta": 0.025,
+    "beta_err": 0.076,
+    "searchBounds": {
+     "massRatio": [
+      "0.067",
+      "14.916"
+     ],
+     "rMin": [
+      "0.312",
+      "142.069"
+     ],
+     "tMin": [
+      "0.000",
+      "8638.920"
+     ],
+     "ecc": [
+      "0.007",
+      "658.300"
+     ],
+     "beta": [
+      "0.003",
+      "773.381"
+     ]
+    }
+   },
+   "image": "images/Arp_274.jpg",
+   "z": 0.028898,
+   "zKind": "spec",
+   "kpcPerArcsec": 0.57935,
+   "hasImage": true
+  },
+  {
+   "order": 56,
+   "name": "Arp 146",
+   "sdssId": "587747120521216156",
+   "ra": 1.68625,
+   "dec": -6.636944,
+   "aliases": "00064479-0638136",
+   "fit": {
+    "massRatio": 0.833,
+    "massRatio_err": 0.12,
+    "rMin_kpc": 2.776,
+    "rMin_err": 1.767,
+    "tMin_Myr": 102.205,
+    "tMin_err": 17.051,
+    "ecc": 0.233,
+    "ecc_err": 0.732,
+    "beta": 14.192,
+    "beta_err": 7.284,
+    "searchBounds": {
+     "massRatio": [
+      "0.049",
+      "1.376"
+     ],
+     "rMin": [
+      "0.180",
+      "146.276"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.003",
+      "82.315"
+     ],
+     "beta": [
+      "0.004",
+      "2833.376"
+     ]
+    }
+   },
+   "image": "images/Arp_146.jpg",
+   "z": 0.100997,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.86055,
+   "hasImage": true
+  },
+  {
+   "order": 57,
+   "name": "Arp 143",
+   "sdssId": "588007005230530750",
+   "ra": 116.720417,
+   "dec": 39.032111,
+   "aliases": "NGC 2444, UGC 4016, 07465304+3901549",
+   "fit": {
+    "massRatio": 2.979,
+    "massRatio_err": 0.91,
+    "rMin_kpc": 12.117,
+    "rMin_err": 6.622,
+    "tMin_Myr": 230.394,
+    "tMin_err": 79.302,
+    "ecc": 0.694,
+    "ecc_err": 0.526,
+    "beta": 0.792,
+    "beta_err": 0.22,
+    "searchBounds": {
+     "massRatio": [
+      "0.063",
+      "13.720"
+     ],
+     "rMin": [
+      "0.153",
+      "138.341"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.000",
+      "1996.395"
+     ],
+     "beta": [
+      "0.001",
+      "2912.730"
+     ]
+    }
+   },
+   "image": "images/Arp_143.jpg",
+   "z": 0.067699,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.29621,
+   "hasImage": true
+  },
+  {
+   "order": 58,
+   "name": "Arp 70",
+   "sdssId": "758877153600208945",
+   "ra": 20.867917,
+   "dec": 30.784444,
+   "aliases": "UGC 934, 01232834+3047042",
+   "fit": {
+    "massRatio": 1.289,
+    "massRatio_err": 1.232,
+    "rMin_kpc": 19.671,
+    "rMin_err": 2.587,
+    "tMin_Myr": 271.969,
+    "tMin_err": 37.856,
+    "ecc": 1.181,
+    "ecc_err": 0.29,
+    "beta": 0.468,
+    "beta_err": 0.162,
+    "searchBounds": {
+     "massRatio": [
+      "0.016",
+      "319.669"
+     ],
+     "rMin": [
+      "0.045",
+      "212.174"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.001",
+      "1842.282"
+     ],
+     "beta": [
+      "0.001",
+      "47999.308"
+     ]
+    }
+   },
+   "image": "images/Arp_70.jpg",
+   "z": 0.066191,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.26957,
+   "hasImage": true
+  },
+  {
+   "order": 59,
+   "name": "Arp 218",
+   "sdssId": "587739720308818095",
+   "ra": 238.403333,
+   "dec": 18.609611,
+   "aliases": "UGC 10084, 15533695+1836349",
+   "fit": {
+    "massRatio": 4.121,
+    "massRatio_err": 1.406,
+    "rMin_kpc": 6.002,
+    "rMin_err": 13.07,
+    "tMin_Myr": 285.828,
+    "tMin_err": 163.671,
+    "ecc": 0.457,
+    "ecc_err": 0.333,
+    "beta": 2.704,
+    "beta_err": 6.18,
+    "searchBounds": {
+     "massRatio": [
+      "0.149",
+      "43.927"
+     ],
+     "rMin": [
+      "0.187",
+      "328.818"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "1183.856"
+     ],
+     "beta": [
+      "0.001",
+      "1910.213"
+     ]
+    }
+   },
+   "image": "images/Arp_218.jpg",
+   "z": 0.164695,
+   "zKind": "photo",
+   "kpcPerArcsec": 2.82413,
+   "hasImage": true
+  },
+  {
+   "order": 61,
+   "name": "Violin Clef",
+   "sdssId": "1237678620102623480",
+   "ra": 15.964167,
+   "dec": 3.383833,
+   "aliases": "",
+   "fit": {
+    "massRatio": 0.643,
+    "massRatio_err": 0.154,
+    "rMin_kpc": 25.472,
+    "rMin_err": 6.627,
+    "tMin_Myr": 159.37,
+    "tMin_err": 148.045,
+    "ecc": 2.523,
+    "ecc_err": 1.038,
+    "beta": 0.24,
+    "beta_err": 0.587,
+    "searchBounds": {
+     "massRatio": [
+      "0.128",
+      "1.807"
+     ],
+     "rMin": [
+      "0.262",
+      "148.960"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.005",
+      "1369.829"
+     ],
+     "beta": [
+      "0.001",
+      "1213.433"
+     ]
+    }
+   },
+   "image": "images/Violin_Clef.jpg",
+   "z": 0.076611,
+   "zKind": "photo",
+   "kpcPerArcsec": 1.45165,
+   "hasImage": true
+  },
+  {
+   "order": 49,
+   "name": "Arp 148",
+   "sdssId": "588017948272099698*",
+   "ra": 165.975833,
+   "dec": 40.849361,
+   "aliases": "11035389+4050598",
+   "fit": {
+    "massRatio": 0.388,
+    "massRatio_err": 4.235,
+    "rMin_kpc": 8.497,
+    "rMin_err": 5.781,
+    "tMin_Myr": 38.11,
+    "tMin_err": 11.462,
+    "ecc": 12.908,
+    "ecc_err": 2.523,
+    "beta": 0.239,
+    "beta_err": 0.311,
+    "searchBounds": {
+     "massRatio": [
+      "0.274",
+      "19.651"
+     ],
+     "rMin": [
+      "0.123",
+      "146.496"
+     ],
+     "tMin": [
+      "0.000",
+      "8495.140"
+     ],
+     "ecc": [
+      "0.001",
+      "597.817"
+     ],
+     "beta": [
+      "0.001",
+      "3202.354"
+     ]
+    }
+   },
+   "image": "images/Arp_148.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": true
+  },
+  {
+   "order": 50,
+   "name": "CGCG 436-030",
+   "sdssId": "587724232641937677*",
+   "ra": 20.011667,
+   "dec": 14.362056,
+   "aliases": "01200265+1421417",
+   "fit": {
+    "massRatio": 3.722,
+    "massRatio_err": 1.704,
+    "rMin_kpc": 19.466,
+    "rMin_err": 7.886,
+    "tMin_Myr": 263.308,
+    "tMin_err": 67.92,
+    "ecc": 0.977,
+    "ecc_err": 0.703,
+    "beta": 0.426,
+    "beta_err": 0.93,
+    "searchBounds": {
+     "massRatio": [
+      "0.323",
+      "11.068"
+     ],
+     "rMin": [
+      "0.134",
+      "95.978"
+     ],
+     "tMin": [
+      "0.000",
+      "8647.581"
+     ],
+     "ecc": [
+      "0.011",
+      "835.493"
+     ],
+     "beta": [
+      "0.002",
+      "2848.546"
+     ]
+    }
+   },
+   "image": "images/CGCG_436-030.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": true
+  },
+  {
+   "order": 51,
+   "name": "Arp 272",
+   "sdssId": "587739720846934449*",
+   "ra": 241.3475,
+   "dec": 17.757194,
+   "aliases": "NGC 6050, UGC 10186, 16052336+1745258",
+   "fit": {
+    "massRatio": 1.838,
+    "massRatio_err": 1.976,
+    "rMin_kpc": 8.654,
+    "rMin_err": 9.887,
+    "tMin_Myr": 363.78,
+    "tMin_err": 113.956,
+    "ecc": 0.81,
+    "ecc_err": 1.474,
+    "beta": 1.002,
+    "beta_err": 0.301,
+    "searchBounds": {
+     "massRatio": [
+      "0.140",
+      "18.966"
+     ],
+     "rMin": [
+      "0.180",
+      "151.840"
+     ],
+     "tMin": [
+      "0.000",
+      "8543.644"
+     ],
+     "ecc": [
+      "0.003",
+      "913.581"
+     ],
+     "beta": [
+      "0.001",
+      "1273.594"
+     ]
+    }
+   },
+   "image": "images/Arp_272.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": true
+  },
+  {
+   "order": 52,
+   "name": "ESO 77-14",
+   "sdssId": "*",
+   "ra": 350.269167,
+   "dec": -69.213167,
+   "aliases": "23210539-6912472",
+   "fit": {
+    "massRatio": 1.311,
+    "massRatio_err": 0.729,
+    "rMin_kpc": 3.018,
+    "rMin_err": 0.957,
+    "tMin_Myr": 93.544,
+    "tMin_err": 74.895,
+    "ecc": 0.782,
+    "ecc_err": 0.135,
+    "beta": 15.93,
+    "beta_err": 12.601,
+    "searchBounds": {
+     "massRatio": [
+      "0.112",
+      "21.132"
+     ],
+     "rMin": [
+      "0.026",
+      "149.208"
+     ],
+     "tMin": [
+      "0.000",
+      "8656.243"
+     ],
+     "ecc": [
+      "0.002",
+      "80.297"
+     ],
+     "beta": [
+      "0.002",
+      "51774.985"
+     ]
+    }
+   },
+   "image": "images/ESO_77-14.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": false
+  },
+  {
+   "order": 53,
+   "name": "NGC 5331",
+   "sdssId": "587726015081218088*",
+   "ra": 208.0675,
+   "dec": 2.100333,
+   "aliases": "NGC 5331, UGC 8774, 13521641+0206305",
+   "fit": {
+    "massRatio": 1.608,
+    "massRatio_err": 0.237,
+    "rMin_kpc": 7.681,
+    "rMin_err": 23.754,
+    "tMin_Myr": 119.528,
+    "tMin_err": 96.979,
+    "ecc": 1.998,
+    "ecc_err": 6.565,
+    "beta": 1.202,
+    "beta_err": 0.434,
+    "searchBounds": {
+     "massRatio": [
+      "0.259",
+      "7.622"
+     ],
+     "rMin": [
+      "0.220",
+      "173.170"
+     ],
+     "tMin": [
+      "0.000",
+      "8590.416"
+     ],
+     "ecc": [
+      "0.010",
+      "1432.837"
+     ],
+     "beta": [
+      "0.001",
+      "971.091"
+     ]
+    }
+   },
+   "image": "images/NGC_5331.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": true
+  },
+  {
+   "order": 54,
+   "name": "NGC 6786",
+   "sdssId": "*",
+   "ra": 287.724583,
+   "dec": 73.410278,
+   "aliases": "NGC 6786, UGC 11415, 19105392+7324362",
+   "fit": {
+    "massRatio": 2.438,
+    "massRatio_err": 0.452,
+    "rMin_kpc": 13.392,
+    "rMin_err": 2.421,
+    "tMin_Myr": 511.025,
+    "tMin_err": 106.321,
+    "ecc": 1.108,
+    "ecc_err": 0.231,
+    "beta": 0.763,
+    "beta_err": 0.229,
+    "searchBounds": {
+     "massRatio": [
+      "0.039",
+      "25.521"
+     ],
+     "rMin": [
+      "0.064",
+      "346.368"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "980.623"
+     ],
+     "beta": [
+      "0.003",
+      "18724.424"
+     ]
+    }
+   },
+   "image": "images/NGC_6786.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": false
+  },
+  {
+   "order": 60,
+   "name": "Arp 273",
+   "sdssId": "*",
+   "ra": 35.369167,
+   "dec": 39.375278,
+   "aliases": "UGC 1810, 02212870+3922326",
+   "fit": {
+    "massRatio": 2.004,
+    "massRatio_err": 2.25,
+    "rMin_kpc": 37.833,
+    "rMin_err": 12.978,
+    "tMin_Myr": 284.095,
+    "tMin_err": 214.862,
+    "ecc": 4.036,
+    "ecc_err": 1.309,
+    "beta": 0.114,
+    "beta_err": 0.246,
+    "searchBounds": {
+     "massRatio": [
+      "0.040",
+      "23.218"
+     ],
+     "rMin": [
+      "0.221",
+      "408.622"
+     ],
+     "tMin": [
+      "0.000",
+      "8652.778"
+     ],
+     "ecc": [
+      "0.007",
+      "1215.151"
+     ],
+     "beta": [
+      "0.001",
+      "1590.700"
+     ]
+    }
+   },
+   "image": "images/Arp_273.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": false
+  },
+  {
+   "order": 62,
+   "name": "Arp 244",
+   "sdssId": "*",
+   "ra": 180.470833,
+   "dec": -18.866889,
+   "aliases": "NGC 4038",
+   "fit": {
+    "massRatio": 0.758,
+    "massRatio_err": 0.397,
+    "rMin_kpc": 1.572,
+    "rMin_err": 0.692,
+    "tMin_Myr": 55.433,
+    "tMin_err": 14.895,
+    "ecc": 0.493,
+    "ecc_err": 0.139,
+    "beta": 36.021,
+    "beta_err": 33.981,
+    "searchBounds": {
+     "massRatio": [
+      "0.076",
+      "16.571"
+     ],
+     "rMin": [
+      "0.063",
+      "148.908"
+     ],
+     "tMin": [
+      "0.000",
+      "2929.299"
+     ],
+     "ecc": [
+      "0.001",
+      "464.457"
+     ],
+     "beta": [
+      "0.002",
+      "18465.811"
+     ]
+    }
+   },
+   "image": "images/Arp_244.jpg",
+   "z": null,
+   "zKind": null,
+   "kpcPerArcsec": null,
+   "hasImage": false
+  }
+ ]
+}
