@@ -323,3 +323,56 @@ And one that deliberately does **not** assert:
   does not have. It is now the largest known systematic in the morphology numbers, it is
   written down, and any future change to the default is a visible decision rather than a silent
   one.
+
+---
+
+## Stage 3 — the four modes, and the honesty problem in detective
+
+Sandbox, Detect, Tour and Atlas, plus shareable URL state and keyboard access throughout.
+
+Detective is the one worth writing about, because building it was mostly an exercise in
+refusing to fake things.
+
+It runs on real data: 62 Galaxy Zoo target systems with the published Table 4 encounter fits,
+and 56 SDSS DR18 colour cutouts. Six targets have no image because they fall outside the SDSS
+footprint, the Antennae among them, being too far south. (Note for anyone reading quickly:
+that 56 is a real, explained number, unrelated to the phantom 56 from Stage 0.)
+
+**The scale problem.** The first version laid the simulation over the observation and looked
+convincing, and it was meaningless. The image is measured in arcseconds and the simulation in
+kpc, and without the target's distance the two are unrelated: any two things can be made to
+look alike at some scale. So each target's redshift now drives a proper flat-LambdaCDM
+angular-diameter distance, and the camera is positioned so one simulated kpc covers the same
+screen distance as one observed kpc. For Arp 242, the Mice, that is 0.442 kpc/arcsec and a
+158 kpc frame. Only now does a visual match carry information, and the first thing it says is
+that the simulated discs are too small for the real system, which is exactly what an honest
+overlay is for.
+
+**Three refusals**, all surfaced in the interface rather than buried:
+
+- **Photometric redshifts are flagged as unreliable.** Arp 240's photo-z is 0.107 against a
+  true value near 0.023, which would make its physical scale wrong by roughly four. 40 of the
+  54 calibrated targets are spectroscopic; the other 14 say so on screen.
+- **Targets with no redshift say UNCALIBRATED** rather than quietly displaying a wrong scale.
+- **`beta` is not mapped.** Table 4 publishes five fitted parameters; four translate into this
+  engine directly. I have not read Holincheck et al. closely enough to know what `beta`
+  parameterises, and guessing at an angle convention is precisely how you produce a confident
+  wrong overlay.
+
+And **clamping is reported**. Several published fits sit outside what this engine models — Arp
+240's has eccentricity 3.7 and an 81 kpc pericentre — so loading them requires clamping. A
+button labelled "load published fit" that quietly loads something else is worse than one that
+refuses, so it now says what it changed.
+
+The standing caveat, in the panel every time: the published fits were obtained with JSPAM's
+potential and disc model, not this one. The numbers transfer; the result does not.
+
+## Deployment
+
+Live at **https://galaxy-collisions.pages.dev**, Cloudflare Pages free tier, following the
+existing `lenny` project's pattern. `build_dist.sh` assembles 1.5 MB across 74 files: index,
+`src/`, the target catalogue and the 56 cutouts. Test suite, benchmarks and raw Galaxy Zoo
+archives stay out.
+
+Verified **on the live URL** rather than only locally, because the deployed environment is the
+one that counts: 62 targets, 300k particles, 60 fps, no render validation errors.
