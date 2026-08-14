@@ -9,6 +9,7 @@ pre{white-space:pre-wrap}</style></head>
 import { report } from './harness.js';
 import { runPhysicsTests } from './physics.test.js';
 import { runGpuTests, createDevice } from './gpu.test.js';
+import { runMorphologyTests } from './morphology.test.js';
 
 const el = document.getElementById('out');
 try {
@@ -17,6 +18,8 @@ try {
   const { device, info } = await createDevice();
   device.addEventListener?.('uncapturederror', (e) => console.error('GPU', e.error.message));
   await runGpuTests(device, info);
+  report(el);
+  await runMorphologyTests(device);
   report(el);
 } catch (e) {
   el.textContent += '\n\nHARNESS EXCEPTION\n' + (e.stack || e.message);

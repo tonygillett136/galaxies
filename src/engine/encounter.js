@@ -32,6 +32,7 @@ export function buildEncounter(spec) {
   const {
     massRatio = 1.0, rPeri = 4.0, ecc = 1.0, tStart = -18,
     m1 = 1.0, particles = 200000, seed = 42,
+    softeningScale = 1.0,
     disc1 = {}, disc2 = {},
   } = spec;
 
@@ -40,8 +41,13 @@ export function buildEncounter(spec) {
 
   // Extended mass models. A Plummer core plus a Hernquist halo is the cheapest
   // model that has both a sensible rotation curve and a finite total mass.
-  const P1 = composite([plummer(m1 * 0.35, 0.5), hernquist(m1 * 0.65, 2.2)]);
-  const P2 = composite([plummer(m2 * 0.35, 0.5 * Math.cbrt(massRatio)),
+  //
+  // softeningScale exists so the sensitivity to it can be MEASURED. It is the
+  // classic silent knob: it changes answers without erroring, so leaving it
+  // unexposed would mean nothing could ever exercise it.
+  const eps = 0.5 * softeningScale;
+  const P1 = composite([plummer(m1 * 0.35, eps), hernquist(m1 * 0.65, 2.2)]);
+  const P2 = composite([plummer(m2 * 0.35, eps * Math.cbrt(massRatio)),
                         hernquist(m2 * 0.65, 2.2 * Math.cbrt(massRatio))]);
 
   const nu = trueAnomalyAtTime(mu, ecc, rPeri, tStart);

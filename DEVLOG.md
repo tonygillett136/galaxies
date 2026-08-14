@@ -288,8 +288,38 @@ disc spin direction. Prograde produces spectacular tails and a bridge; retrograd
 essentially none** — just mildly thickened discs.
 
 That asymmetry is the central result of Toomre & Toomre 1972, and it emerges here from the
-equations without being asked for. It is the strongest evidence so far that the physics is
-right rather than merely pretty. It is *not* a reproduction of their paper: their parameters
+equations without being asked for. It is *not* a reproduction of their paper: their parameters
 have not been read, and the scenarios named "Mice-like" and "Antennae-like" are configurations
-chosen to look right, not published fits. That distinction is in `docs/LITERATURE.md` and in
-the scenario definitions themselves.
+chosen to look right, not published fits.
+
+### Turning the picture into a number
+
+The paragraph above originally ended there, and it should not have. "Prograde produces
+spectacular tails and retrograde produces none" was a claim drawn from **looking at two
+pictures**, which is precisely what this project's own check table forbids. So it became
+`test/morphology.test.js`, which measures the tidal fraction — the share of each galaxy's own
+material now beyond 9 kpc **from its own centre**, so a wide separation cannot masquerade as a
+tail.
+
+**Prograde 27.2 per cent. Retrograde 0.2 per cent. A ratio of 131.5.**
+
+The control is the important part: same masses, same pericentre, same eccentricity, same
+epoch, same random seed, and the test asserts the two orbits are identical to 1e-6 (both give
+separation 14.258) before comparing. The only difference is the sign of the disc spin. Without
+that assertion the result would only show that two scenarios differ, not *why*.
+
+Two more, because a number that has not been challenged is not a result:
+
+- **Not a resolution artefact.** 27.09 / 27.18 / 27.12 per cent across a 4x range of particle
+  count. Spread 0.3 per cent.
+- **Not a timestep artefact.** 27.18 / 27.18 / 27.19 per cent across a 4x range of timestep at
+  fixed physical end time. Spread 0.0 per cent.
+
+And one that deliberately does **not** assert:
+
+- **Softening changes the answer.** 27.98 / 27.18 / 24.80 per cent at 0.5x / 1x / 2x, an 11.3
+  per cent spread. This is recorded rather than bounded, because the honest expectation is that
+  softening matters, and pretending otherwise would be inventing an insensitivity the physics
+  does not have. It is now the largest known systematic in the morphology numbers, it is
+  written down, and any future change to the default is a visible decision rather than a silent
+  one.
