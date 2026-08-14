@@ -104,10 +104,9 @@ export class App {
     }
 
     this.camera.update();
-    this.renderer.render(
-      this.ctx.getCurrentTexture().createView(),
-      { posBuf: this.sim.posBuf, velBuf: this.sim.velBuf, count: this.sim.count },
-      this.camera, now * 0.001);
+    // pass the sim itself: the renderer needs orbit.galaxies for the per-galaxy
+    // near/far dust split
+    this.renderer.render(this.ctx.getCurrentTexture().createView(), this.sim, this.camera, now * 0.001);
 
     this.updateInstruments(frameMs);
     requestAnimationFrame(() => this.frame());
@@ -183,6 +182,7 @@ export class App {
     bind('intensity', (v) => { rs.intensity = v; }, (v) => v.toFixed(3));
     bind('exposure', (v) => { rs.exposure = v; });
     bind('bloom', (v) => { rs.bloomMix = v; });
+    bind('dust', (v) => { rs.dustStrength = v; }, (v) => v.toFixed(1));
 
     $('colour').onchange = (e) => { rs.colourMode = parseInt(e.target.value, 10); };
     $('science').onchange = (e) => {

@@ -16,8 +16,12 @@ struct Uniforms {
   right       : vec4f,     // camera right in world space
   up          : vec4f,     // camera up in world space
   eye         : vec4f,
-  params      : vec4f,     // x = splat world size, y = intensity, z = minPixels, w = viewportH
-  params2     : vec4f,     // x = colourMode, y = time, z = fadeNear, w = aspect
+  params      : vec4f,     // x = splat world size, y = intensity, z = minPixels, w = wpp/unit
+  params2     : vec4f,     // x = colourMode, y = time, z = dustStrength, w = aspect
+  forward     : vec4f,     // camera forward, for view-depth without the view matrix
+  g0          : vec4f,     // galaxy 0 centre (xyz)
+  g1          : vec4f,     // galaxy 1 centre (xyz)
+  dust        : vec4f,     // x = inner hole scale, y = outer scale, z = strength, w = slab softness
 };
 
 @group(0) @binding(0) var<uniform> U : Uniforms;
@@ -29,6 +33,8 @@ struct VSOut {
   @location(0) uv     : vec2f,
   @location(1) colour : vec3f,
   @location(2) weight : f32,
+  @location(3) nearSide : f32,   // 1 if in front of its own galaxy's centre
+  @location(4) dustW    : f32,   // dust column contribution
 };
 
 /**
@@ -99,17 +105,92 @@ fn vs(@builtin(vertex_index) vi : u32, @builtin(instance_index) ii : u32) -> VSO
   // "invalid command buffer" warnings that say nothing about the cause.
   let refSize = U.params.x;
   out.weight = U.params.y * (refSize * refSize) / (size * size);
+
+  // --- two-slab dust ---
+  //
+  // Real dust lanes are the near side of a disc silhouetted against the far
+  // side of the same disc. Reproducing that exactly needs back-to-front sorting
+  // of every particle every frame. Instead each particle is classified against
+  // ITS OWN galaxy's centre depth: material in front absorbs, material behind
+  // is absorbed. It is a two-slab approximation of radiative transfer, it costs
+  // one comparison, and it puts the dark lanes where they actually belong.
+  //
+  // Approximate, and labelled as such: the science view disables it entirely.
+  let centre = select(U.g0.xyz, U.g1.xyz, originId > 0.5);
+  let depthP = dot(p.xyz - U.eye.xyz, U.forward.xyz);
+  let depthC = dot(centre  - U.eye.xyz, U.forward.xyz);
+  // Smooth, not binary. A hard classification puts a visible edge through the
+  // picture wherever a diffuse sheet crosses its own galaxy's centre depth, and
+  // it is also worse physics: material near the mid-depth genuinely both
+  // absorbs and is absorbed. The transition width is a few kpc, the scale over
+  // which a disc actually has depth.
+  out.nearSide = 1.0 - smoothstep(-U.dust.w, U.dust.w, depthP - depthC);
+
+  // Dust traces the cold disc: suppressed in the centre, falling off outside.
+  // Uses birth radius, so dust travels with the material it was born among,
+  // which is the right behaviour when a tail is drawn out of the disc.
+  let rb = birthR;
+  let hole = 1.0 - exp(-rb / max(U.dust.x, 1e-3));
+  out.dustW = U.dust.z * hole * exp(-rb / max(U.dust.y, 1e-3));
   return out;
 }
 
+struct FragOut {
+  @location(0) far  : vec4f,   // emission behind its galaxy's centre
+  @location(1) near : vec4f,   // emission in front, unattenuated
+  @location(2) tau  : vec4f,   // near-side dust optical depth (r16float, .x used)
+};
+
 @fragment
-fn fs(in : VSOut) -> @location(0) vec4f {
+fn fs(in : VSOut) -> FragOut {
   let r2 = dot(in.uv, in.uv);
   if (r2 > 1.0) { discard; }
   // Gaussian profile, not a hard disc. This is what makes overlapping splats
   // read as continuous light instead of as a pile of circles.
   let g = exp(-3.2 * r2) - exp(-3.2);
-  return vec4f(in.colour * (g * in.weight), g * in.weight);
+  let e = vec4f(in.colour * (g * in.weight), g * in.weight);
+
+  var o : FragOut;
+  o.far  = e * (1.0 - in.nearSide);
+  o.near = e * in.nearSide;
+  o.tau  = vec4f(g * in.dustW * in.nearSide, 0.0, 0.0, 0.0);
+  return o;
+}
+`;
+
+/**
+ * Combine the two emission slabs through the dust column:
+ *   I = I_far * exp(-tau) + I_near
+ * which is the two-slab solution of the radiative transfer equation with the
+ * absorber in front of the far source. Written before bloom, so the dark lanes
+ * are dark in the bloom too rather than glowing through it.
+ */
+export const COMBINE_WGSL = /* wgsl */ `
+@group(0) @binding(0) var samp : sampler;
+@group(0) @binding(1) var farT : texture_2d<f32>;
+@group(0) @binding(2) var nearT: texture_2d<f32>;
+@group(0) @binding(3) var tauT : texture_2d<f32>;
+
+struct VOut { @builtin(position) clip : vec4f, @location(0) uv : vec2f };
+
+@vertex
+fn vsFull(@builtin(vertex_index) vi : u32) -> VOut {
+  var UV = array<vec2f, 6>(
+    vec2f(0.0, 1.0), vec2f(1.0, 1.0), vec2f(0.0, 0.0),
+    vec2f(0.0, 0.0), vec2f(1.0, 1.0), vec2f(1.0, 0.0));
+  let uv = UV[vi];
+  var o : VOut;
+  o.clip = vec4f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.0, 1.0);
+  o.uv = uv;
+  return o;
+}
+
+@fragment
+fn fsCombine(in : VOut) -> @location(0) vec4f {
+  let f = textureSample(farT,  samp, in.uv);
+  let n = textureSample(nearT, samp, in.uv);
+  let t = textureSample(tauT,  samp, in.uv).x;
+  return vec4f(f.rgb * exp(-t) + n.rgb, f.a + n.a);
 }
 `;
 
