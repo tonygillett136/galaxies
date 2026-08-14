@@ -14,13 +14,28 @@
 
 const acc = [0, 0, 0];
 
-/** Abramowitz & Stegun 7.1.26; max abs error 1.5e-7, ample here. */
-function erf(x) {
+/**
+ * Abramowitz & Stegun 7.1.26. Max absolute error 1.5e-7.
+ *
+ *   erf(x) = 1 - (a1 t + a2 t^2 + a3 t^3 + a4 t^4 + a5 t^5) exp(-x^2)
+ *
+ * The exponential multiplies the WHOLE polynomial. My first version applied it
+ * to the last term only, which is wrong by up to 0.149 absolute — erf(3) came
+ * out as 0.9494 instead of 0.99998 — so every dynamical friction magnitude was
+ * wrong. It was found by a reviewer reading the expression, not by any test,
+ * because the friction tests only asserted that energy fell and the orbit
+ * decayed, and a wrong-by-15%-of-full-scale erf still does both.
+ *
+ * That is the lesson worth keeping: an assertion on the SIGN of an effect
+ * cannot detect an error in its MAGNITUDE. There is now a direct check against
+ * known values of erf.
+ */
+export function erf(x) {
   const s = Math.sign(x); x = Math.abs(x);
   const t = 1 / (1 + 0.3275911 * x);
-  const y = 1 - ((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t
-                 - 0.284496736) * t * t - 0.254829592 * t * Math.exp(-x * x);
-  return s * y;
+  const poly = t * (0.254829592 + t * (-0.284496736 + t * (1.421413741
+             + t * (-1.453152027 + t * 1.061405429))));
+  return s * (1 - poly * Math.exp(-x * x));
 }
 
 export class RestrictedSim {
@@ -64,40 +79,52 @@ export class RestrictedSim {
     const gs = this.galaxies;
     for (const g of gs) { g.acc[0] = 0; g.acc[1] = 0; g.acc[2] = 0; }
 
-    // Galaxy-galaxy, SYMMETRISED.
+    // Galaxy-galaxy: the MUTUAL force between two extended distributions,
+    // summed over component pairs.
     //
-    // Each galaxy feels the other's extended potential rather than a point mass,
-    // because at pericentre the separation is comparable to the scale radii.
-    // But evaluating each side independently violates Newton's third law as soon
-    // as the two profiles differ: a_12 samples galaxy 2's enclosed-mass profile
-    // at d while a_21 samples galaxy 1's, and m1*M2,enc(d) != m2*M1,enc(d) when
-    // the scale radii differ. Measured before this fix: at mass ratio 0.1 and
-    // separation 2 the force on the primary was 34 per cent larger than the
-    // force on the secondary, so momentum was not conserved in any unequal-mass
-    // encounter — which is all of them except the symmetric case.
+    // Two wrong versions preceded this one and both are worth recording.
     //
-    // The pair force is therefore computed once, as the mean of the two
-    // one-sided estimates, and applied equal and opposite. That is exactly
-    // momentum-conserving by construction, reduces to the correct answer when
-    // the profiles match, and its remaining error is in the MAGNITUDE of the
-    // close-passage force rather than in a conservation law. Asserted in
-    // test/physics.test.js across mass ratios with deliberately mismatched scales.
+    // First, each galaxy felt the other's potential evaluated one-sidedly. That
+    // breaks Newton's third law as soon as the profiles differ, because a_12
+    // samples galaxy 2's enclosed mass at d while a_21 samples galaxy 1's:
+    // measured 34 per cent force asymmetry at mass ratio 0.1.
+    //
+    // Second, I replaced it with the MEAN of the two one-sided estimates. That
+    // is exactly momentum-conserving, and it is also 2.83x too strong at close
+    // separation — a reviewer measured 2.9x to 4.5x. Both one-sided estimates
+    // use the other body's full mass at d, which double-counts the softening
+    // that each extended profile already provides.
+    //
+    // The right answer is the convolution of the two mass distributions. For a
+    // pair of Plummer spheres that is EXACTLY a Plummer force with the scale
+    // radii combined in quadrature, so the pair kernel is
+    //
+    //     F_ij = M_i M_j * d / (d^2 + a_i^2 + a_j^2)^{3/2}
+    //
+    // summed over every component of one galaxy against every component of the
+    // other. Manifestly symmetric, exact for the Plummer components, correct as
+    // GMm/d^2 at large separation, and an approximation for the Hernquist
+    // components (whose true convolution has no closed form) that at least errs
+    // in the direction of more softening rather than less.
     for (let i = 0; i < gs.length; i++) {
       for (let j = i + 1; j < gs.length; j++) {
         const dx = gs[i].pos[0] - gs[j].pos[0];
         const dy = gs[i].pos[1] - gs[j].pos[1];
         const dz = gs[i].pos[2] - gs[j].pos[2];
+        const d2 = dx * dx + dy * dy + dz * dz;
 
-        gs[j].potential.accel(dx, dy, dz, acc);
-        const ax1 = acc[0], ay1 = acc[1], az1 = acc[2];     // accel of i, from j
-        gs[i].potential.accel(-dx, -dy, -dz, acc);
-        const ax2 = acc[0], ay2 = acc[1], az2 = acc[2];     // accel of j, from i
+        const ci = gs[i].potential.kind === 'composite' ? gs[i].potential.parts : [gs[i].potential];
+        const cj = gs[j].potential.kind === 'composite' ? gs[j].potential.parts : [gs[j].potential];
 
-        // mean of the two force estimates, along the separation
-        const fx = 0.5 * (gs[i].mass * ax1 - gs[j].mass * ax2);
-        const fy = 0.5 * (gs[i].mass * ay1 - gs[j].mass * ay2);
-        const fz = 0.5 * (gs[i].mass * az1 - gs[j].mass * az2);
-
+        let k = 0;                                  // sum of M_i M_j / (d^2 + a^2)^{3/2}
+        for (const pi of ci) {
+          for (const pj of cj) {
+            const s = d2 + pi.scale * pi.scale + pj.scale * pj.scale;
+            k += pi.mass * pj.mass / (s * Math.sqrt(s));
+          }
+        }
+        // force on i points from i towards j, i.e. along -d
+        const fx = -k * dx, fy = -k * dy, fz = -k * dz;
         gs[i].acc[0] += fx / gs[i].mass;
         gs[i].acc[1] += fy / gs[i].mass;
         gs[i].acc[2] += fz / gs[i].mass;
@@ -235,13 +262,20 @@ export class RestrictedSim {
     }
     for (let i = 0; i < gs.length; i++) {
       for (let j = i + 1; j < gs.length; j++) {
-        const d = Math.hypot(
-          gs[i].pos[0] - gs[j].pos[0],
-          gs[i].pos[1] - gs[j].pos[1],
-          gs[i].pos[2] - gs[j].pos[2]);
-        // symmetrised: neither galaxy is privileged as "the source"
-        pe += 0.5 * gs[i].mass * gs[j].potential.potential(d)
-            + 0.5 * gs[j].mass * gs[i].potential.potential(d);
+        const d2 = (gs[i].pos[0] - gs[j].pos[0]) ** 2
+                 + (gs[i].pos[1] - gs[j].pos[1]) ** 2
+                 + (gs[i].pos[2] - gs[j].pos[2]) ** 2;
+        // The potential MUST match the force law used above, component pair by
+        // component pair with quadrature-combined softening. A potential energy
+        // computed from a different law than the force is not an energy, and
+        // the conservation test built on it would be checking nothing.
+        const ci = gs[i].potential.kind === 'composite' ? gs[i].potential.parts : [gs[i].potential];
+        const cj = gs[j].potential.kind === 'composite' ? gs[j].potential.parts : [gs[j].potential];
+        for (const pi of ci) {
+          for (const pj of cj) {
+            pe -= pi.mass * pj.mass / Math.sqrt(d2 + pi.scale * pi.scale + pj.scale * pj.scale);
+          }
+        }
       }
     }
     let lx = 0, ly = 0, lz = 0;

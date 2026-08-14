@@ -14,14 +14,14 @@ import { group, check, expectChecks, close, below, above, ok, dist, norm } from 
 import * as U from '../src/engine/units.js';
 import { pointMass, plummer, hernquist, composite } from '../src/engine/potentials.js';
 import * as K from '../src/engine/kepler.js';
-import { RestrictedSim } from '../src/engine/cpu.js';
+import { RestrictedSim, erf } from '../src/engine/cpu.js';
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
 import { galaxyModel, buildEncounter } from '../src/engine/encounter.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(37);
+  expectChecks(39);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -361,6 +361,34 @@ export function runPhysicsTests() {
     return `symmetric to ${worst.toExponential(1)} across q=1.0..0.1, d=1.5..12`;
   });
 
+  check('the pair force equals the ANALYTIC Plummer convolution', () => {
+    // The check that was missing. Symmetry alone is not correctness: the
+    // previous version was perfectly symmetric AND 2.83x too strong at close
+    // separation, because both one-sided estimates used the other body's full
+    // mass at d and double-counted the softening each profile already provides.
+    //
+    // For two Plummer spheres the mutual force is EXACTLY a Plummer force with
+    // the scale radii combined in quadrature, so this has a closed-form answer
+    // to compare against rather than a tolerance chosen by hand.
+    let worst = 0, at = '';
+    for (const [M1, a1, M2, a2] of [[1, 0.5, 1, 0.5], [3, 2.0, 0.7, 0.4], [10, 5, 2, 9]]) {
+      for (const d of [0.3, 1, 4, 25, 120]) {
+        const sim = new RestrictedSim({
+          galaxies: [
+            { mass: M1, potential: plummer(M1, a1), pos: [0, 0, 0], vel: [0, 0, 0] },
+            { mass: M2, potential: plummer(M2, a2), pos: [d, 0, 0], vel: [0, 0, 0] },
+          ],
+          particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+        });
+        const F = Math.abs(sim.galaxies[0].acc[0]) * M1;
+        const want = M1 * M2 * d / Math.pow(d * d + a1 * a1 + a2 * a2, 1.5);
+        const rel = Math.abs(F - want) / want;
+        if (rel > worst) { worst = rel; at = `M=${M1}/${M2} a=${a1}/${a2} d=${d}`; }
+      }
+    }
+    return below(worst, 1e-12, `worst relative error vs the analytic convolution (${at})`);
+  });
+
   check('linear momentum is conserved for an unequal-mass encounter', () => {
     // The direct consequence of the check above, integrated. Unequal masses AND
     // unequal scales, so it exercises the case the old test could not.
@@ -428,6 +456,18 @@ export function runPhysicsTests() {
       particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
     });
   };
+
+  check('erf matches known values', () => {
+    // Added because a wrong erf shipped and no test could see it: the friction
+    // checks assert that energy FALLS and the orbit DECAYS, and an erf wrong by
+    // 15% of full scale still does both. An assertion on the sign of an effect
+    // cannot detect an error in its magnitude.
+    const REF = [[0.5, 0.5204998778], [1, 0.8427007929], [2, 0.9953222650], [3, 0.9999779095]];
+    let worst = 0;
+    for (const [x, want] of REF) worst = Math.max(worst, Math.abs(erf(x) - want));
+    ok(Math.abs(erf(-1) + erf(1)) < 1e-15, 'erf is not odd');
+    return below(worst, 2e-7, 'worst absolute error vs known values of erf');
+  });
 
   check('friction conserves linear momentum exactly', () => {
     // Dissipative but internal: it moves energy out of the orbit, never
