@@ -12,6 +12,8 @@
  * later as the mechanism for constant-memory gradients through a long rollout.
  */
 
+import { pairTable } from './pairforce.js';
+
 const acc = [0, 0, 0];
 
 /**
@@ -95,34 +97,40 @@ export class RestrictedSim {
     // use the other body's full mass at d, which double-counts the softening
     // that each extended profile already provides.
     //
-    // The right answer is the convolution of the two mass distributions. For a
-    // pair of Plummer spheres that is EXACTLY a Plummer force with the scale
-    // radii combined in quadrature, so the pair kernel is
+    // The right answer is the convolution of the two mass distributions, and it
+    // has no elementary closed form.
     //
-    //     F_ij = M_i M_j * d / (d^2 + a_i^2 + a_j^2)^{3/2}
+    // ROUND 2 USED ONE ANYWAY: F = M_i M_j d / (d^2 + a_i^2 + a_j^2)^{3/2}, under
+    // a comment asserting it was "exact for the Plummer components" and erred
+    // "in the direction of more softening rather than less". Round 3 measured it
+    // against quadrature and BOTH halves were false. Summed over a real galaxy
+    // pair it is 1.2x too strong at 5 kpc, 2.35x at 16, and 2.65x at 25 — the
+    // shipped prograde scenario's own pericentre — and for Plummer-Plummer it is
+    // 1.29x too strong at d=5, not exact. The convolution of two Plummer
+    // DENSITIES is not a Plummer density; only a single Plummer sphere's
+    // POTENTIAL has the softened point-mass form, which is what I confused.
     //
-    // summed over every component of one galaxy against every component of the
-    // other. Manifestly symmetric, exact for the Plummer components, correct as
-    // GMm/d^2 at large separation, and an approximation for the Hernquist
-    // components (whose true convolution has no closed form) that at least errs
-    // in the direction of more softening rather than less.
+    // The solver hid it: it retunes the Kepler pericentre until the executed
+    // r_min matches the request, so the DISTANCE of closest approach stayed
+    // right while the SPEED through it did not.
+    //
+    // src/engine/pairforce.js now computes the exact force and the exact mutual
+    // potential energy by quadrature and tabulates them. See that file for the
+    // derivation and for the checks: |F| = dW/dd to 1.00000 between two
+    // independently derived integrals, and the point-mass limit to 2e-6.
     for (let i = 0; i < gs.length; i++) {
       for (let j = i + 1; j < gs.length; j++) {
         const dx = gs[i].pos[0] - gs[j].pos[0];
         const dy = gs[i].pos[1] - gs[j].pos[1];
         const dz = gs[i].pos[2] - gs[j].pos[2];
         const d2 = dx * dx + dy * dy + dz * dz;
+        const d = Math.sqrt(d2);
 
-        const ci = gs[i].potential.kind === 'composite' ? gs[i].potential.parts : [gs[i].potential];
-        const cj = gs[j].potential.kind === 'composite' ? gs[j].potential.parts : [gs[j].potential];
+        // |F| from the table, converted to the per-axis coefficient k = |F|/d so
+        // the equal-and-opposite application below is unchanged.
+        const tab = pairTable(gs[i].potential, gs[j].potential);
+        const k = d > 1e-12 ? tab.force(d) / d : 0;
 
-        let k = 0;                                  // sum of M_i M_j / (d^2 + a^2)^{3/2}
-        for (const pi of ci) {
-          for (const pj of cj) {
-            const s = d2 + pi.scale * pi.scale + pj.scale * pj.scale;
-            k += pi.mass * pj.mass / (s * Math.sqrt(s));
-          }
-        }
         // force on i points from i towards j, i.e. along -d
         const fx = -k * dx, fy = -k * dy, fz = -k * dz;
         gs[i].acc[0] += fx / gs[i].mass;
@@ -186,20 +194,51 @@ export class RestrictedSim {
         // million times lower. That term is not a small correction, it is the
         // formula being used outside its domain.
         //
-        // Weight is 1 while the perturber's core is no larger than the field's
-        // scale, and falls smoothly to 0 once it is three times larger. For two
-        // comparable galaxies both weights are 1, so the total is the sum of two
-        // genuinely distinct drag processes.
-        const coreOf = (P) => {
+        // ROUND 2's VERSION OF THIS GATE WAS INERT, and round 3 caught it from
+        // two independent lenses with identical arithmetic.
+        //
+        // It computed x = coreOf(perturber) / P.scale where coreOf took the MIN
+        // over components (the bulge, 0.5*rScale) while a composite's `.scale`
+        // is the MAX (the halo, 20*rScale). That is a built-in factor of 40
+        // against the gate ever firing. Measured w = 1.0000 at every mass ratio
+        // the interface can reach — 1.0, 0.6, 0.1, 0.05 — first moving at
+        // q ~ 1e-5, where the slider stops at 0.05. Meanwhile the M^2 pathology
+        // it was written to suppress is 400x at that same slider minimum.
+        //
+        // The asserting test passed because it used bare non-composite
+        // potentials, where min and max coincide: it validated a branch
+        // galaxyModel() cannot produce. A test must exercise the object the
+        // application actually builds.
+        //
+        // The criterion now compares LIKE WITH LIKE and uses the quantity the
+        // derivation actually cares about: Chandrasekhar treats the perturber as
+        // a point mass moving through a locally uniform medium, which requires
+        // its size to be small against the scale over which the background
+        // varies — here, the current separation. So x = R_perturber / d, using
+        // each galaxy's OUTER scale for both.
+        //
+        // Full weight below x = 0.2, zero by x = 0.6. "Compact" has to mean
+        // R << d. My first attempt at this ramp ran to x = 1, which still let
+        // 16.7% of the pathological term through at R/d = 0.82 — a galaxy whose
+        // radius is four fifths of the separation is not a point perturber under
+        // any reading, and the analytic Chandrasekhar check caught it.
+        //
+        // The drag is force-symmetrised, so the reaction matters as much as the
+        // term: a heavy galaxy dragged through a light satellite's wispy halo
+        // produces a force that, divided by the SATELLITE's small mass, dominates
+        // its acceleration. In the shipped check that reaction is 18.6x the
+        // satellite's own drag before gating. That is the M^2 pathology, and it
+        // reaches the light body through Newton's third law rather than directly.
+        const outerOf = (P) => {
           const parts = P.kind === 'composite' ? P.parts : [P];
-          return Math.min(...parts.map((p) => p.scale).filter((s) => s > 0));
+          return Math.max(...parts.map((p) => p.scale).filter((s) => s > 0));
         };
         const chandra = (P, other) => {
           const rho = P.density ? P.density(d) : 0;
           if (rho <= 0) return 0;
-          const x = coreOf(other.potential) / Math.max(P.scale, 1e-9);
-          if (x >= 3) return 0;
-          const t = Math.max(0, Math.min(1, (x - 1) / 2));
+          const x = outerOf(other.potential) / Math.max(d, 1e-9);
+          if (x >= 0.6) return 0;
+          const t = Math.max(0, Math.min(1, (x - 0.2) / 0.4));
           const w = 1 - t * t * (3 - 2 * t);            // smoothstep 1 -> 0 over x in [1,3]
           if (w <= 0) return 0;
           const sigma = Math.max(P.vcirc(d) / Math.SQRT2, 1e-6);
@@ -303,17 +342,14 @@ export class RestrictedSim {
         const d2 = (gs[i].pos[0] - gs[j].pos[0]) ** 2
                  + (gs[i].pos[1] - gs[j].pos[1]) ** 2
                  + (gs[i].pos[2] - gs[j].pos[2]) ** 2;
-        // The potential MUST match the force law used above, component pair by
-        // component pair with quadrature-combined softening. A potential energy
+        // The potential MUST match the force law used above. A potential energy
         // computed from a different law than the force is not an energy, and
         // the conservation test built on it would be checking nothing.
-        const ci = gs[i].potential.kind === 'composite' ? gs[i].potential.parts : [gs[i].potential];
-        const cj = gs[j].potential.kind === 'composite' ? gs[j].potential.parts : [gs[j].potential];
-        for (const pi of ci) {
-          for (const pj of cj) {
-            pe -= pi.mass * pj.mass / Math.sqrt(d2 + pi.scale * pi.scale + pj.scale * pj.scale);
-          }
-        }
+        //
+        // Both now come from the same table, and pairforce.js asserts they are
+        // consistent (F = -dW/dd), so this cannot silently drift apart from the
+        // force the way the previous hand-written pair did.
+        pe += pairTable(gs[i].potential, gs[j].potential).potential(Math.sqrt(d2));
       }
     }
     let lx = 0, ly = 0, lz = 0;

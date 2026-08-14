@@ -17,11 +17,12 @@ import * as K from '../src/engine/kepler.js';
 import { RestrictedSim, erf } from '../src/engine/cpu.js';
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
 import { galaxyModel, buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
+import { pairTable } from '../src/engine/pairforce.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(42);
+  expectChecks(45);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -397,32 +398,68 @@ export function runPhysicsTests() {
     return `symmetric to ${worst.toExponential(1)} across q=1.0..0.1, d=1.5..12`;
   });
 
-  check('the pair force equals the ANALYTIC Plummer convolution', () => {
-    // The check that was missing. Symmetry alone is not correctness: the
-    // previous version was perfectly symmetric AND 2.83x too strong at close
-    // separation, because both one-sided estimates used the other body's full
-    // mass at d and double-counted the softening each profile already provides.
+  check('the pair force matches the SHELL THEOREM, which has an exact answer', () => {
+    // This check replaces one that compared the code against the same closed
+    // form the code implemented — a tautology that passed for two rounds while
+    // the force law was up to 3.09x wrong.
     //
-    // For two Plummer spheres the mutual force is EXACTLY a Plummer force with
-    // the scale radii combined in quadrature, so this has a closed-form answer
-    // to compare against rather than a tolerance chosen by hand.
+    // The mutual force between two extended spheres has no elementary closed
+    // form, so there is nothing to be smug about comparing against. But ONE case
+    // is exactly known: a point mass at distance d from a spherical distribution
+    // feels M_point * M_enclosed-law(d), by the shell theorem. For Hernquist that
+    // is M_p M_h / (d + a)^2, exactly, at every d. Approximate the point mass by
+    // a Plummer sphere of negligible scale and the pair kernel must reproduce it.
     let worst = 0, at = '';
-    for (const [M1, a1, M2, a2] of [[1, 0.5, 1, 0.5], [3, 2.0, 0.7, 0.4], [10, 5, 2, 9]]) {
-      for (const d of [0.3, 1, 4, 25, 120]) {
+    for (const [Mh, a] of [[66, 20], [1, 0.5], [12, 3.3]]) {
+      for (const d of [0.7, 3, 12, 40, 150]) {
         const sim = new RestrictedSim({
           galaxies: [
-            { mass: M1, potential: plummer(M1, a1), pos: [0, 0, 0], vel: [0, 0, 0] },
-            { mass: M2, potential: plummer(M2, a2), pos: [d, 0, 0], vel: [0, 0, 0] },
+            { mass: Mh, potential: hernquist(Mh, a), pos: [0, 0, 0], vel: [0, 0, 0] },
+            { mass: 1e-3, potential: plummer(1e-3, 1e-4), pos: [d, 0, 0], vel: [0, 0, 0] },
           ],
           particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
         });
-        const F = Math.abs(sim.galaxies[0].acc[0]) * M1;
-        const want = M1 * M2 * d / Math.pow(d * d + a1 * a1 + a2 * a2, 1.5);
+        const F = Math.abs(sim.galaxies[0].acc[0]) * Mh;
+        const want = 1e-3 * Mh / ((d + a) * (d + a));
         const rel = Math.abs(F - want) / want;
-        if (rel > worst) { worst = rel; at = `M=${M1}/${M2} a=${a1}/${a2} d=${d}`; }
+        if (rel > worst) { worst = rel; at = `M_h=${Mh} a=${a} d=${d}`; }
       }
     }
-    return below(worst, 1e-12, `worst relative error vs the analytic convolution (${at})`);
+    return below(worst, 2e-3, `worst relative error vs the shell theorem (${at})`);
+  });
+
+  check('the pair force and the pair POTENTIAL are mutually consistent', () => {
+    // The force drives the integrator; the potential is what diagnostics() calls
+    // energy. They come from two separately derived integrals, so if |F| = dW/dd
+    // holds, a sign or factor slip in either would have to be mirrored exactly in
+    // the other to survive. This is what makes the conservation test meaningful
+    // rather than self-referential — and it is the check that caught my own sign
+    // error in the Hermite derivative, which showed up as 4.9e-4 energy drift.
+    const P1 = galaxyModel(1.0), P2 = galaxyModel(0.6, Math.cbrt(0.6));
+    const tab = pairTable(P1, P2);
+    let worst = 0, at = '';
+    for (const d of [1, 3, 8, 16, 25, 40, 80, 150, 300]) {
+      const h = d * 1e-6;
+      const num = (tab.potential(d + h) - tab.potential(d - h)) / (2 * h);
+      const rel = Math.abs(tab.force(d) - num) / Math.abs(num);
+      if (rel > worst) { worst = rel; at = `d=${d}`; }
+    }
+    return below(worst, 1e-6, `worst |F| vs dW/dd (${at})`);
+  });
+
+  check('SENSITIVITY: the shell-theorem check rejects the old closed form', () => {
+    // The law that shipped for two rounds, measured against the exact answer the
+    // check above uses. If this does not fail loudly the check has no power.
+    let worst = 0;
+    for (const [Mh, a] of [[66, 20], [1, 0.5]]) {
+      for (const d of [0.7, 3, 12, 40]) {
+        const S = d * d + a * a + 1e-8;
+        const old = 1e-3 * Mh * d / (S * Math.sqrt(S));
+        const want = 1e-3 * Mh / ((d + a) * (d + a));
+        worst = Math.max(worst, Math.abs(old - want) / want);
+      }
+    }
+    return above(worst, 0.5, 'worst error of the SUPERSEDED closed form vs the shell theorem');
   });
 
   check('linear momentum is conserved for an unequal-mass encounter', () => {
@@ -549,6 +586,43 @@ export function runPhysicsTests() {
     const expected = 4 * Math.PI * lnL * 0.02 * rho * f / (v * v);
 
     return close(measured, expected, 0.02, 'satellite drag vs analytic Chandrasekhar');
+  });
+
+  check('the friction validity gate fires on the galaxies the APP builds', () => {
+    // Round 2 shipped a gate that was identically inert on every composite
+    // galaxy `galaxyModel()` produces — w = 1.0000 at every mass ratio the
+    // interface can reach — while its asserting test passed because it used bare
+    // single-component potentials, where the gate's min-over-components and
+    // max-over-components coincide. It validated a branch the application cannot
+    // construct. Two reviewers found it independently.
+    //
+    // So this check uses galaxyModel() composites specifically, and requires the
+    // big-through-small term to be suppressed where Chandrasekhar does not apply.
+    const outerOf = (P) => Math.max(...(P.kind === 'composite' ? P.parts : [P])
+      .map((p) => p.scale).filter((s) => s > 0));
+    const w = (perturber, d) => {
+      const x = outerOf(perturber) / Math.max(d, 1e-9);
+      if (x >= 0.6) return 0;
+      const t = Math.max(0, Math.min(1, (x - 0.2) / 0.4));
+      return 1 - t * t * (3 - 2 * t);
+    };
+    const P1 = galaxyModel(1.0);
+    const rows = [];
+    let worstBig = 0;
+    for (const q of [0.05, 0.1, 0.6, 1.0]) {
+      const P2 = galaxyModel(q, Math.cbrt(q));
+      // the pathological case: the BIG galaxy treated as a point perturber
+      // inside the SMALL one's halo, at a separation of order the small galaxy
+      const d = Math.max(2 * outerOf(P2), 8);
+      const wBig = w(P1, d);
+      worstBig = Math.max(worstBig, wBig);
+      rows.push(`q=${q}: R_big=${outerOf(P1).toFixed(0)} d=${d.toFixed(0)} w_big=${wBig.toFixed(3)}`);
+    }
+    ok(worstBig < 0.35, `big-through-small is not suppressed on composites (worst w = ${worstBig.toFixed(3)}); ${rows.join('; ')}`);
+    // and the legitimate direction must survive at a normal encounter distance
+    const wSmall = w(galaxyModel(0.05, Math.cbrt(0.05)), 60);
+    ok(wSmall > 0.9, `a compact satellite at 60 kpc should feel full drag, got w = ${wSmall.toFixed(3)}`);
+    return `worst big-through-small w = ${worstBig.toFixed(3)} on composites; compact satellite at 60 kpc w = ${wSmall.toFixed(3)}`;
   });
 
   check('friction conserves linear momentum exactly', () => {
