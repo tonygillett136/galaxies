@@ -54,45 +54,89 @@ export function galaxyModel(mass, rScale = 1.0, softeningScale = 1.0) {
  * Integrate the two galaxy centres alone and return the closest approach they
  * actually reach. No test particles, so this is cheap enough to run in a loop.
  */
-export function executedPericentre(kepPeri, ecc, mu, P1, P2, M1, M2, tStart) {
+/**
+ * Integrate the two galaxy centres alone and return the closest approach they
+ * actually reach, WHEN it happens, and the relative velocity direction there.
+ *
+ * The timing matters as much as the distance. The orbit precesses in an extended
+ * potential, so closest approach does not occur at the Kepler pericentre epoch:
+ * measured at t = 0.8 rather than t = 0 for the ring scenario, with the
+ * separation vector rotated away from where the setup placed it. Every "time
+ * since pericentre" in the interface, and the timeline's pericentre marker,
+ * depend on this being right.
+ */
+export function executedPericentre(kepPeri, ecc, mu, P1, P2, M1, M2, tStart, friction = 0) {
   const nu = trueAnomalyAtTime(mu, ecc, kepPeri, tStart);
   const s = stateAtTrueAnomaly(mu, ecc, kepPeri, nu);
   const f1 = M2 / mu, f2 = -M1 / mu;
   const sim = new RestrictedSim({
+    friction,
     galaxies: [
       { mass: M1, potential: P1, pos: s.r.map((x) => x * f1), vel: s.v.map((x) => x * f1) },
       { mass: M2, potential: P2, pos: s.r.map((x) => x * f2), vel: s.v.map((x) => x * f2) },
     ],
     particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
   });
-  let min = Infinity, prev = Infinity;
-  const dt = Math.max(0.01, Math.abs(tStart) / 3000);
-  for (let i = 0; i < 12000; i++) {
-    sim.step(dt);
+  let min = Infinity, prev = Infinity, tAt = 0, vRel = [0, 0, 0];
+  const dt = Math.max(0.005, Math.abs(tStart) / 6000);
+  let t = 0;
+  for (let i = 0; i < 24000; i++) {
+    sim.step(dt); t += dt;
     const sep = sim.diagnostics().separation;
-    if (sep < min) min = sep;
-    // stop once it is clearly receding, so a bound orbit does not run forever
+    if (sep < min) {
+      min = sep; tAt = t;
+      const g = sim.galaxies;
+      vRel = [g[1].vel[0] - g[0].vel[0], g[1].vel[1] - g[0].vel[1], g[1].vel[2] - g[0].vel[2]];
+    }
     if (sep > prev && sep > min * 1.35) break;
     prev = sep;
   }
-  return min;
+  const vn = Math.hypot(vRel[0], vRel[1], vRel[2]) || 1;
+  return { min, tAt, vHat: vRel.map((x) => x / vn) };
 }
 
-/** Secant iteration on the Kepler pericentre until the executed one matches. */
-function solveKeplerPericentre(target, ecc, mu, P1, P2, M1, M2, tStart) {
-  let x = target;
-  let fx = executedPericentre(x, ecc, mu, P1, P2, M1, M2, tStart) - target;
-  if (Math.abs(fx) / target < 5e-4) return x;
+/**
+ * Inclination and node that put a disc's normal along a given direction.
+ *
+ * rotateToOrbitFrame maps +z to (sin i sin W, -sin i cos W, cos i), so this
+ * inverts that. Used to orient the ring scenario's disc perpendicular to the
+ * MEASURED approach direction rather than to an assumed one — the assumption
+ * was 64.7 degrees out, which is why the ring scenario produced no ring.
+ */
+export function anglesForNormal([nx, ny, nz]) {
+  const n = Math.hypot(nx, ny, nz) || 1;
+  const i = Math.acos(Math.max(-1, Math.min(1, nz / n)));
+  const W = Math.atan2(nx / n, -ny / n);
+  return { inclination: i, node: W };
+}
+
+/**
+ * Secant iteration on the Kepler pericentre until the EXECUTED one matches.
+ *
+ * Returns the solved value together with whether it converged, because a
+ * non-solution returned silently is worse than a failure: every downstream
+ * "pericentre" would then be a number about a different encounter. The caller
+ * surfaces `converged`.
+ */
+function solveKeplerPericentre(target, ecc, mu, P1, P2, M1, M2, tStart, friction) {
+  const run = (x) => executedPericentre(x, ecc, mu, P1, P2, M1, M2, tStart, friction);
+  let x = target, r = run(x), fx = r.min - target;
+  if (Math.abs(fx) / target < 5e-4) return { kepPeri: x, converged: true, exec: r };
   let x1 = Math.max(0.05, target * (target / (target + fx)));
-  for (let i = 0; i < 24; i++) {
-    const f1v = executedPericentre(x1, ecc, mu, P1, P2, M1, M2, tStart) - target;
-    if (Math.abs(f1v) / target < 5e-4) return x1;
+  let best = { err: Math.abs(fx) / target, x, r };
+  for (let i = 0; i < 30; i++) {
+    const r1 = run(x1);
+    const f1v = r1.min - target;
+    const err = Math.abs(f1v) / target;
+    if (err < best.err) best = { err, x: x1, r: r1 };
+    if (err < 5e-4) return { kepPeri: x1, converged: true, exec: r1 };
     const denom = f1v - fx;
     if (!Number.isFinite(denom) || Math.abs(denom) < 1e-12) break;
-    const next = Math.max(0.02, Math.min(target * 4, x1 - f1v * (x1 - x) / denom));
+    const next = Math.max(0.02, Math.min(target * 6, x1 - f1v * (x1 - x) / denom));
+    if (!Number.isFinite(next)) break;
     x = x1; fx = f1v; x1 = next;
   }
-  return x1;
+  return { kepPeri: best.x, converged: best.err < 0.02, exec: best.r };
 }
 
 /**
@@ -109,14 +153,21 @@ export function buildEncounter(spec) {
   const {
     massRatio = 1.0, rPeri = 4.0, ecc = 1.0, tStart = -18,
     m1 = 1.0, particles = 200000, seed = 42,
-    softeningScale = 1.0, friction = 0,
-    disc1 = {}, disc2 = {},
+    softeningScale = 1.0, friction = 0, compactness = 1.0,
   } = spec;
+  let disc1 = spec.disc1 ?? {}, disc2 = spec.disc2 ?? {};
 
   const P1 = galaxyModel(m1, 1.0, softeningScale);
   // Scale radii go as the cube root of mass, so the two galaxies have comparable
-  // mean density rather than comparable size.
-  const P2 = galaxyModel(m1 * massRatio, Math.cbrt(massRatio), softeningScale);
+  // mean density rather than comparable size. `compactness` scales the secondary
+  // further: a value well below 1 is a compact elliptical rather than a spiral.
+  //
+  // This is not cosmetic. A ring galaxy needs a COMPACT intruder: with the
+  // default diffuse halo, only a small fraction of the companion's mass lies
+  // within a few kpc, so the impulse through the disc is far too weak. Measured:
+  // no ring at ANY mass ratio up to 2.0 with a normal-sized companion, and a
+  // clean ring at compactness 0.05.
+  const P2 = galaxyModel(m1 * massRatio, Math.cbrt(massRatio) * compactness, softeningScale);
 
   // The orbit MUST use the model's actual total mass, not the spec's nominal
   // m1 + m2. With the Milky Way-scale model those differ by a factor of 70, and
@@ -139,9 +190,15 @@ export function buildEncounter(spec) {
   // This matters beyond tidiness: detective mode maps PUBLISHED r_min values
   // into this parameter, so a pericentre that silently means something else
   // would corrupt every comparison against the literature.
-  const kepPeri = solveKeplerPericentre(rPeri, ecc, mu, P1, P2, M1, M2, tStart);
+  const solved = solveKeplerPericentre(rPeri, ecc, mu, P1, P2, M1, M2, tStart, friction);
+  const kepPeri = solved.kepPeri;
   const nu = trueAnomalyAtTime(mu, ecc, kepPeri, tStart);
   const s = stateAtTrueAnomaly(mu, ecc, kepPeri, nu);
+  // The clock is anchored to the EXECUTED closest approach, not the Kepler
+  // pericentre epoch. The orbit precesses in an extended potential, so those
+  // differ — measured 0.8 time units for the ring scenario — and every "time
+  // since pericentre" in the interface, plus the timeline marker, depends on it.
+  const t0 = -solved.exec.tAt;
   const f1 = M2 / mu, f2 = -M1 / mu;         // split about the barycentre
 
   const c1 = s.r.map((x) => x * f1), v1 = s.v.map((x) => x * f1);
@@ -152,6 +209,19 @@ export function buildEncounter(spec) {
     { mass: M2, potential: P2, pos: c2, vel: v2 },
   ];
 
+  // A disc can ask to be oriented perpendicular to the MEASURED approach
+  // direction rather than to an assumed one. The ring scenario needs this: it
+  // was set to a fixed perpendicular inclination, the orbit precessed in the
+  // extended potential, and the companion ended up crossing at 64.7 degrees to
+  // the disc normal — which is why it produced no ring at all.
+  const alignDisc = (d) => {
+    if (!d.alignToApproach) return d;
+    const a = anglesForNormal(solved.exec.vHat);
+    return { ...d, inclination: a.inclination, node: a.node };
+  };
+  disc1 = alignDisc(disc1);
+  disc2 = alignDisc(disc2);
+
   const d1on = disc1.active !== false, d2on = disc2.active !== false;
   const share = d1on && d2on ? 0.5 : 1.0;
   const sets = [];
@@ -159,8 +229,11 @@ export function buildEncounter(spec) {
     sets.push(exponentialDisc({
       potential: P1, count: Math.round(particles * share),
       scaleLength: disc1.scaleLength ?? 3.0, rMax: disc1.rMax ?? 4.5,
-      thickness: disc1.thickness ?? 0.06,
-      inclination: disc1.inclination ?? 0, argPeri: disc1.argPeri ?? 0,
+      thickness: disc1.thickness ?? 0,
+      inclination: disc1.inclination ?? 0,
+      // node, not argPeri, is the second meaningful angle: argPeri rotates an
+      // axisymmetric disc within its own plane and changes nothing physical
+      node: disc1.node ?? disc1.argPeri ?? 0,
       retrograde: !!disc1.retrograde, origin: 0,
       centre: c1, velocity: v1, seed,
     }));
@@ -169,15 +242,23 @@ export function buildEncounter(spec) {
     sets.push(exponentialDisc({
       potential: P2, count: Math.round(particles * share),
       scaleLength: (disc2.scaleLength ?? 3.0) * Math.cbrt(massRatio),
-      rMax: disc2.rMax ?? 4.5, thickness: disc2.thickness ?? 0.06,
-      inclination: disc2.inclination ?? 0, argPeri: disc2.argPeri ?? 0,
+      rMax: disc2.rMax ?? 4.5, thickness: disc2.thickness ?? 0,
+      inclination: disc2.inclination ?? 0,
+      node: disc2.node ?? disc2.argPeri ?? 0,
       retrograde: !!disc2.retrograde, origin: 1,
       centre: c2, velocity: v2, seed: seed + 977,
     }));
   }
 
-  return { galaxies, particles: mergeParticles(sets), friction,
-           spec: { ...spec, M1, M2, mu, nu, kepPeri, requestedPeri: rPeri } };
+  return {
+    galaxies, particles: mergeParticles(sets), friction, t0,
+    spec: {
+      ...spec, M1, M2, mu, nu, kepPeri, requestedPeri: rPeri,
+      executedPeri: solved.exec.min,
+      periConverged: solved.converged,
+      approachDir: solved.exec.vHat,
+    },
+  };
 }
 
 /**
@@ -250,20 +331,28 @@ export const SCENARIOS = {
     // in and merged around 1.3 Gyr, which is the right timescale for a major
     // merger. lnL = 3 merged it inside 220 Myr, which is neither realistic nor
     // watchable.
-    spec: { massRatio: 0.6, rPeri: 30, ecc: 0.9, tStart: -60, particles: 320000,
+    // tSpan 420: a fixed 200-unit timeline ended 133 units BEFORE this scenario
+    // merges, so the one scenario whose point is the merger could not be
+    // scrubbed to it.
+    spec: { massRatio: 0.6, rPeri: 30, ecc: 0.9, tStart: -60, tSpan: 420, particles: 320000,
             friction: 0.6,
             disc1: { inclination: 0.2, argPeri: 0.3 },
             disc2: { inclination: -0.5, argPeri: 1.7 } },
   },
   ring: {
     label: 'Ring galaxy',
-    blurb: 'A small companion fired through the centre of a large disc, close to perpendicular. The impulse drives an outward density wave, leaving a ring with a comparatively empty centre, as in the Cartwheel.',
+    blurb: 'A COMPACT companion fired through the centre of a large disc, perpendicular to it. The impulse drives an outward density wave: measured here, the surface density at the ring radius rises several-fold while the nucleus survives, which is what the Cartwheel looks like. Compactness matters as much as geometry — a companion as diffuse as a spiral produces no ring at any mass, because too little of it lies within a few kpc of the impact.',
     // The disc must be PERPENDICULAR to the orbital plane for the companion to
     // punch through it face-on. This was 0.0 — coplanar — which is a grazing
     // pass along the disc, produces no ring at all, and contradicted its own
     // blurb. Three reviewers caught it independently.
-    spec: { massRatio: 0.18, rPeri: 1.5, ecc: 1.1, tStart: -34, particles: 320000,
-            disc1: { inclination: Math.PI / 2, argPeri: 0, scaleLength: 3.0, rMax: 4.0 },
+    // alignToApproach orients the disc perpendicular to the MEASURED relative
+    // velocity at closest approach. A fixed inclination of pi/2 was 64.7 degrees
+    // out once the orbit precessed, and produced a centrally-peaked profile at
+    // every epoch — no ring.
+    spec: { massRatio: 0.5, compactness: 0.05, rPeri: 0.8, ecc: 1.1,
+            tStart: -34, tSpan: 220, particles: 320000,
+            disc1: { alignToApproach: true, scaleLength: 3.0, rMax: 4.5 },
             disc2: { active: false } },
   },
 };

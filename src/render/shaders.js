@@ -444,8 +444,14 @@ fn fsComposite(in : VOut) -> @location(0) vec4f {
   // is painted magenta, a colour the stellar ramp cannot produce, so a saturated
   // nucleus announces itself instead of quietly reading as "bright".
   if (C.params.z > 0.5) {
-    let v = h / C.params2.w;                     // params2.w = fixed full scale
-    if (max(v.r, max(v.g, v.b)) >= 1.0) {
+    // The UNCOLOURED density, from the alpha channel, not the colour-weighted
+    // RGB. The splat pass accumulates g*weight into alpha and colour*g*weight
+    // into rgb, so reading rgb made the "density" readout depend on the stellar
+    // colour ramp — a redder particle read as a different density than a bluer
+    // one at identical density. Two reviewers caught it independently.
+    let dens = textureSample(hdr, samp, in.uv).a;
+    let v = vec3f(dens / C.params2.w);           // params2.w = fixed full scale
+    if (v.r >= 1.0) {
       return vec4f(1.0, 0.0, 0.85, 0.0);         // CLIPPED — out of range, not just bright
     }
     // sRGB display encode (exact piecewise form, not the 2.2 approximation)

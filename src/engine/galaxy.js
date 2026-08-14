@@ -67,8 +67,52 @@ export function discOfRings({
  * No closed-form inverse, so this bisects: fast enough at setup time, and exact
  * enough that the test comparing realised against analytic profile passes.
  */
+/**
+ * Inverse of the exponential-disc enclosed-mass fraction, as a lookup table.
+ *
+ * Bisecting 60 times per particle made rebuilding 300k particles take up to 2
+ * seconds, which froze the interface on every slider release with no feedback.
+ * One table, built once, then a linear interpolation per particle.
+ */
+const ENCL_TABLE = (() => {
+  const N = 4096, XMAX = 8;
+  const xs = new Float64Array(N + 1), fs = new Float64Array(N + 1);
+  for (let i = 0; i <= N; i++) {
+    const x = (i / N) * XMAX;
+    xs[i] = x; fs[i] = 1 - (1 + x) * Math.exp(-x);
+  }
+  return { xs, fs, N, XMAX };
+})();
+
+function inverseEnclosed(target) {
+  const { xs, fs, N } = ENCL_TABLE;
+  let lo = 0, hi = N;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if (fs[m] < target) lo = m; else hi = m; }
+  const f0 = fs[lo], f1 = fs[hi];
+  const t = f1 > f0 ? (target - f0) / (f1 - f0) : 0;
+  return xs[lo] + t * (xs[hi] - xs[lo]);
+}
+
+/**
+ * @param {number} [opts.thickness] disc scale height as a fraction of the scale
+ *   length. DEFAULTS TO ZERO — razor thin.
+ *
+ *   A thin disc of test particles in a spherical potential, given purely
+ *   tangential velocities, is in RADIAL equilibrium but not VERTICAL
+ *   equilibrium: the ensemble breathes, its rms height oscillating, and three
+ *   reviewers caught it. Real vertical equilibrium needs a velocity dispersion
+ *   this restricted model does not carry. A razor-thin disc is exactly in
+ *   equilibrium, is what Toomre & Toomre used, and is honest. Non-zero
+ *   thickness remains available and is documented as NOT in equilibrium.
+ *
+ * @param {number} [opts.node] longitude of ascending node — the disc's tilt
+ *   axis relative to the orbit. THIS is the second physically meaningful angle.
+ *   `argPeri` rotates an axisymmetric disc within its own plane and is inert for
+ *   a smooth disc; it survives only because a finite particle set is not smooth,
+ *   which is a discretisation artefact and not a parameter.
+ */
 export function exponentialDisc({
-  potential, count, scaleLength, rMax = 4.5, thickness = 0.05,
+  potential, count, scaleLength, rMax = 4.5, thickness = 0,
   inclination = 0, argPeri = 0, node = 0,
   retrograde = false, origin = 0,
   centre = [0, 0, 0], velocity = [0, 0, 0], seed = 1,
@@ -85,13 +129,7 @@ export function exponentialDisc({
   const maxF = encl(Rmax / scaleLength);
 
   for (let i = 0; i < count; i++) {
-    const target = rng() * maxF;
-    let lo = 0, hi = Rmax / scaleLength;
-    for (let it = 0; it < 60; it++) {
-      const mid = 0.5 * (lo + hi);
-      if (encl(mid) < target) lo = mid; else hi = mid;
-    }
-    const r = 0.5 * (lo + hi) * scaleLength;
+    const r = inverseEnclosed(rng() * maxF) * scaleLength;
     const th = 2 * Math.PI * rng();
     const z = -thickness * scaleLength * Math.log(1 - rng()) * (rng() < 0.5 ? -1 : 1);
 

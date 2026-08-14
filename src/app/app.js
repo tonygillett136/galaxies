@@ -115,16 +115,30 @@ export class App {
   /** Rebuild from the current spec, preserving camera and appearance. */
   rebuild(viewTime = null) {
     if (this.sim) this.sim.destroy();
-    const { galaxies, particles, friction } = buildEncounter(this.spec);
+    const built = buildEncounter(this.spec);
+    const { galaxies, particles, friction, t0 } = built;
+    this.built = built;
     this.sim = new GpuSim(this.device, galaxies, particles, friction);
     // Friction is dissipative, so backwards is no longer the same path forwards.
     // Say so rather than letting the scrubber quietly stop meaning what it says.
     $('frictionNote').style.display = friction > 0 ? 'block' : 'none';
-    this.sim.time = this.spec.tStart;
-    this.sim.orbit.time = this.spec.tStart;
+    $('periWarn').style.display = built.spec.periConverged ? 'none' : 'block';
+    if (!built.spec.periConverged) {
+      $('periWarn').textContent =
+        `Pericentre solver did not converge: requested ${built.spec.requestedPeri.toFixed(1)} kpc, `
+        + `this orbit executes ${built.spec.executedPeri.toFixed(1)} kpc. The value shown is the orbit’s, not yours.`;
+    }
+    // t0 anchors the clock to the EXECUTED closest approach, so t = 0 is the
+    // moment the timeline marker claims it is.
+    this.sim.time = t0;
+    this.sim.orbit.time = t0;
+    this.tStart = t0;
     $('count').textContent = particles.count.toLocaleString();
     const s = $('scrub');
-    const lo = this.spec.tStart, hi = lo + 200;   // Milky Way-scale times are longer
+    // Span is per-scenario. A fixed +200 ended the merger's timeline 133 time
+    // units before it merges, so the one scenario whose whole point is the
+    // merger could not be scrubbed to it.
+    const lo = this.tStart, hi = lo + (this.spec.tSpan ?? 200);
     s.min = String(lo);
     s.max = String(hi);
     s.step = '0.05';
@@ -135,12 +149,22 @@ export class App {
     if (viewTime !== null) this.seek(viewTime);
   }
 
-  /** Step to a target time. Backwards is real reversal, not a replay. */
+  /**
+   * Step to a target time. Backwards is real reversal, not a replay.
+   *
+   * The guard is derived from the distance to travel, not a fixed 8000. It was
+   * fixed, and the retuned Milky Way-scale timeline spans 200 time units at
+   * dt = 0.02 — 10,000 steps — so the last fifth of every timeline silently
+   * refused to move. Dragging the scrubber to the end left the clock short and
+   * the picture wrong, with no indication that anything had been truncated.
+   */
   seek(target) {
+    const needed = Math.ceil(Math.abs(target - this.sim.time) / this.dt) + 64;
     let guard = 0;
-    while (Math.abs(this.sim.time - target) > this.dt * 0.5 && guard++ < 8000) {
+    while (Math.abs(this.sim.time - target) > this.dt * 0.5 && guard++ < needed) {
       this.sim.step(this.sim.time < target ? this.dt : -this.dt);
     }
+    this.seekTruncated = guard >= needed;
   }
 
   // ------------------------------------------------------------- detective
@@ -285,7 +309,7 @@ export class App {
     $('retro1').checked = $('retro2').checked = $('atlasRetro').checked;
     const t = this.sim ? this.sim.time : this.spec.tStart;
     this.rebuild();
-    this.seek(Math.max(this.spec.tStart, t));
+    this.seek(Math.max(this.tStart, t));
     this.syncPad();
   }
 
@@ -341,6 +365,11 @@ export class App {
       i1: (s.disc1?.inclination ?? 0).toFixed(2), i2: (s.disc2?.inclination ?? 0).toFixed(2),
       rg1: s.disc1?.retrograde ? '1' : '0',
       rg2: s.disc2?.retrograde ? '1' : '0',
+      // friction was dropped, so a merging system arrived at the recipient as a
+      // fly-by: the shared link showed a different physical system
+      fr: String(s.friction ?? 0),
+      nd1: (s.disc1?.node ?? 0).toFixed(3),
+      nd2: (s.disc2?.node ?? 0).toFixed(3),
       t: this.sim.time.toFixed(2),
       cd: String(this.renderer.settings.colourMode),
       // viewing geometry travels with the state: it is a fitted parameter, not
@@ -363,6 +392,9 @@ export class App {
       this.spec.disc2.inclination = n('i2', this.spec.disc2.inclination);
       this.spec.disc1.retrograde = q.get('rg1') === '1' || q.get('rg') === '1';
       this.spec.disc2.retrograde = q.get('rg2') === '1' || q.get('rg') === '1';
+      this.spec.friction = n('fr', this.spec.friction ?? 0);
+      this.spec.disc1.node = n('nd1', this.spec.disc1.node ?? 0);
+      this.spec.disc2.node = n('nd2', this.spec.disc2.node ?? 0);
       this.rebuild();
       if (q.has('t')) { this.playing = false; this.seek(parseFloat(q.get('t'))); }
       if (q.has('cd')) { this.renderer.settings.colourMode = parseInt(q.get('cd'), 10); $('colour').value = q.get('cd'); }
@@ -464,7 +496,7 @@ export class App {
         else this.spec[key] = v;
         const t = this.sim.time;
         this.rebuild();
-        this.seek(Math.max(this.spec.tStart, t));
+        this.seek(Math.max(this.tStart, t));
       };
       run();
     };
@@ -480,7 +512,7 @@ export class App {
     const spin = (id, which) => {
       $(id).onchange = (e) => {
         this.spec[which].retrograde = e.target.checked;
-        const t = this.sim.time; this.rebuild(); this.seek(Math.max(this.spec.tStart, t));
+        const t = this.sim.time; this.rebuild(); this.seek(Math.max(this.tStart, t));
       };
     };
     spin('retro1', 'disc1');

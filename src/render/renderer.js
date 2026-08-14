@@ -26,6 +26,11 @@ const BLOOM_LEVELS = 6;
 // a "buffer too small" validation error buried under 199 cascade warnings.
 const UNIFORM_FLOATS = 68;
 
+// Science-view calibration. Fixed constants, not settings: the whole claim of
+// that view is that pixel value maps to density by a stated, unchanging rule.
+const SCIENCE_SPLAT = 0.22;
+const SCIENCE_INTENSITY = 0.022;
+
 /**
  * Create a shader module and SURFACE ITS COMPILATION ERRORS.
  *
@@ -234,7 +239,13 @@ export class Renderer {
     // params.w carries 2*tan(fov/2)/height so the shader turns a distance into
     // world-units-per-pixel without a divide chain
     const wppPerUnit = (2 * Math.tan(camera.fov / 2)) / Math.max(1, this.height);
-    s.set([st.splatSize, st.intensity, st.minPixels, wppPerUnit], 44);
+    // In science mode the splat size and intensity are PINNED to calibrated
+    // constants. They scale the accumulated density, so leaving them live meant
+    // the "fixed full scale" divided a buffer that two sliders were still
+    // moving — the mapping was stated and still not fixed.
+    const splatSize = st.scienceMode ? SCIENCE_SPLAT : st.splatSize;
+    const intensity = st.scienceMode ? SCIENCE_INTENSITY : st.intensity;
+    s.set([splatSize, intensity, st.minPixels, wppPerUnit], 44);
     s.set([st.colourMode, 0, 0, aspect], 48);
     s.set([fwd[0], fwd[1], fwd[2], 0], 52);
     // kept for the composite pass, which anchors the starfield to the sky
