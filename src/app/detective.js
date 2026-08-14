@@ -86,7 +86,12 @@ export function specFromFit(fit, opts = {}) {
   } else spec.rPeri = 25.0;
 
   if (Number.isFinite(fit.ecc)) {
-    spec.ecc = clamp(fit.ecc, 0.4, 2.0, 'eccentricity');
+    // Bound raised from 2.0 to 5.0. The old limit silently rewrote 24 of 59
+    // published eccentricities for no reason the engine required: tested
+    // directly, it executes the requested pericentre exactly and stays finite
+    // at e = 0.4, 1.0, 1.6, 2.5, 3.7 and 5.0. A clamp should come from a
+    // demonstrated failure, not from a slider someone once chose.
+    spec.ecc = clamp(fit.ecc, 0.4, 5.0, 'eccentricity');
     mapped.push('ecc');
   } else spec.ecc = 1.0;
 

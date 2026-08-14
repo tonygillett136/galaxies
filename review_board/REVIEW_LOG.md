@@ -83,11 +83,72 @@ already believed deserves more suspicion than one that does not.
 
 ---
 
-## Round 2 — launched 2026-08-14 23:22
+## Round 2 — 2026-08-14 23:22 to 2026-08-15 00:01
 
 Same six reviewers, told what changed and asked to check whether the round-1 fixes are
-**correct** rather than merely present, since a wrong fix now carries a comment asserting it is
-handled. Findings capped at eight each so verification can keep up; verifiers must declare
-completeness.
+**correct** rather than merely present. Findings capped at eight each; verifiers required to
+declare completeness.
 
-Results to be recorded here on completion.
+**47 findings, 41 confirmed, 7 partial, 0 refuted.** Verdicts: all six "not yet".
+
+### Round 2 justified itself immediately
+
+It was designed to catch fixes that were present, commented as handled, and wrong. It found two.
+
+| Round-1 fix | What was actually wrong |
+|---|---|
+| `erf()` for dynamical friction | `exp(-x²)` multiplied **one of five** polynomial terms. erf(3) = 0.9494 against 0.99998 — wrong by 0.149 absolute — under a comment claiming 1.5e-7 accuracy. Every friction magnitude was wrong. |
+| Symmetrised pair force | Exactly symmetric **and 2.83x too strong** at close separation. Both one-sided estimates use the other body's full mass at d, double-counting the softening each extended profile already supplies. Replaced with the analytic Plummer convolution, verified to 1e-12 against the closed form. |
+
+Both were verified by me numerically before I acted on either.
+
+**And the deeper lesson.** Neither was detectable by the tests that existed. The friction checks
+assert that energy *falls* and the orbit *decays*; half-strength drag and a 15%-wrong erf both
+do that. **An assertion on the sign of an effect cannot detect an error in its magnitude.** The
+fix was not just the arithmetic but adding checks against analytic answers: erf against known
+values, the pair force against the closed-form convolution, and Chandrasekhar drag against the
+formula written out independently.
+
+### Further physics corrected
+
+- **Friction was half strength** even after the erf fix: I averaged the two drag terms, copying
+  the gravity symmetrisation. Each drag is already its own equal-and-opposite pair, so the
+  total is their sum. A reviewer measured the ratio at exactly 2.000 across 17,942 steps.
+- **Friction was being applied outside its validity.** Writing the analytic assertion exposed
+  that a heavy galaxy ploughing through a tiny satellite's halo out-drags the satellite 20-fold,
+  because the force goes as M². Chandrasekhar assumes a *compact* perturber; each term is now
+  weighted by that condition.
+- **The ring scenario still produced no ring**, for two further reasons after the round-1
+  coplanar fix: the orbit *precesses* in an extended potential so the companion crossed at 64.7°
+  to the disc normal, and the companion was as diffuse as a spiral so almost none of its mass lay
+  near the impact. Now oriented from the measured approach direction, with a compact intruder,
+  and asserted: peak surface density moves to ~11 kpc and rises 4.1x.
+- **The pericentre EPOCH was wrong** for the same precession reason — the round-1 distance fix
+  made it worse. The clock is now anchored to executed closest approach.
+- **Bound orbits saturated at apocentre** for a third of the detective targets, a direct
+  consequence of the round-1 mass retune shortening periods eightfold.
+
+### Where the remaining problems were concentrated
+
+The synthesis's headline: *the engine is close to sound and the documents are not.*
+
+- `docs/IDENTIFIABILITY.md` tabulated **five** moments where the check computes four, with
+  numbers from a scratch script — in the file whose heading is "Verified, not argued". Three
+  reviewers found it independently. Regenerated from the shipped code.
+- `DEVLOG.md` still presented the abandoned dwarf model's 27.2% / 131.5x as the project's
+  headline validation.
+- `encounter.js` asserted "real interacting pairs pass at tens of kpc" — **refuted by this
+  project's own data**: median published r_min is 12.1 kpc and 81% are under 20.
+- Detective mode clamped pericentre at 20 kpc and eccentricity at 2.0, dwarf-era constants that
+  rewrote 35 of 59 targets. Tested directly: the engine is exact to e = 5.0 and 90 kpc.
+
+### And a limitation of the round itself
+
+The synthesis found that **no independent verifier result reached it** — all 47 findings arrived
+marked `VERIFIER: NOT CHECKED`. It responded by re-checking every load-bearing finding against
+the source itself, and by labelling anything it had not personally reproduced as *reported*.
+It also noted the tree was being edited while the reviewers wrote, so a large fraction of its
+own findings were already fixed by the time it ran. Both are real limits on the round, and both
+are recorded rather than smoothed over.
+
+Assertions went **46 → 57**.

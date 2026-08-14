@@ -16,12 +16,12 @@ import { pointMass, plummer, hernquist, composite } from '../src/engine/potentia
 import * as K from '../src/engine/kepler.js';
 import { RestrictedSim, erf } from '../src/engine/cpu.js';
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
-import { galaxyModel, buildEncounter } from '../src/engine/encounter.js';
+import { galaxyModel, buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(41);
+  expectChecks(42);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -111,6 +111,24 @@ export function runPhysicsTests() {
     ok(mean > 190 && mean < 245, `mean v_circ ${mean.toFixed(0)} km/s outside 190-245`);
     below(spread, 0.14, 'peak-to-trough spread of v_circ over 3-25 kpc');
     return `${v.map((x) => x.toFixed(0)).join('/')} km/s at ${radii.join('/')} kpc, mean ${mean.toFixed(0)}`;
+  });
+
+  check('every scenario lies inside the ranges the interface offers', () => {
+    // The two halves drifted apart once already: detective mode clamped
+    // pericentre at 20 kpc and eccentricity at 2.0 — dwarf-era constants — while
+    // the engine shipped a 55 kpc scenario. 35 of 59 targets were loaded as
+    // something other than the published fit for no reason the engine required.
+    const RP = [0.5, 90], ECC = [0.4, 5.0], MR = [0.05, 1.0];
+    const bad = [];
+    for (const [key, sc] of Object.entries(SCENARIOS)) {
+      const s = sc.spec;
+      if (s.rPeri < RP[0] || s.rPeri > RP[1]) bad.push(`${key}: rPeri ${s.rPeri}`);
+      if (s.ecc < ECC[0] || s.ecc > ECC[1]) bad.push(`${key}: ecc ${s.ecc}`);
+      const mr = s.massRatio ?? 1;
+      if (mr < MR[0] || mr > MR[1]) bad.push(`${key}: massRatio ${mr}`);
+    }
+    ok(bad.length === 0, `outside the interface ranges: ${bad.join('; ')}`);
+    return `${Object.keys(SCENARIOS).length} scenarios all inside rPeri ${RP.join('-')}, ecc ${ECC.join('-')}, q ${MR.join('-')}`;
   });
 
   check('THE SHIPPED GALAXY has a sensible total mass', () => {

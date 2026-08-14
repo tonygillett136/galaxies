@@ -32,6 +32,10 @@ export class App {
     this.tourStep = 0;
     this.follow = 'pair';
     this.reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // A user who asked the platform for no motion should not be handed a
+    // full-screen animation the instant the page loads. Reduced motion
+    // previously gated only a 0.28 s camera easing while playback autostarted.
+    if (this.reduceMotion) this.playing = false;
   }
 
   async start() {
@@ -326,6 +330,9 @@ export class App {
     this.rebuild();
     this.seek(Math.max(this.tStart, t));
     this.syncPad();
+    // The pad wrote the spec and left the sandbox sliders reading their old
+    // values, so the two modes disagreed about the same encounter.
+    this.syncSpecControls();
   }
 
   // -------------------------------------------------------------- lifecycle
@@ -578,16 +585,39 @@ export class App {
     $('panelToggle').onclick = () => document.body.classList.toggle('collapsed');
 
     window.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      const tag = e.target.tagName;
+      const onControl = tag === 'INPUT' || tag === 'SELECT';
+      // Arrow keys belong to a focused slider or select; everything else is a
+      // global shortcut. The handler used to bail on ANY control, so every
+      // advertised shortcut died the moment a user touched a slider — which in a
+      // panel of eighteen sliders is immediately.
+      if (onControl && e.key.startsWith('Arrow')) return;
+
       const modes = ['sandbox', 'detective', 'tour', 'atlas'];
-      if (e.key >= '1' && e.key <= '4') this.setMode(modes[Number(e.key) - 1]);
+      if (e.key >= '1' && e.key <= '4' && !onControl) this.setMode(modes[Number(e.key) - 1]);
       if (e.key === ' ') { e.preventDefault(); $('play').click(); }
-      if (e.key === 'r') $('reset').click();
-      if (e.key === 's') { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
+      if (e.key === 'r' && !onControl) $('reset').click();
+      if (e.key === 's' && !onControl) { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
       if (e.key === 'ArrowLeft') { this.playing = false; this.sim.step(-this.dt * 8); }
       if (e.key === 'ArrowRight') { this.playing = false; this.sim.step(this.dt * 8); }
       if (e.key === 'ArrowDown' && this.mode === 'tour') this.gotoTourStep(this.tourStep + 1);
       if (e.key === 'ArrowUp' && this.mode === 'tour') this.gotoTourStep(this.tourStep - 1);
+    });
+
+    // The atlas pad was a bare div: atlas mode's ONLY control, with no tabindex,
+    // no role and no key handling, so the mode was unreachable by keyboard.
+    pad.setAttribute('tabindex', '0');
+    pad.setAttribute('role', 'application');
+    pad.setAttribute('aria-label', 'Parameter field: left and right change disc tilt, up and down change pericentre');
+    pad.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 0.1 : 0.02;
+      const r = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
+      if (!r) return;
+      e.preventDefault();
+      const dot = $('padDot');
+      const fx = Math.max(0, Math.min(1, parseFloat(dot.style.left) / 100 + r[0]));
+      const fy = Math.max(0, Math.min(1, parseFloat(dot.style.top) / 100 + r[1]));
+      this.padTo(fx, fy);
     });
 
     // Sync renderer state FROM the DOM, do not assume they start equal.
