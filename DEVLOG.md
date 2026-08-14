@@ -516,3 +516,105 @@ are the disc orientations — exactly the sub-problem Identikit makes a human so
 float64 CPU only, because the float32 GPU path's measured reversal residual would dominate a
 gradient. And states are stored rather than recomputed by reversal, because a gradient check
 must not be validating the checkpointing scheme at the same time as the gradient.
+
+---
+
+## The review board, round 2
+
+The same six reviewers, told what had changed and asked a sharper question: are the round-1
+fixes **correct**, or merely present? A wrong fix is worse than the original defect, because it
+now carries a comment asserting it is handled.
+
+**47 findings, 41 confirmed, 7 partial, 0 refuted.** All six verdicts: "not yet".
+
+It justified itself in the first two items.
+
+### Two round-1 fixes were wrong, and no test could see either
+
+**`erf` was wrong by 0.149 absolute.** Abramowitz & Stegun 7.1.26 has `exp(-x²)` multiplying the
+whole polynomial; I had applied it to the last term only. erf(3) came out as 0.9494 against
+0.99998, under a comment claiming 1.5e-7 accuracy. Every dynamical friction magnitude was wrong.
+
+**The symmetrised pair force was 2.83x too strong** at close separation. Round 1 replaced a
+one-sided evaluation (which broke Newton's third law) with the mean of two one-sided
+evaluations. That is exactly momentum-conserving and still wrong: both estimates use the other
+body's *full* mass at separation d, double-counting the softening each extended profile already
+supplies. The true mutual force is the convolution of the two distributions, which for Plummer
+spheres is exactly a Plummer force with the scale radii combined in quadrature. Verified against
+that closed form to 1e-12.
+
+**Neither was detectable by the tests that existed**, and the reason is the lesson:
+
+> The friction checks assert that energy **falls** and the orbit **decays**. Half-strength drag
+> does both. An erf wrong by 15 per cent of full scale does both. **An assertion on the sign of
+> an effect cannot detect an error in its magnitude.**
+
+So the fix was not only the arithmetic. It was adding checks against *analytic answers* rather
+than against the code's own behaviour: erf against known values, the pair force against the
+closed-form convolution, and Chandrasekhar drag against the formula written out independently in
+the test.
+
+### Which promptly found two more things
+
+Writing that Chandrasekhar assertion exposed that the drag was **still half strength** after the
+erf fix — I had averaged the two drag terms, copying the gravity symmetrisation. Gravity needed
+it because two one-sided estimates of *one* force disagreed. Each drag is already its own
+equal-and-opposite internal pair, so the total is their sum. A reviewer measured the ratio at
+exactly 2.000 across 17,942 steps.
+
+And it exposed something worse than a factor. Because the drag force scales as M², a heavy
+galaxy ploughing through a tiny satellite's wispy halo out-drags the satellite twentyfold,
+against a density a million times lower. That is not a small correction; it is Chandrasekhar
+used outside its domain, which assumes a **compact** perturber in a smooth field. Each term is
+now weighted by that condition.
+
+### The ring, in three acts
+
+Round 1 fixed the ring scenario's disc from coplanar to perpendicular. It still produced no ring.
+
+Measuring rather than reasoning found the second cause: **the orbit precesses** in an extended
+potential, so the companion arrived 64.7 degrees off the disc normal regardless of where the
+setup had pointed it. Orienting the disc from the *measured* approach direction gave 0.00
+degrees — and still no ring.
+
+The third cause was that the companion was as diffuse as a spiral. With a 20 kpc halo scale,
+almost none of its mass lies within a few kpc of the impact, so the impulse is far too weak.
+Measured: **no ring at any mass ratio up to 2.0.** Real ring-galaxy intruders are compact. At
+compactness 0.08 the ring appears, and is now asserted: the peak surface density moves from the
+centre to ~11 kpc and rises 4.1x there.
+
+The same precession also meant closest approach did not happen at t = 0 — the round-1 pericentre
+*distance* fix had made the *epoch* worse. The clock is now anchored to executed closest
+approach.
+
+### And the part I would least like to have written
+
+The synthesis's headline was that **the engine is close to sound and the documents are not**.
+
+`docs/IDENTIFIABILITY.md` — the file whose heading is "Verified, not argued", and on which the
+entire inverse problem is to be built — tabulated five morphological moments where the check
+computes four, with numbers from a scratch script at a different particle count. Three reviewers
+found it independently. The *result* was right; the table nobody regenerated was not.
+
+`DEVLOG.md` still presented the abandoned dwarf model's 27.2 per cent and 131.5x as the
+project's headline validation result.
+
+And `encounter.js` asserted that "real interacting pairs pass at tens of kpc" — **refuted by
+this project's own data.** Across the 59 Galaxy Zoo systems with a published fit, the median
+r_min is 12.1 kpc and 81 per cent are under 20. Real pairs routinely pass inside the disc
+radius. My justification for the retune was wrong even though the retune itself was right, for a
+different reason: the old pericentres were small because the *model* was a dwarf.
+
+Detective mode was clamping published pericentres at 20 kpc and eccentricities at 2.0 — dwarf-era
+constants that silently rewrote 35 of 59 targets. Tested directly, the engine is exact at e = 5.0
+and 90 kpc. A clamp should come from a demonstrated failure, not from a slider someone once chose.
+
+Assertions went **46 → 57**.
+
+### A limitation of the round itself
+
+The synthesis reported that **no verifier result reached it** — all 47 findings arrived marked
+`NOT CHECKED` — so it re-checked every load-bearing finding against the source itself and
+labelled anything it had not personally reproduced as *reported*. It also noted the tree was
+being edited while the reviewers wrote, so some of its own findings were already fixed. Both
+limits are recorded in `review_board/REVIEW_LOG.md` rather than smoothed over.
