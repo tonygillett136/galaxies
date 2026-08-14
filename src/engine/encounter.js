@@ -109,7 +109,7 @@ export function buildEncounter(spec) {
   const {
     massRatio = 1.0, rPeri = 4.0, ecc = 1.0, tStart = -18,
     m1 = 1.0, particles = 200000, seed = 42,
-    softeningScale = 1.0,
+    softeningScale = 1.0, friction = 0,
     disc1 = {}, disc2 = {},
   } = spec;
 
@@ -176,7 +176,7 @@ export function buildEncounter(spec) {
     }));
   }
 
-  return { galaxies, particles: mergeParticles(sets),
+  return { galaxies, particles: mergeParticles(sets), friction,
            spec: { ...spec, M1, M2, mu, nu, kepPeri, requestedPeri: rPeri } };
 }
 
@@ -242,6 +242,14 @@ export const SCENARIOS = {
     spec: { massRatio: 0.6, rPeri: 55, ecc: 1.6, tStart: -60, particles: 280000,
             disc1: { inclination: 0.2, argPeri: 0.4 },
             disc2: { inclination: 0.6, argPeri: 1.9 } },
+  },
+  merger: {
+    label: 'Merger (with friction)',
+    blurb: 'A bound pair with dynamical friction switched on. Each passage transfers orbital energy to the halos, so the orbit decays and the two actually merge — which cannot happen with friction off, however close the passage. Note that time reversal stops being exact here: friction is dissipative.',
+    spec: { massRatio: 0.6, rPeri: 20, ecc: 0.7, tStart: -50, particles: 320000,
+            friction: 3.0,
+            disc1: { inclination: 0.2, argPeri: 0.3 },
+            disc2: { inclination: -0.5, argPeri: 1.7 } },
   },
   ring: {
     label: 'Ring galaxy',

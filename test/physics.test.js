@@ -21,7 +21,7 @@ import { galaxyModel, buildEncounter } from '../src/engine/encounter.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(34);
+  expectChecks(37);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -408,6 +408,66 @@ export function runPhysicsTests() {
     const dL = Math.abs((d1.angularMomentumMag - d0.angularMomentumMag) / d0.angularMomentumMag);
     below(dE, 1e-6, 'energy drift');
     return below(dL, 1e-12, 'angular momentum drift') + `, energy drift ${dE.toExponential(2)}`;
+  });
+
+  // ------------------------------------------------------------- friction
+  group('dynamical friction — dissipative, and momentum-conserving anyway');
+
+  const frictionPair = (lnL) => {
+    const m1 = 1.0, q = 0.6;
+    const P1 = galaxyModel(m1), P2 = galaxyModel(m1 * q, Math.cbrt(q));
+    const M1 = P1.mass, M2 = P2.mass, mu = M1 + M2;
+    const s = K.stateAtTrueAnomaly(mu, 0.7, 20, -1.2);
+    const f1 = M2 / mu, f2 = -M1 / mu;
+    return new RestrictedSim({
+      friction: lnL,
+      galaxies: [
+        { mass: M1, potential: P1, pos: s.r.map((x) => x * f1), vel: s.v.map((x) => x * f1) },
+        { mass: M2, potential: P2, pos: s.r.map((x) => x * f2), vel: s.v.map((x) => x * f2) },
+      ],
+      particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+    });
+  };
+
+  check('friction conserves linear momentum exactly', () => {
+    // Dissipative but internal: it moves energy out of the orbit, never
+    // momentum out of the system. Force-symmetrised for exactly this reason.
+    const sim = frictionPair(3.0);
+    const mom = () => {
+      const p = [0, 0, 0];
+      for (const g of sim.galaxies) for (let k = 0; k < 3; k++) p[k] += g.mass * g.vel[k];
+      return p;
+    };
+    const p0 = mom();
+    const scale = Math.max(1e-12, sim.galaxies[0].mass * norm(Array.from(sim.galaxies[0].vel)));
+    sim.run(0.02, 6000);
+    return below(dist(p0, mom()) / scale, 1e-12, 'momentum drift with friction on');
+  });
+
+  check('friction removes orbital energy and decays the orbit', () => {
+    const withF = frictionPair(3.0), noF = frictionPair(0);
+    const e0 = withF.diagnostics().energy;
+    let apoWith = 0, apoNo = 0;
+    for (let i = 0; i < 9000; i++) {
+      withF.step(0.02); noF.step(0.02);
+      apoWith = Math.max(apoWith, withF.diagnostics().separation);
+      apoNo = Math.max(apoNo, noF.diagnostics().separation);
+    }
+    const e1 = withF.diagnostics().energy;
+    ok(e1 < e0, `energy did not decrease (${e0.toFixed(3)} -> ${e1.toFixed(3)})`);
+    ok(apoWith < apoNo * 0.98,
+      `apocentre did not shrink: ${apoWith.toFixed(1)} with friction vs ${apoNo.toFixed(1)} without`);
+    return `apocentre ${apoNo.toFixed(1)} -> ${apoWith.toFixed(1)} kpc, energy ${((e1 / e0 - 1) * 100).toFixed(1)}% deeper`;
+  });
+
+  check('SENSITIVITY: with friction OFF the orbit does not decay', () => {
+    // Proves the decay above is friction and not some other drift. Without this
+    // a leaky integrator would read as physics.
+    const sim = frictionPair(0);
+    const e0 = sim.diagnostics().energy;
+    sim.run(0.02, 9000);
+    const drift = Math.abs((sim.diagnostics().energy - e0) / e0);
+    return below(drift, 1e-6, 'energy drift with friction off');
   });
 
   // ------------------------------------------------------ disc equilibrium

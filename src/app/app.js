@@ -105,6 +105,7 @@ export class App {
     set('massRatio', this.spec.massRatio ?? 1);
     set('rPeri', this.spec.rPeri ?? 4);
     set('ecc', this.spec.ecc ?? 1);
+    set('friction', this.spec.friction ?? 0);
     set('inc1', this.spec.disc1?.inclination ?? 0);
     set('inc2', this.spec.disc2?.inclination ?? 0);
     $('retro1').checked = !!this.spec.disc1?.retrograde;
@@ -114,8 +115,11 @@ export class App {
   /** Rebuild from the current spec, preserving camera and appearance. */
   rebuild(viewTime = null) {
     if (this.sim) this.sim.destroy();
-    const { galaxies, particles } = buildEncounter(this.spec);
-    this.sim = new GpuSim(this.device, galaxies, particles);
+    const { galaxies, particles, friction } = buildEncounter(this.spec);
+    this.sim = new GpuSim(this.device, galaxies, particles, friction);
+    // Friction is dissipative, so backwards is no longer the same path forwards.
+    // Say so rather than letting the scrubber quietly stop meaning what it says.
+    $('frictionNote').style.display = friction > 0 ? 'block' : 'none';
     this.sim.time = this.spec.tStart;
     this.sim.orbit.time = this.spec.tStart;
     $('count').textContent = particles.count.toLocaleString();
@@ -432,6 +436,7 @@ export class App {
       };
       run();
     };
+    param('friction', 'friction', (v) => (v === 0 ? 'off' : v.toFixed(2)));
     param('massRatio', 'massRatio');
     param('rPeri', 'rPeri', (v) => `${v.toFixed(1)} kpc`);
     param('ecc', 'ecc');

@@ -31,13 +31,13 @@ function flatten(galaxies) {
 }
 
 export class GpuSim {
-  constructor(device, galaxies, particles) {
+  constructor(device, galaxies, particles, friction = 0) {
     this.device = device;
     this.count = particles.count;
 
     // the CPU reference carries the galaxies; zero particles on this instance
     this.orbit = new RestrictedSim({
-      galaxies,
+      galaxies, friction,
       particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
     });
     this.comps = flatten(galaxies);

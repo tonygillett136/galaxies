@@ -14,13 +14,24 @@
 
 const acc = [0, 0, 0];
 
+/** Abramowitz & Stegun 7.1.26; max abs error 1.5e-7, ample here. */
+function erf(x) {
+  const s = Math.sign(x); x = Math.abs(x);
+  const t = 1 / (1 + 0.3275911 * x);
+  const y = 1 - ((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t
+                 - 0.284496736) * t * t - 0.254829592 * t * Math.exp(-x * x);
+  return s * y;
+}
+
 export class RestrictedSim {
   /**
    * @param {object} opts
    * @param {Array<{mass:number, potential:object, pos:number[], vel:number[]}>} opts.galaxies
    * @param {{count:number, pos:ArrayLike<number>, vel:ArrayLike<number>}} opts.particles
    */
-  constructor({ galaxies, particles }) {
+  constructor({ galaxies, particles, friction = 0 }) {
+    /** Coulomb logarithm lnL. 0 disables friction entirely. */
+    this.friction = friction;
     this.galaxies = galaxies.map((g) => ({
       mass: g.mass, potential: g.potential,
       pos: Float64Array.from(g.pos), vel: Float64Array.from(g.vel),
@@ -96,6 +107,74 @@ export class RestrictedSim {
       }
     }
 
+    // --- Chandrasekhar dynamical friction, optional ---
+    //
+    // Without it the galaxy centres conserve energy exactly and can NEVER merge:
+    // they swing past each other forever. Both JSPAM (the cross-validation
+    // reference) and Identikit (the incumbent) include a friction treatment, and
+    // a reviewer was right that a scenario blurbed as a merger could not merge.
+    //
+    //   a_drag = -4 pi lnL M rho(d) [erf(X) - (2X/sqrt(pi)) e^-X^2] v / |v|^3
+    //   X = |v| / (sqrt(2) sigma),  sigma ~ v_circ(d) / sqrt(2)
+    //
+    // Force-symmetrised like gravity, so linear momentum is still conserved
+    // exactly even though ENERGY is not — energy loss is the entire point.
+    //
+    // THIS BREAKS TIME-REVERSIBILITY, and correctly so: friction is dissipative,
+    // so running the clock backwards cannot retrace the path. Leapfrog's exact
+    // reversibility only holds for velocity-independent forces. Off by default
+    // for that reason, and the interface says so when it is on.
+    if (this.friction > 0 && gs.length === 2) {
+      const dx = gs[0].pos[0] - gs[1].pos[0];
+      const dy = gs[0].pos[1] - gs[1].pos[1];
+      const dz = gs[0].pos[2] - gs[1].pos[2];
+      // Floor the separation used for density and dispersion. Chandrasekhar's
+      // formula describes a compact satellite moving through a SMOOTH field; once
+      // the cores overlap that picture has failed anyway, and a Hernquist density
+      // diverging as 1/r drives the drag to infinity. Without this floor the pair
+      // gained energy by a factor of 250 instead of losing it.
+      const dRaw = Math.hypot(dx, dy, dz);
+      const d = Math.max(dRaw, 0.5 * Math.max(gs[0].potential.scale, gs[1].potential.scale));
+      const vx = gs[0].vel[0] - gs[1].vel[0];
+      const vy = gs[0].vel[1] - gs[1].vel[1];
+      const vz = gs[0].vel[2] - gs[1].vel[2];
+      const v = Math.hypot(vx, vy, vz);
+
+      if (v > 1e-9 && d > 1e-9) {
+        const chandra = (P, other) => {
+          const rho = P.density ? P.density(d) : 0;
+          if (rho <= 0) return 0;
+          const sigma = Math.max(P.vcirc(d) / Math.SQRT2, 1e-6);
+          const X = v / (Math.SQRT2 * sigma);
+          const f = erf(X) - (2 * X / Math.sqrt(Math.PI)) * Math.exp(-X * X);
+          return 4 * Math.PI * this.friction * other.mass * rho * Math.max(f, 0) / (v * v * v);
+        };
+        // drag coefficient felt by each galaxy in the other's field
+        const k0 = chandra(gs[1].potential, gs[0]);   // galaxy 0 through 1's halo
+        const k1 = chandra(gs[0].potential, gs[1]);   // galaxy 1 through 0's halo
+        // symmetrise the FORCE, then apply equal and opposite along -v_rel
+        let F = 0.5 * (gs[0].mass * k0 + gs[1].mass * k1);
+
+        // Cap the per-step drag impulse. Drag is a stiff force: if F/m * dt
+        // exceeds the relative velocity, an explicit integrator overshoots,
+        // REVERSES the velocity and amplifies it, so a decelerating force
+        // accelerates. Limit the change to a quarter of v per step, which leaves
+        // the physics untouched in every regime where the formula is valid and
+        // only clips the regime where the integrator would fail regardless.
+        const dtAbs = Math.abs(this._dt || 0.02);
+        const maxK = 0.25 / dtAbs;                      // max fractional dv per step
+        const worst = Math.max(F / gs[0].mass, F / gs[1].mass);
+        if (worst > maxK) F *= maxK / worst;
+
+        gs[0].acc[0] -= F * vx / gs[0].mass;
+        gs[0].acc[1] -= F * vy / gs[0].mass;
+        gs[0].acc[2] -= F * vz / gs[0].mass;
+        gs[1].acc[0] += F * vx / gs[1].mass;
+        gs[1].acc[1] += F * vy / gs[1].mass;
+        gs[1].acc[2] += F * vz / gs[1].mass;
+      }
+    }
+
     const count = this.count, pos = this.pos, pa = this.pacc;
     for (let k = 0; k < count; k++) {
       const x = pos[k * 3], y = pos[k * 3 + 1], z = pos[k * 3 + 2];
@@ -124,8 +203,14 @@ export class RestrictedSim {
     for (let k = 0; k < this.count * 3; k++) pos[k] += vel[k] * dt;
   }
 
-  /** One KDK step. Negative dt runs it backwards, exactly. */
+  /**
+   * One KDK step. Negative dt runs it backwards exactly — UNLESS friction is on,
+   * in which case the force is velocity-dependent, the symplectic guarantee no
+   * longer applies, and reversal is only approximate. That is the physics:
+   * dissipation is irreversible.
+   */
   step(dt) {
+    this._dt = dt;
     this.kick(0.5 * dt);
     this.drift(dt);
     this.computeAccelerations();

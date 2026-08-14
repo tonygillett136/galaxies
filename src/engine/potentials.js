@@ -32,6 +32,7 @@ export function pointMass(mass) {
     },
     vcirc: (r) => Math.sqrt(mass / r),
     potential: (r) => -mass / r,
+    density: () => 0,           // all mass at the origin; zero everywhere else
   };
 }
 
@@ -54,6 +55,8 @@ export function plummer(mass, a) {
     // v_c^2 = r|g| = GM r^2 / (r^2+a^2)^{3/2}
     vcirc: (r) => Math.sqrt(mass * r * r / Math.pow(r * r + a2, 1.5)),
     potential: (r) => -mass / Math.sqrt(r * r + a2),
+    // rho = 3M / (4 pi a^3) * (1 + r^2/a^2)^{-5/2}
+    density: (r) => (3 * mass / (4 * Math.PI * a * a * a)) * Math.pow(1 + r * r / a2, -2.5),
   };
 }
 
@@ -81,6 +84,11 @@ export function hernquist(mass, a) {
     },
     vcirc: (r) => Math.sqrt(mass * r) / (r + a),
     potential: (r) => -mass / (r + a),
+    // rho = M a / (2 pi r (r+a)^3); singular at r=0, clamped at a/1000
+    density: (r) => {
+      const rr = Math.max(r, a * 1e-3);
+      return mass * a / (2 * Math.PI * rr * Math.pow(rr + a, 3));
+    },
   };
 }
 
@@ -105,6 +113,10 @@ export function nfw(massWithinC, rs, c = 10) {
     },
     vcirc: (r) => Math.sqrt(norm * mu(r / rs) / r),
     potential: (r) => -norm * Math.log(1 + r / rs) / r,
+    density: (r) => {
+      const x = Math.max(r / rs, 1e-3);
+      return norm / (4 * Math.PI * rs * rs * rs) / (x * (1 + x) * (1 + x));
+    },
   };
 }
 
@@ -129,6 +141,7 @@ export function composite(parts) {
       return Math.sqrt(v2);
     },
     potential: (r) => parts.reduce((s, p) => s + p.potential(r), 0),
+    density: (r) => parts.reduce((s, p) => s + (p.density ? p.density(r) : 0), 0),
   };
 }
 
