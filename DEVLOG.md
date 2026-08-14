@@ -376,3 +376,94 @@ archives stay out.
 
 Verified **on the live URL** rather than only locally, because the deployed environment is the
 one that counts: 62 targets, 300k particles, 60 fps, no render validation errors.
+
+---
+
+## The review board, round 1
+
+Six reviewers with different lenses, briefed to break rather than approve, each finding then
+checked by an independent verifier told to refute it. **70 findings. 48 confirmed, 19 partial,
+3 refuted.**
+
+The three refutations are the loop working: two were things I had already fixed before the
+verifier looked (slider sync, dust), and one was a misreading. Without the verification pass I
+would have "fixed" work that was already done.
+
+The synthesis made a point sharper than any individual finding: **the claims were consistently
+wider than the checks behind them.** The disc that shipped was not the disc that was asserted.
+The benchmark harness that produced every throughput number no longer existed. The "linear
+readout" clipped and gamma-encoded. And the parameterisation the whole inverse problem will
+sit on had an exactly flat direction nobody had looked for.
+
+It also flagged its own limitation, which I should not skip past: **only a subset of the 70
+findings were actually reproduced by a verifier.** Unverified criticals are *reported*, not
+absent. Both Newton's-third-law reports were in that unverified set — I checked that one
+myself, numerically, before touching anything.
+
+### What round 1 actually changed
+
+**Newton's third law was violated for every unequal-mass encounter.** Each galaxy felt the
+other's extended potential evaluated independently, which breaks the third law the moment the
+two profiles differ. Measured before the fix: 34 per cent force asymmetry at mass ratio 0.1.
+The pair force is now computed once and applied equal and opposite, symmetric to 1.2e-16.
+
+The part worth remembering is *why the existing test missed it*: my conservation check gave
+both galaxies the **same Plummer scale**, so the asymmetry cancelled exactly. The test could
+not detect the thing it existed to detect. It now uses mismatched scales.
+
+**The units suite did not test the units.** Two checks compared code against numbers I had
+typed from the same derivation; the other two cancelled the velocity unit algebraically and
+pass with G wrong by any factor at all. Replaced with Kepler's third law for the Earth's orbit
+— the AU, the solar mass and the Julian year, three quantities with nothing to do with the
+kpc/1e10-Msun derivation — closing to 3.8e-5.
+
+**The galaxies were dwarfs.** 1e10 solar masses, peak circular speed 118 km/s, rotation curve
+falling as r^-0.33, no dark halo at all, used for scenarios named after large spirals. Now
+bulge plus disc plus halo totalling 7.0e11 Msun with a circular speed flat at 208-220 km/s
+from 3 to 25 kpc. Scenario pericentres moved from a few kpc to 14-55 kpc, because four of the
+seven old ones put pericentre *inside* the primary's disc, which is a collision and not a
+tidal encounter.
+
+**"Pericentre" was not the pericentre.** The Kepler setup assumes point masses; extended
+galaxies do not execute the orbit it prescribes. Asking for 25 kpc delivered 34.6. It now
+solves for the Kepler value that delivers the requested one: 15.6 in, 25.0 out. This matters
+well beyond tidiness, because detective mode maps *published* r_min values through that
+parameter.
+
+**Mass and epoch are an exactly flat direction.** Scaling every mass by 4 and every time by
+1/2 reproduces every morphological moment to 3.8e-8. Morphology alone therefore cannot
+separate total mass from time-since-pericentre. The gauge is now declared in
+`docs/IDENTIFIABILITY.md` — hold m1 = 1, fit dimensionless quantities, take physical mass from
+an external constraint — along with what has *not* been established: other degeneracies
+unsearched, near-degeneracies more dangerous than exact ones, and viewing angle absent from
+the parameter set entirely.
+
+My first attempt at this test **refuted** the finding. The test was wrong: I evolved both runs
+for the same total time when the scaled run must run for t/√λ, the very rescaling under test.
+Verification needs verifying too.
+
+**There was no dynamical friction**, so the galaxy centres conserved energy exactly and could
+never merge, however close the passage — while one scenario was blurbed as a merger. Now
+Chandrasekhar friction with per-component densities, force-symmetrised so momentum is still
+conserved to 2.85e-15 while energy is not, which is the entire point. Apocentre decays from
+296.7 to 29.1 kpc.
+
+The first implementation *gained* energy by a factor of 250. Drag is stiff: where the
+Hernquist density diverges as 1/r, the per-step impulse exceeded the relative velocity and
+reversed it, so a decelerating force accelerated. Two limits, both physically motivated rather
+than fudges: floor the separation used for density at half the larger scale radius, because
+Chandrasekhar assumes a compact satellite in a smooth field and once cores overlap that has
+already failed; and cap the per-step impulse at a quarter of the relative velocity.
+
+Friction is **off by default**, because it breaks exact time reversal. That is not a defect to
+apologise for: dissipation is irreversible, and leapfrog's reversibility only ever held for
+velocity-independent forces. The interface says so whenever friction is on.
+
+**And the float32 number was measured on the wrong system.** My 4.3e-7 came from a toy case:
+one particle, a fixed point mass, float64 arithmetic quantised only at step boundaries.
+Re-measured on the shipped GPU path at the shipped timestep through pericentre: median 2.0e-5,
+p99 8.4e-4, worst 3.9e-3 kpc against 81 kpc of motion. A reviewer's independent 3.4e-4 sits
+right at my p99.
+
+Assertions went from 31 to 46, and the pass rate is not the point — the check-count guard is,
+because two of the night's failures were green suites that had silently skipped work.

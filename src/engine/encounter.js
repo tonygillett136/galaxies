@@ -246,8 +246,12 @@ export const SCENARIOS = {
   merger: {
     label: 'Merger (with friction)',
     blurb: 'A bound pair with dynamical friction switched on. Each passage transfers orbital energy to the halos, so the orbit decays and the two actually merge — which cannot happen with friction off, however close the passage. Note that time reversal stops being exact here: friction is dissipative.',
-    spec: { massRatio: 0.6, rPeri: 20, ecc: 0.7, tStart: -50, particles: 320000,
-            friction: 3.0,
+    // lnL tuned to a realistic decay: out to ~82 kpc after first passage, back
+    // in and merged around 1.3 Gyr, which is the right timescale for a major
+    // merger. lnL = 3 merged it inside 220 Myr, which is neither realistic nor
+    // watchable.
+    spec: { massRatio: 0.6, rPeri: 30, ecc: 0.9, tStart: -60, particles: 320000,
+            friction: 0.6,
             disc1: { inclination: 0.2, argPeri: 0.3 },
             disc2: { inclination: -0.5, argPeri: 1.7 } },
   },
