@@ -144,9 +144,13 @@ export const SCENARIOS = {
   },
   ring: {
     label: 'Ring galaxy',
-    blurb: 'A small companion fired through the centre of a large disc, almost perpendicular. Produces an expanding density ring, as in the Cartwheel.',
+    blurb: 'A small companion fired through the centre of a large disc, close to perpendicular. The impulse drives an outward density wave, leaving a ring with a comparatively empty centre, as in the Cartwheel.',
+    // The disc must be PERPENDICULAR to the orbital plane for the companion to
+    // punch through it face-on. This was 0.0 — coplanar — which is a grazing
+    // pass along the disc, produces no ring at all, and contradicted its own
+    // blurb. Three reviewers caught it independently.
     spec: { massRatio: 0.18, rPeri: 0.35, ecc: 1.1, tStart: -16, particles: 320000,
-            disc1: { inclination: 0.0, argPeri: 0, scaleLength: 2.0, rMax: 3.0 },
+            disc1: { inclination: Math.PI / 2, argPeri: 0, scaleLength: 2.0, rMax: 3.0 },
             disc2: { active: false } },
   },
 };

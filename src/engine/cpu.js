@@ -53,17 +53,46 @@ export class RestrictedSim {
     const gs = this.galaxies;
     for (const g of gs) { g.acc[0] = 0; g.acc[1] = 0; g.acc[2] = 0; }
 
-    // galaxy-galaxy: each feels the other's EXTENDED potential, not a point
-    // mass, because at pericentre the separation is comparable to the scale
-    // radii and treating them as points there is simply wrong.
+    // Galaxy-galaxy, SYMMETRISED.
+    //
+    // Each galaxy feels the other's extended potential rather than a point mass,
+    // because at pericentre the separation is comparable to the scale radii.
+    // But evaluating each side independently violates Newton's third law as soon
+    // as the two profiles differ: a_12 samples galaxy 2's enclosed-mass profile
+    // at d while a_21 samples galaxy 1's, and m1*M2,enc(d) != m2*M1,enc(d) when
+    // the scale radii differ. Measured before this fix: at mass ratio 0.1 and
+    // separation 2 the force on the primary was 34 per cent larger than the
+    // force on the secondary, so momentum was not conserved in any unequal-mass
+    // encounter — which is all of them except the symmetric case.
+    //
+    // The pair force is therefore computed once, as the mean of the two
+    // one-sided estimates, and applied equal and opposite. That is exactly
+    // momentum-conserving by construction, reduces to the correct answer when
+    // the profiles match, and its remaining error is in the MAGNITUDE of the
+    // close-passage force rather than in a conservation law. Asserted in
+    // test/physics.test.js across mass ratios with deliberately mismatched scales.
     for (let i = 0; i < gs.length; i++) {
-      for (let j = 0; j < gs.length; j++) {
-        if (i === j) continue;
-        gs[j].potential.accel(
-          gs[i].pos[0] - gs[j].pos[0],
-          gs[i].pos[1] - gs[j].pos[1],
-          gs[i].pos[2] - gs[j].pos[2], acc);
-        gs[i].acc[0] += acc[0]; gs[i].acc[1] += acc[1]; gs[i].acc[2] += acc[2];
+      for (let j = i + 1; j < gs.length; j++) {
+        const dx = gs[i].pos[0] - gs[j].pos[0];
+        const dy = gs[i].pos[1] - gs[j].pos[1];
+        const dz = gs[i].pos[2] - gs[j].pos[2];
+
+        gs[j].potential.accel(dx, dy, dz, acc);
+        const ax1 = acc[0], ay1 = acc[1], az1 = acc[2];     // accel of i, from j
+        gs[i].potential.accel(-dx, -dy, -dz, acc);
+        const ax2 = acc[0], ay2 = acc[1], az2 = acc[2];     // accel of j, from i
+
+        // mean of the two force estimates, along the separation
+        const fx = 0.5 * (gs[i].mass * ax1 - gs[j].mass * ax2);
+        const fy = 0.5 * (gs[i].mass * ay1 - gs[j].mass * ay2);
+        const fz = 0.5 * (gs[i].mass * az1 - gs[j].mass * az2);
+
+        gs[i].acc[0] += fx / gs[i].mass;
+        gs[i].acc[1] += fy / gs[i].mass;
+        gs[i].acc[2] += fz / gs[i].mass;
+        gs[j].acc[0] -= fx / gs[j].mass;
+        gs[j].acc[1] -= fy / gs[j].mass;
+        gs[j].acc[2] -= fz / gs[j].mass;
       }
     }
 

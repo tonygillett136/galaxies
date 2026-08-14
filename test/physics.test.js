@@ -20,7 +20,7 @@ import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(26);
+  expectChecks(30);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -49,6 +49,26 @@ export function runPhysicsTests() {
     const periodMyr = U.timeToMyr(2 * Math.PI * r / v);
     ok(periodMyr > 200 && periodMyr < 240, `period ${periodMyr.toFixed(1)} Myr outside 200-240`);
     return `${periodMyr.toFixed(1)} Myr`;
+  });
+
+  check('INDEPENDENT: G is verified against the Earth’s orbit, not against my arithmetic', () => {
+    // The checks above are weaker than they look, and a reviewer was right to
+    // say so. The two constant comparisons check the code against numbers I
+    // typed from the same derivation, so a consistently mistyped G passes both.
+    // And the two "physical" checks cancel the velocity unit algebraically:
+    // period = 2*pi*r/v then converted by TIME_MYR leaves V cancelled, so they
+    // pass with G wrong by ANY factor.
+    //
+    // This one cannot. It uses the astronomical unit, the solar mass and the
+    // Julian year — three quantities with nothing to do with the kpc /
+    // 1e10-Msun / G derivation — and asserts Kepler's third law closes in
+    // INTERNAL units. Wrong G, wrong kpc or wrong solar mass all break it.
+    const AU_KPC = 4.84813681e-9;          // 1 AU in kpc (1 pc = 206264.806 AU)
+    const SUN = 1e-10;                     // 1 solar mass in units of 1e10 Msun
+    const a = AU_KPC;
+    const periodInternal = 2 * Math.PI * Math.sqrt((a * a * a) / SUN);   // G = 1
+    const periodYears = U.timeToMyr(periodInternal) * 1e6;
+    return close(periodYears, 1.0, 2e-3, 'Earth orbital period in years, from internal units');
   });
 
   // ----------------------------------------------------------- potentials
@@ -234,14 +254,76 @@ export function runPhysicsTests() {
     return above(dist(A0, A1) / norm(A0), 0.05, 'LRL drift with softening = r_peri/2');
   });
 
+  check('NEWTON III: the pair force is equal and opposite at every mass ratio', () => {
+    // This check did not exist, and its absence let a real defect ship. Each
+    // galaxy used to feel the other's extended potential evaluated independently,
+    // which breaks the third law as soon as the two profiles differ: measured at
+    // mass ratio 0.1 and separation 2, the force on the primary was 34 per cent
+    // larger than the force on the secondary.
+    //
+    // The scales below are deliberately MISMATCHED, because the old conservation
+    // test gave both galaxies the same Plummer scale and therefore could not
+    // detect the asymmetry it was supposed to be guarding against.
+    let worst = 0, worstAt = '';
+    for (const q of [1.0, 0.5, 0.3, 0.1]) {
+      for (const d of [1.5, 4, 12]) {
+        const P1 = composite([plummer(0.35, 0.5), hernquist(0.65, 2.2)]);
+        const P2 = composite([plummer(0.35 * q, 0.5 * Math.cbrt(q)), hernquist(0.65 * q, 2.2 * Math.cbrt(q))]);
+        const sim = new RestrictedSim({
+          galaxies: [
+            { mass: 1.0, potential: P1, pos: [0, 0, 0], vel: [0, 0, 0] },
+            { mass: q, potential: P2, pos: [d, 0, 0], vel: [0, 0, 0] },
+          ],
+          particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+        });
+        const g = sim.galaxies;
+        const F1 = Math.hypot(g[0].acc[0], g[0].acc[1], g[0].acc[2]) * g[0].mass;
+        const F2 = Math.hypot(g[1].acc[0], g[1].acc[1], g[1].acc[2]) * g[1].mass;
+        const rel = Math.abs(F1 - F2) / Math.max(F1, F2);
+        if (rel > worst) { worst = rel; worstAt = `q=${q}, d=${d}`; }
+      }
+    }
+    below(worst, 1e-12, `worst |F12-F21|/F (${worstAt})`);
+    return `symmetric to ${worst.toExponential(1)} across q=1.0..0.1, d=1.5..12`;
+  });
+
+  check('linear momentum is conserved for an unequal-mass encounter', () => {
+    // The direct consequence of the check above, integrated. Unequal masses AND
+    // unequal scales, so it exercises the case the old test could not.
+    const m1 = 1.0, m2 = 0.25, mu = m1 + m2, e = 0.6, rp = 2.0;
+    const s = K.stateAtTrueAnomaly(mu, e, rp, -1.4);
+    const f1 = m2 / mu, f2 = -m1 / mu;
+    const sim = new RestrictedSim({
+      galaxies: [
+        { mass: m1, potential: composite([plummer(0.35, 0.5), hernquist(0.65, 2.2)]),
+          pos: s.r.map((x) => x * f1), vel: s.v.map((x) => x * f1) },
+        { mass: m2, potential: composite([plummer(0.0875, 0.315), hernquist(0.1625, 1.386)]),
+          pos: s.r.map((x) => x * f2), vel: s.v.map((x) => x * f2) },
+      ],
+      particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+    });
+    const mom = () => {
+      let p = [0, 0, 0];
+      for (const g of sim.galaxies) for (let k = 0; k < 3; k++) p[k] += g.mass * g.vel[k];
+      return p;
+    };
+    const p0 = mom();
+    const scale = Math.max(1e-12, Math.hypot(...sim.galaxies.map((g) => g.mass * norm(Array.from(g.vel)))));
+    sim.run(0.002, 20000);
+    const p1 = mom();
+    return below(dist(p0, p1) / scale, 1e-12, 'momentum drift / typical |p| of one galaxy');
+  });
+
   check('two mutually orbiting galaxies conserve energy and angular momentum', () => {
     const m1 = 1.0, m2 = 0.6, mu = m1 + m2, e = 0.4, rp = 2.0;
     const s = K.stateAtTrueAnomaly(mu, e, rp, Math.PI * 0.6);
     const f1 = m2 / mu, f2 = -m1 / mu;
+    // scales deliberately DIFFERENT (0.05 vs 0.13): identical scales hid the
+    // third-law defect from this test for its whole life
     const sim = new RestrictedSim({
       galaxies: [
         { mass: m1, potential: plummer(m1, 0.05), pos: s.r.map((x) => x * f1), vel: s.v.map((x) => x * f1) },
-        { mass: m2, potential: plummer(m2, 0.05), pos: s.r.map((x) => x * f2), vel: s.v.map((x) => x * f2) },
+        { mass: m2, potential: plummer(m2, 0.13), pos: s.r.map((x) => x * f2), vel: s.v.map((x) => x * f2) },
       ],
       particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
     });
@@ -290,6 +372,24 @@ export function runPhysicsTests() {
     let worst = 0;
     for (let i = 0; i < d.count; i++) worst = Math.max(worst, Math.abs(r1[i] - r0[i]) / r0[i]);
     return above(worst, 0.05, 'radius change with v_circ 10% low');
+  });
+
+  check('THE SHIPPED DISC holds its radii — exponentialDisc, not just the ring generator', () => {
+    // The equilibrium check above uses discOfRings, which NOTHING SHIPS.
+    // buildEncounter uses exponentialDisc, so the disc that actually appears on
+    // screen had no equilibrium assertion at all. It also had a real defect:
+    // circular speed was taken at the cylindrical radius while the particle sat
+    // at height z, leaving every off-plane particle slightly off its orbit.
+    const P = composite([plummer(0.35, 0.5), hernquist(0.65, 2.2)]);
+    const d = exponentialDisc({ potential: P, count: 4000, scaleLength: 1.6, rMax: 3.2, seed: 3 });
+    const sim = new RestrictedSim({
+      galaxies: [{ mass: 1.0, potential: P, pos: [0, 0, 0], vel: [0, 0, 0] }], particles: d });
+    const r0 = radiiOf(d.pos, d.count);
+    sim.run(0.01, 4000);
+    const r1 = radiiOf(sim.pos, d.count);
+    let worst = 0;
+    for (let i = 0; i < d.count; i++) worst = Math.max(worst, Math.abs(r1[i] - r0[i]) / r0[i]);
+    return below(worst, 5e-3, 'worst fractional spherical-radius change over ~40 time units');
   });
 
   check('exponential disc realises the analytic surface density profile', () => {

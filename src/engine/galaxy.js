@@ -94,7 +94,18 @@ export function exponentialDisc({
     const r = 0.5 * (lo + hi) * scaleLength;
     const th = 2 * Math.PI * rng();
     const z = -thickness * scaleLength * Math.log(1 - rng()) * (rng() < 0.5 ? -1 : 1);
-    const vc = potential.vcirc(r) * spin;
+
+    // Circular speed from the SPHERICAL radius, not the cylindrical one.
+    //
+    // The velocity (-v sin th, v cos th, 0) is perpendicular to the position
+    // vector even when z is non-zero, so each particle is on an exactly circular
+    // orbit — but only if its speed matches the potential at its actual distance
+    // from the centre. Using the cylindrical radius left every off-plane particle
+    // slightly off its circular orbit, so the shipped disc was not in equilibrium
+    // and would slowly breathe on its own. Small (z/R ~ 0.03 here) and precisely
+    // the kind of small that is indistinguishable from a weak tidal response.
+    const rs = Math.hypot(r, z);
+    const vc = potential.vcirc(rs) * spin;
 
     const p = rotateToOrbitFrame([r * Math.cos(th), r * Math.sin(th), z], inclination, argPeri, node);
     const w = rotateToOrbitFrame([-vc * Math.sin(th), vc * Math.cos(th), 0], inclination, argPeri, node);

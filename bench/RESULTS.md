@@ -1,8 +1,35 @@
 # Measured N-body throughput
 
-**Measured 2026-08-14, ~21:55 BST.** Apple M4, 10 GPU cores, 24 GB unified memory.
-Chrome 151, WebGPU, adapter reports `vendor=apple arch=metal-3`.
-Harness: `bench/nbody_bench.html`.
+**Apple M4, 10 GPU cores, 24 GB unified memory. Chrome 151, WebGPU, adapter
+`vendor=apple arch=metal-3`. Harness: `bench/nbody_bench.html`.**
+
+Two runs are recorded, because they disagree and the disagreement is informative.
+
+| Run | When | Machine state |
+|---|---|---|
+| **A** | 2026-08-14 21:55 | quiet |
+| **B** | 2026-08-14 23:07 | thirteen review agents running concurrently |
+
+Run B is the honest reminder that a throughput number is a measurement of a
+*machine in a state*, not a property of the code. The two agree to about 4 per
+cent where the GPU saturates and diverge by up to 56 per cent in the mid-N
+restricted regime, which is memory-bandwidth bound and therefore the part most
+exposed to whatever else is running.
+
+Where a single figure is needed, use run A and say it was measured on an idle
+machine. Where a claim depends on the number, use the range.
+
+## Run B, re-measured 23:07 under load
+
+Restricted: 7.90e9 / 2.35e9 / 2.01e9 / 2.14e9 / 3.12e9 evaluations/s at
+65k / 262k / 1.05M / 4.19M / 8.39M. 1M particles cost **1.04 ms/step**.
+
+Direct: 64.8e9 / 74.3e9 / 93.0e9 / 107.1e9 / 106.8e9 / 111.5e9 pair-interactions/s
+at 4k / 8k / 16k / 33k / 66k / 131k. Saturates near **1.12e11**.
+
+Every row passed the did-it-move and physical-ceiling checks.
+
+## Run A, measured 21:55 on an idle machine
 
 These replace the arithmetic estimate made before the machine was measured. The estimate was
 6e10 pair-interactions/s and 32k particles at 60 fps for self-gravity. Both were the right
@@ -44,9 +71,11 @@ is not.
 ## The consequence for the architecture
 
 **The interactive tier is rendering-bound, not physics-bound.** One million test particles
-cost 0.67 ms of a 16.7 ms frame budget, about 4 per cent. The engineering effort belongs in
-the renderer, and we can afford a particle count high enough that the galaxy reads as
-continuous light rather than as visible dots.
+cost 0.67 ms of a 16.7 ms frame budget on an idle machine and 1.04 ms under heavy load: 4 to 6
+per cent either way. The engineering effort belongs in the renderer, and we can afford a
+particle count high enough that the galaxy reads as continuous light rather than as visible
+dots. The application figure that matters is measured directly and independently of this
+harness: **300,000 test particles at 60 fps / 16.7 ms with the full render path.**
 
 **The inference tier is tractable on a desktop.** A 100k-particle forward model at ~0.07
 ms/step gives a 500-step encounter in about 35 ms. A 200-iteration gradient descent, counting

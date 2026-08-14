@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>N-body throughput benchmark</title>
+<style>body{background:#111;color:#ddd;font:13px/1.6 ui-monospace,Menlo,monospace;padding:1rem}</style></head>
+<body>
+<pre id="out">running…</pre>
+<script type="module">
+const out = document.getElementById('out');
+const log = (s) => { out.textContent += s + '\n'; };
+out.textContent = '';
+
+// Two kernels, because the two tiers have genuinely different cost structure.
+//   restricted : N massless test particles feeling K rigid analytic potentials,
+//                O(N*K). The Toomre & Toomre / JSPAM regime and the interactive tier.
+//   direct     : N mutually attracting bodies, tiled O(N^2). The science tier's
+//                inner loop and the thing that actually bounds us.
+
+const WGSL = `
+struct Massive { posMass : vec4f, softening : vec4f };
+struct Params  { n : u32, k : u32, dt : f32, eps : f32 };
+
+@group(0) @binding(0) var<storage, read>       massives : array<Massive>;
+@group(0) @binding(1) var<storage, read_write> pos      : array<vec4f>;
+@group(0) @binding(2) var<storage, read_write> vel      : array<vec4f>;
+@group(0) @binding(3) var<uniform>             params   : Params;
+
+@compute @workgroup_size(256)
+fn restricted(@builtin(global_invocation_id) gid : vec3u) {
+  let i = gid.x;
+  if (i >= params.n) { return; }
+  let p = pos[i].xyz;
+  var acc = vec3f(0.0);
+  for (var m : u32 = 0u; m < params.k; m = m + 1u) {
+    let mm = massives[m];
+    let d  = mm.posMass.xyz - p;
+    let e  = mm.softening.x;
+    let inv = inverseSqrt(dot(d, d) + e * e);
+    acc = acc + d * (mm.posMass.w * inv * inv * inv);
+  }
+  let v = vel[i].xyz + acc * params.dt;
+  vel[i] = vec4f(v, 0.0);
+  pos[i] = vec4f(p + v * params.dt, 1.0);
+}
+
+const TILE : u32 = 256u;
+var<workgroup> shared_pm : array<vec4f, TILE>;
+
+@compute @workgroup_size(256)
+fn direct(@builtin(global_invocation_id) gid : vec3u,
+          @builtin(local_invocation_id)  lid : vec3u) {
+  let i = gid.x;
+  let n = params.n;
+  var p = vec3f(0.0);
+  if (i < n) { p = pos[i].xyz; }
+  var acc = vec3f(0.0);
+  let eps2 = params.eps * params.eps;
+
+  let tiles = (n + TILE - 1u) / TILE;
+  for (var t : u32 = 0u; t < tiles; t = t + 1u) {
+    let src = t * TILE + lid.x;
+    // mass 0 for the tail, so padding contributes exactly nothing
+    if (src < n) { shared_pm[lid.x] = pos[src]; }
+    else         { shared_pm[lid.x] = vec4f(0.0, 0.0, 0.0, 0.0); }
+    workgroupBarrier();
+    for (var j : u32 = 0u; j < TILE; j = j + 1u) {
+      let q  = shared_pm[j];
+      let d  = q.xyz - p;
+      let inv = inverseSqrt(dot(d, d) + eps2);   // self-term: d = 0, contributes 0
+      acc = acc + d * (q.w * inv * inv * inv);
+    }
+    workgroupBarrier();
+  }
+  if (i < n) {
+    let v = vel[i].xyz + acc * params.dt;
+    vel[i] = vec4f(v, 0.0);
+    pos[i] = vec4f(p + v * params.dt, 1.0);
+  }
+}
+`;
+
+async function main() {
+  if (!navigator.gpu) { log('FAIL: no WebGPU'); return; }
+  const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
+  if (!adapter) { log('FAIL: no adapter'); return; }
+  const info = adapter.info ?? {};
+  log(`adapter: vendor=${info.vendor ?? '?'} arch=${info.architecture ?? '?'}`);
+  const lim = adapter.limits;
+  const device = await adapter.requestDevice({ requiredLimits: {
+    maxStorageBufferBindingSize: Math.min(lim.maxStorageBufferBindingSize, 1 << 30),
+    maxBufferSize: Math.min(lim.maxBufferSize, 1 << 30) } });
+
+  const module = device.createShaderModule({ code: WGSL, label: 'bench' });
+  for (const m of (await module.getCompilationInfo()).messages) {
+    log(`shader ${m.type} L${m.lineNum}: ${m.message}`);
+  }
+
+  // EXPLICIT layout, not 'auto'. 'auto' prunes bindings the entry point does not
+  // reference: `direct` never touches `massives`, so its auto layout omitted
+  // binding 0, every bind group was rejected, every dispatch was dropped, and
+  // this benchmark cheerfully reported 8.6e14 interactions/s for doing nothing.
+  const bgl = device.createBindGroupLayout({ entries: [
+    { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+    { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+    { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'storage' } },
+    { binding: 3, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'uniform' } },
+  ]});
+  const layout = device.createPipelineLayout({ bindGroupLayouts: [bgl] });
+  const pipelines = {
+    restricted: device.createComputePipeline({ layout, compute: { module, entryPoint: 'restricted' } }),
+    direct:     device.createComputePipeline({ layout, compute: { module, entryPoint: 'direct' } }),
+  };
+
+  const K = 2;
+
+  async function run(kind, n) {
+    const pipeline = pipelines[kind];
+    const posArr = new Float32Array(n * 4), velArr = new Float32Array(n * 4);
+    for (let i = 0; i < n; i++) {
+      const r = 5 + 15 * Math.random();
+      const th = Math.acos(2 * Math.random() - 1), ph = 2 * Math.PI * Math.random();
+      posArr[i*4] = r*Math.sin(th)*Math.cos(ph);
+      posArr[i*4+1] = r*Math.sin(th)*Math.sin(ph);
+      posArr[i*4+2] = r*Math.cos(th)*0.1;
+      posArr[i*4+3] = 1.0 / n;
+    }
+    const mk = (arr, extra=0) => {
+      const b = device.createBuffer({ size: arr.byteLength,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | extra, mappedAtCreation: true });
+      new Float32Array(b.getMappedRange()).set(arr); b.unmap(); return b;
+    };
+    const posBuf = mk(posArr, GPUBufferUsage.COPY_SRC), velBuf = mk(velArr);
+    const massives = new Float32Array(K * 8);
+    for (let m = 0; m < K; m++) {
+      massives[m*8] = m === 0 ? -10 : 10; massives[m*8+3] = 10.0; massives[m*8+4] = 0.5;
+    }
+    const massBuf = mk(massives);
+    const par = new ArrayBuffer(16);
+    new Uint32Array(par, 0, 2).set([n, K]);
+    new Float32Array(par, 8, 2).set([0.001, 0.05]);
+    const parBuf = device.createBuffer({ size: 16, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
+    device.queue.writeBuffer(parBuf, 0, par);
+
+    const bind = device.createBindGroup({ layout: bgl, entries: [
+      { binding: 0, resource: { buffer: massBuf } }, { binding: 1, resource: { buffer: posBuf } },
+      { binding: 2, resource: { buffer: velBuf } }, { binding: 3, resource: { buffer: parBuf } } ]});
+
+    const groups = Math.ceil(n / 256);
+    const dispatch = (count) => {
+      const enc = device.createCommandEncoder();
+      const pass = enc.beginComputePass();
+      pass.setPipeline(pipeline); pass.setBindGroup(0, bind);
+      for (let s = 0; s < count; s++) pass.dispatchWorkgroups(groups);
+      pass.end();
+      device.queue.submit([enc.finish()]);
+    };
+
+    dispatch(3); await device.queue.onSubmittedWorkDone();
+    const p0 = performance.now(); dispatch(4); await device.queue.onSubmittedWorkDone();
+    const probeMs = (performance.now() - p0) / 4;
+    const count = Math.max(4, Math.min(20000, Math.ceil(250 / Math.max(probeMs, 1e-4))));
+
+    const t0 = performance.now();
+    dispatch(count); await device.queue.onSubmittedWorkDone();
+    const t1 = performance.now();
+
+    // THE ASSERTION THAT WOULD HAVE CAUGHT THE EMPTY-COMMAND-BUFFER RUN.
+    // Read the state back and confirm the kernel actually moved something. A
+    // benchmark that can report a number without the kernel executing is not a
+    // slow instrument, it is a broken one, and its output cannot be falsified
+    // by looking at it.
+    const stage = device.createBuffer({ size: 64, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ });
+    const enc = device.createCommandEncoder();
+    enc.copyBufferToBuffer(posBuf, 0, stage, 0, 64);
+    device.queue.submit([enc.finish()]);
+    await stage.mapAsync(GPUMapMode.READ);
+    const after = new Float32Array(stage.getMappedRange().slice(0));
+    stage.unmap(); stage.destroy();
+    let moved = 0;
+    for (let i = 0; i < 16; i++) moved = Math.max(moved, Math.abs(after[i] - posArr[i]));
+    const finite = after.every(Number.isFinite);
+
+    for (const b of [posBuf, velBuf, massBuf, parBuf]) b.destroy();
+
+    const msPerStep = (t1 - t0) / count;
+    const pairs = kind === 'direct' ? n * n : n * K;
+    const rate = pairs / (msPerStep / 1000);
+    const CEILING = 4e11;   // ~4 TFLOP/s at ~20 flop per interaction
+    const flags = [];
+    if (moved === 0) flags.push('DID-NOT-MOVE');
+    if (!finite) flags.push('NON-FINITE');
+    if (rate > CEILING) flags.push('ABOVE-PHYSICAL-CEILING');
+    return { msPerStep, fps: 1000 / msPerStep, rate, count, flags };
+  }
+
+  const fmt = (x) => x >= 1e9 ? (x/1e9).toFixed(2) + 'e9' : (x/1e6).toFixed(1) + 'e6';
+  const head = () => log('N          ms/step     steps/s   pairs/s     steps   status');
+  const row = (n, r) => log(
+    `${String(n).padEnd(10)} ${r.msPerStep.toFixed(4).padEnd(11)} ${r.fps.toFixed(0).padEnd(9)} ` +
+    `${fmt(r.rate).padEnd(11)} ${String(r.count).padEnd(7)} ${r.flags.length ? '** ' + r.flags.join(',') : 'ok'}`);
+
+  log('\n=== restricted (N test particles, K=2 rigid potentials, O(N*K)) ===');
+  head();
+  for (const n of [65536, 262144, 1048576, 4194304, 8388608]) row(n, await run('restricted', n));
+
+  log('\n=== direct all-pairs (self-gravity, O(N^2)) ===');
+  head();
+  for (const n of [4096, 8192, 16384, 32768, 65536, 131072]) row(n, await run('direct', n));
+
+  log('\nDONE');
+  globalThis.__benchDone = true;
+}
+main().catch(e => { log('EXCEPTION: ' + (e.stack || e.message)); globalThis.__benchDone = true; });
+</script>
+</body>
+</html>
