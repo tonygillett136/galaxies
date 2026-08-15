@@ -103,9 +103,24 @@ export class Renderer {
       dustSoftness: 2.5,    // kpc over which near/far blend, killing the hard edge
       // Dust SCALE HEIGHT, kpc. Real dust lies in a layer several times thinner
       // than the stellar disc, and that thinness is the whole reason a lane reads
-      // as a lane rather than as general dimming. The stellar disc here has an
-      // rms height near 0.16 kpc at the shipped thickness, so 0.06 puts the dust
-      // well inside it.
+      // as a lane rather than as general dimming.
+      //
+      // THE JUSTIFYING NUMBER WAS MEASURED ON THE WRONG DISC. This said "rms
+      // height near 0.16 kpc at the shipped thickness", but 0.16 is the fixture
+      // in physics.test.js, built at scaleLength 1.6 — half what buildEncounter
+      // actually ships. Measured on the shipped disc (scaleLength 3.0): rms|z| =
+      // 0.297 kpc, so the real ratio is 0.06/0.297 = 0.20, not the 0.375 the
+      // comment implied. Three independent measurements agree on 0.296-0.297.
+      //
+      // 0.20 is still a defensible dust-to-star height ratio and the value is
+      // kept, but note what is NOT true of it: this is an absolute kpc value
+      // applied to both galaxies, while the two discs have different scale
+      // lengths (prograde ships 3.2 and 1.5*cbrt(q)), so the RATIO differs
+      // between them — about 0.19 for the primary and 0.4 for the secondary.
+      // Making it a fraction of each disc's own thickness*scaleLength is the
+      // right fix and is an open action, not a one-line change, because the
+      // shader would need the value per galaxy (n0.w/n1.w now carry it, and
+      // as of round 7 the shader reads each galaxy's own slot).
       dustHeight: 0.06,
       scienceFullScale: 2.0, // accumulated splat density mapped to display 1.0
     };
@@ -274,10 +289,28 @@ export class Renderer {
     // DISC NORMALS at 68 and 72. .w carries the dust scale height in kpc, which
     // is what makes the absorbing layer thinner than the stellar disc — real dust
     // scale heights are a few times smaller than the stars'.
-    const n0 = galaxies?.[0]?.discNormal ?? [0, 0, 1];
-    const n1 = galaxies?.[1]?.discNormal ?? [0, 0, 1];
-    s.set([n0[0], n0[1], n0[2], st.dustHeight], 68);
-    s.set([n1[0], n1[1], n1[2], st.dustHeight], 72);
+    //
+    // NO SILENT FALLBACK. This used to read `?? [0, 0, 1]`, and because
+    // RestrictedSim dropped discNormal on the way through, that default was what
+    // shipped — a confidently wrong absorbing plane, tilted up to 90 degrees out
+    // of the disc it was supposed to lie in, which still renders as a plausible
+    // dark smudge. A wrong plane is worse than no dust, so if the normal is
+    // missing the dust is switched OFF and the frame is visibly wrong instead of
+    // subtly wrong.
+    const n0 = galaxies?.[0]?.discNormal;
+    const n1 = galaxies?.[1]?.discNormal ?? n0;
+    if (!n0) {
+      s[64 + 2] = 0;                                 // dust.z: strength -> off
+      s.set([0, 0, 1, st.dustHeight], 68);
+      s.set([0, 0, 1, st.dustHeight], 72);
+      if (!this._warnedNoNormal) {
+        this._warnedNoNormal = true;
+        console.warn('renderer: galaxies carry no discNormal; dust disabled rather than guessed');
+      }
+    } else {
+      s.set([n0[0], n0[1], n0[2], st.dustHeight], 68);
+      s.set([n1[0], n1[1], n1[2], st.dustHeight], 72);
+    }
 
     this.device.queue.writeBuffer(this.splatUniform, 0, s);
   }

@@ -23,7 +23,7 @@ import { record } from './measured.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(55);
+  expectChecks(56);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -1047,6 +1047,47 @@ export function runPhysicsTests() {
     ok(vDefault.rms > 0.05,
       `the DEFAULT disc is flat (rms|z| = ${vDefault.rms.toExponential(2)}); the thickness default has been reverted`);
 
+    // THE SHAPE OF THE VERTICAL PROFILE, not just its rms.
+    //
+    // Round 7 proved by mutation that the shape was entirely unguarded: swapping
+    // the exponential amplitude law for a Rayleigh one turns the profile into a
+    // near-sech^2 disc — a completely different vertical structure — while rms|z|
+    // moves 0.6% and the suite stayed green. rms is a single moment and two very
+    // different profiles share it.
+    //
+    // WHAT THE SHIPPED PROFILE ACTUALLY IS, stated rather than implied: each
+    // particle sits at a random orbital phase on a circular orbit inclined by
+    // beta, so z = amp*sin(psi) with psi uniform — the arcsine distribution,
+    // U-shaped for fixed amp. Convolved with an exponential amp, p(z) goes as
+    // K_0(|z|/h), which is logarithmically divergent at the midplane and more
+    // cusped than either an exponential or a sech^2 disc. Measured ratio of the
+    // second |z| bin to the first: 0.507, against 0.819 for an exponential and
+    // 0.924 for sech^2.
+    //
+    // That is NOT what an observed edge-on disc looks like, and it is kept
+    // deliberately: it is the price of every particle being on an exact closed
+    // orbit, which is what makes the disc equilibrated rather than merely
+    // plausible — the trap CLAUDE.md names as the specific one in this domain.
+    // This check therefore CHARACTERISES the shape rather than grading it. The
+    // band is wide enough to survive reseeding and far too narrow to survive a
+    // change of amplitude law.
+    const profileRatio = (pos, n, h) => {
+      const B = 6, w = 0.2 * h, hist = new Float64Array(B);
+      for (let i = 0; i < n; i++) {
+        const b = Math.floor(Math.abs(pos[i * 3 + 2]) / w);
+        if (b < B) hist[b]++;
+      }
+      return hist[1] / Math.max(hist[0], 1);
+    };
+    const dShape = mk(0.1, 40000);
+    const shape = profileRatio(dShape.pos, dShape.count, 0.1 * 1.6);
+    ok(shape > 0.40 && shape < 0.62,
+      `the vertical PROFILE SHAPE has changed: second-bin/first-bin ratio is ${shape.toFixed(3)}, `
+      + 'outside the 0.40-0.62 band that the K_0 profile of random-phase inclined circular orbits '
+      + 'produces. Above it means a cored profile (a Rayleigh or Gaussian amplitude law reads '
+      + '~0.96); below it means something even more cusped. rms|z| alone cannot see this.');
+    record('discProfileRatio', shape);
+
     // and the disc buildEncounter actually ships
     const built = buildEncounter({ massRatio: 1, rPeri: 25, ecc: 1, tStart: -20, particles: 4000,
       disc1: { inclination: 0 }, disc2: { active: false } });
@@ -1171,5 +1212,46 @@ export function runPhysicsTests() {
       worst = Math.max(worst, Math.abs(inside / N - analytic));
     }
     return below(worst, 0.01, 'worst enclosed-fraction deviation');
+  });
+
+  // ------------------------------------------------- the delivery boundary
+  //
+  // Round 7's critical finding, guarded. The dust-lane fix was correct at both
+  // ends — buildEncounter computed the right normal, the shader used it right —
+  // and inert in the middle, because RestrictedSim's constructor rebuilt each
+  // galaxy without the field and the renderer reads THOSE objects.
+  //
+  // The check has to run on an INCLINED disc. The obvious version — assert the
+  // normal survives on the default scenario's primary — passes with the bug
+  // fully present, because that disc's inclination is 0 and its true normal IS
+  // the [0,0,1] fallback the renderer was substituting. That near-miss is the
+  // whole reason this defect survived a screenshot verification.
+  check('THE DISC NORMAL SURVIVES the trip to the renderer, on a TILTED disc', () => {
+    const enc = buildEncounter({ ...SCENARIOS.antennae.spec, particles: 64 });
+    const sim = new RestrictedSim({ galaxies: enc.galaxies, particles: enc.particles });
+
+    const tilt = [];
+    for (let i = 0; i < 2; i++) {
+      const built = enc.galaxies[i]?.discNormal;
+      ok(built, `buildEncounter did not attach a discNormal to galaxy ${i}`);
+      const got = sim.galaxies[i]?.discNormal;
+      ok(got, `RestrictedSim DROPPED discNormal for galaxy ${i} — the renderer reads these objects, `
+        + 'so the dust plane silently becomes the [0,0,1] fallback');
+      close(norm(got), 1, 1e-12, `galaxy ${i} normal is not a unit vector`);
+      close(dist(Array.from(got), Array.from(built)), 0, 1e-12,
+        `galaxy ${i} normal changed in transit`);
+      // angle away from the fallback, in degrees
+      tilt.push(Math.acos(Math.min(1, Math.abs(got[2]))) * 180 / Math.PI);
+    }
+
+    // The check must be able to SEE the defect: if both discs sat at the
+    // fallback, dropping the field would change nothing and this would pass on
+    // a broken tree. Assert the scenario has the tilt that gives it power.
+    ok(tilt[0] > 10 && tilt[1] > 10,
+      `this check is blind on a scenario whose discs are not tilted (got ${tilt[0].toFixed(1)} and `
+      + `${tilt[1].toFixed(1)} degrees from [0,0,1]) — it would pass with the field dropped`);
+    record('discNormalTiltAntennae', tilt[1]);
+    return `both normals delivered intact, tilted ${tilt[0].toFixed(1)} and ${tilt[1].toFixed(1)} `
+         + 'degrees out of the [0,0,1] fallback the renderer used to substitute';
   });
 }

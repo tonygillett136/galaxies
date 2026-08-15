@@ -26,7 +26,8 @@
  * test is meaningful" into "this test has been seen to fail", which is the
  * distinction five rounds kept losing.
  *
- * Runs the node-executable suites (physics + adjoint, 60 checks). GPU, morphology
+ * Runs the node-executable suites (physics + adjoint). The exact count is printed
+ * by the run rather than stated here, because it moves. GPU, morphology
  * and claims need a browser and are not covered here — noted rather than hidden.
  */
 
@@ -121,6 +122,29 @@ const MUTATIONS = [
     find: '      const r = compareClaim(files.get(c.file), c);',
     to:   "      const r = { status: 'accepted' };" },
 
+  // ROUND 7's two defeats of the round-6 canary. Both spare the canary — it goes
+  // through the real comparison and is still rejected — so asserting on the
+  // canary's verdict alone passes while the shipped prose is arbitrarily wrong.
+  // Both are now killed: the first by the ledger of work actually done, the
+  // second by probing each claim at its OWN declared tolerance.
+  //
+  // RUN THESE BY HAND against a COPY served by the COPY'S OWN devserver — see
+  // the note in bench/devserver.py, which chdirs to its own repo root and will
+  // otherwise serve the unmutated tree and report a false survival.
+  { name: 'claims/bypass-sparing-canary', kills: ['registered figure'], browserOnly: true,
+    why: 'round 7: routing every real claim around the comparison while the canary still goes '
+       + 'through it kept 78/78 green with a shipped figure 6.6x wrong',
+    file: 'test/claims.test.js',
+    find: '      const r = compareClaim(files.get(c.file), c);',
+    to:   "      const r = c === CANARY ? compareClaim(files.get(c.file), c) : { status: 'accepted' };" },
+
+  { name: 'claims/tolerance-floor', kills: ['registered figure'], browserOnly: true,
+    why: 'round 7: a 45% floor under every tolerance passes a 39.5%-wrong figure — both the 3x '
+       + 'canary and the 1.5x sensitivity check sit above it and never notice',
+    file: 'test/claims.test.js',
+    find: "  return { status: rel > claim.tol ? 'rejected' : 'accepted', written, truth, rel };",
+    to:   "  return { status: rel > Math.max(claim.tol, 0.45) ? 'rejected' : 'accepted', written, truth, rel };" },
+
   { name: 'disc/float32-at-birth', kills: ['is a DISC'],
     why: 'round 6: quantising the generator to float32 raises birth error 2.2e-16 -> 1.7e-8',
     file: 'src/engine/galaxy.js',
@@ -138,6 +162,21 @@ const MUTATIONS = [
     file: 'src/engine/potentials.js',
     find: "      const inv = 1 / Math.sqrt(r2);\n      const f = -mass * inv * inv * inv;\n      out[0] = f * dx; out[1] = f * dy; out[2] = f * dz;\n      return out;\n    },\n    vcirc: (r) => Math.sqrt(mass / r),",
     to:   "      const inv = 1 / Math.sqrt(r2);\n      const f = -mass * inv * inv * inv * (1 + 1e-3 * inv);\n      out[0] = f * dx; out[1] = f * dy; out[2] = f * dz;\n      return out;\n    },\n    vcirc: (r) => Math.sqrt(mass / r)," },
+
+  { name: 'disc/rayleigh-amplitude', kills: ['is a DISC'],
+    why: 'round 7: a Rayleigh amplitude law of the SAME rms turns the K_0 profile into a near-sech^2 '
+       + 'disc — a completely different vertical structure — and rms|z| moves only 0.6%, so every '
+       + 'assertion that looked at rms alone stayed green',
+    file: 'src/engine/galaxy.js',
+    find: '    const amp = -thickness * scaleLength * Math.log(1 - rng());',
+    to:   '    const amp = thickness * scaleLength * Math.sqrt(-2 * Math.log(1 - rng()));' },
+
+  { name: 'render/discnormal-dropped', kills: ['DISC NORMAL SURVIVES'],
+    why: 'round 7: RestrictedSim rebuilt each galaxy without discNormal, so the dust-lane fix was '
+       + 'inert in the shipped app for every tilted disc and the renderer silently substituted [0,0,1]',
+    file: 'src/engine/cpu.js',
+    find: '      discNormal: g.discNormal ? Array.from(g.discNormal) : undefined,\n',
+    to:   '' },
 
   { name: 'units/wrong-G', kills: ['velocity unit', 'Earth'],
     why: 'round 1: the units check must be independent of the derivation it checks',
@@ -248,9 +287,15 @@ for (const m of chosen) {
 }
 
 console.log(`\n${killed.length} killed, ${survived.length} SURVIVED/misattributed, ${broken.length} broken or stale, ${skipped.length} NOT COVERED (browser-only)`);
+// DERIVED FROM THE RUN, not typed. Round 7 found this banner reading "61 of the
+// 76 checks" while the baseline three lines above printed 63 and the browser
+// suite ran 78 — a stale literal in the one block whose entire purpose is to
+// stop the result being read as more than it is. A hand-typed coverage figure
+// goes stale exactly like a hand-typed claim, and this instrument exists
+// because hand-typed figures go stale.
 console.log(`
 COVERAGE, stated so this result is not read as more than it is:
-  runs      test/physics.test.js + test/adjoint.test.js  (61 of the 76 checks)
+  runs      test/physics.test.js + test/adjoint.test.js  (${b.total} checks here; the browser suite runs more)
   NOT run   GPU, morphology and claims — they need a browser
   NOT even reachable   src/app/** and src/render/**, which are 0% covered here.
 Round 6 reverted setBusy, the science-view backdrop, onDeviceLost and the chunked

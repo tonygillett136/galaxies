@@ -74,12 +74,25 @@ export class App {
     new ResizeObserver(() => this.resize()).observe(canvas);
     this.resize();
 
-    // FRAME AFTER EVERYTHING HAS SETTLED. loadScenario() frames as it builds, but
-    // at that moment the pair is at tStart — near its widest — so the opening view
-    // was set from a separation the user never sees. Measured on the live site:
-    // camera at 848 kpc for a content radius of 34. Unless a shared link supplied
-    // a camera, frame once more now that the scenario is at its view epoch.
-    if (!new URLSearchParams(location.search).has('cam')) this.frameToContent();
+    // THE CALL THAT USED TO BE HERE WAS DEAD, and its comment described a defect
+    // it could not possibly fix.
+    //
+    // It read: frame once more "now that the scenario is at its view epoch",
+    // citing the 848 kpc opening camera. But nothing advances the simulation
+    // between loadScenario() above and this line — restoreFromUrl() returns
+    // immediately without a ?sc= — so both calls saw simTime -51.735 and content
+    // radius 69.693 and computed the same 193.4906 kpc. Round 7 instrumented an
+    // otherwise byte-identical tree and measured the two calls as bit-for-bit
+    // identical. The 848 kpc symptom was real and IS fixed, but by the separate
+    // `mode === 'detective'` gate in selectTarget, not by this.
+    //
+    // What remains genuinely imperfect is stated rather than papered over: the
+    // opening frame is computed at tStart, where the pair is near its widest, so
+    // it is about 1.7x wider than the encounter a viewer watches moments later
+    // (112.4 kpc would suit a 40.5 kpc separation; 90.9 kpc suits pericentre).
+    // Reframing during playback needs to not fight a user who has zoomed, which
+    // is a design question and not a one-liner, so it is an OPEN ACTION with
+    // those numbers attached, and `f` reframes on demand in the meantime.
 
     requestAnimationFrame(() => this.frame());
   }
@@ -184,6 +197,17 @@ export class App {
 
   /** Rebuild from the current spec, preserving camera and appearance. */
   rebuild(viewTime = null) {
+    // CANCEL ANY SEEK STILL IN FLIGHT. seek() is chunked across frames and a
+    // full-span scrub takes ~3 s, during which every scenario button stays
+    // clickable (setBusy only changes a cursor and aria-busy). rebuild() then
+    // destroys the old sim and starts the new one at ITS t0 — but seekTarget
+    // still pointed at the previous scenario's timeline, so the next frame's
+    // pump() drove the new simulation towards an epoch from the old one.
+    // loadScenario's `if (!this.seeking)` guard shows the window was known
+    // about; this closes it.
+    this.seeking = false;
+    this.seekTarget = null;
+    this.setBusy?.(false);
     if (this.sim) this.sim.destroy();
     const built = buildEncounter(this.spec);
     const { galaxies, particles, friction, t0 } = built;
@@ -227,9 +251,16 @@ export class App {
     // units before it merges, so the one scenario whose whole point is the
     // merger could not be scrubbed to it.
     const lo = this.tStart, hi = lo + (this.spec.tSpan ?? 200);
-    s.min = String(lo);
-    s.max = String(hi);
-    s.step = '0.05';
+    // SNAP THE SPAN TO THE STEP GRID. tStart is an unrounded float
+    // (-51.73500000000177), so min + k*0.05 never lands on max: the browser
+    // clamps to the last reachable step and the control stops one whole step
+    // short of its own end. Measured: setting value = max left it reading
+    // 148.214999999998 against a max of 148.26499999999822 — the end of the
+    // timeline was simply not reachable by dragging.
+    const STEP = 0.05;
+    s.min = lo.toFixed(3);
+    s.max = (lo + Math.round((hi - lo) / STEP) * STEP).toFixed(3);
+    s.step = String(STEP);
     // pericentre is t = 0 by construction; put it where it actually falls
     const frac = Math.max(0, Math.min(1, (0 - lo) / (hi - lo)));
     $('periMark').style.left = `${frac * 100}%`;
@@ -532,6 +563,17 @@ export class App {
 
   /** Set the camera distance to frame the content. `f` at the default fov ~ fills the view. */
   frameToContent() {
+    // IN DETECT, THE FRAME IS AN INSTRUMENT. The camera distance there is not a
+    // matter of taste: it is set so one screen equals fieldKpc, which is what
+    // makes the simulation and the SDSS cutout comparable at all. Round 7
+    // measured `f` in Detect taking 191.25 kpc to 164.95 — a 13.8% scale error —
+    // and wiping the pan registration, while the note still read "Scale
+    // matched". A silently wrong scale bar is worse than no scale bar, so here
+    // `f` re-centres and leaves the calibration and the registration alone.
+    if (this.mode === 'detective' && Number.isFinite(this.fieldKpc)) {
+      this.camera._want.distance = this.fieldKpc / (2 * Math.tan(this.camera.fov / 2));
+      return;
+    }
     const r = this.contentRadius();
     const fov = this.camera.fov ?? (50 * Math.PI / 180);
     const d = r / Math.tan(fov / 2) * 1.15;
@@ -807,8 +849,21 @@ export class App {
       // panel of eighteen sliders is immediately.
       if (onControl && e.key.startsWith('Arrow')) return;
 
+      // TYPING, not control-ness, is what must suppress a letter shortcut.
+      //
+      // The previous fix gated only the Arrow keys and left f/r/s/1-4 on
+      // `!onControl`, with a comment claiming the whole bug was fixed. Round 7
+      // measured it: `f` was dead from #rPeri, #scrub, #retro1 and #follow, and
+      // alive only from BODY, the canvas, a button and the atlas pad. The panel
+      // has 20 inputs and 3 selects and NOT ONE is text, number or search — so
+      // the gate suppressed every shortcut and protected no typing whatsoever.
+      // A range slider and a checkbox have no use for the letter `f`.
+      const typing = e.target.isContentEditable
+        || (tag === 'TEXTAREA')
+        || (tag === 'INPUT' && /^(text|number|search|email|url|tel|password)$/i.test(e.target.type || 'text'));
+
       const modes = ['sandbox', 'detective', 'tour', 'atlas'];
-      if (e.key >= '1' && e.key <= '4' && !onControl) this.setMode(modes[Number(e.key) - 1]);
+      if (e.key >= '1' && e.key <= '4' && !typing) this.setMode(modes[Number(e.key) - 1]);
       // Space must NOT be stolen from a focused control. Fixing the "shortcuts
       // die on any focused control" bug overshot the other way: Space is how a
       // keyboard user toggles a checkbox or presses a button, so the retrograde
@@ -818,9 +873,9 @@ export class App {
       // there was no fallback either.
       const activates = onControl || tag === 'BUTTON' || e.target.isContentEditable;
       if (e.key === ' ' && !activates) { e.preventDefault(); $('play').click(); }
-      if (e.key === 'r' && !onControl) $('reset').click();
-      if (e.key === 'f' && !onControl) this.frameToContent();
-      if (e.key === 's' && !onControl) { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
+      if (e.key === 'r' && !typing) $('reset').click();
+      if (e.key === 'f' && !typing) this.frameToContent();
+      if (e.key === 's' && !typing) { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
       if (e.key === 'ArrowLeft') { this.playing = false; this.sim.step(-this.dt * 8); }
       if (e.key === 'ArrowRight') { this.playing = false; this.sim.step(this.dt * 8); }
       if (e.key === 'ArrowDown' && this.mode === 'tour') this.gotoTourStep(this.tourStep + 1);

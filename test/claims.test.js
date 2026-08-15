@@ -10,6 +10,12 @@
  * reversal worst case (repeated inside adjoint.js as its scope justification),
  * the assertion count, and a stale separation in an app.js comment.
  *
+ * ROUND 7 found it here, in this file's own header: the inventory below used to
+ * quote the README's frame rate as "16.6-16.7 ms median, 59.9-60.2 fps". The
+ * README's table moved and this did not — the disclosure about an unregistered
+ * figure had itself gone stale, which is the same failure one level out. It now
+ * names the claim without quoting it.
+ *
  * Each was fixed by hand. Fixing by hand restores the values and leaves the
  * mechanism, and the mechanism is that prose and measurement are not connected.
  * So they are connected here: the suites record what they measured, this file
@@ -24,13 +30,17 @@
  * DELIBERATELY NOT REGISTERED, and named so the omission is a decision rather
  * than an oversight:
  *
- *   - THE FRAME RATE (README: 16.6-16.7 ms median, 59.9-60.2 fps). It is a manual
- *     measurement of the full application over 150 frames at a stated resolution,
- *     and no automated suite reproduces it. Registering it against a hardcoded
- *     literal would make the guard compare the document to a number someone typed
- *     — which looks guarded and is not, and is the exact failure this file exists
- *     to prevent. Round 6 changed it to 166 ms and nothing objected; that remains
- *     true and is stated here rather than papered over.
+ *   - THE FRAME RATE, i.e. the table in README.md. Deliberately cited by name
+ *     rather than by value, because quoting it here is how this very paragraph
+ *     went stale. It is a manual measurement of the full application over 150
+ *     frames at a stated resolution, and no automated suite reproduces it.
+ *     Registering it against a hardcoded literal would make the guard compare the
+ *     document to a number someone typed — which looks guarded and is not, and is
+ *     the exact failure this file exists to prevent. Round 6 changed it to 166 ms
+ *     and nothing objected; that remains true. Round 7 showed the sharper cost:
+ *     the table was "corrected" from 60 fps to 31-46 fps on measurements taken
+ *     while six other WebGPU tabs were on the same GPU, and nothing caught it.
+ *     An unregistered figure can be corrected in the WRONG DIRECTION silently.
  *   - Anything in `src/app` or `src/render`, which no headless check reaches.
  *
  * Registering a figure against a value invented for the purpose is worse than
@@ -72,6 +82,11 @@ const CLAIMS = [
     key: 'gpuAgreement', tol: 0.25, what: 'README GPU/CPU agreement' },
   { file: 'src/engine/adjoint.js', re: /worst ([\d.e+-]+) kpc over 3000 forward/,
     key: 'f32ReversalWorst', tol: 0.30, what: 'adjoint.js scope justification' },
+  // Round 7: the README said 4e-10 here, a figure produced by no check in the
+  // tree and 550x better than the code measures. Registered so the next drift
+  // fails the build instead of being read by a reader.
+  { file: 'README.md', re: /worst relative error of ([\d.e+-]+) over 15 components/,
+    key: 'adjointFdWorst', tol: 0.50, what: 'README adjoint finite-difference agreement' },
   { file: 'src/engine/encounter.js', re: /\(([\d.]+) per\n \* cent of a disc beyond 20 kpc/,
     key: 'tidalProgradePct', tol: 0.05, what: 'encounter.js file header' },
   { file: 'src/engine/encounter.js', re: /beyond 20 kpc against ([\d.]+) per cent retrograde\)/,
@@ -128,7 +143,32 @@ const CLAIMS = [
  *
  * A private copy is not a test of the thing it copies. There is one function now.
  */
+/**
+ * A LEDGER OF WORK ACTUALLY DONE, kept inside the comparison itself.
+ *
+ * Round 7 defeated the round-6 canary in one line:
+ *
+ *   const r = c === CANARY ? compareClaim(files.get(c.file), c) : { status: 'accepted' };
+ *
+ * The canary still went through the real comparison and was still rejected, so
+ * the canary was satisfied — while all 24 real claims were routed around it and
+ * a shipped figure could be 6.6x wrong with the suite fully green. A canary
+ * proves the loop ran for the CANARY. It cannot prove the loop ran for anything
+ * else, and asserting on its verdict alone is asserting on one row.
+ *
+ * So the ledger lives here, in the function a bypass must skip in order to work.
+ * Skipping the call is what the bypass IS, so the entry never appears and the
+ * count assertion fires. Verified by mutation, not by argument.
+ */
+export const evaluated = [];
+
 export function compareClaim(text, claim) {
+  const out = compareClaimInner(text, claim);
+  evaluated.push({ file: claim.file, key: claim.key, status: out.status });
+  return out;
+}
+
+function compareClaimInner(text, claim) {
   const m = text.match(claim.re);
   if (!m) return { status: 'not-found' };
   const written = parseFloat(m[1]);
@@ -197,7 +237,46 @@ export async function runClaimsChecks(assertionCount) {
       }
     }
     ok(bad.length === 0, bad.join('\n        '));
-    return `${CLAIMS.length} documented figures match their measurements`;
+
+    // THE LEDGER. Every claim must have gone THROUGH compareClaim, not merely
+    // been iterated over. A bypass that spares the canary leaves these entries
+    // missing, because skipping the call is the whole mechanism of the bypass.
+    const seen = new Set(evaluated.map((e) => `${e.file}|${e.key}`));
+    const missing = CLAIMS.filter((c) => !seen.has(`${c.file}|${c.key}`))
+      .map((c) => `${c.what} (${c.file})`);
+    ok(missing.length === 0,
+      `${missing.length} registered claims never reached the comparison: ${missing.join('; ')}. `
+      + 'They were iterated over but not evaluated, which is what a short circuit around the '
+      + 'canary looks like.');
+    ok(evaluated.length >= CLAIMS.length + 1,
+      `the comparison ran ${evaluated.length} times for ${CLAIMS.length} claims plus a canary — `
+      + 'fewer evaluations than claims means the loop was short-circuited');
+
+    // PER-CLAIM TOLERANCE. The canary is one fixed magnitude (3x), so any
+    // tolerance inflation that stays under it survives: round 7 put a 45% floor
+    // under all 24 tolerances and passed a 39.5%-wrong figure with the canary
+    // still rejected and the suite green. Probing each claim just outside ITS
+    // OWN tolerance cannot be satisfied by a floor, because the floor has to be
+    // below every probe to be invisible and above every tolerance to be useful.
+    const blunt = [];
+    for (const c of CLAIMS) {
+      const truth = measured(c.key);
+      if (!Number.isFinite(truth) || truth === 0) continue;
+      const near = truth * (1 + c.tol * 0.5);          // inside tolerance
+      const far = truth * (1 + c.tol * 1.5 + 1e-12);   // outside it
+      const fmt = (v) => v.toPrecision(12);
+      const a = compareClaimInner(`probe ${fmt(near)} probe`, { ...c, re: /probe ([\d.eE+-]+) probe/ });
+      const b = compareClaimInner(`probe ${fmt(far)} probe`, { ...c, re: /probe ([\d.eE+-]+) probe/ });
+      if (a.status !== 'accepted' || b.status !== 'rejected') {
+        blunt.push(`${c.what}: tol ${c.tol} behaves as accepted=${a.status}/rejected=${b.status}`);
+      }
+    }
+    ok(blunt.length === 0,
+      'the effective tolerance does not match the declared one for: ' + blunt.join('; ')
+      + ' — a floor or a widening has decoupled them');
+
+    return `${CLAIMS.length} documented figures match their measurements, all ${evaluated.length} `
+         + 'evaluations accounted for, each at its own declared tolerance';
   });
 
   await checkAsync('SENSITIVITY: the guard rejects a drift, a rewording and a malformed number', async () => {

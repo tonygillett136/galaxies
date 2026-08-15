@@ -141,6 +141,11 @@ export function runAdjointTests() {
       if (rel > worst) { worst = rel; worstAt = `k=${k} fd=${fd.toExponential(3)} adj=${an.toExponential(3)}`; }
     }
     below(worst, 2e-5, `worst relative gradient error (${worstAt})`);
+    // REGISTERED. The README said this agreed to 4e-10 — a figure no check in
+    // the project produces, 550x better than the code actually measures, and
+    // repeated into the DEVLOG with a third different pair of numbers. Putting
+    // it through measured() means the prose is now compared against the run.
+    record('adjointFdWorst', worst);
     return `worst rel err ${worst.toExponential(1)} over ${idx.length} components`;
   });
 

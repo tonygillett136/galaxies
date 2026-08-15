@@ -74,10 +74,25 @@ export class RestrictedSim {
   constructor({ galaxies, particles, friction = 0 }) {
     /** Coulomb logarithm lnL. 0 disables friction entirely. */
     this.friction = friction;
+    // THIS MAP IS A DELIVERY BOUNDARY, and it silently ate a shipped feature.
+    //
+    // Round 7 found the dust-lane fix inert: buildEncounter attached discNormal
+    // to each galaxy, the uniform block grew 68 -> 76 floats to carry it, the
+    // shader confined dust about it — and this literal dropped the field on the
+    // floor. The renderer reads sim.orbit.galaxies, i.e. THESE objects, so it
+    // took its `?? [0, 0, 1]` fallback in every frame of every scenario. The
+    // fallback is exactly right for one disc in the whole project (prograde's
+    // primary, inclination 0), and that is the disc the verifying screenshot
+    // was taken from. Measured cost elsewhere: the antennae's mean dust column
+    // ran at 0.09 of what the fix intended, the ring's at 0.048.
+    //
+    // Anything the RENDERER needs must be copied here explicitly. Adding a
+    // field to the galaxy spec is not enough on its own.
     this.galaxies = galaxies.map((g) => ({
       mass: g.mass, potential: g.potential,
       pos: Float64Array.from(g.pos), vel: Float64Array.from(g.vel),
       acc: new Float64Array(3),
+      discNormal: g.discNormal ? Array.from(g.discNormal) : undefined,
     }));
 
     // Internal state is ALWAYS Float64, even when callers hand us Float32 arrays

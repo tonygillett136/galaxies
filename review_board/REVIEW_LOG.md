@@ -549,3 +549,91 @@ the claims guard, and finally the mutation harness. The only defences that have
 held more than once are those that turn the check on **itself**: `expectChecks`
 for the suite, and the canary for the claims guard. That is the transferable
 result.
+
+---
+
+## Round 7 — 2026-08-15 07:10-08:00, on a frozen tree
+
+**Six reviewers, 33 findings. Verdicts: 2 "serious problems", 4 "not yet". Gate NOT passed.**
+
+Aimed at the newest and least-reviewed work — the dust lane, the framing change, the 68→76
+float uniform block — and at the round-6 guards written specifically to break the pattern.
+
+### The pattern held, and the canary was defeated one level up
+
+Of the seven changes put up for review (A–G), **four were wrong**:
+
+| | change | verdict |
+|---|---|---|
+| A | the dust lane | **INERT in the shipped app** — the disc normal never reached the shader |
+| B | the framing change | half of it was a **bit-for-bit no-op**; `f` was dead from every form control and destroyed the Detect scale match |
+| C | the frame-rate correction | **wrong, and in the wrong direction** — measured under GPU contention, with an invented mechanism |
+| D | the LRL check | **correct.** Reproduces figure for figure; power measured at δ ≈ 3e-7 |
+| E | the self-verifying canary | **defeated twice in one line each** |
+| F | the mutation harness discipline | **correct** — crash-is-BROKEN, kills-attribution and de-truncation all verified by probe |
+| G | the round-6 guards | correct, but the coverage banner they print was stale |
+
+### The finding that matters most
+
+`RestrictedSim`'s constructor rebuilt each galaxy as `{mass, potential, pos, vel, acc}`,
+dropping `discNormal`. Both ends of the pipe were right and the middle silently ate the
+payload. **Five of six reviewers found it independently**, three of them by instrumenting the
+live renderer rather than by reading.
+
+The part worth carrying forward is not the bug, it is the certification: the `[0,0,1]` fallback
+is exactly correct for **one disc in the entire project**, and that disc is in the default
+scenario, and that is the screenshot the fix was verified on. Deleting the whole attach left
+the node suite 63/63 green.
+
+So the guard asserts the *tilt* as well as the delivery, and says why — a check on the default
+scenario would pass with the bug fully present.
+
+### What is now settled, and should stop being re-litigated
+
+Four reviewers independently verified the splat uniform block byte by byte after the 68→76
+growth (2 mat4 + 11 vec4 = 76 floats = 304 bytes, offsets 0/16/32/36/40/44/48/52/56/60/64/68/72,
+no overlap, science path clean). The LRL convergence argument is correct and its figures
+reproduce exactly. The disc is in exact equilibrium. `discNormal` is computed correctly,
+including after `alignToApproach`. Both end-to-end user tasks complete. The chunked seek lands
+within half a step on every path and clears busy every time.
+
+### Reviewer scorecard
+
+| reviewer | verdict | findings | confirmed by a second reviewer |
+|---|---|---|---|
+| Reinhardt (render) | serious problems | 5 | the dust delivery, the rms-height figure |
+| Tanaka (GPU) | not yet | 6 | the dust delivery, n1.w dead |
+| Menon (mutation) | serious problems | 5 | the dust delivery, the coverage banner |
+| Ferreira (physics) | not yet | 5 | the rms-height figure, n1.w dead |
+| Whitcombe (referee) | not yet | 6 | the dust delivery, the coverage banner |
+| Lindqvist (interaction) | not yet | 6 | the inert `frameToContent` |
+
+**The verification phase was stopped early and deliberately.** All six reviews were in and
+read; continuing would have had verifiers re-checking findings against a tree already being
+fixed, producing refutations of correct findings — and its browser fleet made the frame-rate
+re-measurement impossible to do on a quiet GPU, which was the very error under investigation.
+The three load-bearing findings were each confirmed by three or more independent reviewers plus
+a direct reading of the source, so nothing rests on the phase that was cut.
+
+### Two reviewer claims checked and NOT adopted
+
+Reviewers are wrong sometimes, and accepting a wrong correction costs as much as missing a right
+one — the rule this project broke in round 4 and has followed since.
+
+- **"Co-planar dust must match the stellar axis ratio; that one line would have caught this."**
+  Measured: it does not discriminate — 0.321 with the fix against 0.339 without. The quantity
+  that does discriminate is the total extinguished fraction, by a factor of 3.9. Adopted the
+  position-angle half (agrees to 7.2°) and rejected the axis-ratio half.
+- **"Assert the vertical profile is not more cusped than exponential (ratio > 0.6)."** The
+  shipped construction measures 0.507 and would fail it. The K₀ profile is the price of exact
+  equilibrium, so the new assertion *characterises* the shape in a band rather than grading it —
+  wide enough to survive a reseed, far too narrow to survive a change of amplitude law.
+
+### Where seven rounds leave it
+
+The engine has been right for two rounds. Round 7's defects live almost entirely in the layer
+above it: a delivery boundary, a guard that proved one row of its own table, a confession that
+inflated its own headline 16×, a stale coverage banner in the anti-staleness instrument, and a
+number corrected in the wrong direction with a plausible mechanism attached.
+
+That is a better failure mode than round 3. It is not A+, and the gate has not passed.

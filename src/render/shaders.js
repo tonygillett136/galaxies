@@ -53,7 +53,11 @@ struct Uniforms {
   up          : vec4f,     // camera up in world space
   eye         : vec4f,
   params      : vec4f,     // x = splat world size, y = intensity, z = minPixels, w = wpp/unit
-  params2     : vec4f,     // x = colourMode, y = time, z = dustStrength, w = aspect
+  params2     : vec4f,     // x = colourMode, y/z UNUSED (written 0), w = aspect
+                           // dust strength lives in dust.z, not here — the old
+                           // comment named two fields this shader never reads,
+                           // on the one struct in the project whose miscount
+                           // once wrote the dust vec4 over g1
   forward     : vec4f,     // camera forward, for view-depth without the view matrix
   g0          : vec4f,     // galaxy 0 centre (xyz)
   g1          : vec4f,     // galaxy 1 centre (xyz)
@@ -199,7 +203,11 @@ fn vs(@builtin(vertex_index) vi : u32, @builtin(instance_index) ii : u32) -> VSO
   // else in the pipeline carries orientation.
   let nrm = select(U.n0.xyz, U.n1.xyz, originId > 0.5);
   let h = abs(dot(p.xyz - centre, nrm));
-  let hScale = max(U.n0.w, 1e-3);
+  // Take the scale height from the SAME vec4 as the normal. This read n0.w for
+  // both galaxies, which is an equivalent mutant only for as long as the two
+  // slots are written from one setting — the next person to want a per-galaxy
+  // dust height would have got a silent no-op on the second disc.
+  let hScale = max(select(U.n0.w, U.n1.w, originId > 0.5), 1e-3);
   out.dustW = radial * exp(-h / hScale);
   return out;
 }

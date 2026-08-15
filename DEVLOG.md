@@ -1083,8 +1083,16 @@ recurring inside my round-4 fix: I measured the quantity I had been thinking
 about rather than the one that could go wrong.
 
 Tilting each orbit about its own random node axis fixes it — Rodrigues rotation is
-exact, so the equilibrium is untouched — and takes the fold ratio from 0.6405 to
-**0.0135**.
+exact, so the equilibrium is untouched — and takes the fold ratio from 0.56 to
+**0.044 at N = 6,000**, which is the shot-noise floor rather than a property of
+the disc: it falls as roughly 1/√N (0.038 at 6k, 0.015 at 24k, 0.003 at 64k).
+
+> **Round 7 correction.** This said "from 0.6405 to 0.0135", and neither figure
+> is what the shipped suite measures — it reports 0.56 and 0.044, and the 0.0135
+> was one draw at an unstated, much larger N. Quoting a single draw of a
+> shot-noise quantity without its N makes a random number look like a result. The
+> honest claim is the stronger one anyway: after the fix the fold moment is *at
+> the noise floor*, which survives a reseed, where "0.0135" does not.
 
 ### Where five rounds have got to
 
@@ -1195,6 +1203,14 @@ quantity I had in mind rather than the one that could go wrong.
 **76 assertions, zero failures. Mutation harness: 14 killed, 0 survived, 1
 honestly reported as not covered.** Deployed and verified live.
 
+> Left as written, because it was true when written and the section is headed
+> "where SIX rounds leave it". Round 7 immediately made it stale — the figures
+> at the end of the night are 79 and 17/0/1 — and a state summary that silently
+> updates itself to match the present is not a log. This is exactly the drift
+> the claims guard exists to catch, and the guard does not read this line;
+> `assertionCount` is registered against the README, which is the file a reader
+> is pointed at. See the round-7 section at the end for the state that holds.
+
 The gate has not passed and I do not think another round would pass it. What six
 rounds have established is not a finished artefact but a reliable *method*, and
 one uncomfortable fact about it: every instrument this project has built to check
@@ -1235,9 +1251,30 @@ the force rather than of the discretisation. Measured on the shipped path:
 
 Ratios **4.00 and 4.00**. Textbook second order, so the residual is integration
 error and the test-particle force law is exactly inverse-square. A Plummer sphere
-of the same mass drifts 1.19 — a factor of 160,000 — and a mutation adding a 1e-3
-non-1/r² term makes the drift stop converging entirely (6.54e-3 → 6.66e-3 across
-a 4× refinement).
+of the same mass drifts 1.19 at that same 2,000 steps per orbit — a factor of
+**10,000** — and a mutation adding a 1e-3 non-1/r² term makes the drift stop
+converging entirely (6.54e-3 → 6.66e-3 across a 4× refinement).
+
+> **Round 7 correction, and it is the one that stings.** This paragraph said "a
+> factor of 160,000". That divided the Plummer drift at 2,000 steps per orbit by
+> the point-mass drift at 8,000 — a 4× finer timestep, hence 16× smaller drift,
+> hence a ratio inflated exactly 16-fold. Three paragraphs above, the same
+> passage argues that "a tolerance chosen without that arithmetic measures the
+> timestep and reports it as physics". I made the error inside the confession
+> about the error. Like for like, it is 10,000.
+
+**How much power does this check actually have?** Asked and answered rather than
+asserted, because "it is the right kind of test" is not a measurement. Perturbing
+the force law to F ∝ r^−(2+δ) and bisecting the pass/fail boundary: the check
+**misses δ = 1e-7 and catches δ = 3e-7**. Round 7's reviewer, scanning 180
+log-spaced perturbations of both signs independently, put the threshold at
+δ ≈ 1.8e-7 and found no re-entrant band where a larger error slips through. Two
+independent measurements, agreeing. That is roughly 3,400× smaller than the 1e-3
+term the mutation harness uses, so the harness's mutation is a comfortable kill
+rather than a marginal one. Worth stating precisely: near the threshold the check
+trips because the convergence ratios go *erratic* (they overshoot above 5.0
+through partial cancellation), not because they collapse to 1. The clean collapse
+signature starts around δ = 1e-5.
 
 ### And then the harness hid that from itself
 
@@ -1292,3 +1329,238 @@ failure is rarely in the line you are looking at. It is in the relationship
 between that line and something else — an inline copy versus an exported
 function, an assertion versus the default it does not exercise, a mode's
 calculation versus the mode it runs in. None of those are visible in a diff.
+
+---
+
+## 07:00–09:00 — Round 7, and the defect moves one slot further out
+
+Six rounds had established a pattern: each one found the previous round's fixes
+present, commented as handled, and wrong. Round 7 was aimed squarely at the newest
+work — the dust lane, the framing change, the 68→76-float uniform block — and at
+the round-6 guards written to break the pattern.
+
+It held. Six reviewers, 33 findings, and the headline is the same shape as every
+round before it.
+
+### The dust-lane fix was inert, and I certified it on the one galaxy where the bug is invisible
+
+`buildEncounter` attaches each galaxy's `discNormal`. The uniform block grew from
+68 to 76 floats to carry it — hand-counted correctly, verified byte-by-byte by
+four separate reviewers. The shader confines dust about the plane, correctly.
+
+And `RestrictedSim`'s constructor sat in the middle of that pipe doing this:
+
+```js
+this.galaxies = galaxies.map((g) => ({
+  mass: g.mass, potential: g.potential,
+  pos: Float64Array.from(g.pos), vel: Float64Array.from(g.vel),
+  acc: new Float64Array(3),
+}));
+```
+
+`discNormal` is not in that list. The renderer reads `sim.orbit.galaxies` — those
+objects — so `?? [0, 0, 1]` fired every frame of every scenario. Eight new floats,
+correctly plumbed, carrying a constant.
+
+**The part that matters is how it was certified.** The fallback `[0,0,1]` is
+exactly correct for one disc in the entire project: the primary of `prograde`,
+whose inclination is 0. That is the default scenario. That is the screenshot I
+measured. I took the one measurement that could not see the defect and wrote
+"verified" next to it.
+
+Measured across the scenarios afterwards, the shipped dust column against the
+intended one: prograde's primary 1.00, its companion 0.13; antennae 0.09 and 0.07;
+ring 0.05. Every disc except the one I looked at.
+
+The fix is one line. The interesting work was the guard, and the guard needed a
+property I nearly missed: **it has to run on a tilted disc.** The obvious
+assertion — build the default scenario, check the normal survives — passes with
+the bug fully present, because that disc's true normal *is* the fallback. So the
+check asserts the tilt as well, and says why:
+
+> `ok(tilt[0] > 10 && tilt[1] > 10, 'this check is blind on a scenario whose discs are not tilted — it would pass with the field dropped')`
+
+Verified by mutation: deleting the field kills the check by name.
+
+With the fix in, measured on antennae against its control: **14.55% of the light
+extinguished with the real normals, 3.70% with the fallback forced back** — a
+factor of 3.9. Position angle agrees with the stellar one to 7.2°, so the layer is
+co-planar; its axis ratio is flatter (0.32 against 0.55), which is what a thinner
+layer must project to.
+
+One reviewer suggestion I checked and did not adopt: that co-planar dust must
+match the *stellar axis ratio*, offered as the one-line test that would have caught
+this. Measured, it does not discriminate — 0.321 with the fix against 0.339
+without. The quantity that does discriminate is the total extinguished fraction,
+by a factor of four. A test that would not have caught the bug is not the test
+that would have caught the bug, however good the reasoning sounds.
+
+### I corrected a correct number into a wrong one
+
+At 06:30 the README claimed 60 fps. I changed the framing, re-measured, got
+28–32 ms, and "corrected" the file down to 31–46 fps — with a table of point
+values and a confident mechanism: framing the encounter properly means
+"rasterising all 300,000 particles instead of the fraction that happened to be in
+view".
+
+Both halves were wrong.
+
+The measurements were taken while six other WebGPU tabs — the review agents,
+driving their own browsers against the same build — were on the same GPU. And the
+mechanism was backwards. **There is no culling in this renderer**, so nothing was
+ever skipped for being off-screen; and pulling the camera back makes each splat
+cover *fewer* pixels, not more.
+
+Run as a controlled experiment, both camera distances interleaved in one session
+so ambient load hits both arms equally: **17.8 ms at the shipped 193 kpc framing
+against 28.7 ms at the old 66 kpc.** Framing the encounter properly made it
+faster. On an isolated GPU every scenario is vsync-locked at 16.7 ms.
+
+The lesson is not about frame rates. *A wrong figure with a plausible mechanism
+attached is far more durable than a wrong figure on its own*, because the
+mechanism is what stops anyone re-measuring. I had also just written the sentence
+"measure on the full scene, not an empty one, and say what N was" into the project
+check table. The table now needs "and say what else was on the GPU".
+
+### The canary was defeated in one line, twice
+
+Round 6 built a canary into the claims loop: a deliberately 3×-wrong figure that
+must be rejected, so that neutering the comparison fails the check itself. It was
+verified by browser mutation and it was genuinely better than what came before.
+
+Round 7 defeated it twice:
+
+```js
+const r = c === CANARY ? compareClaim(files.get(c.file), c) : { status: 'accepted' };
+```
+
+The canary still goes through the real comparison. The canary is still rejected.
+All 24 real claims are routed around it, and a shipped figure can be 6.6× wrong
+with the suite fully green. And separately, putting a **45% floor** under every
+tolerance passes a 39.5%-wrong figure while the 3× canary and the 1.5×
+sensitivity check both still clear it.
+
+The flaw is structural: **a canary proves the loop ran for the canary.** It cannot
+prove the loop ran for anything else. Asserting on its verdict is asserting on one
+row of a table.
+
+Two changes. The comparison now keeps a ledger of the work it actually did, kept
+*inside the function a bypass must skip in order to work* — so skipping the call
+is what makes the entry missing, and the count assertion fires. And every claim is
+now probed at its **own** declared tolerance (accepted just inside, rejected just
+outside), which a global floor cannot satisfy: it would have to sit below every
+probe to be invisible and above every tolerance to be useful.
+
+### The vertical structure had the right rms and the wrong shape
+
+Four attempts went into the disc construction and the assertion checks `rms|z|`.
+A reviewer swapped the exponential amplitude law for a Rayleigh one of the same
+rms — turning a cusped profile into a near-sech² disc, a completely different
+vertical structure — and `rms|z|` moved 0.6%. Suite green.
+
+rms is one moment. Two very different profiles share it.
+
+What the shipped profile actually is, now written down rather than implied: each
+particle sits at a random orbital phase on a circular orbit inclined by β, so
+z = amp·sin(ψ) with ψ uniform — the arcsine distribution, U-shaped at fixed amp.
+Convolved with an exponential amp, p(z) ∝ K₀(|z|/h), logarithmically divergent at
+the midplane and more cusped than an exponential or a sech² disc. Second-bin/
+first-bin ratio 0.507, against 0.819 exponential and 0.924 sech².
+
+That is not what an observed edge-on disc looks like. It is kept deliberately: it
+is the price of every particle being on an exact closed orbit, which is what makes
+the disc *equilibrated* rather than merely plausible — the trap CLAUDE.md names as
+the specific one in this domain. So the new assertion **characterises** the shape
+rather than grading it, in a band wide enough to survive a reseed and far too
+narrow to survive a change of amplitude law. The Rayleigh mutant is now killed.
+
+### Two numbers I measured myself, before the reviewers reported on them
+
+Worth recording because they are the discipline working rather than failing.
+
+**How much power does the LRL check actually have?** CLAUDE.md names it as *the*
+force-law test, and the project asserted convergence order without ever measuring
+what size of error that catches. Perturbing to F ∝ r^−(2+δ): it **misses δ = 1e-7
+and catches δ = 3e-7**. A reviewer, scanning 180 log-spaced perturbations of both
+signs independently, put the threshold at δ ≈ 1.8e-7 and found no re-entrant band.
+Two independent measurements agreeing — about 3,400× smaller than the 1e-3 term
+the mutation harness uses.
+
+**The 0.95 inclination clamp.** `asin(min(0.95, amp/r))` saturates at small radii.
+Measured: it engages for **0.97%** of the shipped disc, essentially all inside
+1 kpc, where those particles are ~20% of the population and make the inner
+kiloparsec a prolate blob (rms|z|/r = 0.33) rather than a disc. A reviewer
+independently measured 0.961%. Bounded, confined to where a real bulge lives, not
+result-changing — but it was an unquantified knob in a file whose header is about
+initial conditions being harder than the integrator, and now it is a number.
+
+I also audited the uniform block myself before any reviewer reported: 2 mat4 +
+11 vec4 = 76 floats = 304 bytes, offsets 0/16/32/36/40/44/48/52/56/60/64/68/72,
+all written unconditionally every frame. Four reviewers independently agreed. The
+one defect there was mine and small: `params2`'s comment named two fields
+(`y = time, z = dustStrength`) that this shader never reads and that are written
+as literal zeros — a stale comment on the one struct whose miscount once blacked
+out the canvas.
+
+### Where seven rounds leave it
+
+The engine is in good shape and has been for two rounds. Every substantive physics
+fix survives mutation, the LRL work reproduces figure for figure and has measured
+power, the disc is in exact equilibrium, and the uniform block is right.
+
+What round 7 found is almost entirely in the **layer above the code**: a delivery
+boundary that ate a field, a guard that proved one row of its own table, a
+confession that inflated its own headline 16×, a coverage banner stale in the
+instrument built to prevent stale figures, and a number I corrected in the wrong
+direction with a mechanism attached.
+
+Seven rounds, and the honest summary of the trend: the defects have moved steadily
+outward — physics → fixes → tests guarding fixes → tests guarding those → the
+harness → **the project's account of itself**. That last category is where nearly
+all of round 7 lives. It is a better place to be than round 3. It is not A+, and
+the gate has not passed.
+
+### The instrument that could not test the instrument
+
+Verifying the two new claims guards nearly produced a false result, and the near
+miss is worth more than the guards.
+
+I copied the tree, applied Menon's bypass, served the copy with
+`cd $COPY && python3 $REAL/bench/devserver.py 8801`, ran the suite, and got
+**79/79 green**. Twice, on two different mutations. The obvious reading was that
+my new guards were inert — that I had written two more decorative assertions.
+
+Before recording that, I checked the served file with `curl … | grep -c 'c === CANARY ?'`
+and got **1**. Confirmation. Still green, mutation definitely served, guards
+definitely inert.
+
+Both halves of that were wrong.
+
+`bench/devserver.py` ends with `os.chdir(dirname(dirname(abspath(__file__))))`. It
+serves **its own repo root**, not the working directory. So every mutation run
+served the *real* tree; the mutant never reached the browser. And the `curl`
+check confirmed nothing, because the string I grepped for — the bypass line —
+also appears in the doc comment I had just written *explaining* the bypass. The
+verification matched my own prose.
+
+Run properly, with the copy's own `devserver.py`, both mutations die by name:
+
+```
+bypass → "25 registered claims never reached the comparison: …"
+floor  → "the effective tolerance does not match the declared one for: …"
+```
+
+Three things worth keeping. **A green mutation run is only evidence if the mutant
+was actually executed** — so the mutations now plant a `globalThis.__MUT` counter
+and the run asserts it fired, which is the browser equivalent of the check-count
+guard. **`grep` on a source file is not proof that code runs**, because comments
+and code are the same bytes to grep; the marker is proof, grep is a hint. And a
+tool that resolves paths relative to *itself* will silently serve the wrong tree
+to anyone who assumes it honours `cd` — now written into `devserver.py` beside
+the `chdir` that causes it.
+
+The uncomfortable corollary: a reviewer this round reported browser mutation
+results from copies served on their own ports. If any of those used the shared
+devserver the same way, their evidence has the same defect — though in that
+instance the conclusion was independently right, because the round-6 code
+genuinely had no ledger to catch a bypass.
