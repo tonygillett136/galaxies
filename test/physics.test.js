@@ -23,7 +23,7 @@ import { record } from './measured.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(52);
+  expectChecks(53);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -761,6 +761,55 @@ export function runPhysicsTests() {
     return close(measured, expected, 0.02, 'satellite drag vs analytic Chandrasekhar');
   });
 
+  check('the drag impulse cap ENGAGES when it should, and never does in practice', () => {
+    // Mutation testing: deleting the cap entirely left the suite green, because
+    // it fires on 0.0% of steps at every lnL the interface can reach (measured
+    // 0.05 to 6). It is a safety net for configurations outside the sliders, and
+    // an unexercised safety net is indistinguishable from no safety net.
+    //
+    // So this asserts BOTH halves: the mechanism engages when the drag really is
+    // stiff, and it does NOT engage on anything shipped. The second half is the
+    // honest disclosure — the cap is dormant, and if a future change makes it
+    // fire on a shipped scenario that is a signal about the timestep, not a pass.
+    const EMPTY = () => ({ count: 0, pos: new Float64Array(0), vel: new Float64Array(0) });
+    const fires = (spec, lnL, dt, steps) => {
+      const enc = buildEncounter({ ...spec, friction: lnL, particles: 8 });
+      const a = new RestrictedSim({ friction: lnL, galaxies: enc.galaxies, particles: EMPTY() });
+      const b = new RestrictedSim({ friction: 0, galaxies: enc.galaxies, particles: EMPTY() });
+      let n = 0, hit = 0;
+      for (let i = 0; i < steps; i++) {
+        for (let g = 0; g < 2; g++) {
+          b.galaxies[g].pos.set(a.galaxies[g].pos); b.galaxies[g].vel.set(a.galaxies[g].vel);
+        }
+        a._dt = dt; b._dt = dt;
+        a.computeAccelerations(); b.computeAccelerations();
+        const vx = a.galaxies[0].vel[0] - a.galaxies[1].vel[0];
+        const vy = a.galaxies[0].vel[1] - a.galaxies[1].vel[1];
+        const vz = a.galaxies[0].vel[2] - a.galaxies[1].vel[2];
+        const v = Math.hypot(vx, vy, vz);
+        let worst = 0;
+        for (let g = 0; g < 2; g++) {
+          worst = Math.max(worst, Math.hypot(
+            a.galaxies[g].acc[0] - b.galaxies[g].acc[0],
+            a.galaxies[g].acc[1] - b.galaxies[g].acc[1],
+            a.galaxies[g].acc[2] - b.galaxies[g].acc[2]));
+        }
+        if (v > 1e-9 && worst > 0) { n++; if (Math.abs(worst * dt / v - 0.25) < 1e-9) hit++; }
+        a.step(dt);
+      }
+      return n ? hit / n : 0;
+    };
+
+    // deliberately stiff: a huge coupling and a coarse step, outside the sliders
+    const extreme = fires({ massRatio: 1.0, rPeri: 25, ecc: 0.9, tStart: -40 }, 4000, 0.5, 400);
+    ok(extreme > 0.01, `the cap never engages even at lnL = 4000 with dt = 0.5 (fired on ${(extreme * 100).toFixed(2)}% of steps); the mechanism is dead, not merely dormant`);
+
+    // and it must be dormant on the shipped merger
+    const shipped = fires(SCENARIOS.merger.spec, SCENARIOS.merger.spec.friction, 0.02, 1500);
+    ok(shipped < 1e-9, `the cap fires on ${(shipped * 100).toFixed(1)}% of the shipped merger's steps — the trajectory there is produced by a rate limiter, not by the stated force law`);
+    return `engages on ${(extreme * 100).toFixed(0)}% of steps at lnL 4000 / dt 0.5; dormant on the shipped merger (${(shipped * 100).toFixed(1)}%)`;
+  });
+
   check('the friction validity gate fires on the galaxies the APP builds', () => {
     // THIS CHECK CALLS THE SHIPPED GATE. Round 3's version re-implemented it
     // locally, and a reviewer proved that inert by DELETING the gate from
@@ -918,12 +967,36 @@ export function runPhysicsTests() {
       return { rms, m1: m1 / BINS, ratio: (m1 / BINS) / Math.max(rms, 1e-30) };
     };
 
+    // THE DEFAULT, not an explicit value. Mutation testing caught this: the check
+    // passed `thickness: 0.1` itself, so reverting the DEFAULT to 0 — deleting the
+    // feature — left the suite green. A test that supplies the value it is
+    // checking is testing its own argument.
+    const dDefault = exponentialDisc({ potential: P, count: 4000, scaleLength: 1.6, rMax: 3.2, seed: 3 });
+    const vDefault = vertical(dDefault.pos, dDefault.count);
+    ok(vDefault.rms > 0.05,
+      `the DEFAULT disc is flat (rms|z| = ${vDefault.rms.toExponential(2)}); the thickness default has been reverted`);
+
+    // and the disc buildEncounter actually ships
+    const built = buildEncounter({ massRatio: 1, rPeri: 25, ecc: 1, tStart: -20, particles: 4000,
+      disc1: { inclination: 0 }, disc2: { active: false } });
+    let z2 = 0;
+    for (let i = 0; i < built.particles.count; i++) z2 += built.particles.pos[i * 3 + 2] ** 2;
+    ok(Math.sqrt(z2 / built.particles.count) > 0.05, 'the disc buildEncounter ships is flat');
+
     const d = mk(0.1);
     const v = vertical(d.pos, d.count);
 
-    // 1. it HAS vertical extent, and it scales with the parameter — so reverting
-    //    the default to 0, or ignoring the parameter, fails here
+    // 1. it HAS vertical extent, and it scales with the parameter
     ok(v.rms > 0.05, `the shipped disc is flat (rms|z| = ${v.rms.toExponential(2)}); thickness is being ignored`);
+
+    // 1b. and a DISTRIBUTION of heights, not one height. A constant amplitude
+    //     reproduces rms|z| and the fold ratio exactly while having no tail, so
+    //     neither of those can see it — mutation testing caught that too.
+    const zs = [];
+    for (let i = 0; i < d.count; i++) zs.push(Math.abs(d.pos[i * 3 + 2]));
+    const tail = zs.filter((z) => z > 2 * v.rms).length / zs.length;
+    ok(tail > 0.01,
+      `only ${(tail * 100).toFixed(2)}% of particles lie beyond 2 rms|z| — the heights are near-constant rather than distributed`);
     const thick = mk(0.3, 2000);
     const vt = vertical(thick.pos, thick.count);
     ok(vt.rms > v.rms * 2, `rms|z| does not scale with thickness (${v.rms.toFixed(3)} at 0.1 vs ${vt.rms.toFixed(3)} at 0.3)`);
