@@ -3,7 +3,7 @@
 **Interacting galaxies, simulated and rendered in real time in the browser** — and the
 foundations for an instrument that recovers encounter parameters from real observations.
 
-### ▶ [galaxy-collisions.pages.dev](https://galaxy-collisions.pages.dev)
+### ▶ [galaxies.gillett-projects.com](https://galaxies.gillett-projects.com/)
 
 Needs WebGPU: Chrome 113+, Edge, Safari 26+, Firefox 141+.
 
