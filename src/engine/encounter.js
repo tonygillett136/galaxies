@@ -45,12 +45,35 @@ import { pairTable } from './pairforce.js';
  * @param {number} softeningScale multiplier on the bulge softening, so the
  *   silent knob can be exercised by a test
  */
+/**
+ * softeningScale multiplies EVERY component's core radius, not just the bulge's.
+ *
+ * Round 6 made this knob demonstrably reach the model, and round 7 measured what
+ * it reached: only the bulge Hernquist core, a component holding **1.42% of the
+ * mass**. Over a full 0.5x-2x sweep that moves |g| by 109.6% at 0.5 kpc and
+ * **0.33% at the 20 kpc tidal cut** — i.e. essentially nothing across the entire
+ * region where the morphology metric counts material. The two scales that
+ * dominate, the disc Plummer (3 kpc, 4.69%) and the halo Hernquist (20 kpc,
+ * 93.9%), were never varied; the same 0.5x/2x on them moves |g| at 20 kpc by
+ * 1.8% and 106.6%.
+ *
+ * So the sweep was measuring a knob that could not move the answer, and the
+ * spread it recorded (0.73% at N=32000) was SMALLER than the seed-to-seed
+ * realisation noise of the particle sampling (1.68%), which the check never
+ * measured and never subtracted. A sensitivity study whose signal is below its
+ * own unmeasured noise floor reports the noise.
+ *
+ * Applying it to all three makes it what CLAUDE.md calls a silent knob worth
+ * disciplining: the smoothing scale of the whole mass model. At the shipped
+ * default of 1.0 nothing changes, so this is a no-op for every shipped result.
+ */
 export function galaxyModel(mass, rScale = 1.0, softeningScale = 1.0) {
   const M = mass * 70.3;                       // 1.0 -> 7.03e11 Msun
+  const s = rScale * softeningScale;
   return composite([
-    hernquist(M * 0.0142, 0.5 * rScale * softeningScale),  // bulge, ~1e10 Msun
-    plummer(M * 0.0469, 3.0 * rScale),                     // disc, ~3.3e10 Msun
-    hernquist(M * 0.9389, 20.0 * rScale),                  // dark halo, ~6.6e11 Msun
+    hernquist(M * 0.0142, 0.5 * s),    // bulge, ~1e10 Msun
+    plummer(M * 0.0469, 3.0 * s),      // disc, ~3.3e10 Msun
+    hernquist(M * 0.9389, 20.0 * s),   // dark halo, ~6.6e11 Msun
   ]);
 }
 

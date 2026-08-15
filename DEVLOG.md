@@ -1564,3 +1564,45 @@ results from copies served on their own ports. If any of those used the shared
 devserver the same way, their evidence has the same defect — though in that
 instance the conclusion was independently right, because the round-6 code
 genuinely had no ledger to catch a bypass.
+
+### The silent knob that was connected to nothing that mattered
+
+Round 6 made `softeningScale` demonstrably reach the model and asserted it: three
+softening settings must give three distinct answers. That assertion is real — I
+reverted the knob and watched it fire.
+
+Round 7 asked the next question, which nobody had: *reach the model where?*
+
+`galaxyModel` multiplied only the **bulge** Hernquist core — 1.42% of the mass.
+Over a full 0.5x-2x sweep that moves |g| by 109.6% at 0.5 kpc and **0.33% at the
+20 kpc tidal cut**, which is the entire region where the morphology metric counts
+material. The disc Plummer (3 kpc) and halo Hernquist (20 kpc), holding 98.6% of
+the mass between them, were never varied — the same 0.5x/2x on those moves |g| at
+20 kpc by 1.8% and 106.6%.
+
+And the sting: the spread the sweep recorded, **0.73%**, was smaller than the
+seed-to-seed scatter of the particle realisation, **1.68%**, which the check never
+measured. *A sensitivity study whose signal sits below its own unmeasured noise
+floor is reporting the noise.* The project has a check-table line about measuring
+with a control, and this was a study with no control at all.
+
+Two changes. `softeningScale` now multiplies all three core radii, so it is the
+smoothing scale of the whole mass model (a no-op at the shipped default of 1.0, so
+no shipped result moves). And the check now measures its own noise floor — three
+seeds at fixed softening — and asserts the signal clears it.
+
+Measured after: **18.7% spread against a 0.9% noise floor, signal/noise 21.8x**,
+where before it was 0.73% against 1.68% — a signal-to-noise of 0.4, i.e. *below
+one*.
+
+One more near-miss worth recording, because it is the same shape as everything
+else tonight. My first version of the new assertion was `spread > seedSpread`. I
+reverted the knob to bulge-only to check the guard fired, and **it passed** — at a
+ratio of 1.1, 0.92% against 0.86%. The assertion I had just written to reject
+"signal indistinguishable from noise" accepted a signal-to-noise of 1.1. It now
+requires 3x, which the connected knob clears by a factor of seven, and the
+bulge-only revert dies by name.
+
+I would not have found that by reading it. I found it because I ran the mutation
+before believing the guard — which is the only habit from this whole night that
+has never once been wrong.

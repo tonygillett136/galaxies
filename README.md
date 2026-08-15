@@ -133,6 +133,11 @@ established are stated as loudly as the parts that are:
   the disc radius, so the two galaxies never separate. Detect says so instead of drawing
   something.
 - The claimed literature gap rests on **one search session** and is labelled a hypothesis.
+- **Softening is now a real sweep.** `softeningScale` multiplies every component's core radius,
+  not just the bulge's (1.42% of the mass), and the check measures its own noise floor: the
+  sweep moves the tidal fraction **18.7% against a 0.9% seed-to-seed floor, signal/noise 21.8x**.
+  Until round 7 it was 0.73% against 1.68% — a sensitivity *below* the sampling scatter nobody
+  had measured.
 - Dust extinction is a two-slab approximation, disabled in science view. It now lies in each
   galaxy's **own** disc plane at a 0.06 kpc scale height, against a stellar rms height of
   0.297 kpc. Measured on antennae with its control: **14.55% of the light extinguished with

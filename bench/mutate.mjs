@@ -163,6 +163,14 @@ const MUTATIONS = [
     find: "      const inv = 1 / Math.sqrt(r2);\n      const f = -mass * inv * inv * inv;\n      out[0] = f * dx; out[1] = f * dy; out[2] = f * dz;\n      return out;\n    },\n    vcirc: (r) => Math.sqrt(mass / r),",
     to:   "      const inv = 1 / Math.sqrt(r2);\n      const f = -mass * inv * inv * inv * (1 + 1e-3 * inv);\n      out[0] = f * dx; out[1] = f * dy; out[2] = f * dz;\n      return out;\n    },\n    vcirc: (r) => Math.sqrt(mass / r)," },
 
+  { name: 'physics/softening-bulge-only', kills: ['softening changes the answer'], browserOnly: true,
+    why: 'round 7: softeningScale reached only the bulge Hernquist core (1.42% of the mass), so a '
+       + 'full 0.5x-2x sweep moved |g| by 0.33% at the 20 kpc tidal cut and the spread it recorded '
+       + '(0.73%) was SMALLER than the seed-to-seed realisation noise (1.68%) nobody measured',
+    file: 'src/engine/encounter.js',
+    find: '  const s = rScale * softeningScale;\n  return composite([\n    hernquist(M * 0.0142, 0.5 * s),    // bulge, ~1e10 Msun\n    plummer(M * 0.0469, 3.0 * s),      // disc, ~3.3e10 Msun\n    hernquist(M * 0.9389, 20.0 * s),   // dark halo, ~6.6e11 Msun',
+    to:   '  const s = rScale * softeningScale;\n  return composite([\n    hernquist(M * 0.0142, 0.5 * s),    // bulge, ~1e10 Msun\n    plummer(M * 0.0469, 3.0 * rScale),      // disc — softening reverted to bulge-only\n    hernquist(M * 0.9389, 20.0 * rScale),   // halo — softening reverted to bulge-only' },
+
   { name: 'disc/rayleigh-amplitude', kills: ['is a DISC'],
     why: 'round 7: a Rayleigh amplitude law of the SAME rms turns the K_0 profile into a near-sech^2 '
        + 'disc — a completely different vertical structure — and rms|z| moves only 0.6%, so every '

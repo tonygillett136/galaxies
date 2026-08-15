@@ -305,6 +305,48 @@ export async function runMorphologyTests(device) {
       `softening produced ${distinct} distinct results from ${fracs.length} settings `
       + `(${fracs.map((f) => (f * 100).toFixed(3) + '%').join(', ')}) — the parameter is not reaching the model`);
     const spread = (peak - Math.min(...fracs)) / peak;
-    return `tidal fraction ${fracs.map((f) => (f * 100).toFixed(2) + '%').join(' / ')} at 0.5x/1x/2x softening, spread ${(spread * 100).toFixed(1)}% — RECORDED, not asserted`;
+
+    // AGAINST THE NOISE FLOOR, which nothing here used to measure.
+    //
+    // Round 7: the sweep's recorded spread was SMALLER than the seed-to-seed
+    // spread of the particle realisation — 0.73% against 1.68% at N=32000, and
+    // 1.34% against 2.92% at N=8000. A sensitivity below its own unmeasured
+    // sampling noise is reporting the noise, and "the parameter is connected"
+    // (asserted above) is not the same claim as "the parameter matters".
+    //
+    // So the control arm is measured too: three SEEDS at fixed softening. The
+    // assertion is a comparison rather than a threshold, because the absolute
+    // sizes depend on N and would have to be re-tuned; their ratio is the thing
+    // with meaning.
+    const seedFracs = [];
+    for (const seed of [1, 2, 3]) {
+      const s = structuredClone(BASE);
+      s.softeningScale = 1.0;
+      s.seed = seed;
+      const r = await runEncounter(device, s, STEPS, DT);
+      seedFracs.push(tidalFraction(r.pos, r.origin, r.galaxies, r.count, RCUT).total);
+    }
+    const seedPeak = Math.max(...seedFracs);
+    const seedSpread = (seedPeak - Math.min(...seedFracs)) / Math.max(seedPeak, 1e-30);
+    // A MARGIN, not a hair. The first version of this asserted `spread >
+    // seedSpread` and the bulge-only mutant SURVIVED it at a ratio of 1.1 —
+    // 0.9% against 0.9% — which is exactly the "signal indistinguishable from
+    // noise" case the assertion exists to reject. Requiring 3x is still far
+    // below the 21.8x the connected knob actually achieves, so it has headroom
+    // against reseeding without being satisfiable by scatter.
+    ok(spread > 3 * seedSpread,
+      `the softening sweep moves the answer by ${(spread * 100).toFixed(2)}% while merely `
+      + `RESEEDING the same configuration moves it ${(seedSpread * 100).toFixed(2)}% `
+      + `(signal/noise ${(spread / Math.max(seedSpread, 1e-9)).toFixed(1)}x, needs > 3x) — the `
+      + 'measured sensitivity is not clear of the realisation noise, so this sweep is reporting '
+      + 'sampling scatter rather than softening. Either the knob does not reach the mass that '
+      + 'matters, or N is too low to resolve the effect.');
+    record('softeningSpread', spread);
+    record('softeningSeedSpread', seedSpread);
+
+    return `tidal fraction ${fracs.map((f) => (f * 100).toFixed(2) + '%').join(' / ')} at `
+         + `0.5x/1x/2x softening, spread ${(spread * 100).toFixed(1)}% against a seed-to-seed `
+         + `noise floor of ${(seedSpread * 100).toFixed(1)}% — signal/noise `
+         + `${(spread / Math.max(seedSpread, 1e-9)).toFixed(1)}x`;
   });
 }
