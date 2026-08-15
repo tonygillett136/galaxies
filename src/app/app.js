@@ -571,6 +571,35 @@ export class App {
       for (let i = 0; i < this.substeps; i++) this.sim.step(this.dt * this.speed);
     }
 
+    // KEEP THE SUBJECT IN FRAME AS THE ENCOUNTER EVOLVES.
+    //
+    // The camera used to be framed exactly once, at load, from the content at
+    // tStart — where the pair is near its widest — and never again. Nothing
+    // reframed on a slider change, a scrub, or 1,900 Myr of evolution. Measured
+    // on the merger scenario at +1898 Myr: content radius had shrunk 56 -> 22.3
+    // kpc while the camera sat at 173.8, i.e. 2.8x too far. Light on screen fell
+    // to 8.05% of pixels against 33.4% when correctly framed — which reads, on a
+    // large display, as a blank black screen. That is the first thing a visitor
+    // sees if they leave it running, and the fix was a keyboard shortcut nobody
+    // knows about.
+    //
+    // Two rules keep this from fighting the user, which is why it was deferred
+    // rather than rushed: it NEVER runs once the user has zoomed (until they
+    // ask for a reframe with `f`), and it acts only on a real drift, easing
+    // through the camera's existing damping rather than snapping. The 1.45/0.7
+    // band is the trade: wider leaves the subject too small (0.55 left the frame
+    // 1.8x too wide and only 16% of pixels lit), narrower makes the camera
+    // fidget during an encounter.
+    if (!this.camera.userZoomed && !this.seeking && this.mode !== 'detective') {
+      const r = this.contentRadius();
+      const framed = this.framedRadius || r;
+      if (r > 1e-6 && (r / framed > 1.45 || r / framed < 0.7)) {
+        this.framedRadius = r;
+        const fov = this.camera.fov ?? (50 * Math.PI / 180);
+        this.camera._want.distance = Math.min(4000, Math.max(8, r / Math.tan(fov / 2) * 1.15));
+      }
+    }
+
     // Keep something in frame. The camera targeted the barycentre, which is
     // stationary but is NOT where the galaxies are: the ring scenario's pair
     // separates by hundreds of kpc, putting the primary far outside a 78 kpc
@@ -615,6 +644,10 @@ export class App {
 
   /** Set the camera distance to frame the content. `f` at the default fov ~ fills the view. */
   frameToContent() {
+    // An explicit reframe (load, `f`, a scenario change) hands framing back to
+    // the app: the user's previous zoom is no longer what they asked for.
+    this.camera.userZoomed = false;
+    this.framedRadius = this.contentRadius();
     // IN DETECT, THE FRAME IS AN INSTRUMENT. The camera distance there is not a
     // matter of taste: it is set so one screen equals fieldKpc, which is what
     // makes the simulation and the SDSS cutout comparable at all. Round 7

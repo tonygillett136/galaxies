@@ -1756,3 +1756,48 @@ told the user Detect worked. Eight rounds have produced a great deal of evidence
 that reviewing your own work does not find your own blind spots, and this is the
 cleanest instance: the reviewer found in forty minutes what I had missed while
 writing a report claiming it was fine.
+
+### The user opened it and saw a black screen
+
+The first outside pair of eyes on the deployed site reported a blank screen. It
+was not blank, and it was not WebGPU: the HUD in the screenshot read **49 fps,
+320,000 test particles, +1898 Myr after pericentre**. The engine was running
+perfectly and there was nothing worth seeing in the frame.
+
+Reproduced on the merger scenario at that epoch. No NaN, all 320,000 particles
+finite. Content radius had shrunk **56 -> 22.3 kpc** as the pair merged, while the
+camera sat where it had been framed at load: **173.8 kpc, 2.8x too far**. Measured
+by differencing screenshots: **8.05% of pixels carried light, against 33.4% when
+correctly framed**. On a large display that reads as black.
+
+The camera was framed exactly once, at `loadScenario`, from the content at tStart
+— where the pair is near its widest — and never again. Not on a slider change
+(`param.onchange` calls `rebuild()` directly, which never framed), not on a scrub,
+not across 1,900 Myr of evolution. The only remedy was `f`, a keyboard shortcut
+which — as round 7 established — was itself dead from every panel control until
+last night.
+
+This was **open action #8**, logged with its own measurement ("about 1.7x wider
+than the encounter a viewer watches moments later"), deferred as "a design
+question and not a one-liner". That judgement was right about the difficulty and
+badly wrong about the priority. It is the single most visible defect in the whole
+project: the first thing a visitor sees if they let it run. Eight review rounds,
+six adversarial personas, 311 findings — and none of them just left it playing.
+
+Fixed with the two rules that made it a design question in the first place:
+
+- it **never** runs once the user has zoomed, until they ask for a reframe with
+  `f` (`camera.userZoomed`, cleared only by `frameToContent`);
+- it acts only on a real drift, easing through the camera's existing damping. The
+  1.45/0.7 hysteresis band is the trade — 0.55 left the frame 1.8x too wide at
+  only 16% of pixels lit; narrower makes the camera fidget mid-encounter.
+
+Measured after: playing forward to +2657 Myr the camera tracks 173.8 -> 59.4 kpc
+for a 21.2 kpc subject, and **37.95% of pixels carry light against 8.05%**. The
+control holds: a user who zooms to 32.58 kpc is still at 32.58 kpc six seconds
+later.
+
+**The lesson is about the review method, not the camera.** Every round measured
+what it was pointed at. Nobody was pointed at "load the page, walk away, come
+back" — so eight rounds of adversarial review missed the defect that a single
+user hit within minutes. Reviewers verify claims. They do not use the thing.

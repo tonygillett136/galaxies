@@ -59,6 +59,8 @@ export class OrbitCamera {
   }
 
   zoom(delta) {
+    // Once the user has chosen a zoom, the app must stop choosing one for them.
+    this.userZoomed = true;
     this._want.distance = Math.min(4000, Math.max(0.5, this._want.distance * Math.exp(delta * 0.0015)));
   }
 
