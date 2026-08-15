@@ -14,6 +14,7 @@ import { group, checkAsync, expectChecks, above, below, ok } from './harness.js'
 import { record } from './measured.js';
 import { GpuSim } from '../src/engine/gpu.js';
 import { buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
+import { TOUR } from '../src/app/tour.js';
 
 /**
  * Fraction of a galaxy's own material now beyond `rCut` from its own centre.
@@ -56,8 +57,26 @@ const BASE = {
   disc2: { inclination: 0.35, argPeri: 1.1 },
 };
 
+/**
+ * Surface density of one galaxy's material in radial bins about its own centre.
+ * Shared, because two checks need the same measurement and a second copy would
+ * be a second thing to drift.
+ */
+function radialProfile(pos, origin, galaxies, count, gi, RMAX, BINS) {
+  const h = new Array(BINS).fill(0), c = galaxies[gi].pos;
+  for (let i = 0; i < count; i++) {
+    const r = Math.hypot(pos[i * 4] - c[0], pos[i * 4 + 1] - c[1], pos[i * 4 + 2] - c[2]);
+    const b = Math.floor(r / RMAX * BINS);
+    if (b >= 0 && b < BINS) h[b]++;
+  }
+  return h.map((v, i) => {
+    const r0 = i * RMAX / BINS, r1 = (i + 1) * RMAX / BINS;
+    return v / (Math.PI * (r1 * r1 - r0 * r0));
+  });
+}
+
 export async function runMorphologyTests(device) {
-  expectChecks(5);
+  expectChecks(6);
   group('morphology — the physics claims, measured with controls');
 
   // ~85 time units (about 400 Myr past pericentre), where the tidal signal is
@@ -153,18 +172,8 @@ export async function runMorphologyTests(device) {
     const spec = structuredClone(SCENARIOS.ring.spec);
     spec.particles = 40000;
     const BINS = 14, RMAX = 50, DT = 0.05;
-    const profile = (pos, origin, galaxies, count) => {
-      const h = new Array(BINS).fill(0), c = galaxies[0].pos;
-      for (let i = 0; i < count; i++) {
-        const r = Math.hypot(pos[i * 4] - c[0], pos[i * 4 + 1] - c[1], pos[i * 4 + 2] - c[2]);
-        const b = Math.floor(r / RMAX * BINS);
-        if (b >= 0 && b < BINS) h[b]++;
-      }
-      return h.map((v, i) => {
-        const r0 = i * RMAX / BINS, r1 = (i + 1) * RMAX / BINS;
-        return v / (Math.PI * (r1 * r1 - r0 * r0));
-      });
-    };
+    const profile = (pos, origin, galaxies, count) =>
+      radialProfile(pos, origin, galaxies, count, 0, RMAX, BINS);
 
     const before = await runEncounter(device, spec, 200, DT);   // just after the impact
     const after = await runEncounter(device, spec, 900, DT);    // ring well developed
@@ -197,6 +206,32 @@ export async function runMorphologyTests(device) {
     return `peak moved bin ${peakB} -> ${peakA} (~${(peakA * RMAX / BINS).toFixed(0)} kpc); `
          + `density there rose ${gain.toFixed(1)}x; interior is ${(dip * 100).toFixed(0)}% of the peak `
          + `(the nucleus survives, as in the Cartwheel)`;
+  });
+
+  await checkAsync('the tour shows the ring while the ring exists', async () => {
+    // Round 3: the ring is visible for about 5% of the scrubbable timeline, and
+    // the tour step demonstrating it landed at 66 Myr where the measured
+    // ring-to-centre contrast is 1.51 — while its text said "leaving the centre
+    // comparatively empty". The most visible scientific claim in the app was
+    // being shown at the moment it stopped being true.
+    //
+    // This asserts the pairing rather than the number: whatever epoch the tour
+    // step names, the ring must actually be there at it.
+    const step = TOUR.find((t) => t.scenario === 'ring');
+    ok(step, 'no tour step uses the ring scenario any more; this check is vacuous');
+    const spec = structuredClone(SCENARIOS.ring.spec);
+    spec.particles = 30000;
+    const stepsTo = Math.round((step.time - (-Math.abs(spec.tStart ?? 18))) / 0.02);
+    const r = await runEncounter(device, spec, Math.max(1, stepsTo), 0.02);
+    const prof = radialProfile(r.pos, r.origin, r.galaxies, r.count, 0, 30, 14);
+    let peak = 0;
+    for (let b = 1; b < prof.length; b++) if (prof[b] > prof[peak]) peak = b;
+    const contrast = prof[peak] / Math.max(prof[0], 1e-12);
+    record('ringTourEpochMyr', step.time * 4.714920);
+    record('ringTourContrast', contrast);
+    above(peak, 1, `radial bin of the peak at the tour's chosen epoch (t = ${step.time})`);
+    above(contrast, 2.0, `ring-to-centre contrast at the tour's chosen epoch (t = ${step.time} = ${(step.time * 4.714920).toFixed(0)} Myr)`);
+    return `tour lands at t = ${step.time} (${(step.time * 4.714920).toFixed(0)} Myr): peak bin ${peak}, contrast ${contrast.toFixed(1)}x`;
   });
 
   await checkAsync('softening changes the answer, and by how much is recorded', async () => {

@@ -1,9 +1,16 @@
 /**
  * The gradient check.
  *
- * This single test decides whether the project's research direction is reachable.
  * An adjoint that disagrees with finite differences is not a slow optimiser, it
  * is a wrong one, and every posterior built on it would be confidently wrong.
+ * So this is a necessary condition for the research direction — it is not the
+ * sufficient one an earlier version of this comment claimed ("this single test
+ * decides whether the project's research direction is reachable"). Agreeing with
+ * finite differences says the reverse pass matches the forward pass. It says
+ * nothing about whether the forward pass is the right physics, whether the loss
+ * has a usable landscape, or whether the parameters are identifiable — and the
+ * recovery demonstration below turns out to recover a phase relabelling rather
+ * than a parameter, which is precisely the gap between the two conditions.
  *
  * Tested against finite differences of the SAME forward code, which validates
  * the reverse pass against the forward pass. It does NOT validate the forward
@@ -13,7 +20,7 @@
 
 import { group, check, expectChecks, below, above, ok } from './harness.js';
 import { plummer, hernquist, composite } from '../src/engine/potentials.js';
-import { forward, backward, splat, splatBackward, discFromAngles } from '../src/engine/adjoint.js';
+import { forward, backward, splat, splatBackward, discFromAngles, accelAndJacobian } from '../src/engine/adjoint.js';
 import { galaxyModel } from '../src/engine/encounter.js';
 import { mulberry32 } from '../src/engine/galaxy.js';
 
@@ -53,7 +60,7 @@ function lossOf(x0, v0, s, dt, target, gridBuf) {
 }
 
 export function runAdjointTests() {
-  expectChecks(5);
+  expectChecks(6);
   group('adjoint — analytic gradient against finite differences');
 
   const s = scene();
@@ -82,11 +89,21 @@ export function runAdjointTests() {
     const { dx0 } = backward(xs, null, s.traj, dt, s.comps, lxEnd);
 
     // central differences on a spread of components, not just the first
-    const idx = [0, 1, 15, 16, 33, 34, 60, 61, 90, 91];
+    // Z IS INCLUDED, and the reason it used to be skipped was wrong.
+    //
+    // The comment said "z carries no splat gradient". That is true of the FINAL
+    // state — the splat projects along z — but this loop varies the INITIAL
+    // state, and moving z0 moves the particle through a 3-D potential, changing
+    // its later x and y. Measured: |dL/dz0| reaches 1.99, the same order as the
+    // components that were being checked. A third of the gradient was unverified
+    // on a justification that applied to a different quantity.
+    //
+    // The channel turns out to be correct (worst 4.5e-7), so this is coverage
+    // rather than a bug fix — but an untested third is an untested third.
+    const idx = [0, 1, 2, 15, 16, 17, 33, 34, 35, 60, 61, 62, 90, 91, 92];
     let worst = 0, worstAt = '';
     const eps = 1e-6;
     for (const k of idx) {
-      if (k % 3 === 2) continue;                       // z carries no splat gradient
       const xp = Float64Array.from(base.x), xm = Float64Array.from(base.x);
       xp[k] += eps; xm[k] -= eps;
       const Lp = lossOf(xp, base.v, s, dt, target, grid).L;
@@ -186,6 +203,28 @@ export function runAdjointTests() {
     below(err, 0.02, `parameter error after 220 iterations (started ${start.toFixed(3)} away)`);
     return `recovered inc ${inc.toFixed(4)} (true 0.55), argPeri ${arg.toFixed(4)} (true 0.90); `
          + `|err| ${start.toFixed(3)} -> ${err.toFixed(4)}, loss ${L0.toFixed(1)} -> ${L.toExponential(2)}`;
+  });
+
+  check('an unsupported potential kind THROWS rather than silently becoming a point mass', () => {
+    // The else-branch used to absorb every unrecognised kind. nfw came out 20.6x
+    // too strong and composite 6.3x, each with a Jacobian consistent with the
+    // wrong force — so every gradient check still passed, because finite
+    // differences difference the same wrong forward model. A gradient check
+    // cannot detect a uniformly wrong forward model; only a loud failure can.
+    const out = { ax: 0, ay: 0, az: 0, J: new Array(9).fill(0) };
+    let threwNfw = false, threwComposite = false;
+    try { accelAndJacobian({ kind: 'nfw', mass: 1, scale: 2 }, 1, 1, 1, out); }
+    catch { threwNfw = true; }
+    try { accelAndJacobian({ kind: 'composite', mass: 1, scale: 2 }, 1, 1, 1, out); }
+    catch { threwComposite = true; }
+    ok(threwNfw, 'nfw silently fell through to the point-mass branch');
+    ok(threwComposite, 'composite silently fell through to the point-mass branch');
+    // and the kinds that ARE supported must still work
+    accelAndJacobian({ kind: 'plummer', mass: 1, scale: 2 }, 1, 1, 1, out);
+    ok(Number.isFinite(out.ax), 'plummer stopped working');
+    accelAndJacobian({ kind: 'hernquist', mass: 1, scale: 2 }, 1, 1, 1, out);
+    ok(Number.isFinite(out.ax), 'hernquist stopped working');
+    return 'nfw and composite throw; plummer, hernquist and point are handled';
   });
 
   check('SENSITIVITY: a deliberately wrong adjoint fails this check', () => {

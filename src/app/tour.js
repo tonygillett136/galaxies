@@ -58,9 +58,17 @@ export const TOUR = [
     text: 'Fire a small galaxy almost perpendicularly through the centre of a large disc and '
         + 'you get something quite different: a density wave travelling outward as a ring, '
         + 'leaving the centre comparatively empty. The Cartwheel galaxy is the famous example. '
-        + 'This is a configuration chosen to show the mechanism, not a fit to that object.',
+        + 'This is a configuration chosen to show the mechanism, not a fit to that object. '
+        + 'The ring is SHORT-LIVED: measured on this engine it is visible from about 24 to '
+        + '71 Myr after the impact, roughly 5 per cent of the timeline you can scrub, and the '
+        + 'peak ring-to-centre contrast is 204 at 24 Myr falling to 1.5 by 71. Scrub past it '
+        + 'and the disc reassembles into something centrally peaked again.',
     scenario: 'ring',
-    time: 14, colourMode: 0,
+    // t = 6 internal = 28 Myr. This step used to sit at t = 14 = 66 Myr, where
+    // the measured contrast is 1.51 — the ring has all but gone — while the text
+    // said "leaving the centre comparatively empty". The most visible scientific
+    // claim in the app was being demonstrated at the moment it stopped being true.
+    time: 6, colourMode: 0,
     camera: { distance: 48, theta: 0.2, phi: 0.35 },
   },
   {

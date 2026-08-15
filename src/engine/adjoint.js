@@ -59,10 +59,20 @@ export function accelAndJacobian(part, dx, dy, dz, out) {
     const ra = r + a;
     f = M / (r * ra * ra);
     fp = -M * (3 * r + a) / (r2 * ra * ra * ra);
-  } else {                                  // point mass
+  } else if (part.kind === 'point' || part.kind === 'pointMass') {
     if (r < 1e-9) { out.ax = out.ay = out.az = 0; out.J = [0, 0, 0, 0, 0, 0, 0, 0, 0]; return out; }
     f = M / (r2 * r);
     fp = -3 * M / (r2 * r2);
+  } else {
+    // THROW rather than fall through to a point mass. The `else` branch used to
+    // absorb every unrecognised kind silently, and it is the worst possible
+    // default: `nfw` came out 20.6x too strong and `composite` 6.3x, each with a
+    // fully populated Jacobian CONSISTENT with the wrong force — so every
+    // gradient check would still pass, because finite differences difference the
+    // same wrong forward model. A gradient check cannot detect a forward model
+    // that is uniformly wrong, which is exactly why this must be loud.
+    throw new Error(`adjoint: no force law for potential kind "${part.kind}". `
+      + 'Falling back to a point mass would produce a self-consistent wrong gradient.');
   }
 
   out.ax = -f * dx; out.ay = -f * dy; out.az = -f * dz;

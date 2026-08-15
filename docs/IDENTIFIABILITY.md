@@ -83,6 +83,58 @@ them as free.
 declared gauge, and it is stated where it is set rather than left as a default
 someone might helpfully "fix" later.
 
+## A second exact degeneracy: reflection through the sky plane
+
+Found in review round 3, and worth recording as much for how long it went
+unnoticed as for what it is. Three rounds of adversarial review searched for
+degeneracies and none of them looked for a **discrete** one.
+
+Flip the sign of a disc's inclination and you get its mirror image through the
+plane of the sky. For an encounter whose orbit lies in that plane, the projected
+density is identical:
+
+| configuration | L(+inc) | L(−inc) |
+|---|---|---|
+| coplanar encounter (perturber at z = 0) | 0.000e+0 | **0.000e+0** |
+| the shipped scene (perturber at z = 4 kpc) | 0.000e+0 | 5.249e+0 |
+
+Measured on the shipped adjoint at the true parameters, so both numbers are
+losses at a fitted optimum rather than estimates.
+
+**Coplanar it is exact.** Not approximate, not nearly: the two orientations
+produce the same image to floating point, so no amount of data at that geometry
+can separate them.
+
+Out of the plane it is broken but not resolved. At the shipped z = 4 kpc the
+wrong basin sits at 5.249 while the barrier between the basins peaks at **6.170e+1**
+— so an optimiser that starts on the wrong side must climb about **12x above its
+own minimum** to escape it. Gradient descent will not do that. It will converge,
+report a small residual, and be reflected.
+
+### Why this is worse than the mass-epoch degeneracy
+
+The mass-epoch direction is *continuous* and *flat*: it announces itself as an
+unconstrained direction, and the honest response is to fix a gauge, which
+[the section above](#the-gauge) does. A discrete degeneracy does the opposite. It
+produces a **confident, tight, wrong** answer with a small residual and a
+well-conditioned Hessian, and nothing in the fit looks unusual.
+
+### What follows
+
+- Any optimisation over inclination must be **multi-start across the sign**, and
+  the two results reported together rather than the better one reported alone.
+- A posterior over inclination is **bimodal**, and summarising it by a mean and a
+  standard deviation would place the estimate in the barrier between the modes,
+  where the loss is highest.
+- The single start shipped in `test/adjoint.test.js` happens to sit in the right
+  basin. That is luck, not method, and it is why the recovery demonstration there
+  is labelled as a gradient check rather than as evidence of identifiability.
+
+The physical resolution is that the mirror ambiguity is broken by **kinematics,
+not morphology** — a radial-velocity field distinguishes a near side from a far
+side, and an image does not. That is a statement about what data would be needed,
+and this project does not yet use any.
+
 ## What is NOT yet established
 
 Honest gaps, so they are not mistaken for cleared ground:
