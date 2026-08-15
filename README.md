@@ -17,11 +17,28 @@ warps and mergers. 280,000-350,000 massless test particles orbiting live analyti
 on the GPU.
 
 **The frame rate, stated properly**, because the project's own check table demands the
-scenario, the epoch, N and the resolution and no reviewer had ever measured it: median
-**16.6-16.7 ms (59.9-60.2 fps)** with p95 18.4-18.7 ms, measured over 150 frames on the FULL
-scene at a 2400x2328 backing store (DPR 2) on an Apple M4. That is every shipped scenario —
-prograde, antennae, ring, merger and flyby — so the best and the worst are 0.3 fps apart and
-the figure is vsync-limited rather than headroom-limited.
+scenario, the epoch, N and the resolution. Measured over 150 frames per scenario on the live
+site at a 2400x2440 backing store (DPR 2), Apple M4, one tab:
+
+| scenario | N | camera | median | p95 | fps |
+|---|---|---|---|---|---|
+| prograde | 300k | 193 kpc | 28.4 ms | 34.3 | 35 |
+| antennae | 350k | 170 kpc | 32.0 ms | 35.5 | 31 |
+| ring | 320k | 332 kpc | 28.0 ms | 34.9 | 36 |
+| merger | 320k | 174 kpc | 28.0 ms | 33.9 | 36 |
+| flyby | 280k | 222 kpc | 21.6 ms | 29.4 | 46 |
+
+**This is slower than the 60 fps this file claimed until 2026-08-15, and the cause is a
+deliberate trade I made.** The camera used to sit at a fixed 66 kpc, where most of the system
+is off-screen and clipped — 16.7 ms, 60 fps, and a subject occupying a sixth of the frame.
+Framing the encounter properly means rasterising all 300,000 particles instead of the fraction
+that happened to be in view. Measured across the trade: 16.7 ms at 66 kpc, 23.2 at 100, 26.0 at
+150, 28.2 at 300.
+
+Lowering the minimum splat size recovers almost none of it (25.5 → 22.4 ms from 1.4 px to
+0.85), so this is fill from particles that are now visible rather than from the min-pixel
+clamp. The honest summary is that the old number was measured on a view that was mostly empty
+space, and 31-46 fps is the price of showing the whole encounter.
 
 Scrubbing is NOT 60 fps: one `queue.submit` per step makes a full-span seek cost ~1.6 s of
 wall time. It is chunked across frames with a busy indicator so the tab stays alive, and
