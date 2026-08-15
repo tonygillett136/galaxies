@@ -1,0 +1,524 @@
+1
+00:00:01,600 --> 00:00:07,480
+Two galaxies, gravity, and nothing else.
+
+2
+00:00:10,200 --> 00:00:11,476
+A galaxy at rest.
+
+3
+00:00:11,596 --> 00:00:15,419
+A hundred thousand stars, each on its own orbit,
+
+4
+00:00:15,539 --> 00:00:18,541
+held by the gravity of all the others.
+
+5
+00:00:18,661 --> 00:00:21,251
+Undisturbed, it will simply turn,
+
+6
+00:00:21,371 --> 00:00:23,880
+as it has for ten billion years.
+
+7
+00:00:26,200 --> 00:00:27,790
+Now give it a companion.
+
+8
+00:00:27,910 --> 00:00:30,853
+An equal mass, falling in along a parabola,
+
+9
+00:00:30,973 --> 00:00:33,702
+passing at twenty five thousand parsecs.
+
+10
+00:00:33,822 --> 00:00:37,121
+That is close. Each disc is barely half as wide.
+
+11
+00:00:37,241 --> 00:00:39,614
+Watch the near side of each galaxy.
+
+12
+00:00:39,734 --> 00:00:41,751
+Those stars are already moving
+
+13
+00:00:41,871 --> 00:00:45,099
+in the direction the companion is pulling them.
+
+14
+00:00:45,219 --> 00:00:47,450
+They stay in step with that pull,
+
+15
+00:00:47,570 --> 00:00:50,085
+and so they keep being drawn outward,
+
+16
+00:00:50,205 --> 00:00:52,293
+further, and further, and away.
+
+17
+00:00:52,413 --> 00:00:53,789
+That is a tidal tail.
+
+18
+00:00:53,909 --> 00:00:56,852
+Nothing has exploded. Nothing has collided.
+
+19
+00:00:56,972 --> 00:00:58,419
+The stars never touch.
+
+20
+00:00:58,539 --> 00:01:01,625
+One force is at work here, and it is gravity.
+
+21
+00:01:01,745 --> 00:01:03,690
+Toomre and Toomre showed this
+
+22
+00:01:03,810 --> 00:01:05,400
+in nineteen seventy two.
+
+23
+00:01:05,520 --> 00:01:08,677
+Until then we had reached for magnetic fields,
+
+24
+00:01:08,797 --> 00:01:10,030
+and for explosions.
+
+25
+00:01:12,350 --> 00:01:15,208
+The same two galaxies. The same orbit.
+
+26
+00:01:15,328 --> 00:01:17,246
+The same closest approach.
+
+27
+00:01:17,366 --> 00:01:19,048
+One thing is different.
+
+28
+00:01:19,168 --> 00:01:22,026
+These discs are turning the other way.
+
+29
+00:01:22,146 --> 00:01:25,396
+Stars orbiting against the companion's pull
+
+30
+00:01:25,516 --> 00:01:29,158
+feel it reverse before it can do much with them.
+
+31
+00:01:29,278 --> 00:01:31,274
+Turning with the encounter,
+
+32
+00:01:31,394 --> 00:01:34,723
+a galaxy loses fifteen per cent of its disc.
+
+33
+00:01:34,843 --> 00:01:37,466
+Turning against it, two and a half.
+
+34
+00:01:37,586 --> 00:01:40,365
+Which way a galaxy spins matters more
+
+35
+00:01:40,485 --> 00:01:43,030
+than how closely it is approached.
+
+36
+00:01:45,350 --> 00:01:50,833
+A closer pass, and both discs gently inclined.
+
+37
+00:01:50,953 --> 00:01:55,461
+Two long, thin, almost parallel tails,
+
+38
+00:01:55,581 --> 00:02:00,577
+and a bridge of stars strung between them.
+
+39
+00:02:00,697 --> 00:02:05,692
+There is a real pair that looks like this,
+
+40
+00:02:05,812 --> 00:02:10,442
+three hundred million light years away.
+
+41
+00:02:10,562 --> 00:02:13,122
+We call them the Mice.
+
+42
+00:02:13,242 --> 00:02:16,289
+The tails are what remains
+
+43
+00:02:16,409 --> 00:02:20,186
+of two ordinary spiral galaxies,
+
+44
+00:02:20,306 --> 00:02:25,180
+caught in the act of ruining one another.
+
+45
+00:02:27,500 --> 00:02:32,000
+Sixteen thousand parsecs, on a bound orbit,
+
+46
+00:02:32,120 --> 00:02:35,438
+with both discs steeply inclined
+
+47
+00:02:35,558 --> 00:02:38,446
+to the plane they travel in.
+
+48
+00:02:38,566 --> 00:02:42,958
+Now the tails leave that plane altogether.
+
+49
+00:02:43,078 --> 00:02:48,115
+That is what gives these encounters their shape,
+
+50
+00:02:48,235 --> 00:02:53,057
+and why the real ones look so unlike a spiral.
+
+51
+00:02:53,177 --> 00:02:56,603
+The stars out there are not lost.
+
+52
+00:02:56,723 --> 00:03:01,545
+Most are still bound, on long, patient orbits,
+
+53
+00:03:01,665 --> 00:03:05,520
+and in time a great many will return.
+
+54
+00:03:05,640 --> 00:03:10,032
+What you are watching is a single passage.
+
+55
+00:03:10,152 --> 00:03:15,297
+The encounter itself will take billions of years.
+
+56
+00:03:17,617 --> 00:03:21,402
+The same encounter, with every star coloured
+
+57
+00:03:21,522 --> 00:03:23,976
+by the galaxy it was born in.
+
+58
+00:03:24,096 --> 00:03:26,994
+The tails are not shared wreckage.
+
+59
+00:03:27,114 --> 00:03:30,278
+Each galaxy throws out its own stars,
+
+60
+00:03:30,398 --> 00:03:34,450
+and the two streams keep largely to themselves.
+
+61
+00:03:34,570 --> 00:03:36,669
+A little does cross over.
+
+62
+00:03:36,789 --> 00:03:40,131
+Somewhere in that thin bridge of light,
+
+63
+00:03:40,251 --> 00:03:42,350
+stars are changing hands,
+
+64
+00:03:42,470 --> 00:03:44,746
+and will finish their lives
+
+65
+00:03:44,866 --> 00:03:48,297
+orbiting a galaxy they were not born in.
+
+66
+00:03:50,617 --> 00:03:53,046
+Now send a smaller companion
+
+67
+00:03:53,166 --> 00:03:57,235
+almost exactly through the centre of the disc.
+
+68
+00:03:57,355 --> 00:04:00,786
+The pull is nearly symmetric this time.
+
+69
+00:04:00,906 --> 00:04:04,793
+So instead of drawing stars out to one side,
+
+70
+00:04:04,913 --> 00:04:09,164
+it drives a wave outward through the whole disc,
+
+71
+00:04:09,284 --> 00:04:12,624
+like a stone dropped into still water.
+
+72
+00:04:12,744 --> 00:04:15,902
+The densest region leaves the centre
+
+73
+00:04:16,022 --> 00:04:18,725
+and travels outward, as a ring.
+
+74
+00:04:18,845 --> 00:04:23,004
+The density there rises three and a half times.
+
+75
+00:04:23,124 --> 00:04:25,918
+Ring galaxies are made this way.
+
+76
+00:04:26,038 --> 00:04:30,380
+They are rare, because the aim must be very good.
+
+77
+00:04:32,700 --> 00:04:35,845
+A companion at one tenth of the mass,
+
+78
+00:04:35,965 --> 00:04:39,022
+on an orbit that will bring it back.
+
+79
+00:04:39,142 --> 00:04:43,170
+Even a small visitor raises a warp, and a tail.
+
+80
+00:04:43,290 --> 00:04:45,199
+It simply takes longer,
+
+81
+00:04:45,319 --> 00:04:49,435
+and asks less of the galaxy each time it passes.
+
+82
+00:04:49,555 --> 00:04:51,730
+This is the ordinary case.
+
+83
+00:04:51,850 --> 00:04:56,054
+Most galaxies are not caught in great collisions.
+
+84
+00:04:56,174 --> 00:04:58,966
+They are being quietly rearranged
+
+85
+00:04:59,086 --> 00:05:02,672
+by companions far smaller than themselves,
+
+86
+00:05:02,792 --> 00:05:06,467
+across spans of time that make a human life
+
+87
+00:05:06,587 --> 00:05:09,114
+look like a single photograph.
+
+88
+00:05:09,234 --> 00:05:12,027
+Our own galaxy is doing this now,
+
+89
+00:05:12,147 --> 00:05:15,380
+to the small companions that orbit it.
+
+90
+00:05:17,700 --> 00:05:21,746
+This time the galaxies will not escape each other.
+
+91
+00:05:21,866 --> 00:05:26,244
+As each moves through the other's halo of dark matter,
+
+92
+00:05:26,364 --> 00:05:29,910
+it leaves a wake of gathered mass behind it,
+
+93
+00:05:30,030 --> 00:05:34,242
+and that wake pulls back on the galaxy that made it.
+
+94
+00:05:34,362 --> 00:05:37,658
+Orbital energy drains away into the dark.
+
+95
+00:05:37,778 --> 00:05:39,074
+The orbit decays.
+
+96
+00:05:39,194 --> 00:05:42,740
+Every passage is closer than the one before.
+
+97
+00:05:42,860 --> 00:05:45,322
+The first brings them to within
+
+98
+00:05:45,442 --> 00:05:47,738
+twenty nine thousand parsecs.
+
+99
+00:05:47,858 --> 00:05:50,321
+Then closer. Then closer still.
+
+100
+00:05:50,441 --> 00:05:53,320
+After sixteen hundred million years,
+
+101
+00:05:53,440 --> 00:05:57,402
+the two centres are within five thousand parsecs,
+
+102
+00:05:57,522 --> 00:06:00,651
+deep inside what is left of both discs.
+
+103
+00:06:00,771 --> 00:06:02,401
+Two galaxies went in.
+
+104
+00:06:02,521 --> 00:06:06,067
+What emerges is a single cloud of old stars,
+
+105
+00:06:06,187 --> 00:06:08,816
+turning slowly, keeping no memory
+
+106
+00:06:08,936 --> 00:06:11,482
+of the two spirals that made it.
+
+107
+00:06:11,602 --> 00:06:14,897
+This is how the great elliptical galaxies
+
+108
+00:06:15,017 --> 00:06:17,480
+are thought to have been built.
+
+109
+00:06:19,800 --> 00:06:22,780
+Gravity has a curious property.
+
+110
+00:06:22,900 --> 00:06:27,880
+Run the clock backwards, and it works just as well.
+
+111
+00:06:28,000 --> 00:06:31,380
+The tail forms. Then time reverses.
+
+112
+00:06:31,500 --> 00:06:35,180
+This is not the film played backwards.
+
+113
+00:06:35,300 --> 00:06:38,780
+The same equations are being solved,
+
+114
+00:06:38,900 --> 00:06:42,680
+with time itself given a negative sign,
+
+115
+00:06:42,800 --> 00:06:46,380
+and every star retraces its own path,
+
+116
+00:06:46,500 --> 00:06:48,680
+back to where it began.
+
+117
+00:06:48,800 --> 00:06:52,580
+The universe, at least in this respect,
+
+118
+00:06:52,700 --> 00:06:56,480
+does not care which way the clock runs.
+
+119
+00:06:58,800 --> 00:07:00,734
+Finally, a real observation.
+
+120
+00:07:00,854 --> 00:07:03,523
+A photograph of two galaxies far away,
+
+121
+00:07:03,643 --> 00:07:05,797
+scaled so that one screen width
+
+122
+00:07:05,917 --> 00:07:08,218
+is the true distance across them.
+
+123
+00:07:08,338 --> 00:07:11,373
+The simulation is laid over the photograph.
+
+124
+00:07:11,493 --> 00:07:13,648
+The question is which encounter
+
+125
+00:07:13,768 --> 00:07:16,656
+produced what the telescope actually saw.
+
+126
+00:07:16,776 --> 00:07:19,078
+Every interacting pair in the sky
+
+127
+00:07:19,198 --> 00:07:21,205
+is a single frame from a film
+
+128
+00:07:21,325 --> 00:07:23,480
+we will never watch to the end.
+
+129
+00:07:25,200 --> 00:07:28,975
+Gravity, and enough time.
+
+130
+00:07:29,095 --> 00:07:32,247
+That is all it takes.
+
+131
+00:07:32,367 --> 00:07:38,247
+You can run every one of these yourself.
+

@@ -1,0 +1,9 @@
+# rendered media: large, and regenerable from the scripts here
+out/
+work/
+*.mp4
+*.wav
+*.webm
+tts_model/
+ttsenv/
+node_modules/

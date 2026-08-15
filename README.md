@@ -50,6 +50,7 @@ bench/mutate.mjs   MUTATION TESTING: reverts each fix and requires the suite to 
 docs/          UNITS, LITERATURE (verified/reported/inferred kept separate), IDENTIFIABILITY
 data/          Galaxy Zoo tables, 62 targets, 56 SDSS cutouts
 review_board/  six adversarial reviewer personas and the workflow that runs them
+film/          the showcase film: offline renderer, edit, original score, narration
 ```
 
 Plain ES modules, **no build step** — the files the dev server serves are the files that
@@ -161,6 +162,9 @@ It is now guarded, and `DEVLOG.md` carries the full account.
 
 ## Reading order
 
+0. **[`film/README.md`](film/README.md)** — how the showcase film was made: the offline
+   renderer, the edit, the original score, and the narration pipeline. Includes what went
+   wrong with each.
 0. **[`docs/GUIDE.md`](docs/GUIDE.md)** — the user guide: every mode, every control, how to
    read the display, and how to not fool yourself with a persuasive picture. Start here if you
    want to *use* it rather than audit it.

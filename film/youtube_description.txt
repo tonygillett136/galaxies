@@ -1,0 +1,93 @@
+TITLE (primary)
+When Galaxies Collide: a real-time simulation in 4K
+
+TITLE (alternatives)
+Which Way a Galaxy Spins Matters More Than How Close It Gets
+300,000 Stars, Real Gravity: what happens when two galaxies meet
+Galaxy Collisions, Simulated Live in a Browser (4K60)
+
+
+=====================================================================
+DESCRIPTION (paste below the line)
+=====================================================================
+
+Two galaxies, gravity, and nothing else.
+
+Everything in this film is a live simulation: 300,000 massless test particles
+orbiting analytic potentials on the GPU, rendered at 4K and 60 frames per second.
+No animation, no artistic licence, no post-processing of the physics. The
+parameters used to produce each scene are shown on screen as it begins.
+
+You can run all of it yourself, in your browser, right now:
+https://galaxies.gillett-projects.com
+
+Source, the full build log, and an honest account of what it gets wrong:
+https://github.com/tonygillett136/galaxies
+
+Commentary is on the subtitle track. Turn it on with the CC button, or leave it
+off and just watch.
+
+
+WHAT YOU ARE LOOKING AT
+
+This is a restricted three-body model. Massless test particles move in rigid
+analytic potentials, the two galaxies attract each other, and the particles feel
+both galaxies but not one another. It is the approximation Alar and Juri Toomre
+used in 1972 to show that the long bridges and tails around interacting galaxies
+are tidal, rather than magnetic or explosive.
+
+That approximation buys enormous speed. It also leaves things out, and the film
+says so: no gas, no star formation, no disc self-gravity. Nothing here is a fluid.
+
+Distances are in kiloparsecs, about 3,260 light years. Times are in millions of
+years, measured from closest approach.
+
+
+THE RESULT WORTH WATCHING FOR
+
+Compare the prograde and retrograde passages at 0:25 and 1:11. Same masses, same
+orbit, same closest approach. The only difference is which way the discs spin.
+
+Prograde throws 15.1 per cent of a disc beyond 20 kiloparsecs. Retrograde throws
+2.5 per cent. The two orbits are asserted identical to one part in a million
+first, so the disc spin is demonstrably the only difference.
+
+Which way a galaxy spins matters more than how close the encounter is.
+
+
+ON THE NUMBERS
+
+Every figure quoted in the commentary is measured by the project's own test
+suite and registered, so the prose fails the build if it drifts from the
+measurement that produced it. The merger timings, the ring density, the tidal
+fractions and the disc stability check are generated rather than typed.
+
+The one thing this project will not claim is that a good visual match means you
+have found the right encounter. It published exactly that claim, measured it
+properly, and retracted it. The reasoning is in the repository.
+
+
+CHAPTERS
+
+0:00 Introduction
+0:09 The control
+0:25 Prograde passage
+1:11 Retrograde passage
+1:44 Two long tails
+2:26 Out of the plane
+3:16 Whose material is it
+3:49 A ring, not a tail
+4:31 A small perturber
+5:16 Merger
+6:18 Time, backwards
+6:57 Against the real sky
+7:24 Where to find it
+
+
+DATA AND CREDIT
+
+Galaxy Zoo: Mergers, Holincheck et al. 2016, MNRAS 459, 720.
+Imagery from the SDSS DR18 SkyServer cutout service.
+
+Built with Claude Code, then put through eight rounds of adversarial review. The
+review log is in the repository as well.
