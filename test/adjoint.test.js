@@ -19,13 +19,14 @@
  */
 
 import { group, check, expectChecks, below, above, ok } from './harness.js';
+import { record } from './measured.js';
 import { plummer, hernquist, composite } from '../src/engine/potentials.js';
 import { forward, backward, splat, splatBackward, discFromAngles, accelAndJacobian } from '../src/engine/adjoint.js';
 import { galaxyModel } from '../src/engine/encounter.js';
 import { mulberry32 } from '../src/engine/galaxy.js';
 
 /** A small, real-ish scene: one galaxy moving past another, both fixed in advance. */
-function scene(nSteps = 60, nPart = 40) {
+function scene(nSteps = 60, nPart = 40, seed = 9) {
   const P1 = galaxyModel(1.0), P2 = galaxyModel(0.5, Math.cbrt(0.5));
   const comps = [];
   for (const p of (P1.kind === 'composite' ? P1.parts : [P1])) comps.push({ parent: 0, part: p });
@@ -39,7 +40,7 @@ function scene(nSteps = 60, nPart = 40) {
     traj.push([[0, 0, 0], [-40 + 90 * t, 26, 4]]);
   }
 
-  const rng = mulberry32(9);
+  const rng = mulberry32(seed);
   const radii = [], phases = [], vc = [];
   for (let i = 0; i < nPart; i++) {
     const r = 4 + 9 * rng();
@@ -68,19 +69,45 @@ export function runAdjointTests() {
   const grid = new Float64Array(W * H);
   const target = new Float64Array(W * H);
 
-  // a target produced by a DIFFERENT disc orientation, so the loss is not zero
-  const tgt = discFromAngles(s.radii, s.phases, s.vc, 0.55, 0.9, [0, 0, 0], [0, 0, 0]);
+  // THE TARGET USES AN INDEPENDENT PARTICLE REALISATION.
+  //
+  // Building it from the same radii and phases as the model makes the fit an
+  // inverse crime: the optimum is exactly reachable, the loss goes to 1e-30, and
+  // the demonstration proves the optimiser can find a configuration it was handed.
+  // A different draw means the best achievable loss is the SAMPLING NOISE FLOOR,
+  // which is what a real fit against real data faces.
+  const tScene = scene(60, 40, 31);       // same distribution, different draw
+  const TRUE_INC = 0.55, TRUE_NODE = 0.90;
+  const tgt = discFromAngles(tScene.radii, tScene.phases, tScene.vc, TRUE_INC, 0,
+                             [0, 0, 0], [0, 0, 0], TRUE_NODE);
   { const { xs } = forward(tgt.x, tgt.v, s.traj, dt, s.comps);
     splat(xs[xs.length - 1], target, W, H, EXTENT, SIGMA); }
 
-  const base = discFromAngles(s.radii, s.phases, s.vc, 0.20, 0.3, [0, 0, 0], [0, 0, 0]);
+  const base = discFromAngles(s.radii, s.phases, s.vc, 0.20, 0, [0, 0, 0], [0, 0, 0], 0.30);
 
   check('the loss is non-trivial and the target is reachable', () => {
     const { L } = lossOf(base.x, base.v, s, dt, target, grid);
-    const { L: L0 } = lossOf(tgt.x, tgt.v, s, dt, target, grid);
+    // L(truth) is the SAMPLING NOISE FLOOR, not zero, because the target is drawn
+    // from an independent realisation. It must be far below the starting loss (so
+    // there is a real signal to descend) and far above zero (so the fit is not an
+    // inverse crime). Asserting both is what makes this check mean something.
+    const floor = lossOf(
+      discFromAngles(tScene.radii, tScene.phases, tScene.vc, TRUE_INC, 0, [0, 0, 0], [0, 0, 0], TRUE_NODE).x,
+      discFromAngles(tScene.radii, tScene.phases, tScene.vc, TRUE_INC, 0, [0, 0, 0], [0, 0, 0], TRUE_NODE).v,
+      s, dt, target, grid).L;
+    const own = lossOf(
+      discFromAngles(s.radii, s.phases, s.vc, TRUE_INC, 0, [0, 0, 0], [0, 0, 0], TRUE_NODE).x,
+      discFromAngles(s.radii, s.phases, s.vc, TRUE_INC, 0, [0, 0, 0], [0, 0, 0], TRUE_NODE).v,
+      s, dt, target, grid).L;
     ok(L > 1e-3, `loss at the start point is ~0 (${L.toExponential(2)}); the check would be vacuous`);
-    below(L0, 1e-20, 'loss at the true parameters');
-    return `L(start) = ${L.toFixed(3)}, L(truth) = ${L0.toExponential(1)}`;
+    below(floor, 1e-20, 'loss when the target is regenerated from its OWN realisation');
+    ok(own > 1e-8, `the model realisation reproduces the target exactly (${own.toExponential(2)}); the fit would be an inverse crime`);
+    // NOT asserted: that the floor is far below the starting loss. At N = 40 it
+    // is not — measured floor/L0 = 1.26, i.e. two independent draws of the SAME
+    // disc differ more than the true and starting orientations do. That is the
+    // real result and the recovery check reports it as a function of N rather
+    // than hiding it behind a larger particle count.
+    return `L(start) = ${L.toFixed(2)}, sampling floor = ${own.toExponential(2)} (ratio ${(own / L).toFixed(2)}), L(target vs itself) = ${floor.toExponential(1)}`;
   });
 
   check('GRADIENT CHECK: d(loss)/d(initial position) matches finite differences', () => {
@@ -149,8 +176,8 @@ export function runAdjointTests() {
    * validated above, and hand-deriving the IC Jacobian as well would risk one
    * error masking another in exactly the place it would be hardest to see.
    */
-  function gradAngles(inc, arg) {
-    const ic = discFromAngles(s.radii, s.phases, s.vc, inc, arg, [0, 0, 0], [0, 0, 0]);
+  function gradAngles(inc, nod) {
+    const ic = discFromAngles(s.radii, s.phases, s.vc, inc, 0, [0, 0, 0], [0, 0, 0], nod);
     const { L, xEnd, xs } = lossOf(ic.x, ic.v, s, dt, target, grid);
     const lxEnd = splatBackward(xEnd, grid, target, W, H, EXTENT, SIGMA);
     const { dx0, dv0 } = backward(xs, null, s.traj, dt, s.comps, lxEnd);
@@ -163,46 +190,91 @@ export function runAdjointTests() {
       }
       return g;
     };
-    const gi = chain(discFromAngles(s.radii, s.phases, s.vc, inc + e, arg, [0, 0, 0], [0, 0, 0]),
-                     discFromAngles(s.radii, s.phases, s.vc, inc - e, arg, [0, 0, 0], [0, 0, 0]));
-    const ga = chain(discFromAngles(s.radii, s.phases, s.vc, inc, arg + e, [0, 0, 0], [0, 0, 0]),
-                     discFromAngles(s.radii, s.phases, s.vc, inc, arg - e, [0, 0, 0], [0, 0, 0]));
-    return { L, g: [gi, ga] };
+    const gi = chain(discFromAngles(s.radii, s.phases, s.vc, inc + e, 0, [0, 0, 0], [0, 0, 0], nod),
+                     discFromAngles(s.radii, s.phases, s.vc, inc - e, 0, [0, 0, 0], [0, 0, 0], nod));
+    const gn = chain(discFromAngles(s.radii, s.phases, s.vc, inc, 0, [0, 0, 0], [0, 0, 0], nod + e),
+                     discFromAngles(s.radii, s.phases, s.vc, inc, 0, [0, 0, 0], [0, 0, 0], nod - e));
+    return { L, g: [gi, gn] };
   }
 
-  check('RECOVERY: gradient descent finds the parameters that made the target', () => {
-    // The first end-to-end demonstration that the inverse problem works, on a
-    // deliberately easy case: two parameters, synthetic target, same forward
-    // model. Per docs/IDENTIFIABILITY.md this tests the OPTIMISER, not the
-    // model — recovering your own simulation's parameters says nothing about
-    // whether the simulation is right. It is still the necessary first rung.
-    let inc = 0.20, arg = 0.30;
-    const TRUE = [0.55, 0.90];
-    const start = Math.hypot(inc - TRUE[0], arg - TRUE[1]);
-    let L0 = gradAngles(inc, arg).L;
-
-    // Adam: the loss surface here is not well scaled between the two angles,
-    // and plain descent with one step size stalls on the flatter of them.
-    let m = [0, 0], vv = [0, 0];
-    const lr = 0.03, b1 = 0.9, b2 = 0.999, epsA = 1e-8;
-    let L = L0;
-    for (let it = 1; it <= 220; it++) {
-      const r = gradAngles(inc, arg);
-      L = r.L;
-      for (let j = 0; j < 2; j++) {
-        m[j] = b1 * m[j] + (1 - b1) * r.g[j];
-        vv[j] = b2 * vv[j] + (1 - b2) * r.g[j] * r.g[j];
-        const mh = m[j] / (1 - Math.pow(b1, it));
-        const vh = vv[j] / (1 - Math.pow(b2, it));
-        const step = lr * mh / (Math.sqrt(vh) + epsA);
-        if (j === 0) inc -= step; else arg -= step;
+  check('RECOVERY: the error falls with sampling, and at N=40 it fails', () => {
+    // WHAT THIS NOW TESTS, after round 3 established the old version tested
+    // something else.
+    //
+    // It fitted (inclination, argPeri) against a target built from the SAME radii
+    // and phases. Both halves were wrong:
+    //
+    //  1. argPeri is not a parameter. It rotates an axisymmetric disc within its
+    //     own plane, and shifting every particle's phase by d is identical to
+    //     shifting argPeri by d -- verified to 3.6e-15. It is visible only through
+    //     finite sampling, which docs/IDENTIFIABILITY.md already calls a
+    //     discretisation artefact. "Recovering" it recovered the realisation.
+    //  2. Sharing the realisation with the target is an inverse crime: the
+    //     optimum is exactly reachable, the loss falls to ~1e-30, and the result
+    //     shows the optimiser can find a configuration it was handed.
+    //
+    // Now it fits (inclination, NODE) -- the node rotates the disc PLANE, a real
+    // orientation on the sky -- against targets drawn from an INDEPENDENT
+    // realisation, and reports the error as a function of N. The claim asserted
+    // is the one that means something: the error FALLS with sampling.
+    const NS = [40, 150, 600];
+    const rows = [];
+    for (const n of NS) {
+      const ms = scene(60, n, 9), ts = scene(60, n, 31);
+      const g2 = new Float64Array(W * H), tg = new Float64Array(W * H);
+      const tIC = discFromAngles(ts.radii, ts.phases, ts.vc, TRUE_INC, 0, [0, 0, 0], [0, 0, 0], TRUE_NODE);
+      { const { xs } = forward(tIC.x, tIC.v, ms.traj, dt, ms.comps);
+        splat(xs[xs.length - 1], tg, W, H, EXTENT, SIGMA); }
+      const grad = (inc, nod) => {
+        const ic = discFromAngles(ms.radii, ms.phases, ms.vc, inc, 0, [0, 0, 0], [0, 0, 0], nod);
+        const { xs } = forward(ic.x, ic.v, ms.traj, dt, ms.comps);
+        const xEnd = xs[xs.length - 1];
+        splat(xEnd, g2, W, H, EXTENT, SIGMA);
+        let L = 0;
+        for (let i = 0; i < g2.length; i++) { const d = g2[i] - tg[i]; L += d * d; }
+        const lxEnd = splatBackward(xEnd, g2, tg, W, H, EXTENT, SIGMA);
+        const { dx0, dv0 } = backward(xs, null, ms.traj, dt, ms.comps, lxEnd);
+        const e = 1e-6;
+        const chain = (pa, pb) => {
+          let acc = 0;
+          for (let k = 0; k < dx0.length; k++) acc += dx0[k] * (pa.x[k] - pb.x[k]) / (2 * e) + dv0[k] * (pa.v[k] - pb.v[k]) / (2 * e);
+          return acc;
+        };
+        const gi = chain(discFromAngles(ms.radii, ms.phases, ms.vc, inc + e, 0, [0, 0, 0], [0, 0, 0], nod),
+                         discFromAngles(ms.radii, ms.phases, ms.vc, inc - e, 0, [0, 0, 0], [0, 0, 0], nod));
+        const gn = chain(discFromAngles(ms.radii, ms.phases, ms.vc, inc, 0, [0, 0, 0], [0, 0, 0], nod + e),
+                         discFromAngles(ms.radii, ms.phases, ms.vc, inc, 0, [0, 0, 0], [0, 0, 0], nod - e));
+        return { L, g: [gi, gn] };
+      };
+      let inc = 0.20, nod = 0.30;
+      const L0 = grad(inc, nod).L;
+      const floor = grad(TRUE_INC, TRUE_NODE).L;
+      let m = [0, 0], vv = [0, 0];
+      const lr = 0.03, b1 = 0.9, b2 = 0.999, epsA = 1e-8;
+      for (let it = 1; it <= 200; it++) {
+        const r = grad(inc, nod);
+        for (let j = 0; j < 2; j++) {
+          m[j] = b1 * m[j] + (1 - b1) * r.g[j];
+          vv[j] = b2 * vv[j] + (1 - b2) * r.g[j] * r.g[j];
+          const mh = m[j] / (1 - Math.pow(b1, it)), vh = vv[j] / (1 - Math.pow(b2, it));
+          const step = lr * mh / (Math.sqrt(vh) + epsA);
+          if (j === 0) inc -= step; else nod -= step;
+        }
       }
+      rows.push({ n, err: Math.hypot(inc - TRUE_INC, nod - TRUE_NODE), inc, nod, ratio: floor / L0 });
     }
-    const err = Math.hypot(inc - TRUE[0], arg - TRUE[1]);
+    const start = Math.hypot(0.20 - TRUE_INC, 0.30 - TRUE_NODE);
     ok(start > 0.5, `start is already close (${start.toFixed(3)}); the recovery would be vacuous`);
-    below(err, 0.02, `parameter error after 220 iterations (started ${start.toFixed(3)} away)`);
-    return `recovered inc ${inc.toFixed(4)} (true 0.55), argPeri ${arg.toFixed(4)} (true 0.90); `
-         + `|err| ${start.toFixed(3)} -> ${err.toFixed(4)}, loss ${L0.toFixed(1)} -> ${L.toExponential(2)}`;
+    // THE claim: more particles, better recovery. Asserted on the ends, because
+    // the middle of a noisy sequence need not be monotone.
+    ok(rows[rows.length - 1].err < rows[0].err * 0.5,
+      `recovery did not improve with sampling: ${rows.map((r) => `N=${r.n} err=${r.err.toFixed(3)}`).join(', ')}`);
+    // And the honest headline: at the N this scene ships with, it FAILS.
+    ok(rows[0].err > 0.3, `N=40 unexpectedly succeeded (err ${rows[0].err.toFixed(3)}); the sampling-floor caveat may no longer hold`);
+    record('recoveryErrN40', rows[0].err);
+    record('recoveryErrN600', rows[rows.length - 1].err);
+    return rows.map((r) => `N=${r.n}: err ${r.err.toFixed(3)} (inc ${r.inc.toFixed(2)}, node ${r.nod.toFixed(2)}, floor/L0 ${r.ratio.toFixed(2)})`).join('; ')
+      + ` -- at N=40 the node lands NEGATIVE, i.e. in the mirror basin of the reflection degeneracy`;
   });
 
   check('the ANGLE gradient — the one the optimiser consumes — matches finite differences', () => {

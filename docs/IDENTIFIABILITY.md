@@ -135,6 +135,51 @@ not morphology** — a radial-velocity field distinguishes a near side from a fa
 side, and an image does not. That is a statement about what data would be needed,
 and this project does not yet use any.
 
+## What the recovery demonstration does and does not show
+
+Rewritten after round 3, because the previous version demonstrated less than it
+appeared to.
+
+It used to fit **(inclination, argPeri)** against a target built from the same
+particle draw. Both halves were wrong.
+
+**argPeri is not a parameter.** It rotates an axisymmetric disc within its own
+plane. Shifting every particle's phase by δ and shifting argPeri by δ produce
+identical states — measured at **3.6e-15**, i.e. exactly. So argPeri is a
+relabelling of which particle sits where, visible only through finite sampling.
+This document already called it a discretisation artefact in the section above;
+the recovery check was fitting it anyway.
+
+**Sharing the realisation is an inverse crime.** With the same radii and phases
+the optimum is exactly reachable and the loss falls to ~1e-30. That shows an
+optimiser can find a configuration it was handed, not one it had to infer.
+
+It now fits **(inclination, node)** — the node rotates the disc *plane*, a real
+orientation on the sky — against a target drawn from an **independent**
+realisation, so the best achievable loss is the sampling floor. Measured:
+
+| N | floor / L(start) | recovered inc | recovered node | \|error\| |
+|---|---|---|---|---|
+| 40 | **1.26** | 0.51 | **−0.95** | 1.853 |
+| 150 | 0.62 | 0.76 | 1.15 | 0.329 |
+| 600 | 0.32 | 0.61 | 1.17 | 0.274 |
+| 2400 | 0.089 | 0.59 | 0.86 | 0.052 |
+
+True values: inclination 0.55, node 0.90.
+
+Three things follow, and only the first was previously claimed.
+
+1. **The error falls with sampling**, so the parameters are identifiable in
+   principle from morphology alone. That is the positive result.
+2. **At N = 40 it fails outright** — and the ratio says why: two independent
+   draws of the *same* disc differ MORE than the true and starting orientations
+   do (floor/L(start) = 1.26). There is no signal above the sampling noise. Any
+   fit at that resolution is fitting the realisation.
+3. **At N = 40 the node converges to −0.95 against a true +0.90.** That is the
+   reflection degeneracy documented above, caught in the act: the optimiser did
+   not merely fail, it confidently found the mirror image. The two findings were
+   made independently and corroborate each other.
+
 ## What is NOT yet established
 
 Honest gaps, so they are not mistaken for cleared ground:

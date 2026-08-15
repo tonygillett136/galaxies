@@ -245,13 +245,23 @@ export function splatBackward(x, grid, target, W, H, extent, sigma) {
  * spike is the ADJOINT through time, and hand-deriving the IC Jacobian too
  * would risk one error masking another.
  */
-export function discFromAngles(radii, phases, vcirc, inclination, argPeri, centre, vel) {
+export function discFromAngles(radii, phases, vcirc, inclination, argPeri, centre, vel, node = 0) {
+  // NODE is the identifiable second angle, and it used to be hardcoded to 0.
+  //
+  // argPeri rotates an axisymmetric disc within its own plane, which for a
+  // continuous disc changes nothing at all: verified numerically, shifting every
+  // particle's phase by d and shifting argPeri by d give identical states to
+  // 3.6e-15. So argPeri is a relabelling of which particle sits where, detectable
+  // only through finite sampling — docs/IDENTIFIABILITY.md already calls it a
+  // discretisation artefact. Fitting it recovers the realisation, not a parameter.
+  //
+  // The node rotates the disc PLANE, which is a real orientation on the sky.
   const n = radii.length;
   const x = new Float64Array(n * 3), v = new Float64Array(n * 3);
   for (let i = 0; i < n; i++) {
     const r = radii[i], th = phases[i], vc = vcirc[i];
-    const p = rotateToOrbitFrame([r * Math.cos(th), r * Math.sin(th), 0], inclination, argPeri, 0);
-    const w = rotateToOrbitFrame([-vc * Math.sin(th), vc * Math.cos(th), 0], inclination, argPeri, 0);
+    const p = rotateToOrbitFrame([r * Math.cos(th), r * Math.sin(th), 0], inclination, argPeri, node);
+    const w = rotateToOrbitFrame([-vc * Math.sin(th), vc * Math.cos(th), 0], inclination, argPeri, node);
     x[i * 3] = p[0] + centre[0]; x[i * 3 + 1] = p[1] + centre[1]; x[i * 3 + 2] = p[2] + centre[2];
     v[i * 3] = w[0] + vel[0]; v[i * 3 + 1] = w[1] + vel[1]; v[i * 3 + 2] = w[2] + vel[2];
   }
