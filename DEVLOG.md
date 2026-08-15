@@ -1099,3 +1099,107 @@ round 4 in the tests guarding the fixes, round 5 in the tests guarding the tests
 That is a real direction of travel, and it is not convergence. The gate has not
 passed and will not until the guards are mutation-tested as a matter of course —
 which is now the single most valuable process change available to this project.
+
+---
+
+## Round 6: the harness had the defect it was built to find
+
+*2026-08-15, 04:38 to 06:15.*
+
+I pointed round 6 at round 5's fixes and at the mutation harness itself, because
+round 5's whole contribution was the claim that mutation testing would break the
+pattern.
+
+**It did not.** Five of round 5's eight changes were wrong — 63%, against 55% the
+round before. Six rounds, 263 findings, and the rate has not improved.
+
+### But something did change, and it is the first genuinely good news
+
+**All three substantive engine fixes survived every mutation five reviewers aimed
+at them.** The friction gate wiring, the impulse-cap dimensions, the disc's
+per-orbit Rodrigues rotation — attacked directly, independently, and they held.
+
+For the first time the *code* is right. Every failure this round was in a **guard,
+the harness, or the prose**. That is a real direction of travel: round 2 found
+defects in the physics, round 3 in the fixes, round 4 in the tests guarding the
+fixes, round 5 in the tests guarding those tests, and round 6 in the instrument
+built to test the tests.
+
+### The bluntest thing in the report
+
+`bench/mutate.mjs` reported **"12 killed, 0 survived"** on a tree where four
+shipped interaction fixes had been deleted.
+
+It reaches 61 of 76 checks and **zero** of `src/app` and `src/render`. A reviewer
+reverted `setBusy`, the science-view backdrop, `onDeviceLost` and the chunked seek
+*simultaneously*, and both the suite (76/76) and the harness (12 killed, 0
+survived) reported perfection.
+
+It was also scoring an **unparseable mutant as a kill** — the strongest-looking
+result obtainable from the weakest possible evidence — and scoring mutations as
+killed by *collateral* checks after their own guard had been destroyed.
+
+I built an instrument to detect assertions that pass when the thing they guard is
+broken, and the instrument passed when the thing it guarded was broken. There is
+no cleverer way to say it.
+
+It now names the check that *should* catch each mutation and reports `MISATTRIB`
+when only collateral checks fire; treats a crash as `BROKEN` rather than a kill;
+reports browser-only mutations as `NOT COVERED`; and prints its own coverage
+limits in the summary, including the 0% for `src/app` and `src/render`.
+
+### The guard that took four attempts and one idea
+
+The claims guard has been neuterable in one line for four consecutive rounds.
+Replace the comparison with `{status:'accepted'}` and every document in the
+project can be arbitrarily wrong while it reports "22 documented figures match
+their measurements".
+
+Rounds 4 and 5 both rewrote the *sensitivity check* to fix this, and both failed
+for the same structural reason: **a separate check exercises a separate call
+site.** It cannot witness whether the live loop ran. Three rewrites of the wrong
+thing.
+
+The idea that works is a **canary inside the live loop**: a synthetic claim,
+deliberately 3× wrong, evaluated through the same comparison as everything else
+and required to be rejected. If the loop is disabled, short-circuited, or has its
+tolerance widened, the canary stops being rejected and the check fails on itself.
+
+Verified by mutation in a browser — neutering the comparison *and* drifting
+`index.html`'s headline figure to 99.9% now produces:
+
+> THE CANARY WAS NOT REJECTED (status "accepted"). A deliberately 3x-wrong figure
+> passed the live comparison, so the comparison is not running and every other
+> figure in this check is unverified.
+
+A guard that verifies itself is a different category of thing from a guard with a
+companion test, and it took six rounds to see that.
+
+### Two more assertions that could not see their own subject
+
+- **float64 at generation.** Changing every `Float64Array` in `galaxy.js` to
+  `Float32Array` left the suite green while the birth error rose from 2.2e-16 to
+  **1.7e-8** — a 10⁸ degradation of the float64 *reference* the GPU path is
+  checked against. The file's own header explains why this matters. Nothing
+  enforced it.
+- **The impulse cap's asymmetric half.** `Math.max` → `Math.min` survived, because
+  the only configuration exercising the cap used `massRatio: 1.0` — where max and
+  min are identically equal. A check run at equal masses cannot distinguish the
+  two bodies, which is the entire point of taking the worst of them.
+
+Both are the same shape as everything else this week: the test measured the
+quantity I had in mind rather than the one that could go wrong.
+
+### Where six rounds leave it
+
+**76 assertions, zero failures. Mutation harness: 14 killed, 0 survived, 1
+honestly reported as not covered.** Deployed and verified live.
+
+The gate has not passed and I do not think another round would pass it. What six
+rounds have established is not a finished artefact but a reliable *method*, and
+one uncomfortable fact about it: every instrument this project has built to check
+itself has, at first, failed in exactly the way it was built to detect. The
+assertions, the sensitivity checks, the claims guard, and finally the mutation
+harness. The only defence that has worked more than once is the one that turns the
+check on itself — `expectChecks` for the suite, the canary for the claims guard —
+and that is the pattern worth carrying to the next project.
