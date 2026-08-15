@@ -1713,3 +1713,46 @@ Each time the code was fine and the measurement was not. After eight rounds the
 lesson has stopped being "check the code" and become **check the check** — which
 is what mutation testing is, and why it is the only habit here that has never
 once been wrong.
+
+### The correction after the report
+
+Round 8's fourth reviewer landed after I had written the session report, and it
+found a **critical I had introduced in round 7 and then reported as working**.
+
+Round 7 gated the Detect scale-match assignment on `mode === 'detective'`, to stop
+it setting the *sandbox* opening camera — it was framing every first visit at Arp
+240's 848 kpc. That fixed the symptom and created a worse one. The only unprompted
+`selectTarget()` comes from `fillTargets()`, which resolves while the mode is
+still `sandbox`, so the assignment was skipped — and **nothing re-applied it when
+the user actually entered Detect**.
+
+Measured on entry: the frame spanned **160.3 kpc against a `fieldKpc` of 702.8** —
+a factor of **4.38** — while `#fitWarn` read *"Scale matched: frame is 703 kpc
+across"*. An overlay 4.4× out is a wrong answer. An overlay 4.4× out whose panel
+states it is calibrated is precisely the failure this project exists to avoid, and
+`urlState()` was baking it into every shared Detect link. Fixed on mode entry,
+still yielding to a camera restored from a link: span 702.8 against 702.8,
+ratio **1.00**.
+
+The other one was mine from an hour earlier and is a small masterpiece of the
+genre. My "cancel any in-flight seek" cleared `seeking` and `seekTarget` — but the
+already-queued `requestAnimationFrame` still fired, read `seekTarget === null`,
+and `Math.abs(t - null)` **coerces to 0**. So Reset during a seek walked the *new*
+simulation 63 time units to t = 0.0100 instead of leaving it at its own t0 of
+−63.2100 — 4,181 further steps, with `seeking` false and the busy indicator
+hidden, so nothing on screen said it was happening. Replaced with a generation
+token; drift is now 0.0000 across a rebuild mid-seek.
+
+**Two lessons, and the second is the uncomfortable one.**
+
+A cancel that clears a flag is not a cancel while a callback is already queued,
+and `null` in arithmetic is 0 rather than an error — which turns "no target" into
+"target zero" silently.
+
+And: *I reported this project's state at 09:10 and a defect I had personally
+introduced was in it.* Not a defect in code I had not touched — one I had written
+that evening, in the mode whose entire purpose is calibrated comparison, having
+told the user Detect worked. Eight rounds have produced a great deal of evidence
+that reviewing your own work does not find your own blind spots, and this is the
+cleanest instance: the reviewer found in forty minutes what I had missed while
+writing a report claiming it was fine.
