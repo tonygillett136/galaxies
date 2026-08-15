@@ -1252,3 +1252,43 @@ exhibited that defect: the assertions, then the claims guard, then the harness,
 and now the harness's reporting. I have stopped being surprised by it and started
 treating it as the expected behaviour of any new instrument — which is, in the
 end, the most useful thing this project has taught me.
+
+
+---
+
+## The opening view, and why it took six rounds to see
+
+*2026-08-15, 06:30 to 07:00.*
+
+Two visual defects, both open since round 4, both fixed in half an hour, and
+neither of them a correctness bug — which is exactly why they survived six rounds
+of adversarial review aimed at correctness.
+
+**The camera never framed anything.** Distance was set to 66 kpc at construction
+and nothing ever changed it. Scenarios span 14 to 55 kpc pericentre and separate
+to hundreds, so the subject was routinely a small object in a large black frame.
+`frameToContent()` now sets the distance from the content extent on scenario load
+and on `f`. The Antennae at +259 Myr goes from occupying a sixth of the frame
+height to filling it; the scale bar moves 100 kpc → 20 kpc.
+
+**And the opening view was framed by a calculation for a different mode.**
+`fillTargets()` resolves *after* `start()` and calls `selectTarget(targets[0])`,
+whose Detect-mode scale-matching sets the camera from the target's angular
+diameter. It ran while the app sat in Sandbox, so every visitor's first impression
+was the prograde encounter framed at **Arp 240's frame width** — 848 kpc for a
+content radius of 34.
+
+Round 4 found that exact mechanism and filed it as a *share-link* bug: it
+overwrites a restored camera. True, and the smaller half of the story. The same
+line was setting the first thing anyone ever saw.
+
+I only found it by measuring `contentRadius()` against `camera.distance` and
+noticing they disagreed by 25×. Reading the code would not have done it, because
+the code is correct in the place it lives — a Detect-mode function doing a
+Detect-mode job. The defect is entirely in **when** it runs.
+
+The lesson is the one the whole night keeps producing in different costumes: the
+failure is rarely in the line you are looking at. It is in the relationship
+between that line and something else — an inline copy versus an exported
+function, an assertion versus the default it does not exercise, a mode's
+calculation versus the mode it runs in. None of those are visible in a diff.
