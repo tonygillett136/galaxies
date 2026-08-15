@@ -42,7 +42,7 @@ difference at all. **Never quote an interactive-tier number as a scientific resu
 ```bash
 python3 bench/devserver.py 8787     # serves with Cache-Control: no-store
 open http://127.0.0.1:8787/index.html
-open http://127.0.0.1:8787/test/index.html      # 68 standing assertions
+open http://127.0.0.1:8787/test/index.html      # 70 standing assertions
 open http://127.0.0.1:8787/bench/nbody_bench.html
 ```
 
@@ -60,7 +60,7 @@ src/engine/    units, potentials, Kepler, disc ICs, float64 CPU reference,
                WGSL kernel, GPU sim, encounter construction
 src/render/    HDR splat renderer, two-slab dust, bloom, AgX composite, camera
 src/app/       application, detective mode, guided tour
-test/          68 assertions, several paired with sensitivity checks that must FAIL
+test/          70 assertions, several paired with sensitivity checks that must FAIL
 bench/         throughput harness and measured results
 docs/          UNITS, LITERATURE (verified/reported/inferred kept separate), IDENTIFIABILITY
 data/          Galaxy Zoo tables, 62 targets, 56 SDSS cutouts

@@ -155,7 +155,10 @@ export async function runMorphologyTests(device) {
     }
     const spread = (Math.max(...fracs) - Math.min(...fracs)) / Math.max(...fracs);
     below(spread, 0.05, 'fractional spread across 4x timestep range');
-    return `${fracs.map((f) => (f * 100).toFixed(2) + '%').join(' / ')} at dt=0.04/0.02/0.01, spread ${(spread * 100).toFixed(1)}%`;
+    // Label the timesteps ACTUALLY integrated. The loop runs 0.08/0.04/0.02 and
+    // the line said 0.04/0.02/0.01 — the asserted 4x span was right, the number
+    // a reader would quote was not.
+    return `${fracs.map((f) => (f * 100).toFixed(2) + '%').join(' / ')} at dt=0.08/0.04/0.02, spread ${(spread * 100).toFixed(1)}%`;
   });
 
   await checkAsync('THE RING SCENARIO ACTUALLY PRODUCES A RING', async () => {

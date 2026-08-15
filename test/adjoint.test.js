@@ -60,7 +60,7 @@ function lossOf(x0, v0, s, dt, target, gridBuf) {
 }
 
 export function runAdjointTests() {
-  expectChecks(6);
+  expectChecks(8);
   group('adjoint — analytic gradient against finite differences');
 
   const s = scene();
@@ -203,6 +203,54 @@ export function runAdjointTests() {
     below(err, 0.02, `parameter error after 220 iterations (started ${start.toFixed(3)} away)`);
     return `recovered inc ${inc.toFixed(4)} (true 0.55), argPeri ${arg.toFixed(4)} (true 0.90); `
          + `|err| ${start.toFixed(3)} -> ${err.toFixed(4)}, loss ${L0.toFixed(1)} -> ${L.toExponential(2)}`;
+  });
+
+  check('the ANGLE gradient — the one the optimiser consumes — matches finite differences', () => {
+    // The gradient checks above validate d(loss)/d(initial state). The optimiser
+    // does not use that: it uses gradAngles(), which chains the state gradient
+    // through the IC map. That composed quantity was never asserted, and Adam is
+    // scale-invariant, so a magnitude error in it is invisible — round 3
+    // demonstrated that halving gradAngles leaves the recovery result identical
+    // to every printed digit and still passing.
+    //
+    // This is the same shape as the half-strength friction bug: an assertion on
+    // the DIRECTION of an effect cannot detect an error in its MAGNITUDE. So
+    // compare against central differences of the loss in angle space directly.
+    const e = 1e-5;
+    const at = [[0.20, 0.30], [0.40, 0.70], [0.55, 0.90]];
+    const samples = [];
+    for (const [inc, arg] of at) {
+      const g = gradAngles(inc, arg).g;
+      const fdI = (gradAngles(inc + e, arg).L - gradAngles(inc - e, arg).L) / (2 * e);
+      const fdA = (gradAngles(inc, arg + e).L - gradAngles(inc, arg - e).L) / (2 * e);
+      samples.push([g[0], fdI, `inc at (${inc}, ${arg})`], [g[1], fdA, `arg at (${inc}, ${arg})`]);
+    }
+    // SCALE THE COMPARISON, because one of the sample points is the true optimum.
+    // There the analytic gradient is exactly 0 and the finite difference returns
+    // ~1e-7 of rounding noise, so a purely relative metric reads 100% error on
+    // what is actually perfect agreement. Normalising by the largest gradient in
+    // the sample makes "near zero" mean near zero on the scale of the problem —
+    // and keeping the optimum in the set is worth it, because it checks the
+    // gradient VANISHES where it should.
+    const scale = Math.max(...samples.map(([, fd]) => Math.abs(fd)));
+    let worst = 0, worstAt = '';
+    for (const [an, fd, nm] of samples) {
+      const rel = Math.abs(an - fd) / Math.max(scale * 1e-3, Math.abs(fd), Math.abs(an));
+      if (rel > worst) { worst = rel; worstAt = `${nm}: analytic ${an.toExponential(3)} vs fd ${fd.toExponential(3)}`; }
+    }
+    below(worst, 2e-3, `worst scaled error in the angle gradient (${worstAt}); gradient scale ${scale.toExponential(2)}`);
+    return `worst err ${worst.toExponential(1)} over ${samples.length} angle-gradient components (scale ${scale.toExponential(2)})`;
+  });
+
+  check('SENSITIVITY: the angle-gradient check rejects a HALVED gradient', () => {
+    // Because the recovery check cannot. Halving is the exact error that shipped
+    // in the friction term and survived every test that existed at the time.
+    const inc = 0.40, arg = 0.70, e = 1e-5;
+    const g = gradAngles(inc, arg).g;
+    const fdI = (gradAngles(inc + e, arg).L - gradAngles(inc - e, arg).L) / (2 * e);
+    const halved = 0.5 * g[0];
+    const rel = Math.abs(halved - fdI) / Math.max(1e-9, Math.abs(fdI), Math.abs(halved));
+    return above(rel, 2e-3, 'relative error of a deliberately halved angle gradient');
   });
 
   check('an unsupported potential kind THROWS rather than silently becoming a point mass', () => {

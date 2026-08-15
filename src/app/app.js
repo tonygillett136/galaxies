@@ -130,6 +130,25 @@ export class App {
     set('inc2', this.spec.disc2?.inclination ?? 0);
     $('retro1').checked = !!this.spec.disc1?.retrograde;
     $('retro2').checked = !!this.spec.disc2?.retrograde;
+
+    // A control that reports a change it did not make is worse than one that is
+    // missing. The ring scenario orients its disc from the MEASURED approach
+    // direction, so `alignToApproach` overwrites whatever the tilt slider says —
+    // measured: moving Primary tilt from 0 to 1.2 changed the particle positions
+    // by exactly 0. The slider moved, the number updated, nothing happened.
+    //
+    // Disable it and say why, rather than letting it lie.
+    for (const [id, disc, label] of [['inc1', this.spec.disc1, 'Primary'], ['inc2', this.spec.disc2, 'Secondary']]) {
+      const el = $(id);
+      if (!el) continue;
+      const overridden = !!disc?.alignToApproach;
+      el.disabled = overridden;
+      el.title = overridden
+        ? `${label} tilt is set by the scenario from the measured approach direction, so this control has no effect here.`
+        : '';
+      const out = $(`${id}v`);
+      if (out) out.textContent = overridden ? 'set by approach direction' : out.textContent;
+    }
   }
 
   /** Rebuild from the current spec, preserving camera and appearance. */
@@ -384,10 +403,13 @@ export class App {
     }
 
     // Keep something in frame. The camera targeted the barycentre, which is
-    // stationary but is NOT where the galaxies are: in the ring scenario the
-    // pair reaches 444 kpc separation, putting the primary 148 kpc from the
-    // origin and entirely outside a 78 kpc view. The result was a black screen
-    // with correct physics behind it.
+    // stationary but is NOT where the galaxies are: the ring scenario's pair
+    // separates by hundreds of kpc, putting the primary far outside a 78 kpc
+    // view. The result was a black screen with correct physics behind it.
+    //
+    // (This comment used to quote 444 kpc, a figure from a build superseded
+    // twice over. A number in a comment that nothing regenerates is a number
+    // that will be wrong; the separation is an instrument on screen instead.)
     this.applyFollow();
     this.camera.update();
     this.renderer.render(this.ctx.getCurrentTexture().createView(), this.sim, this.camera, now * 0.001);
