@@ -195,6 +195,38 @@ function rewindTwoBody(P1, P2, M1, M2, rel, span, dt = 0.005) {
   };
 }
 
+/**
+ * Measure the apocentre actually reached, by integrating until the separation
+ * turns over. Returns null if it does not turn within the budget (unbound, or
+ * a period longer than the search).
+ *
+ * `executedApo` used to be r_p(1+e)/(1-e) COMPUTED FROM THE REQUEST, so the
+ * eccentricity assertion built on it reduced algebraically to "requested ecc
+ * equals requested ecc" — identical to six decimals for every configuration, a
+ * check named "with the requested shape" that could not fail on shape. The field
+ * labelled `executed` also read 570.0 for the merger against a measured 105.5.
+ */
+function measureApocentre(P1, P2, M1, M2, c1, v1, c2, v2, friction, dt = 0.01, budget = 400000) {
+  const sim = new RestrictedSim({
+    friction,
+    galaxies: [
+      { mass: M1, potential: P1, pos: c1, vel: v1 },
+      { mass: M2, potential: P2, pos: c2, vel: v2 },
+    ],
+    particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+  });
+  const sep = () => sim.diagnostics().separation;
+  let prev = sep(), seenPeri = false, mx = 0;
+  for (let i = 0; i < budget; i++) {
+    sim.step(dt);
+    const s = sep();
+    if (!seenPeri) { if (s > prev) seenPeri = true; }
+    else { if (s > mx) mx = s; if (s < prev) return mx; }
+    prev = s;
+  }
+  return null;
+}
+
 /** Measure closest approach forward from a given state, with friction as configured. */
 function measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction) {
   const sim = new RestrictedSim({
@@ -205,19 +237,28 @@ function measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction) {
     ],
     particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
   });
+  // THE FIRST local minimum, not the global one. A decaying orbit has many
+  // pericentres, each smaller than the last, and `t0` anchors the timeline to
+  // the FIRST closest approach — the one `tStart` was measured back from. Taking
+  // the global minimum over the whole search made the merger report 13.4 kpc for
+  // a requested 30 (a later passage) and never satisfied the recede test, so it
+  // also reported a non-solution for an encounter that has a perfectly good
+  // first pericentre.
   let min = Infinity, prev = Infinity, tAt = 0, vRel = [0, 0, 0], t = 0;
   const dt = 0.005;
-  const budget = 40000;
-  let hitBudget = true;
+  const budget = 200000;
+  let hitBudget = true, falling = false;
   for (let i = 0; i < budget; i++) {
     sim.step(dt); t += dt;
     const sep = sim.diagnostics().separation;
+    if (sep < prev) falling = true;
     if (sep < min) {
       min = sep; tAt = t;
       const g = sim.galaxies;
       vRel = [g[1].vel[0] - g[0].vel[0], g[1].vel[1] - g[0].vel[1], g[1].vel[2] - g[0].vel[2]];
     }
-    if (sep > prev && sep > min * 1.35) { hitBudget = false; break; }
+    // first turn-around after a genuine approach
+    if (falling && sep > prev && t > dt * 20) { hitBudget = false; break; }
     prev = sep;
   }
   const vn = Math.hypot(vRel[0], vRel[1], vRel[2]) || 1;
@@ -385,11 +426,33 @@ export function buildEncounter(spec) {
     // time-reversible, so the state that comes back is one the forward run
     // reproduces exactly — the executed pericentre is then correct by
     // construction rather than secant-solved, and it lands at t = |tStart|.
+    // NO SOLVER HERE, and that is deliberate. With friction on, drag removes
+    // energy during the inbound leg, so the executed pericentre is INSIDE the
+    // request — measured 13.4 kpc for a requested 30 on the shipped merger. I
+    // tried inverting that with a secant on the requested turning point; it is
+    // unstable (the map is steep and the orbit plunges) and, more importantly,
+    // it is the wrong idea: a dissipative encounter does not have a pericentre
+    // you can dial in, and pretending otherwise would put a number in the panel
+    // that the physics does not honour.
+    //
+    // So the geometry is set conservatively, the executed value is MEASURED with
+    // friction on, and the difference is reported. `periConverged` below turns
+    // false and the panel says why.
     const rew = rewindTwoBody(P1, P2, M1, M2, bound, Math.abs(tStart));
     const st = rew.state;
     boundRewind = rew.span;
     c1 = st[0].pos; v1 = st[0].vel; c2 = st[1].pos; v2 = st[1].vel;
-    solved = { kepPeri: rPeri, converged: true, exec: measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction) };
+    // DERIVED FROM THE MEASUREMENT, not hardcoded. I wrote `converged: true`
+    // here because the closed form is exact — and it is, with friction off. With
+    // friction on it is not: drag removes energy during the rewind-to-pericentre
+    // interval, so the executed pericentre can be far inside the request.
+    // Measured at r_p = 60, e = 0.4: lnL=1 executes 11.11 kpc, lnL=3 executes
+    // 0.012 kpc — a full plunge — and both reported converged with no warning.
+    // That is precisely the silent non-solution this flag exists to prevent, and
+    // detective mode maps published r_min values straight into this parameter.
+    const exec = measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction);
+    const relErr = Math.abs(exec.min - rPeri) / Math.max(rPeri, 1e-9);
+    solved = { kepPeri: rPeri, converged: relErr < 0.02, exec };
     kepPeri = rPeri;
     nu = null;
     t0 = -solved.exec.tAt;
@@ -469,7 +532,10 @@ export function buildEncounter(spec) {
   const periConverged = solved.converged && !solved.exec.atStart && !solved.exec.hitBudget;
   const periWhy = solved.exec.atStart ? 'closest approach is at the start of the run: the pair is already receding'
     : solved.exec.hitBudget ? 'no closest approach found within the search budget'
-    : solved.converged ? null : 'the pericentre solver did not converge';
+    : solved.converged ? null
+    : (friction > 0
+        ? 'dynamical friction removes energy on the way in, so the encounter closes inside the requested pericentre — this is the physics, not a solver failure'
+        : 'the pericentre solver did not converge');
 
   const domain = domainOfValidity(P1, P2, rPeri, ecc);
 
@@ -478,7 +544,11 @@ export function buildEncounter(spec) {
     spec: {
       ...spec, M1, M2, mu, nu, kepPeri, requestedPeri: rPeri,
       executedPeri: solved.exec.min,
-      executedApo: bound ? bound.rA : Infinity,
+      // MEASURED, not computed from the request. See measureApocentre.
+      executedApo: bound
+        ? (measureApocentre(P1, P2, M1, M2, c1, v1, c2, v2, friction) ?? bound.rA)
+        : Infinity,
+      requestedApo: bound ? bound.rA : Infinity,
       orbitEnergy: bound ? bound.E : null,
       periConverged, periWhy,
       domain,
@@ -566,16 +636,25 @@ export const SCENARIOS = {
   },
   merger: {
     label: 'Merger (with friction)',
-    blurb: 'A bound pair with dynamical friction switched on. Each passage transfers orbital energy to the halos, so the orbit decays and the two actually merge — which cannot happen with friction off, however close the passage. Note that time reversal stops being exact here: friction is dissipative.',
-    // lnL tuned to a realistic decay: out to ~82 kpc after first passage, back
-    // in and merged around 1.3 Gyr, which is the right timescale for a major
-    // merger. lnL = 3 merged it inside 220 Myr, which is neither realistic nor
-    // watchable.
-    // tSpan 420: a fixed 200-unit timeline ended 133 units BEFORE this scenario
-    // merges, so the one scenario whose point is the merger could not be
-    // scrubbed to it.
-    spec: { massRatio: 0.6, rPeri: 30, ecc: 0.9, tStart: -60, tSpan: 420, particles: 320000,
-            friction: 0.6,
+    blurb: 'A bound pair with dynamical friction switched on. Each passage transfers orbital energy to the halos, so the orbit decays and the two actually merge — which cannot happen with friction off, however close the passage. Measured on this configuration: first passage at 29.2 kpc against a requested 30, then coalescence at 1944 Myr. Note that time reversal stops being exact here: friction is dissipative, and the pericentre you ask for is not quite the one you get because drag removes energy on the way in.',
+    // RETUNED after the friction gate was corrected. Every number in the comment
+    // this replaces was measured against a gate that did not work:
+    //   round 2's gate was inert, so the drag included a pathological term;
+    //   round 3's gate keyed on separation and switched drag off entirely below
+    //   33 kpc, so the pair could not merge at ANY lnL and the "~82 kpc, merged
+    //   around 1.3 Gyr" comment described a run that no longer happened.
+    //
+    // With the corrected size-asymmetry gate, measured over lnL:
+    //   0.05  one passage at 29.8 kpc then escapes to 263 kpc — no decay
+    //   0.1   29.7 then 23.4 at 2905 Myr — decays, does not merge in view
+    //   0.2   29.2 then coalescence at 1944 Myr        <- shipped
+    //   0.6   plunges on the first approach, executed pericentre 0.0
+    //
+    // tSpan 560 covers the coalescence at 1944 Myr (412 time units). At 420 it
+    // ended before the merger — the one scenario whose entire point is the
+    // merger could not be scrubbed to it, which round 4 caught.
+    spec: { massRatio: 0.6, rPeri: 30, ecc: 0.9, tStart: -60, tSpan: 560, particles: 320000,
+            friction: 0.2,
             disc1: { inclination: 0.2, argPeri: 0.3 },
             disc2: { inclination: -0.5, argPeri: 1.7 } },
   },

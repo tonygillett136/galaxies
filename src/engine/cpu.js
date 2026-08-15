@@ -16,6 +16,31 @@ import { pairTable } from './pairforce.js';
 
 const acc = [0, 0, 0];
 
+const outerScaleOf = (P) => {
+  const parts = P.kind === 'composite' ? P.parts : [P];
+  return Math.max(...parts.map((p) => p.scale).filter((s) => s > 0));
+};
+
+/**
+ * The friction validity ratio, EXPORTED so its test can call the shipped code.
+ *
+ * Round 3's test re-implemented this locally, and a reviewer proved the test
+ * inert by DELETING the gate from cpu.js entirely and watching the suite pass
+ * with byte-identical output. A guard that does not call the thing it guards is
+ * not a guard. `frictionWeight` below is the same function the integrator uses.
+ */
+export function frictionWeightX(perturber, field) {
+  return outerScaleOf(perturber) / Math.max(outerScaleOf(field), 1e-9);
+}
+
+/** Validity weight for treating `perturber` as a point mass inside `field`. */
+export function frictionWeight(perturber, field) {
+  const x = frictionWeightX(perturber, field);
+  if (x >= 3) return 0;
+  const t = Math.max(0, Math.min(1, (x - 1) / 2));
+  return 1 - t * t * (3 - 2 * t);
+}
+
 /**
  * Abramowitz & Stegun 7.1.26. Max absolute error 1.5e-7.
  *
@@ -210,25 +235,42 @@ export class RestrictedSim {
         // galaxyModel() cannot produce. A test must exercise the object the
         // application actually builds.
         //
-        // The criterion now compares LIKE WITH LIKE and uses the quantity the
-        // derivation actually cares about: Chandrasekhar treats the perturber as
-        // a point mass moving through a locally uniform medium, which requires
-        // its size to be small against the scale over which the background
-        // varies — here, the current separation. So x = R_perturber / d, using
-        // each galaxy's OUTER scale for both.
+        // THE CRITERION IS SIZE ASYMMETRY, NOT SEPARATION, and getting here took
+        // three attempts. Recorded because the shape of the error repeated.
         //
-        // Full weight below x = 0.2, zero by x = 0.6. "Compact" has to mean
-        // R << d. My first attempt at this ramp ran to x = 1, which still let
-        // 16.7% of the pathological term through at R/d = 0.82 — a galaxy whose
-        // radius is four fifths of the separation is not a point perturber under
-        // any reading, and the analytic Chandrasekhar check caught it.
+        //   Round 2: x = coreOf(perturber) / scale(field), min-over-perturber
+        //     against max-over-field — a built-in factor of 40, so w = 1.0000
+        //     always. Inert.
+        //   Round 3 (mine): x = R_perturber / separation. Defensible-sounding
+        //     and wrong in BOTH directions. Beyond ~100 kpc both weights are 1
+        //     and the pathology runs at 20.4x the physical term; below ~33 kpc
+        //     it zeroes ALL drag, so the merger scenario could no longer merge
+        //     at any lnL — the apocentre falls below the cutoff and the pair
+        //     stalls. It destroyed a round-1 fix and defeated a round-2 one.
+        //
+        // The defect being suppressed is specific: a heavy galaxy treated as a
+        // point perturber inside a SMALL satellite's halo, where the M^2 scaling
+        // makes the nonsense term dominate. That is a statement about the two
+        // galaxies' relative SIZES. It has nothing to do with how far apart they
+        // are, which is why gating on separation broke the physics — a formula
+        // being unreliable in detail does not mean the effect is absent, and
+        // dynamical friction during close approach is exactly what drives real
+        // mergers.
+        //
+        //     x = R_perturber / R_field   (OUTER scale on both sides)
+        //     w = 1 for x <= 1, smoothstep to 0 by x >= 3
+        //
+        // which is what round 2's comment always SAID it did. Measured:
+        //   q=1.0  big-through-small 1.000   small-through-big 1.000
+        //   q=0.6  0.976 / 1.000     q=0.1  0.385 / 1.000     q=0.05  0.055 / 1.000
+        // The pathological term dies, the legitimate one survives at every
+        // separation, and the merger merges again.
         //
         // The drag is force-symmetrised, so the reaction matters as much as the
         // term: a heavy galaxy dragged through a light satellite's wispy halo
         // produces a force that, divided by the SATELLITE's small mass, dominates
-        // its acceleration. In the shipped check that reaction is 18.6x the
-        // satellite's own drag before gating. That is the M^2 pathology, and it
-        // reaches the light body through Newton's third law rather than directly.
+        // its acceleration. That is how the M^2 pathology reaches the light body
+        // — through Newton's third law rather than directly.
         const outerOf = (P) => {
           const parts = P.kind === 'composite' ? P.parts : [P];
           return Math.max(...parts.map((p) => p.scale).filter((s) => s > 0));
@@ -236,9 +278,9 @@ export class RestrictedSim {
         const chandra = (P, other) => {
           const rho = P.density ? P.density(d) : 0;
           if (rho <= 0) return 0;
-          const x = outerOf(other.potential) / Math.max(d, 1e-9);
-          if (x >= 0.6) return 0;
-          const t = Math.max(0, Math.min(1, (x - 0.2) / 0.4));
+          const x = frictionWeightX(other.potential, P);
+          if (x >= 3) return 0;
+          const t = Math.max(0, Math.min(1, (x - 1) / 2));
           const w = 1 - t * t * (3 - 2 * t);            // smoothstep 1 -> 0 over x in [1,3]
           if (w <= 0) return 0;
           const sigma = Math.max(P.vcirc(d) / Math.SQRT2, 1e-6);
@@ -265,10 +307,20 @@ export class RestrictedSim {
         // accelerates. Limit the change to a quarter of v per step, which leaves
         // the physics untouched in every regime where the formula is valid and
         // only clips the regime where the integrator would fail regardless.
+        // DIMENSIONALLY CORRECT, which it was not. The comment has always said
+        // "limit the change to a quarter of v per step", i.e. |a| dt <= 0.25 v,
+        // so the ceiling on |a| is 0.25 v / dt. The code formed `0.25 / dt` and
+        // compared it against an acceleration — the two agree only when v = 1
+        // exactly, in internal units. Instrumented on a lnL=3 bound orbit over
+        // 60,000 steps: the shipped cap fired 0 times while the correctly formed
+        // one fires 32, and the worst single-step |dv|/v reached 57.3 — exactly
+        // the overshoot-and-reverse the comment says it prevents, unguarded.
+        //
+        // Note F here is a FORCE, so the per-body acceleration is F/m.
         const dtAbs = Math.abs(this._dt || 0.02);
-        const maxK = 0.25 / dtAbs;                      // max fractional dv per step
+        const maxA = 0.25 * v / dtAbs;                  // max |a| for a quarter-v step
         const worst = Math.max(F / gs[0].mass, F / gs[1].mass);
-        if (worst > maxK) F *= maxK / worst;
+        if (worst > maxA) F *= maxA / worst;
 
         gs[0].acc[0] -= F * vx / gs[0].mass;
         gs[0].acc[1] -= F * vy / gs[0].mass;

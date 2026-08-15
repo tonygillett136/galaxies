@@ -158,8 +158,16 @@ export function pairTable(P1, P2, opts = {}) {
   const hit = inner.get(P2);
   if (hit) return hit;
 
-  const N = opts.n ?? 320;
-  const nS = opts.nS ?? 600;
+  // 160/300 rather than 320/600: measured 51 ms against 211 ms to build, for a
+  // worst interpolation error of 0.035% against direct quadrature. The kernel
+  // this replaced was wrong by 209%, so 0.035% is four orders inside the physics
+  // it fixes — and a 211 ms freeze on every scenario change is not.
+  //
+  // Hermite consistency is unaffected BY CONSTRUCTION: |F - dW/dd| stays at
+  // 5.2e-9 here against 1.7e-9 at the finer setting, both far inside the 1e-6
+  // assertion, because the force supplies the potential's nodal derivative.
+  const N = opts.n ?? 160;
+  const nS = opts.nS ?? 300;
   const scales = [...partsOf(P1), ...partsOf(P2)].map((p) => p.scale).filter((s) => s > 0);
   const dMin = opts.dMin ?? Math.min(...scales) * 1e-3;
   const dMax = opts.dMax ?? Math.max(...scales) * 4e3;

@@ -33,7 +33,7 @@ dynamical friction on, where it cannot, because dissipation is irreversible.
 - **Interactive**: WebGPU, float32, real time, approximate.
 - **Science**: float64 CPU reference, offline, the one that gets believed.
 
-The GPU kernel is asserted against the CPU reference: GPU and CPU agree to 3.09e-4 kpc over 2000 steps, with a
+The GPU kernel is asserted against the CPU reference: GPU and CPU agree to 9.95e-4 kpc over 2000 steps, with a
 sensitivity control (1% mass error diverges to 5.09) proving the comparison can detect a
 difference at all. **Never quote an interactive-tier number as a scientific result.**
 
@@ -42,7 +42,7 @@ difference at all. **Never quote an interactive-tier number as a scientific resu
 ```bash
 python3 bench/devserver.py 8787     # serves with Cache-Control: no-store
 open http://127.0.0.1:8787/index.html
-open http://127.0.0.1:8787/test/index.html      # 71 standing assertions
+open http://127.0.0.1:8787/test/index.html      # 74 standing assertions
 open http://127.0.0.1:8787/bench/nbody_bench.html
 ```
 
@@ -60,7 +60,7 @@ src/engine/    units, potentials, Kepler, disc ICs, float64 CPU reference,
                WGSL kernel, GPU sim, encounter construction
 src/render/    HDR splat renderer, two-slab dust, bloom, AgX composite, camera
 src/app/       application, detective mode, guided tour
-test/          71 assertions, several paired with sensitivity checks that must FAIL
+test/          74 assertions, several paired with sensitivity checks that must FAIL
 bench/         throughput harness and measured results
 docs/          UNITS, LITERATURE (verified/reported/inferred kept separate), IDENTIFIABILITY
 data/          Galaxy Zoo tables, 62 targets, 56 SDSS cutouts

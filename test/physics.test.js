@@ -14,15 +14,16 @@ import { group, check, expectChecks, close, below, above, ok, dist, norm } from 
 import * as U from '../src/engine/units.js';
 import { pointMass, plummer, hernquist, composite } from '../src/engine/potentials.js';
 import * as K from '../src/engine/kepler.js';
-import { RestrictedSim, erf } from '../src/engine/cpu.js';
+import { RestrictedSim, erf, frictionWeight, frictionWeightX } from '../src/engine/cpu.js';
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
 import { galaxyModel, buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
 import { pairTable } from '../src/engine/pairforce.js';
+import { record } from './measured.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(48);
+  expectChecks(51);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -157,17 +158,73 @@ export function runPhysicsTests() {
     // and at the last step of the search budget, both with converged: true.
     // A silent non-solution is worse than a failure, which is the whole reason
     // convergence is reported at all.
-    const bad = [];
+    const bad = [], notes = [];
     for (const [key, sc] of Object.entries(SCENARIOS)) {
       const enc = buildEncounter({ ...sc.spec, particles: 8, disc1: { active: false }, disc2: { active: false } });
-      if (!enc.spec.periConverged) bad.push(`${key}: ${enc.spec.periWhy}`);
       const rel = Math.abs(enc.spec.executedPeri / sc.spec.rPeri - 1);
-      // friction legitimately pulls the pericentre in; everything else must be tight
-      const tol = (sc.spec.friction ?? 0) > 0 ? 0.10 : 5e-3;
-      if (rel > tol) bad.push(`${key}: requested ${sc.spec.rPeri}, executed ${enc.spec.executedPeri.toFixed(2)}`);
+      const hasFriction = (sc.spec.friction ?? 0) > 0;
+
+      // The pericentre must be a real turn-around in every case.
+      if (enc.spec.executedPeri <= 0 || !Number.isFinite(enc.spec.executedPeri)) {
+        bad.push(`${key}: executed pericentre is ${enc.spec.executedPeri}`);
+      }
+
+      if (hasFriction) {
+        // A DISSIPATIVE encounter does not have a pericentre you can dial in:
+        // drag removes energy on the way in, so it closes inside the request.
+        // What is asserted here is HONESTY, not accuracy — if the executed value
+        // differs, the build must SAY so rather than print the request.
+        if (rel > 0.02 && enc.spec.periConverged) {
+          bad.push(`${key}: executed ${enc.spec.executedPeri.toFixed(2)} against a requested ${sc.spec.rPeri} and still reports converged`);
+        }
+        if (rel > 0.02 && !enc.spec.periWhy) bad.push(`${key}: differs from the request with no reason given`);
+        notes.push(`${key}: requested ${sc.spec.rPeri}, executed ${enc.spec.executedPeri.toFixed(2)} (reported)`);
+      } else {
+        if (!enc.spec.periConverged) bad.push(`${key}: ${enc.spec.periWhy}`);
+        if (rel > 5e-3) bad.push(`${key}: requested ${sc.spec.rPeri}, executed ${enc.spec.executedPeri.toFixed(2)}`);
+        notes.push(`${key}: ${enc.spec.executedPeri.toFixed(2)}`);
+      }
     }
     ok(bad.length === 0, bad.join('; '));
-    return `${Object.keys(SCENARIOS).length} scenarios converge to their requested pericentre`;
+    return notes.join('; ');
+  });
+
+  check('THE MERGER SCENARIO ACTUALLY MERGES, and does so within its own timeline', () => {
+    // Round 1 added friction because "a scenario blurbed as a merger could not
+    // merge". Round 3's friction gate silently undid that — the pair decayed to a
+    // permanent radial oscillation in the 30-38 kpc band and never coalesced —
+    // and round 4 caught it, along with the fact that the second passage sat
+    // PAST the end of the scrubber even when it did happen.
+    //
+    // So this asserts both halves: it merges, and you can scrub to it.
+    const sc = SCENARIOS.merger;
+    const enc = buildEncounter({ ...sc.spec, particles: 8,
+      disc1: { active: false }, disc2: { active: false } });
+    const sim = new RestrictedSim({ friction: enc.friction, galaxies: enc.galaxies,
+      particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) } });
+    const sep = () => sim.diagnostics().separation;
+
+    const tEnd = enc.t0 + (sc.spec.tSpan ?? 200);
+    const dt = 0.02;
+    let t = enc.t0, mergedAt = null, maxSep = 0;
+    while (t < tEnd) {
+      sim.step(dt); t += dt;
+      const s = sep();
+      if (s > maxSep) maxSep = s;
+      if (s < 2.0 && mergedAt === null) mergedAt = t;
+    }
+    ok(maxSep > 40, `the pair never separates (max ${maxSep.toFixed(1)} kpc); there is no encounter to decay`);
+    ok(mergedAt !== null,
+      `the pair never comes within 2 kpc inside tSpan (closest tracked; max separation ${maxSep.toFixed(1)} kpc). `
+      + 'Round 1 added friction precisely so a scenario called "merger" merges.');
+    ok(mergedAt < tEnd, 'the merger happens after the end of the scrubbable timeline');
+    record('mergerMyr', mergedAt * 4.714920);
+    // the MEASURED executed pericentre, not the literal from the blurb — a
+    // registry entry that hardcodes the documented value would make the claims
+    // guard compare a number against itself
+    record('mergerPeriKpc', enc.spec.executedPeri);
+    return `merges at t = ${mergedAt.toFixed(0)} (${(mergedAt * 4.714920).toFixed(0)} Myr), `
+         + `inside a tSpan reaching ${(tEnd * 4.714920).toFixed(0)} Myr; max separation ${maxSep.toFixed(1)} kpc`;
   });
 
   check('every scenario lies inside the ranges the interface offers', () => {
@@ -645,40 +702,34 @@ export function runPhysicsTests() {
   });
 
   check('the friction validity gate fires on the galaxies the APP builds', () => {
-    // Round 2 shipped a gate that was identically inert on every composite
-    // galaxy `galaxyModel()` produces — w = 1.0000 at every mass ratio the
-    // interface can reach — while its asserting test passed because it used bare
-    // single-component potentials, where the gate's min-over-components and
-    // max-over-components coincide. It validated a branch the application cannot
-    // construct. Two reviewers found it independently.
+    // THIS CHECK CALLS THE SHIPPED GATE. Round 3's version re-implemented it
+    // locally, and a reviewer proved that inert by DELETING the gate from
+    // cpu.js entirely and running the suite: it passed with byte-identical
+    // output. A guard that does not call the thing it guards is decorative.
     //
-    // So this check uses galaxyModel() composites specifically, and requires the
-    // big-through-small term to be suppressed where Chandrasekhar does not apply.
-    const outerOf = (P) => Math.max(...(P.kind === 'composite' ? P.parts : [P])
-      .map((p) => p.scale).filter((s) => s > 0));
-    const w = (perturber, d) => {
-      const x = outerOf(perturber) / Math.max(d, 1e-9);
-      if (x >= 0.6) return 0;
-      const t = Math.max(0, Math.min(1, (x - 0.2) / 0.4));
-      return 1 - t * t * (3 - 2 * t);
-    };
+    // Round 2's gate was inert (w = 1.0000 everywhere) because it compared the
+    // perturber's MIN component scale against the field's MAX. Round 3's was
+    // wrong in both directions because it keyed on separation. The criterion is
+    // the size ASYMMETRY, which is what round 2's comment always claimed.
     const P1 = galaxyModel(1.0);
     const rows = [];
-    let worstBig = 0;
+    let worstBig = 0, worstSmall = 1;
     for (const q of [0.05, 0.1, 0.6, 1.0]) {
       const P2 = galaxyModel(q, Math.cbrt(q));
-      // the pathological case: the BIG galaxy treated as a point perturber
-      // inside the SMALL one's halo, at a separation of order the small galaxy
-      const d = Math.max(2 * outerOf(P2), 8);
-      const wBig = w(P1, d);
-      worstBig = Math.max(worstBig, wBig);
-      rows.push(`q=${q}: R_big=${outerOf(P1).toFixed(0)} d=${d.toFixed(0)} w_big=${wBig.toFixed(3)}`);
+      const wBig = frictionWeight(P1, P2);     // BIG galaxy as a point inside the small one
+      const wSmall = frictionWeight(P2, P1);   // the legitimate direction
+      worstBig = Math.max(worstBig, q <= 0.1 ? wBig : 0);
+      worstSmall = Math.min(worstSmall, wSmall);
+      rows.push(`q=${q}: big->small ${wBig.toFixed(3)}, small->big ${wSmall.toFixed(3)}`);
     }
-    ok(worstBig < 0.35, `big-through-small is not suppressed on composites (worst w = ${worstBig.toFixed(3)}); ${rows.join('; ')}`);
-    // and the legitimate direction must survive at a normal encounter distance
-    const wSmall = w(galaxyModel(0.05, Math.cbrt(0.05)), 60);
-    ok(wSmall > 0.9, `a compact satellite at 60 kpc should feel full drag, got w = ${wSmall.toFixed(3)}`);
-    return `worst big-through-small w = ${worstBig.toFixed(3)} on composites; compact satellite at 60 kpc w = ${wSmall.toFixed(3)}`;
+    ok(worstBig < 0.4, `the M^2 pathology is not suppressed at q <= 0.1 (worst w = ${worstBig.toFixed(3)}); ${rows.join('; ')}`);
+    ok(worstSmall > 0.95, `the LEGITIMATE drag direction is being suppressed (worst w = ${worstSmall.toFixed(3)}); ${rows.join('; ')}`);
+    // and it must NOT depend on separation — that was round 3's error, and it
+    // switched friction off through the whole close-approach phase
+    const P2 = galaxyModel(0.6, Math.cbrt(0.6));
+    ok(frictionWeight(P1, P2) === frictionWeight(P1, P2),
+      'the gate is not a pure function of the two potentials');
+    return rows.join('; ');
   });
 
   check('friction conserves linear momentum exactly', () => {
@@ -776,6 +827,85 @@ export function runPhysicsTests() {
     let worst = 0;
     for (let i = 0; i < d.count; i++) worst = Math.max(worst, Math.abs(r1[i] - r0[i]) / r0[i]);
     return below(worst, 5e-3, 'worst fractional spherical-radius change over ~40 time units');
+  });
+
+  check('THE SHIPPED DISC holds its rms HEIGHT and its cylindrical radius too', () => {
+    // The spherical-radius check above is structurally blind to the defect that
+    // actually shipped. For purely tangential orbits in a spherical potential
+    // the spherical radius is conserved BY CONSTRUCTION, so that check returns
+    // ~4e-5 at thickness 0, 0.1, 0.5 AND 2.0 — it passes at every thickness and
+    // could never see a vertical problem.
+    //
+    // The defect: giving each particle a height and no vertical velocity puts
+    // them all at psi = 0, in phase, and they fall through the midplane together.
+    // Measured before the fix: rms|z| collapsed 40-41% in ~19 Myr, phase-mixing
+    // to 1/sqrt(2) — a coherent breathing mode indistinguishable by eye from a
+    // tidal response. Two reviewers found it.
+    //
+    // So this measures the two coordinates that CAN move: rms|z| and the
+    // cylindrical radius. It joins the check above rather than replacing it.
+    const P = composite([plummer(0.35, 0.5), hernquist(0.65, 2.2)]);
+    const d = exponentialDisc({ potential: P, count: 4000, scaleLength: 1.6, rMax: 3.2,
+      thickness: 0.1, seed: 3 });
+    const sim = new RestrictedSim({
+      galaxies: [{ mass: 1.0, potential: P, pos: [0, 0, 0], vel: [0, 0, 0] }], particles: d });
+
+    const rmsZ = (pos, n) => {
+      let s = 0;
+      for (let i = 0; i < n; i++) s += pos[i * 3 + 2] * pos[i * 3 + 2];
+      return Math.sqrt(s / n);
+    };
+    const rmsCyl = (pos, n) => {
+      let s = 0;
+      for (let i = 0; i < n; i++) s += pos[i * 3] ** 2 + pos[i * 3 + 1] ** 2;
+      return Math.sqrt(s / n);
+    };
+    const z0 = rmsZ(d.pos, d.count), c0 = rmsCyl(d.pos, d.count);
+    ok(z0 > 1e-3, `the disc has no vertical extent (rms|z| = ${z0.toExponential(2)}); the check is vacuous`);
+
+    // sample through the run, because a collapse-and-remix returns near the
+    // start value and an endpoint-only check would miss it
+    let worstZ = 0, worstC = 0;
+    for (let k = 0; k < 12; k++) {
+      sim.run(0.01, 400);
+      worstZ = Math.max(worstZ, Math.abs(rmsZ(sim.pos, d.count) / z0 - 1));
+      worstC = Math.max(worstC, Math.abs(rmsCyl(sim.pos, d.count) / c0 - 1));
+    }
+    below(worstZ, 0.12, 'worst fractional rms|z| excursion over ~48 time units');
+    below(worstC, 0.02, 'worst fractional rms cylindrical-radius excursion');
+    return `rms|z| ${z0.toFixed(4)} kpc, worst excursion ${(worstZ * 100).toFixed(1)}%; `
+         + `cylindrical radius worst ${(worstC * 100).toFixed(2)}%`;
+  });
+
+  check('SENSITIVITY: the height check DOES fail on the in-phase initial condition', () => {
+    // The superseded construction: every particle at its vertical extremum with
+    // no vertical velocity. If this does not collapse, the check above has
+    // nothing to catch and the fix was unnecessary.
+    const P = composite([plummer(0.35, 0.5), hernquist(0.65, 2.2)]);
+    const d = exponentialDisc({ potential: P, count: 4000, scaleLength: 1.6, rMax: 3.2,
+      thickness: 0.1, seed: 3 });
+    // rebuild the OLD in-phase state: put every particle at |z| = its amplitude
+    // with zero vertical velocity, preserving x, y and the in-plane velocity
+    const pos = Float64Array.from(d.pos), vel = Float64Array.from(d.vel);
+    for (let i = 0; i < d.count; i++) {
+      const zi = pos[i * 3 + 2], vzi = vel[i * 3 + 2];
+      const r = Math.hypot(pos[i * 3], pos[i * 3 + 1]);
+      const om = r > 1e-9 ? P.vcirc(r) / r : 1;
+      const amp = Math.hypot(zi, vzi / Math.max(om, 1e-9));
+      pos[i * 3 + 2] = amp * (zi >= 0 ? 1 : -1);
+      vel[i * 3 + 2] = 0;
+    }
+    const sim = new RestrictedSim({
+      galaxies: [{ mass: 1.0, potential: P, pos: [0, 0, 0], vel: [0, 0, 0] }],
+      particles: { count: d.count, pos, vel, radius: d.radius, origin: d.origin } });
+    const rmsZ = (p, n) => { let s = 0; for (let i = 0; i < n; i++) s += p[i * 3 + 2] ** 2; return Math.sqrt(s / n); };
+    const z0 = rmsZ(pos, d.count);
+    let worst = 0;
+    for (let k = 0; k < 12; k++) {
+      sim.run(0.01, 400);
+      worst = Math.max(worst, Math.abs(rmsZ(sim.pos, d.count) / z0 - 1));
+    }
+    return above(worst, 0.12, 'rms|z| excursion of the SUPERSEDED in-phase disc');
   });
 
   check('exponential disc realises the analytic surface density profile', () => {

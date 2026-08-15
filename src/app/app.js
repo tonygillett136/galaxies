@@ -590,6 +590,15 @@ export class App {
     };
     $('science').onchange = (e) => {
       rs.scienceMode = e.target.checked;
+      // SCIENCE VIEW HIDES THE BACKDROP. The composite returns alpha 0 over a
+      // premultiplied canvas, so in Detect the simulation ADDS to the SDSS image
+      // — while the science HUD asserts an exact invertible pixel-to-density
+      // mapping. That made it a false instrument in the one mode where a user is
+      // most likely to trust it. A quantitatively readable frame is the entire
+      // point of the mode, so it takes precedence over the overlay.
+      if (this.mode === 'detective') {
+        $('backdrop').style.opacity = e.target.checked ? '0' : String(this.imgOpacity ?? 0.85);
+      }
       document.body.classList.toggle('science', e.target.checked);
       // State the mapping on screen. A readout with an unstated scale is a
       // picture, and the whole point of this view is that it is not one.

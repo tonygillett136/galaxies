@@ -95,15 +95,32 @@ function inverseEnclosed(target) {
 
 /**
  * @param {number} [opts.thickness] disc scale height as a fraction of the scale
- *   length. DEFAULTS TO ZERO — razor thin.
+ *   length. Default 0.1.
  *
- *   A thin disc of test particles in a spherical potential, given purely
- *   tangential velocities, is in RADIAL equilibrium but not VERTICAL
- *   equilibrium: the ensemble breathes, its rms height oscillating, and three
- *   reviewers caught it. Real vertical equilibrium needs a velocity dispersion
- *   this restricted model does not carry. A razor-thin disc is exactly in
- *   equilibrium, is what Toomre & Toomre used, and is honest. Non-zero
- *   thickness remains available and is documented as NOT in equilibrium.
+ *   THICKNESS IS ORBITAL INCLINATION, not displacement. In a spherical potential
+ *   every orbit is planar and a circular orbit stays circular, so a disc of
+ *   circular orbits with a spread of small inclinations is thick AND exactly in
+ *   equilibrium — |x| = r and |v| = v_c(r) hold per particle, with no
+ *   approximation and nothing to breathe.
+ *
+ *   Two wrong versions preceded it, both mine, and both are worth keeping:
+ *
+ *   (a) A height with a purely tangential velocity. Every particle then sits at
+ *       psi = 0, its own vertical extremum, at rest in z, IN PHASE — so they fall
+ *       through the midplane together. Measured: rms|z| collapsed 40% in 19 Myr
+ *       and phase-mixed to 1/sqrt(2). A coherent breathing mode, indistinguishable
+ *       by eye from a tidal response, which is exactly the failure this file's
+ *       opening paragraph warns about. It arrived when I changed this default from
+ *       0 to 0.1 without reading the note directly above saying non-zero thickness
+ *       was not in equilibrium.
+ *   (b) A height plus a harmonic vertical velocity at random phase. Phase-mixed,
+ *       and still wrong: the vertical kinetic energy is ADDED on top of a
+ *       tangential speed already chosen for the spherical radius, so every
+ *       particle carries too much energy. Measured: radii moved by a factor 160.
+ *
+ *   The remaining approximation is that the disc carries no RADIAL dispersion
+ *   unless `dispersion` is set, so it is cold in the plane. Thickness and
+ *   dispersion are separate knobs and only the first is on by default.
  *
  * @param {number} [opts.node] longitude of ascending node — the disc's tilt
  *   axis relative to the orbit. THIS is the second physically meaningful angle.
@@ -132,19 +149,36 @@ export function exponentialDisc({
   for (let i = 0; i < count; i++) {
     const r = inverseEnclosed(rng() * maxF) * scaleLength;
     const th = 2 * Math.PI * rng();
-    const z = -thickness * scaleLength * Math.log(1 - rng()) * (rng() < 0.5 ? -1 : 1);
 
-    // Circular speed from the SPHERICAL radius, not the cylindrical one.
+    // THICKNESS AS ORBITAL INCLINATION, which is the only construction that is
+    // both thick and exactly in equilibrium in a spherical potential.
     //
-    // The velocity (-v sin th, v cos th, 0) is perpendicular to the position
-    // vector even when z is non-zero, so each particle is on an exactly circular
-    // orbit — but only if its speed matches the potential at its actual distance
-    // from the centre. Using the cylindrical radius left every off-plane particle
-    // slightly off its circular orbit, so the shipped disc was not in equilibrium
-    // and would slowly breathe on its own. Small (z/R ~ 0.03 here) and precisely
-    // the kind of small that is indistinguishable from a weak tidal response.
-    const rs = Math.hypot(r, z);
-    let vc = potential.vcirc(rs) * spin;
+    // Two wrong versions preceded this one.
+    //   (a) height with no vertical velocity: every particle at psi = 0, its own
+    //       vertical extremum, IN PHASE. They fall through the midplane together
+    //       — rms|z| collapsed 40% in 19 Myr, a coherent breathing mode.
+    //   (b) height plus a harmonic vertical velocity at random phase: phase-mixed,
+    //       but the vertical kinetic energy is ADDED on top of a tangential speed
+    //       already set for the spherical radius, so every particle carries too
+    //       much energy and the disc flies apart. Measured: radii moved by 1.6e2.
+    //
+    // In a spherical potential every orbit is planar and a circular orbit stays
+    // circular. So give each particle a circular orbit of radius r INCLINED by a
+    // small angle beta about the disc's own axis, at a random orbital phase. The
+    // position has |x| = r exactly and the speed is v_c(r) exactly, so it is an
+    // exact circular orbit — no approximation, no breathing — and the ensemble of
+    // random beta and random phase IS a thickened, phase-mixed disc.
+    //
+    // beta is set per particle so the vertical amplitude is `amp` regardless of
+    // radius, giving a constant scale height rather than a flared one.
+    const amp = -thickness * scaleLength * Math.log(1 - rng());
+    const beta = r > 1e-9 ? Math.asin(Math.min(0.95, amp / r)) : 0;
+    const cb = Math.cos(beta), sb = Math.sin(beta);
+
+    // Circular speed at the orbit's radius. (The old comment here worried about
+    // spherical vs cylindrical radius; with an inclined circular orbit the two
+    // questions collapse — the orbital radius IS r.)
+    let vc = potential.vcirc(r) * spin;
 
     // VELOCITY DISPERSION, with the asymmetric drift that makes it an
     // equilibrium rather than an expansion.
@@ -172,12 +206,14 @@ export function exponentialDisc({
     }
 
     const ct = Math.cos(th), st = Math.sin(th);
-    const p = rotateToOrbitFrame([r * ct, r * st, z], inclination, argPeri, node);
-    // radial unit vector (ct, st, 0); azimuthal (-st, ct, 0)
+    // Circle of radius r tilted by beta about the x axis: the y and z components
+    // of both position and velocity rotate together, so |pos| = r and |vel| = vc.
+    const p = rotateToOrbitFrame(
+      [r * ct, r * st * cb, r * st * sb], inclination, argPeri, node);
     const w = rotateToOrbitFrame([
       -vc * st + sr * ct - sp * st,
-      vc * ct + sr * st + sp * ct,
-      sz,
+      (vc * ct + sr * st + sp * ct) * cb,
+      (vc * ct) * sb + sz,
     ], inclination, argPeri, node);
     pos[i * 3] = p[0] + centre[0]; pos[i * 3 + 1] = p[1] + centre[1]; pos[i * 3 + 2] = p[2] + centre[2];
     vel[i * 3] = w[0] + velocity[0]; vel[i * 3 + 1] = w[1] + velocity[1]; vel[i * 3 + 2] = w[2] + velocity[2];

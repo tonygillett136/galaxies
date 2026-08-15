@@ -64,6 +64,10 @@ const CLAIMS = [
     key: 'ringPeakKpc', tol: 0.15, what: 'DEVLOG ring peak radius' },
   { file: 'DEVLOG.md', re: /rises ([\d.]+)x there/,
     key: 'ringGain', tol: 0.15, what: 'DEVLOG ring density gain' },
+  { file: 'src/engine/encounter.js', re: /then coalescence at (\d+) Myr/,
+    key: 'mergerMyr', tol: 0.05, what: 'merger scenario blurb, coalescence epoch' },
+  { file: 'src/engine/encounter.js', re: /first passage at ([\d.]+) kpc against a requested 30/,
+    key: 'mergerPeriKpc', tol: 0.03, what: 'merger scenario blurb, first passage' },
 ];
 
 export function runClaimsTests() { expectChecks(3); }
@@ -84,6 +88,17 @@ export async function runClaimsChecks(assertionCount) {
       if (!m) { bad.push(`${c.what} (${c.file}): the claim text was not found — it was reworded, so the guard silently stopped guarding it`); continue; }
       const written = parseFloat(m[1]);
       const truth = measured(c.key);
+      // REJECT NON-FINITE EXPLICITLY. A capture parseFloat cannot read gives
+      // NaN, and `NaN > tol` is false, so a malformed number was silently
+      // ACCEPTED — the guard's own failure mode was to pass.
+      if (!Number.isFinite(written)) {
+        bad.push(`${c.what} (${c.file}): the captured text "${m[1]}" is not a finite number, so the comparison would silently pass`);
+        continue;
+      }
+      if (!Number.isFinite(truth)) {
+        bad.push(`${c.what}: the measured value for "${c.key}" is not finite (${truth})`);
+        continue;
+      }
       const rel = Math.abs(written - truth) / Math.max(Math.abs(truth), 1e-30);
       seen.push(`${c.what}: ${written} vs ${truth.toPrecision(3)}`);
       if (rel > c.tol) {
@@ -94,15 +109,35 @@ export async function runClaimsChecks(assertionCount) {
     return `${CLAIMS.length} documented figures match their measurements`;
   });
 
-  await checkAsync('SENSITIVITY: the claims guard rejects a drifted number', async () => {
-    // A guard that has never been seen to fail is indistinguishable from one
-    // that cannot fail. This drifts a real measured value and requires the
-    // comparison to reject it.
+  await checkAsync('SENSITIVITY: the guard rejects a drifted number, a reworded one, and a NaN', async () => {
+    // The previous version of this check computed |1.5t - t|/t and asserted it
+    // exceeded 0.05. It asserted that 0.5 > 0.05. It never touched CLAIMS, never
+    // called text(), never ran a regex and never entered the comparison loop, so
+    // an inverted comparison, a 1e9 tolerance or a `bad` array that was never
+    // pushed to would all have left it green. A reviewer said so and was right.
+    //
+    // This drives the REAL comparison over synthetic documents.
     const truth = measured('tidalProgradePct');
-    const drifted = truth * 1.5;
-    const rel = Math.abs(drifted - truth) / truth;
-    ok(rel > 0.05, `a 50% drift produced a relative error of ${rel} which the 5% tolerance would accept`);
-    return `a 50% drift reads as ${(rel * 100).toFixed(0)}% relative, well past the 5% tolerance`;
+    const compare = (text, re, key, tol) => {
+      const m = text.match(re);
+      if (!m) return 'not-found';
+      const written = parseFloat(m[1]);
+      if (!Number.isFinite(written)) return 'non-finite';
+      const t = measured(key);
+      return Math.abs(written - t) / Math.abs(t) > tol ? 'rejected' : 'accepted';
+    };
+    const RE = /prograde throws ([\d.]+)% of a disc beyond 20 kpc/;
+
+    const good = compare(`prograde throws ${truth.toFixed(1)}% of a disc beyond 20 kpc`, RE, 'tidalProgradePct', 0.05);
+    const drifted = compare(`prograde throws ${(truth * 1.5).toFixed(1)}% of a disc beyond 20 kpc`, RE, 'tidalProgradePct', 0.05);
+    const reworded = compare('prograde ejects some fraction of a disc', RE, 'tidalProgradePct', 0.05);
+    const nan = compare('prograde throws .% of a disc beyond 20 kpc', RE, 'tidalProgradePct', 0.05);
+
+    ok(good === 'accepted', `the guard rejected a CORRECT number (${good})`);
+    ok(drifted === 'rejected', `a 50% drift was not rejected (${drifted})`);
+    ok(reworded === 'not-found', `a reworded claim did not trip the not-found path (${reworded})`);
+    ok(nan === 'non-finite', `a malformed number was not caught (${nan})`);
+    return `correct=accepted, +50%=rejected, reworded=not-found, malformed=non-finite`;
   });
 
   await checkAsync('the measurement registry is populated, not silently empty', async () => {
