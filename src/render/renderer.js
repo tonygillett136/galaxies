@@ -272,7 +272,27 @@ export class Renderer {
     // the "fixed full scale" divided a buffer that two sliders were still
     // moving — the mapping was stated and still not fixed.
     const splatSize = st.scienceMode ? SCIENCE_SPLAT : st.splatSize;
-    const intensity = st.scienceMode ? SCIENCE_INTENSITY : st.intensity;
+    // RESOLUTION COMPENSATION, interactive view only.
+    //
+    // A splat covers a fixed WORLD size, so on a bigger backing store the same
+    // light is spread over more pixels and the image gets darker. Measured on
+    // the live site at the default scenario: 6.50% of pixels lit at 1.26 Mpx,
+    // 4.81% at 1.92, and 3.13% at 7.68 Mpx — a 4K-class display showed a
+    // near-black frame while a laptop looked fine. The first outside user hit
+    // exactly this and reported "just a black screen", and every measurement I
+    // had taken all night was on a 1.26-1.9 Mpx window.
+    //
+    // Surface brightness per particle falls as 1/area, so the compensation is
+    // linear in pixel area, clamped so a small window is not blown out and a
+    // very large one does not saturate. Reference is 2.0 Mpx.
+    //
+    // NOT applied in science mode: that view is pinned to calibrated constants
+    // and its accumulated density is divided by a fixed full scale, so scaling
+    // intensity with the window would make the one honest instrument depend on
+    // how big the browser is.
+    const mpx = (this.width * this.height) / 1e6;
+    const resComp = Math.min(4.0, Math.max(1.0, mpx / 2.0));
+    const intensity = st.scienceMode ? SCIENCE_INTENSITY : st.intensity * resComp;
     s.set([splatSize, intensity, st.minPixels, wppPerUnit], 44);
     s.set([st.colourMode, 0, 0, aspect], 48);
     s.set([fwd[0], fwd[1], fwd[2], 0], 52);
