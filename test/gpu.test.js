@@ -78,8 +78,35 @@ function assertNoZeroAlphaEmission() {
 }
 
 export async function runGpuTests(device, info) {
-  expectChecks(6);
+  expectChecks(7);
   group('GPU kernel vs CPU reference — two implementations, one physics');
+
+  await checkAsync('play state is only ever written through its single setter', async () => {
+    // The play/pause LABEL desynced from the play STATE for the life of the app.
+    // `this.playing` was assigned in eight places; two of them also updated the
+    // button, with the same two lines copied out, and the other six did not — so
+    // anything that paused the clock other than the button itself left it reading
+    // "Pause" while the simulation was stopped. Measured on the shipped build,
+    // five of seven paths desynced: arrow-key stepping, a shared link carrying
+    // ?t=, a tour step that pins a time, device loss, and — guaranteed — loading
+    // with prefers-reduced-motion, where the app starts paused and index.html
+    // ships the button reading "Pause".
+    //
+    // The duplicated pair of lines is exactly why the other six were missed, so
+    // this asserts the single owner rather than the symptom: `playing` may be
+    // assigned only inside setPlaying() and once in the constructor. A new
+    // assignment anywhere else fails here and the author is pushed to the setter.
+    const src = await (await fetch(new URL('../src/app/app.js', import.meta.url))).text();
+    const hits = [...src.matchAll(/this\.playing\s*=/g)].map((m) => {
+      const line = src.slice(0, m.index).split('\n').length;
+      return `line ${line}: ${src.slice(m.index, m.index + 60).split('\n')[0].trim()}`;
+    });
+    ok(hits.length <= 2,   // setPlaying() and the constructor, and nothing else
+      `this.playing is assigned directly in ${hits.length} places — it may only be written by `
+      + `setPlaying() and the constructor, or the button label goes stale again:\n        `
+      + hits.join('\n        '));
+    return `${hits.length} direct assignments (setter + constructor); every other path goes through setPlaying()`;
+  });
 
   await checkAsync('the composite pass never emits colour at zero alpha', async () => {
     // See assertNoZeroAlphaEmission above: this is the defect that made the

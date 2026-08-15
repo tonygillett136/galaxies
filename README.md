@@ -45,7 +45,7 @@ src/engine/    units, potentials, Kepler, disc initial conditions, float64 CPU r
                WGSL compute kernel, GPU sim, encounter construction
 src/render/    HDR splat renderer, two-slab dust, bloom, AgX composite, camera
 src/app/       application, detective mode, guided tour
-test/          80 assertions, several paired with sensitivity checks that must FAIL
+test/          81 assertions, several paired with sensitivity checks that must FAIL
 bench/mutate.mjs   MUTATION TESTING: reverts each fix and requires the suite to notice
 docs/          UNITS, LITERATURE (verified/reported/inferred kept separate), IDENTIFIABILITY
 data/          Galaxy Zoo tables, 62 targets, 56 SDSS cutouts
@@ -58,7 +58,7 @@ deploy.
 ```bash
 python3 bench/devserver.py 8787               # serves with Cache-Control: no-store
 open http://127.0.0.1:8787/index.html
-open http://127.0.0.1:8787/test/index.html    # 80 standing assertions
+open http://127.0.0.1:8787/test/index.html    # 81 standing assertions
 node bench/mutate.mjs                         # break the code, require the suite to notice
 ```
 
@@ -118,7 +118,7 @@ repository is worth reading.
 
 ## How much of this is actually guarded
 
-80 standing assertions is the wrong number to quote on its own, because review rounds kept
+81 standing assertions is the wrong number to quote on its own, because review rounds kept
 finding assertions that pass when the code they guard is deleted. So the repository carries a
 mutation harness:
 
@@ -128,7 +128,7 @@ node bench/mutate.mjs      # reverts each fix; requires the suite to NOTICE
 
 24 mutations: **17 killed, 0 survived, 7 browser-only** (run by hand) — each kill by the check
 *named* for it, not by collateral damage. It prints its own coverage limits, derived from the
-run rather than typed, and they matter: it reaches 64 of the 80 checks and **0%** of `src/app`
+run rather than typed, and they matter: it reaches 64 of the 81 checks and **0%** of `src/app`
 and `src/render`.
 
 The technique earned its place. Four review rounds of careful *reading* found essentially no

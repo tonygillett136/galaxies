@@ -92,6 +92,20 @@ select{font:inherit;font-size:11.5px;background:rgba(255,255,255,.06);color:var(
 .buttons button:hover{background:rgba(255,255,255,.11)}
 .buttons button.on{background:rgba(125,180,255,.18);border-color:rgba(125,180,255,.42);color:var(--accent)}
 .note{font-size:10.5px;line-height:1.55;color:var(--faint);margin-top:9px}
+/* DOCUMENTATION LINKS. Deliberately quiet: an explanation should be findable
+   without competing with the controls or the picture. */
+.docs{font-size:10.5px;line-height:1.6;color:var(--faint);margin:2px 0 10px}
+.docs a{color:var(--dim);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.28)}
+.docs a:hover,.docs a:focus-visible{color:var(--ink);border-bottom-color:currentColor}
+.docs a::after{content:" \2197";font-size:9px;opacity:.65}
+#helpLink{float:right;font-size:10px;font-weight:500;letter-spacing:.04em;
+  color:var(--dim);text-decoration:none;border:1px solid var(--line);
+  border-radius:6px;padding:2px 8px;margin-top:2px}
+#helpLink:hover,#helpLink:focus-visible{color:var(--ink);border-color:var(--dim)}
+.docfoot{font-size:10.5px;line-height:1.7;color:var(--faint);margin-top:12px;
+  border-top:1px solid var(--line);padding-top:10px}
+.docfoot a{color:var(--dim);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.28)}
+.docfoot a:hover,.docfoot a:focus-visible{color:var(--ink);border-bottom-color:currentColor}
 .warn{font-size:10.5px;line-height:1.55;color:var(--warm);margin-top:9px;
       border-left:2px solid rgba(255,178,125,.4);padding-left:8px}
 kbd{font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.08);
@@ -203,6 +217,8 @@ body.science #hudTop b{color:var(--good)}
 <button id="panelToggle" title="Toggle panel">☰</button>
 
 <aside id="panel">
+  <a id="helpLink" href="https://github.com/tonygillett136/galaxies#readme" target="_blank" rel="noopener"
+     title="What is this? Documentation, method and known limits">Docs</a>
   <h1>Galaxy Collisions<small>Restricted three-body, WebGPU</small></h1>
 
   <div id="modes">
@@ -215,6 +231,8 @@ body.science #hudTop b{color:var(--good)}
   <!-- ---------------- SANDBOX ---------------- -->
   <section class="mode on" data-mode="sandbox">
     <h2>Encounter</h2>
+    <p class="docs">New here? <a href="https://github.com/tonygillett136/galaxies#the-one-result-worth-pointing-at" target="_blank" rel="noopener">What am I looking at?</a>
+      &nbsp;·&nbsp; <a href="https://github.com/tonygillett136/galaxies#four-ways-in" target="_blank" rel="noopener">The four modes</a></p>
     <div id="scenarios"></div>
     <p class="blurb" id="blurb"></p>
   </section>
@@ -259,6 +277,8 @@ body.science #hudTop b{color:var(--good)}
 
   <!-- ---------------- DETECTIVE ---------------- -->
   <section class="mode" data-mode="detective">
+    <p class="docs">This mode compares a simulation against a real observation.
+      <a href="https://github.com/tonygillett136/galaxies#what-is-honest-about-it" target="_blank" rel="noopener">What it can and cannot tell you</a></p>
     <h2>Observed system</h2>
     <div class="row"><label for="target">Target</label></div>
     <select id="target" autocomplete="off" style="max-width:100%;width:100%"></select>
@@ -282,6 +302,8 @@ body.science #hudTop b{color:var(--good)}
 
   <!-- ---------------- TOUR ---------------- -->
   <section class="mode" data-mode="tour">
+    <p class="docs">Seven steps through the physics.
+      <a href="https://github.com/tonygillett136/galaxies/blob/main/DEVLOG.md" target="_blank" rel="noopener">The build log, in full</a></p>
     <h2>Guided</h2>
     <div id="tourList"></div>
     <p class="blurb" id="tourText"></p>
@@ -293,6 +315,8 @@ body.science #hudTop b{color:var(--good)}
 
   <!-- ---------------- ATLAS ---------------- -->
   <section class="mode" data-mode="atlas">
+    <p class="docs">Drag to feel the shape of parameter space.
+      <a href="https://github.com/tonygillett136/galaxies#what-is-honest-about-it" target="_blank" rel="noopener">Why a good match may still be the wrong answer</a></p>
     <h2>Parameter space</h2>
     <p class="blurb">Drag anywhere in the field. Horizontal is disc tilt, vertical is pericentre.
       The encounter rebuilds continuously, so the shape of the space is something you feel
@@ -347,6 +371,24 @@ body.science #hudTop b{color:var(--good)}
   <label class="check"><input type="checkbox" id="science" autocomplete="off"> Science view (linear, no bloom, no dust)</label>
 
   <div class="buttons"><button id="share">Copy link to this state</button></div>
+
+  <!-- The documentation block. The honest-limits page is listed FIRST and named
+       plainly, because it is the part a viewer most needs and the part a pretty
+       simulation most easily hides. -->
+  <div class="docfoot">
+    <strong style="color:var(--dim);font-weight:500">Understanding what you are seeing</strong><br>
+    <a href="https://github.com/tonygillett136/galaxies#what-is-honest-about-it" target="_blank" rel="noopener">What is established, and what is not</a><br>
+    <a href="https://github.com/tonygillett136/galaxies#the-one-result-worth-pointing-at" target="_blank" rel="noopener">Why disc spin matters more than distance</a><br>
+    <a href="https://github.com/tonygillett136/galaxies/blob/main/DEVLOG.md" target="_blank" rel="noopener">Build log — including what went wrong</a><br>
+    <a href="https://github.com/tonygillett136/galaxies#how-much-of-this-is-actually-guarded" target="_blank" rel="noopener">How much of this is actually tested</a><br>
+    <a href="https://github.com/tonygillett136/galaxies" target="_blank" rel="noopener">Source on GitHub</a>
+    <p class="note" style="margin-top:8px">
+      This is a restricted three-body model: massless test particles in rigid
+      analytic potentials. It reproduces tidal bridges and tails, and it does
+      <em>not</em> model gas, star formation or disc self-gravity.
+      Galaxy Zoo: Mergers data — Holincheck et al. 2016, MNRAS 459, 720.
+    </p>
+  </div>
 
   <p class="note">
     Drag to orbit, shift-drag to pan, scroll to zoom.

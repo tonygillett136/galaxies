@@ -22,7 +22,6 @@ const $ = (id) => document.getElementById(id);
 
 export class App {
   constructor() {
-    this.playing = true;
     this.dt = 0.02;
     this.speed = 1;
     this.substeps = 4;
@@ -36,7 +35,10 @@ export class App {
     // A user who asked the platform for no motion should not be handed a
     // full-screen animation the instant the page loads. Reduced motion
     // previously gated only a 0.28 s camera easing while playback autostarted.
-    if (this.reduceMotion) this.playing = false;
+    // Set ONCE here, and never again outside setPlaying(). start() calls
+    // setPlaying(this.playing) as soon as the button exists, so the label agrees
+    // with this from the first paint.
+    this.playing = !this.reduceMotion;
   }
 
   async start() {
@@ -55,6 +57,9 @@ export class App {
     if (this.reduceMotion) this.camera.damping = 1;   // no easing
 
     this.buildUI();
+    // The label must agree with the state the constructor chose — reduced motion
+    // starts paused while index.html ships the button reading "Pause".
+    this.setPlaying(this.playing);
     this.loadScenario(this.scenarioKey);
     this.restoreFromUrl();
 
@@ -97,10 +102,35 @@ export class App {
     requestAnimationFrame(() => this.frame());
   }
 
+  /**
+   * THE ONLY PLACE `playing` CHANGES.
+   *
+   * It used to be assigned in eight places. Two of them also updated the button,
+   * with the same two lines copied out; the other six did not, so the label went
+   * stale whenever anything but the button itself paused the clock. Reported
+   * symptom: the button reads "Pause" while the simulation is stopped.
+   *
+   * Reachable ways to see it: press an arrow key to step a frame; open a shared
+   * link carrying ?t=; enter a tour step that pins a time; lose the GPU; or —
+   * guaranteed — load the page with prefers-reduced-motion set, where the app
+   * starts paused and index.html ships the button reading "Pause".
+   *
+   * A duplicated pair of lines is why the other six were forgotten, so there is
+   * one setter now and the state cannot be written without the label following.
+   */
+  setPlaying(on) {
+    this.playing = !!on;
+    const b = $('play');
+    if (!b) return;
+    b.textContent = this.playing ? 'Pause' : 'Play';
+    b.classList.toggle('on', this.playing);
+    b.setAttribute('aria-pressed', this.playing ? 'true' : 'false');
+  }
+
   /** The device is gone: stop the loop and say so, rather than reading 60 fps. */
   onDeviceLost(info) {
     this.deviceLost = info ?? { reason: 'unknown', message: '' };
-    this.playing = false;
+    this.setPlaying(false);
     $('fps').textContent = '— fps';
     $('ms').textContent = 'GPU LOST';
     const el = $('busy');
@@ -458,8 +488,7 @@ export class App {
     if (!m) return;
     this.spec = m.spec;
     this.rebuild(m.viewTime);
-    this.playing = false;
-    $('play').textContent = 'Play'; $('play').classList.remove('on');
+    this.setPlaying(false);
     this.syncSpecControls();
   }
 
@@ -519,8 +548,8 @@ export class App {
       this.renderer.settings.colourMode = step.colourMode;
       $('colour').value = String(step.colourMode);
     }
-    if (step.time !== undefined) { this.playing = false; this.seek(step.time); }
-    if (step.play) { this.playing = true; $('play').textContent = 'Pause'; $('play').classList.add('on'); }
+    if (step.time !== undefined) { this.setPlaying(false); this.seek(step.time); }
+    if (step.play) this.setPlaying(true);
   }
 
   // ----------------------------------------------------------------- atlas
@@ -753,7 +782,7 @@ export class App {
       this.spec.disc1.node = n('nd1', this.spec.disc1.node ?? 0);
       this.spec.disc2.node = n('nd2', this.spec.disc2.node ?? 0);
       this.rebuild();
-      if (q.has('t')) { this.playing = false; this.seek(parseFloat(q.get('t'))); }
+      if (q.has('t')) { this.setPlaying(false); this.seek(parseFloat(q.get('t'))); }
       // updateLegend() matters as much as the mode itself: without it a shared
       // ?cd=1 link renders provenance colours under the "Stellar population"
       // key, which fails on exactly the URLs people send to other people.
@@ -802,9 +831,7 @@ export class App {
     $('tourNext').onclick = () => this.gotoTourStep(this.tourStep + 1);
 
     $('play').onclick = () => {
-      this.playing = !this.playing;
-      $('play').textContent = this.playing ? 'Pause' : 'Play';
-      $('play').classList.toggle('on', this.playing);
+      this.setPlaying(!this.playing);
     };
     $('reset').onclick = () => this.rebuild();
     $('loadFit').onclick = () => this.loadPublishedFit();
@@ -818,8 +845,7 @@ export class App {
 
     const scrub = $('scrub');
     scrub.oninput = () => {
-      this.scrubbing = true; this.playing = false;
-      $('play').textContent = 'Play'; $('play').classList.remove('on');
+      this.scrubbing = true; this.setPlaying(false);
       this.seek(parseFloat(scrub.value));
     };
     scrub.onchange = () => { this.scrubbing = false; };
@@ -971,8 +997,8 @@ export class App {
       if (e.key === 'r' && !typing) $('reset').click();
       if (e.key === 'f' && !typing) this.frameToContent();
       if (e.key === 's' && !typing) { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
-      if (e.key === 'ArrowLeft') { this.playing = false; this.sim.step(-this.dt * 8); }
-      if (e.key === 'ArrowRight') { this.playing = false; this.sim.step(this.dt * 8); }
+      if (e.key === 'ArrowLeft') { this.setPlaying(false); this.sim.step(-this.dt * 8); }
+      if (e.key === 'ArrowRight') { this.setPlaying(false); this.sim.step(this.dt * 8); }
       if (e.key === 'ArrowDown' && this.mode === 'tour') this.gotoTourStep(this.tourStep + 1);
       if (e.key === 'ArrowUp' && this.mode === 'tour') this.gotoTourStep(this.tourStep - 1);
     });
