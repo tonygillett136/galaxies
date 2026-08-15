@@ -139,6 +139,23 @@ export class App {
     // contamination this project is meant not to do.
     this.renderer.settings.starfield = showImg ? 0 : 0.012;
     this.renderer.settings.vignette = showImg ? 0 : 0.30;
+    // ENTERING DETECT MUST APPLY THE SCALE MATCH.
+    //
+    // Round 7 gated the scale-match assignment on `mode === 'detective'` to stop
+    // it setting the SANDBOX opening camera (it was framing every first visit at
+    // Arp 240's 848 kpc). That fixed the symptom and created a worse one: the
+    // only unprompted selectTarget() comes from fillTargets(), which resolves
+    // while the mode is still 'sandbox', so the assignment was skipped — and
+    // nothing re-applied it on entry. Round 8 measured the result: the frame
+    // spanned 160.3 kpc against a fieldKpc of 702.8, a factor of 4.38, while
+    // #fitWarn read "Scale matched: frame is 703 kpc across".
+    //
+    // An overlay that is 4.4x out is a wrong answer. An overlay that is 4.4x out
+    // while the panel says it is calibrated is the failure this project exists
+    // to avoid, and it was being baked into every shared Detect link.
+    if (mode === 'detective' && Number.isFinite(this.fieldKpc) && !this.cameraFromUrl) {
+      this.camera._want.distance = this.fieldKpc / (2 * Math.tan(this.camera.fov / 2));
+    }
     if (mode === 'tour') this.gotoTourStep(this.tourStep);
     if (mode === 'atlas') this.syncPad();
   }
@@ -205,6 +222,15 @@ export class App {
     // pump() drove the new simulation towards an epoch from the old one.
     // loadScenario's `if (!this.seeking)` guard shows the window was known
     // about; this closes it.
+    // A GENERATION TOKEN, because clearing the flags does not stop the pump.
+    // Round 8 measured it: the already-queued rAF still fired, read
+    // `seekTarget === null`, and `Math.abs(t - null)` coerces to 0 — so Reset
+    // during a seek walked the NEW simulation to t = 0.0100 instead of leaving
+    // it at its own t0 of -63.2100, taking 4,181 further steps with `seeking`
+    // false and the busy indicator hidden. Worse, a second pump could start
+    // alongside the orphan. A cancelled seek has to be identifiable, not merely
+    // flagged.
+    this.seekGen = (this.seekGen ?? 0) + 1;
     this.seeking = false;
     this.seekTarget = null;
     this.setBusy?.(false);
@@ -303,7 +329,10 @@ export class App {
     this.setBusy(true);
 
     const CHUNK = 200;                             // measured ~50 ms of submits per frame
+    const gen = this.seekGen ?? 0;
     const pump = () => {
+      // Superseded by a rebuild, or cancelled: this pump is an orphan.
+      if ((this.seekGen ?? 0) !== gen || this.seekTarget === null) return;
       // A DEAD DEVICE IS NOT WORTH STEPPING. Without this the pump kept driving a
       // destroyed device for the rest of the seek — up to three seconds of calls
       // that are all no-ops — and then called setBusy(false) on completion, which
