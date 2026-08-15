@@ -21,6 +21,7 @@ import { plummer, hernquist, composite } from './potentials.js';
 import { stateAtTrueAnomaly, trueAnomalyAtTime } from './kepler.js';
 import { exponentialDisc, mergeParticles } from './galaxy.js';
 import { RestrictedSim } from './cpu.js';
+import { pairTable } from './pairforce.js';
 
 /**
  * A Milky Way-scale galaxy: bulge + disc + dark halo.
@@ -111,6 +112,164 @@ export function anglesForNormal([nx, ny, nz]) {
 }
 
 /**
+ * Relative state at pericentre for a BOUND orbit with the requested turning
+ * points, in the ACTUAL extended potential rather than a point-mass one.
+ *
+ * Returns null when no bound solution exists, so the caller falls back to the
+ * Kepler path rather than silently producing something else.
+ *
+ * Convention matches stateAtTrueAnomaly: pericentre on +x, motion towards +y,
+ * orbit in z = 0, so disc angles keep their meaning.
+ */
+export function boundOrbitState(P1, P2, M1, M2, rP, ecc) {
+  if (!(ecc >= 0 && ecc < 1) || !(rP > 0)) return null;
+  const rA = rP * (1 + ecc) / (1 - ecc);
+  const muRed = M1 * M2 / (M1 + M2);
+  const tab = pairTable(P1, P2);
+  const Wp = tab.potential(rP), Wa = tab.potential(rA);
+  const denom = 1 / (rP * rP) - 1 / (rA * rA);
+  if (!(denom > 0)) return null;
+  const L2 = 2 * muRed * (Wa - Wp) / denom;
+  if (!(L2 > 0) || !Number.isFinite(L2)) return null;
+  const L = Math.sqrt(L2);
+  const E = L2 / (2 * muRed * rP * rP) + Wp;
+  const h = L / muRed;                                // specific relative ang. momentum
+  return { r: [rP, 0, 0], v: [0, h / rP, 0], E, L, rA, rP, muRed };
+}
+
+/**
+ * Integrate the two-body pair BACKWARD from pericentre by at most `span`,
+ * stopping at apocentre.
+ *
+ * THE CAP IS THE POINT. A bound orbit has a finite radial period, and for a
+ * tight one that period is shorter than the requested tStart. Rewinding the full
+ * span then wraps past apocentre and can leave the pair OUTBOUND at t = 0, so
+ * "closest approach" lands on the first step and every epoch in the interface
+ * describes the wrong passage. Measured before the cap: a request for r_p = 5
+ * executed at 10.7 with pericentre at t = 0. Round 3 found the same failure from
+ * the Kepler side, on 23 of 59 detective fits.
+ *
+ * Stopping at apocentre guarantees the run starts inbound, which is what every
+ * caller assumes, and bounds the rewind at half a radial period.
+ *
+ * Returns the state AND the span actually rewound, because t0 depends on it.
+ */
+function rewindTwoBody(P1, P2, M1, M2, rel, span, dt = 0.005) {
+  const mu = M1 + M2, f1 = M2 / mu, f2 = -M1 / mu;
+  // Friction is deliberately OFF here. It is dissipative, so reversing time and
+  // applying it again would ADD energy rather than undo the loss — the rewind
+  // would not be the inverse of the forward run. The geometry is therefore set
+  // conservatively and the executed pericentre re-measured WITH friction below,
+  // which is why `executedPeri` can differ slightly from the request when drag
+  // is on. That difference is reported rather than hidden.
+  const sim = new RestrictedSim({
+    friction: 0,
+    galaxies: [
+      { mass: M1, potential: P1, pos: rel.r.map((x) => x * f1), vel: rel.v.map((x) => -x * f1) },
+      { mass: M2, potential: P2, pos: rel.r.map((x) => x * f2), vel: rel.v.map((x) => -x * f2) },
+    ],
+    particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+  });
+  const sep = () => {
+    const a = sim.galaxies[0].pos, b = sim.galaxies[1].pos;
+    return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+  };
+  const n = Math.max(1, Math.round(span / dt));
+  const h = span / n;
+  let prev = sep(), used = 0;
+  let snap = sim.galaxies.map((g) => ({ pos: Array.from(g.pos), vel: Array.from(g.vel) }));
+  for (let i = 0; i < n; i++) {
+    sim.step(h);
+    const s = sep();
+    if (s < prev) break;                 // reached apocentre going backwards
+    prev = s;
+    used += h;
+    snap = sim.galaxies.map((g) => ({ pos: Array.from(g.pos), vel: Array.from(g.vel) }));
+  }
+  return {
+    span: used,
+    state: snap.map((g) => ({
+      pos: g.pos,
+      vel: [-g.vel[0], -g.vel[1], -g.vel[2]],     // undo the velocity flip
+    })),
+  };
+}
+
+/** Measure closest approach forward from a given state, with friction as configured. */
+function measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction) {
+  const sim = new RestrictedSim({
+    friction,
+    galaxies: [
+      { mass: M1, potential: P1, pos: c1, vel: v1 },
+      { mass: M2, potential: P2, pos: c2, vel: v2 },
+    ],
+    particles: { count: 0, pos: new Float64Array(0), vel: new Float64Array(0) },
+  });
+  let min = Infinity, prev = Infinity, tAt = 0, vRel = [0, 0, 0], t = 0;
+  const dt = 0.005;
+  const budget = 40000;
+  let hitBudget = true;
+  for (let i = 0; i < budget; i++) {
+    sim.step(dt); t += dt;
+    const sep = sim.diagnostics().separation;
+    if (sep < min) {
+      min = sep; tAt = t;
+      const g = sim.galaxies;
+      vRel = [g[1].vel[0] - g[0].vel[0], g[1].vel[1] - g[0].vel[1], g[1].vel[2] - g[0].vel[2]];
+    }
+    if (sep > prev && sep > min * 1.35) { hitBudget = false; break; }
+    prev = sep;
+  }
+  const vn = Math.hypot(vRel[0], vRel[1], vRel[2]) || 1;
+  // A minimum found on the first step or on the last step of the budget is not a
+  // pericentre — it is the edge of the search. Round 3 found both cases being
+  // returned as converged, which is exactly the silent non-solution the reporting
+  // was added to prevent.
+  const atStart = tAt <= dt * 1.5;
+  return { min, tAt, vHat: vRel.map((x) => x / vn), atStart, hitBudget };
+}
+
+/**
+ * Is this configuration inside the model's domain at all?
+ *
+ * Two assumptions fail together here: the potentials are RIGID, and each disc is
+ * equilibrated IN ISOLATION so the companion is a perturbation. Neither holds for
+ * two galaxies that never separate.
+ *
+ * TWO TIERS, because one metric cannot span both regimes. My first attempt used a
+ * single perturbation ratio and reported values of 30-50 for the deepest systems,
+ * which was nonsense: when the apocentre is inside the disc the evaluation
+ * distance collapsed and it was measuring the companion's pull at its own centre.
+ *
+ *  1. CATEGORICAL — apocentre below the disc radius: the companion never leaves
+ *     the disc. Nothing to compute; the picture is simply not of this model.
+ *  2. RATIO — apocentre outside the disc: compare the companion's pull at the
+ *     host's disc edge against the host's own pull there.
+ *
+ * Over the 59 published fits this gives 23 unbound, 15 comfortably inside, 0
+ * marginal, 7 outside by ratio and 14 inside-disc: 21 of 59 outside the model.
+ * The MARGINAL BUCKET IS EMPTY — the distribution is bimodal — so the answer does
+ * not depend on where the threshold sits between 0.3 and 1.0. That matters more
+ * than the threshold itself, and is why this is a gate rather than a tuned number.
+ */
+export function domainOfValidity(P1, P2, rPeri, ecc, discRadius = 13.5) {
+  if (!(ecc < 1)) return { tier: 'unbound', ratio: null, apocentre: Infinity, ok: true };
+  const apo = rPeri * (1 + ecc) / (1 - ecc);
+  if (apo < discRadius) {
+    return { tier: 'inside-disc', ratio: null, apocentre: apo, ok: false,
+      why: `apocentre ${apo.toFixed(1)} kpc is inside the ${discRadius} kpc disc: the two galaxies never separate, so a rigid-potential model with discs equilibrated in isolation does not apply` };
+  }
+  const aOwn = P1.vcirc(discRadius) ** 2 / discRadius;
+  const dEdge = Math.max(apo - discRadius, 1e-6);
+  const aComp = P2.vcirc(dEdge) ** 2 / dEdge;
+  const ratio = aComp / aOwn;
+  const tier = ratio >= 1 ? 'outside' : ratio >= 0.3 ? 'marginal' : 'ok';
+  return { tier, ratio, apocentre: apo, ok: tier === 'ok',
+    why: tier === 'ok' ? null
+      : `at apocentre the companion pulls the disc edge ${ratio.toFixed(2)}x as hard as the host does, so the disc is never even approximately isolated` };
+}
+
+/**
  * Secant iteration on the Kepler pericentre until the EXECUTED one matches.
  *
  * Returns the solved value together with whether it converged, because a
@@ -190,19 +349,63 @@ export function buildEncounter(spec) {
   // This matters beyond tidiness: detective mode maps PUBLISHED r_min values
   // into this parameter, so a pericentre that silently means something else
   // would corrupt every comparison against the literature.
-  const solved = solveKeplerPericentre(rPeri, ecc, mu, P1, P2, M1, M2, tStart, friction);
-  const kepPeri = solved.kepPeri;
-  const nu = trueAnomalyAtTime(mu, ecc, kepPeri, tStart);
-  const s = stateAtTrueAnomaly(mu, ecc, kepPeri, nu);
-  // The clock is anchored to the EXECUTED closest approach, not the Kepler
-  // pericentre epoch. The orbit precesses in an extended potential, so those
-  // differ — measured 0.8 time units for the ring scenario — and every "time
-  // since pericentre" in the interface, plus the timeline marker, depends on it.
-  const t0 = -solved.exec.tAt;
+  //
+  // AND FOR BOUND ORBITS THAT WAS NOT ENOUGH. Matching r_min says nothing about
+  // the ENERGY. The Kepler velocity is set for a point mass of mass mu, while
+  // the real pair sits in the much shallower potential of two extended profiles,
+  // so the pair was launched above escape speed in the potential it actually
+  // inhabits and an encounter requested as BOUND executed as UNBOUND. Measured
+  // at the published Arp 244 fit: total energy -1.007e3 under a point mass,
+  // +1.289e3 in the real potential — a sign flip — and the galaxies ran away to
+  // 559 kpc against a Kepler apocentre of 4.6 kpc. Across the catalogue, 24 of
+  // the 36 bound published fits were executed as unbound.
+  //
+  // It was not only detective mode. Nothing checked eccentricity at all, so the
+  // sandbox slider was equally untrue: it said 0.95 and executed 0.908, said
+  // 0.85 and executed 0.693. Pericentre was solved for; eccentricity was assumed.
+  //
+  // For a bound orbit the fix is exact and needs no iteration. At a turning
+  // point rdot = 0, so with the requested apocentre r_a = r_p (1+e)/(1-e):
+  //     E = L^2/(2 mu_red r_p^2) + W(r_p)
+  //     E = L^2/(2 mu_red r_a^2) + W(r_a)
+  // Subtracting eliminates E and gives L in closed form, then E follows. W is
+  // the EXACT mutual potential energy from pairforce.js — the same table the
+  // integrator takes its force from, so the orbit is set in the potential that
+  // actually runs. Reduces to Kepler identically for a point mass (checked to
+  // 1e-16), and delivers requested pericentre AND eccentricity exactly
+  // (executed e = 0.95000 for a request of 0.95).
+  const bound = ecc < 1 ? boundOrbitState(P1, P2, M1, M2, rPeri, ecc) : null;
+
+  let solved, kepPeri, nu, t0, c1, v1, c2, v2, boundRewind = null;
   const f1 = M2 / mu, f2 = -M1 / mu;         // split about the barycentre
 
-  const c1 = s.r.map((x) => x * f1), v1 = s.v.map((x) => x * f1);
-  const c2 = s.r.map((x) => x * f2), v2 = s.v.map((x) => x * f2);
+  if (bound) {
+    // Place the pair exactly at pericentre, then integrate the two-body system
+    // BACKWARD through the shipped leapfrog for |tStart|. Leapfrog is
+    // time-reversible, so the state that comes back is one the forward run
+    // reproduces exactly — the executed pericentre is then correct by
+    // construction rather than secant-solved, and it lands at t = |tStart|.
+    const rew = rewindTwoBody(P1, P2, M1, M2, bound, Math.abs(tStart));
+    const st = rew.state;
+    boundRewind = rew.span;
+    c1 = st[0].pos; v1 = st[0].vel; c2 = st[1].pos; v2 = st[1].vel;
+    solved = { kepPeri: rPeri, converged: true, exec: measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction) };
+    kepPeri = rPeri;
+    nu = null;
+    t0 = -solved.exec.tAt;
+  } else {
+    solved = solveKeplerPericentre(rPeri, ecc, mu, P1, P2, M1, M2, tStart, friction);
+    kepPeri = solved.kepPeri;
+    nu = trueAnomalyAtTime(mu, ecc, kepPeri, tStart);
+    const s = stateAtTrueAnomaly(mu, ecc, kepPeri, nu);
+    // The clock is anchored to the EXECUTED closest approach, not the Kepler
+    // pericentre epoch. The orbit precesses in an extended potential, so those
+    // differ — measured 0.8 time units for the ring scenario — and every "time
+    // since pericentre" in the interface, plus the timeline marker, depends on it.
+    t0 = -solved.exec.tAt;
+    c1 = s.r.map((x) => x * f1); v1 = s.v.map((x) => x * f1);
+    c2 = s.r.map((x) => x * f2); v2 = s.v.map((x) => x * f2);
+  }
 
   const galaxies = [
     { mass: M1, potential: P1, pos: c1, vel: v1 },
@@ -250,12 +453,27 @@ export function buildEncounter(spec) {
     }));
   }
 
+  // A minimum at the very first step, or at the last step of the search budget,
+  // is the edge of the window rather than a pericentre. Round 3 found both being
+  // reported as converged — 22 of 59 detective fits in one case, two of three
+  // named friction configurations in the other — which is precisely the silent
+  // non-solution that reporting convergence was introduced to prevent.
+  const periConverged = solved.converged && !solved.exec.atStart && !solved.exec.hitBudget;
+  const periWhy = solved.exec.atStart ? 'closest approach is at the start of the run: the pair is already receding'
+    : solved.exec.hitBudget ? 'no closest approach found within the search budget'
+    : solved.converged ? null : 'the pericentre solver did not converge';
+
+  const domain = domainOfValidity(P1, P2, rPeri, ecc);
+
   return {
     galaxies, particles: mergeParticles(sets), friction, t0,
     spec: {
       ...spec, M1, M2, mu, nu, kepPeri, requestedPeri: rPeri,
       executedPeri: solved.exec.min,
-      periConverged: solved.converged,
+      executedApo: bound ? bound.rA : Infinity,
+      orbitEnergy: bound ? bound.E : null,
+      periConverged, periWhy,
+      domain,
       approachDir: solved.exec.vHat,
     },
   };

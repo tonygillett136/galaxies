@@ -22,7 +22,7 @@ import { pairTable } from '../src/engine/pairforce.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(45);
+  expectChecks(48);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -112,6 +112,62 @@ export function runPhysicsTests() {
     ok(mean > 190 && mean < 245, `mean v_circ ${mean.toFixed(0)} km/s outside 190-245`);
     below(spread, 0.14, 'peak-to-trough spread of v_circ over 3-25 kpc');
     return `${v.map((x) => x.toFixed(0)).join('/')} km/s at ${radii.join('/')} kpc, mean ${mean.toFixed(0)}`;
+  });
+
+  check('a BOUND request executes as a bound orbit, with the requested shape', () => {
+    // The single worst defect found in three rounds. buildEncounter set the
+    // orbit from a POINT-MASS Kepler solution while the galaxies are extended,
+    // so the pair launched above escape speed in the potential it actually
+    // inhabits: at the published Arp 244 fit the total energy went -1.007e3
+    // (point mass) to +1.289e3 (real), and the galaxies ran to 559 kpc against a
+    // Kepler apocentre of 4.6. 24 of the 36 bound published fits were affected.
+    //
+    // Nothing checked eccentricity at all — only pericentre was solved for — so
+    // the sandbox slider was untrue too: 0.95 requested, 0.908 executed.
+    const bad = [];
+    for (const [rp, e, mr] of [[1.572, 0.493, 0.758], [3, 0.493, 0.758], [5, 0.493, 0.758],
+                               [8, 0.44, 0.71], [12, 0.4, 0.5], [25, 0.9, 1.0]]) {
+      const enc = buildEncounter({ massRatio: mr, rPeri: rp, ecc: e, tStart: -50, particles: 8,
+        disc1: { active: false }, disc2: { active: false } });
+      if (!(enc.spec.orbitEnergy < 0)) bad.push(`rp=${rp} e=${e}: E=${enc.spec.orbitEnergy?.toExponential(2)} not bound`);
+      const rpErr = Math.abs(enc.spec.executedPeri / rp - 1);
+      if (rpErr > 2e-3) bad.push(`rp=${rp}: executed ${enc.spec.executedPeri.toFixed(3)}`);
+      const eOut = (enc.spec.executedApo - enc.spec.executedPeri) / (enc.spec.executedApo + enc.spec.executedPeri);
+      if (Math.abs(eOut / e - 1) > 2e-3) bad.push(`e=${e}: executed ${eOut.toFixed(4)}`);
+    }
+    ok(bad.length === 0, bad.join('; '));
+    return '6 bound configurations execute bound, with r_peri and eccentricity to 0.2%';
+  });
+
+  check('SENSITIVITY: a point-mass orbit setup WOULD fail the bound check', () => {
+    // The superseded behaviour, computed directly: Kepler energy for a point mass
+    // of the same total, evaluated against the real extended potential. If this
+    // does not come out positive the check above has nothing to catch.
+    const P1 = galaxyModel(1.0), P2 = galaxyModel(0.758, Math.cbrt(0.758));
+    const M1 = P1.mass, M2 = P2.mass, mu = M1 + M2, muRed = M1 * M2 / mu;
+    const rp = 1.572, e = 0.493;
+    // Kepler state at pericentre for a point mass mu
+    const vPeri = Math.sqrt(mu * (1 + e) / rp);
+    const Ereal = 0.5 * muRed * vPeri * vPeri + pairTable(P1, P2).potential(rp);
+    return above(Ereal, 0, 'energy of the point-mass setup measured in the REAL potential');
+  });
+
+  check('every scenario reaches a real pericentre, not the edge of the search', () => {
+    // Round 3 found closest approach being reported at t = 0 (already receding)
+    // and at the last step of the search budget, both with converged: true.
+    // A silent non-solution is worse than a failure, which is the whole reason
+    // convergence is reported at all.
+    const bad = [];
+    for (const [key, sc] of Object.entries(SCENARIOS)) {
+      const enc = buildEncounter({ ...sc.spec, particles: 8, disc1: { active: false }, disc2: { active: false } });
+      if (!enc.spec.periConverged) bad.push(`${key}: ${enc.spec.periWhy}`);
+      const rel = Math.abs(enc.spec.executedPeri / sc.spec.rPeri - 1);
+      // friction legitimately pulls the pericentre in; everything else must be tight
+      const tol = (sc.spec.friction ?? 0) > 0 ? 0.10 : 5e-3;
+      if (rel > tol) bad.push(`${key}: requested ${sc.spec.rPeri}, executed ${enc.spec.executedPeri.toFixed(2)}`);
+    }
+    ok(bad.length === 0, bad.join('; '));
+    return `${Object.keys(SCENARIOS).length} scenarios converge to their requested pericentre`;
   });
 
   check('every scenario lies inside the ranges the interface offers', () => {
