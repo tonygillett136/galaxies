@@ -217,8 +217,8 @@ body.science #hudTop b{color:var(--good)}
 <button id="panelToggle" title="Toggle panel">☰</button>
 
 <aside id="panel">
-  <a id="helpLink" href="https://github.com/tonygillett136/galaxies#readme" target="_blank" rel="noopener"
-     title="What is this? Documentation, method and known limits">Docs</a>
+  <a id="helpLink" href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md" target="_blank" rel="noopener"
+     title="Full guide: every mode, every control, and how to read the display">Guide</a>
   <h1>Galaxy Collisions<small>Restricted three-body, WebGPU</small></h1>
 
   <div id="modes">
@@ -231,8 +231,8 @@ body.science #hudTop b{color:var(--good)}
   <!-- ---------------- SANDBOX ---------------- -->
   <section class="mode on" data-mode="sandbox">
     <h2>Encounter</h2>
-    <p class="docs">New here? <a href="https://github.com/tonygillett136/galaxies#the-one-result-worth-pointing-at" target="_blank" rel="noopener">What am I looking at?</a>
-      &nbsp;·&nbsp; <a href="https://github.com/tonygillett136/galaxies#four-ways-in" target="_blank" rel="noopener">The four modes</a></p>
+    <p class="docs">New here? <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md#getting-started-in-60-seconds" target="_blank" rel="noopener">Start here — 60 seconds</a>
+      &nbsp;·&nbsp; <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md#every-control" target="_blank" rel="noopener">What every control does</a></p>
     <div id="scenarios"></div>
     <p class="blurb" id="blurb"></p>
   </section>
@@ -277,8 +277,8 @@ body.science #hudTop b{color:var(--good)}
 
   <!-- ---------------- DETECTIVE ---------------- -->
   <section class="mode" data-mode="detective">
-    <p class="docs">This mode compares a simulation against a real observation.
-      <a href="https://github.com/tonygillett136/galaxies#what-is-honest-about-it" target="_blank" rel="noopener">What it can and cannot tell you</a></p>
+    <p class="docs">Match a simulation to a real telescope image.
+      <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md#detect--match-a-real-galaxy-pair" target="_blank" rel="noopener">How to use Detect</a></p>
     <h2>Observed system</h2>
     <div class="row"><label for="target">Target</label></div>
     <select id="target" autocomplete="off" style="max-width:100%;width:100%"></select>
@@ -303,7 +303,7 @@ body.science #hudTop b{color:var(--good)}
   <!-- ---------------- TOUR ---------------- -->
   <section class="mode" data-mode="tour">
     <p class="docs">Seven steps through the physics.
-      <a href="https://github.com/tonygillett136/galaxies/blob/main/DEVLOG.md" target="_blank" rel="noopener">The build log, in full</a></p>
+      <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md#tour--seven-steps-through-the-physics" target="_blank" rel="noopener">What each step shows</a></p>
     <h2>Guided</h2>
     <div id="tourList"></div>
     <p class="blurb" id="tourText"></p>
@@ -316,7 +316,7 @@ body.science #hudTop b{color:var(--good)}
   <!-- ---------------- ATLAS ---------------- -->
   <section class="mode" data-mode="atlas">
     <p class="docs">Drag to feel the shape of parameter space.
-      <a href="https://github.com/tonygillett136/galaxies#what-is-honest-about-it" target="_blank" rel="noopener">Why a good match may still be the wrong answer</a></p>
+      <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md#atlas--feel-the-parameter-space" target="_blank" rel="noopener">How to read the pad</a></p>
     <h2>Parameter space</h2>
     <p class="blurb">Drag anywhere in the field. Horizontal is disc tilt, vertical is pericentre.
       The encounter rebuilds continuously, so the shape of the space is something you feel
@@ -377,10 +377,10 @@ body.science #hudTop b{color:var(--good)}
        simulation most easily hides. -->
   <div class="docfoot">
     <strong style="color:var(--dim);font-weight:500">Understanding what you are seeing</strong><br>
+    <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md" target="_blank" rel="noopener"><b>Full guide</b> — modes, controls, how to read it</a><br>
+    <a href="https://github.com/tonygillett136/galaxies/blob/main/docs/GUIDE.md#how-to-not-fool-yourself" target="_blank" rel="noopener">How to not fool yourself</a><br>
     <a href="https://github.com/tonygillett136/galaxies#what-is-honest-about-it" target="_blank" rel="noopener">What is established, and what is not</a><br>
-    <a href="https://github.com/tonygillett136/galaxies#the-one-result-worth-pointing-at" target="_blank" rel="noopener">Why disc spin matters more than distance</a><br>
     <a href="https://github.com/tonygillett136/galaxies/blob/main/DEVLOG.md" target="_blank" rel="noopener">Build log — including what went wrong</a><br>
-    <a href="https://github.com/tonygillett136/galaxies#how-much-of-this-is-actually-guarded" target="_blank" rel="noopener">How much of this is actually tested</a><br>
     <a href="https://github.com/tonygillett136/galaxies" target="_blank" rel="noopener">Source on GitHub</a>
     <p class="note" style="margin-top:8px">
       This is a restricted three-body model: massless test particles in rigid
@@ -460,15 +460,73 @@ body.science #hudTop b{color:var(--good)}
 <script type="module">
 import { App } from './src/app/app.js';
 const app = new App();
-app.start().catch((e) => {
+/**
+ * THE FALLBACK, for a visitor whose browser cannot run this.
+ *
+ * It used to replace the page with a heading and a raw stack trace, and its
+ * advice was already wrong (Firefox ships WebGPU now, and has since 141). A
+ * stack trace is not a message to a person: someone arriving from a shared link
+ * needs to know whether the problem is their browser, a setting, or the site,
+ * and what to do about each. The three causes are genuinely different and are
+ * distinguished here rather than collapsed into "unavailable".
+ */
+function showUnsupported(e) {
+  const msg = String((e && e.message) || e || '');
+  const noApi = !navigator.gpu;                       // browser has no WebGPU at all
+  const noAdapter = /no webgpu adapter/i.test(msg);   // API present, no usable GPU
+  const REPO = 'https://github.com/tonygillett136/galaxies';
+
+  let title, lead, advice;
+  if (noApi) {
+    title = 'This browser cannot run it yet';
+    lead = 'The simulation runs on your graphics card through <b>WebGPU</b>, and this browser '
+         + 'does not support it. Nothing is wrong with your machine.';
+    advice = '<li><b>Chrome</b> or <b>Edge</b> 113 or newer — the surest option on any platform</li>'
+           + '<li><b>Safari 26+</b> on macOS 26 or iOS 26</li>'
+           + '<li><b>Firefox 141+</b></li>'
+           + '<li>On iPhone and iPad, every browser uses Safari underneath, so iOS 26 is the '
+           + 'requirement whichever one you use</li>';
+  } else if (noAdapter) {
+    title = 'WebGPU is present, but no graphics adapter was offered';
+    lead = 'Your browser supports WebGPU but could not obtain a GPU. This is almost always '
+         + 'hardware acceleration being switched off, or a remote/virtual session.';
+    advice = '<li>Chrome and Edge: turn on <b>Use graphics acceleration when available</b> in '
+           + 'Settings → System, then restart the browser</li>'
+           + '<li>Check <b>chrome://gpu</b> — it names the reason WebGPU was refused</li>'
+           + '<li>Remote desktop, virtual machines and some managed work laptops block GPU '
+           + 'access entirely</li>';
+  } else {
+    title = 'Something went wrong starting the simulation';
+    lead = 'Your browser supports WebGPU, so this is more likely a fault in the site than in '
+         + 'your setup. The details are below, and a bug report with them is welcome.';
+    advice = '<li>A reload fixes it surprisingly often</li>'
+           + '<li>If it persists, please open an issue with the details below</li>';
+  }
+
   document.body.innerHTML =
-    '<div style="padding:3rem;font:14px/1.7 ui-monospace,monospace;color:#e8ecf5;max-width:44rem">'
-    + '<h2 style="margin-bottom:1rem">WebGPU unavailable</h2>'
-    + '<p style="color:#8c96ad">This needs WebGPU: Chrome 113+, Edge, or Safari 26+. '
-    + 'On Firefox it may need enabling in about:config.</p>'
-    + '<pre style="margin-top:1.5rem;color:#ff9b8a;white-space:pre-wrap">' + (e.stack || e.message) + '</pre></div>';
+    '<main style="max-width:38rem;margin:0 auto;padding:12vh 1.5rem 4rem;'
+    + 'font:15px/1.65 -apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;color:#e8ecf5">'
+    + '<p style="font:12px/1 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;'
+    + 'color:#6f7a91;margin:0 0 1.25rem">Galaxy Collisions</p>'
+    + '<h1 style="font-size:1.6rem;font-weight:600;line-height:1.25;margin:0 0 1rem">' + title + '</h1>'
+    + '<p style="color:#aab3c5;margin:0 0 1.5rem">' + lead + '</p>'
+    + '<ul style="color:#aab3c5;margin:0 0 2rem;padding-left:1.1rem">' + advice + '</ul>'
+    + '<p style="margin:0 0 .5rem;color:#aab3c5">In the meantime you can still read what it does '
+    + 'and how it was built:</p>'
+    + '<p style="margin:0 0 2rem">'
+    + '<a style="color:#9fc4ff" href="' + REPO + '/blob/main/docs/GUIDE.md">The guide</a> &nbsp;·&nbsp; '
+    + '<a style="color:#9fc4ff" href="' + REPO + '#readme">What it is</a> &nbsp;·&nbsp; '
+    + '<a style="color:#9fc4ff" href="' + REPO + '/blob/main/DEVLOG.md">Build log</a></p>'
+    + '<details style="color:#6f7a91;font:12px/1.6 ui-monospace,monospace">'
+    + '<summary style="cursor:pointer">Technical details</summary>'
+    + '<pre style="white-space:pre-wrap;margin:.75rem 0 0;color:#ff9b8a">'
+    + String((e && e.stack) || msg).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]))
+    + '</pre></details></main>';
+  document.documentElement.style.background = '#06070b';
   console.error(e);
-});
+}
+
+app.start().catch(showUnsupported);
 globalThis.__app = app;
 </script>
 </body>

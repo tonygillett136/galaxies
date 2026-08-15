@@ -161,6 +161,9 @@ It is now guarded, and `DEVLOG.md` carries the full account.
 
 ## Reading order
 
+0. **[`docs/GUIDE.md`](docs/GUIDE.md)** — the user guide: every mode, every control, how to
+   read the display, and how to not fool yourself with a persuasive picture. Start here if you
+   want to *use* it rather than audit it.
 1. **`DEVLOG.md`** — the narrative build log, written as it happened, including everything that
    went wrong. It carries the reasoning nothing else does.
 2. `docs/IDENTIFIABILITY.md` — why the headline inference claim was retracted.
