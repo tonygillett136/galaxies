@@ -304,6 +304,12 @@ export class App {
 
     const CHUNK = 200;                             // measured ~50 ms of submits per frame
     const pump = () => {
+      // A DEAD DEVICE IS NOT WORTH STEPPING. Without this the pump kept driving a
+      // destroyed device for the rest of the seek — up to three seconds of calls
+      // that are all no-ops — and then called setBusy(false) on completion, which
+      // HID the "GPU device lost" banner because the banner borrows #busy. The
+      // app ended up silent about the one thing it most needed to say.
+      if (this.deviceLost) { this.seeking = false; return; }
       const tgt = this.seekTarget;
       let n = 0;
       while (Math.abs(this.sim.time - tgt) > this.dt * 0.5 && n++ < CHUNK) {
@@ -326,6 +332,12 @@ export class App {
    * looked like the page had died.
    */
   setBusy(on) {
+    // THE DEVICE-LOST NOTICE OUTRANKS THE BUSY INDICATOR. Both use #busy, and a
+    // seek converging after the device died called setBusy(false) and hid the
+    // banner — text still set, element display:none, leaving the user with a
+    // frozen picture and no explanation. Losing the device is terminal; nothing
+    // that finishes afterwards gets to clear the message.
+    if (this.deviceLost && !on) return;
     const el = $('busy');
     if (el) el.style.display = on ? 'block' : 'none';
     document.body.style.cursor = on ? 'progress' : '';
@@ -343,14 +355,20 @@ export class App {
       o.textContent = t.hasImage ? t.name : `${t.name} (no image)`;
       sel.appendChild(o);
     }
-    sel.onchange = () => this.selectTarget(sel.value);
-    this.selectTarget(this.catalogue.targets[0].name);
+    sel.onchange = () => this.selectTarget(sel.value, true);
+    // A restored link's target wins over "whatever sorted first".
+    const want = this.wantTarget
+      && this.catalogue.targets.some((t) => t.name === this.wantTarget)
+      ? this.wantTarget : this.catalogue.targets[0].name;
+    sel.value = want;
+    this.selectTarget(want);
   }
 
-  selectTarget(name) {
+  selectTarget(name, userInitiated = false) {
     const t = this.catalogue.targets.find((x) => x.name === name);
     if (!t) return;
     this.target = t;
+    this.targetName = t.name;              // so a shared link can carry it
     $('backdrop').src = t.hasImage ? `./data/targets/${t.image}` : '';
     $('backdrop').style.opacity = this.mode === 'detective' ? String(this.imgOpacity ?? 0.85) : '0';
     const zTag = t.z
@@ -380,7 +398,12 @@ export class App {
       // the first view was at 848 kpc for a content radius of 34, i.e. Arp 240's
       // frame width, in the prograde scenario. Round 4 saw the same mechanism
       // overwrite a restored camera from a shared link.
-      if (this.mode === 'detective') {
+      // A RESTORED CAMERA OUTRANKS THE SCALE MATCH. The catalogue resolves after
+      // restoreFromUrl(), so this line ran last and overwrote the ?cam= a shared
+      // link had just applied — the viewing geometry is a fitted parameter here,
+      // not a preference, so losing it changes the thing being compared. It is
+      // still applied for a selection the user actually made.
+      if (this.mode === 'detective' && (userInitiated || !this.cameraFromUrl)) {
         this.camera._want.distance = fieldKpc / (2 * Math.tan(this.camera.fov / 2));
       }
       notes.push(`Scale matched: frame is ${fieldKpc.toFixed(0)} kpc across, z = ${t.z.toFixed(4)}.`);
@@ -639,6 +662,11 @@ export class App {
       sci: this.renderer.settings.scienceMode ? '1' : '0',
       sp: String(this.speed),
       fo: this.follow,
+      // THE TARGET. Detect exists to compare against one specific observed pair,
+      // and the link that shares "this state" carried eighteen keys and not the
+      // one naming which galaxy you were looking at. A shared Detect link landed
+      // the recipient on whatever sorted first in the catalogue.
+      ...(this.targetName ? { tg: this.targetName } : {}),
       // viewing geometry travels with the state: it is a fitted parameter, not
       // a camera preference, so a shared link must reproduce the projection
       cam: [this.camera.distance.toFixed(1), this.camera.theta.toFixed(3),
@@ -680,6 +708,11 @@ export class App {
         Object.assign(this.camera._want, { distance: d, theta: th, phi: ph, roll: rl || 0 });
         if (Number.isFinite(rl)) { $('roll').value = String(rl); $('roll').dispatchEvent(new Event('input')); }
       }
+      // Recorded before setMode, and consumed by fillTargets() when the
+      // catalogue resolves — which happens AFTER this runs, so it cannot be
+      // applied here.
+      if (q.has('tg')) this.wantTarget = q.get('tg');
+      this.cameraFromUrl = q.has('cam');
       this.setMode(q.get('m') || 'sandbox');
       this.syncSpecControls();
     } catch (e) { console.warn('could not restore state from URL:', e); }
