@@ -138,7 +138,7 @@ The synthesis's headline: *the engine is close to sound and the documents are no
 - `DEVLOG.md` still presented the abandoned dwarf model's 27.2% / 131.5x as the project's
   headline validation.
 - `encounter.js` asserted "real interacting pairs pass at tens of kpc" — **refuted by this
-  project's own data**: median published r_min is 12.1 kpc and 81% are under 20.
+  project's own data**: median published r_min is 11.6 kpc and 82% are under 20 (on the corrected 62-target catalogue; it read 12.1 and 81% while three fits were being lost to a name join).
 - Detective mode clamped pericentre at 20 kpc and eccentricity at 2.0, dwarf-era constants that
   rewrote 35 of 59 targets. Tested directly: the engine is exact to e = 5.0 and 90 kpc.
 

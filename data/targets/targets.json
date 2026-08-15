@@ -343,7 +343,40 @@
    "ra": 238.285833,
    "dec": 54.147333,
    "aliases": "15530935+5408557",
-   "fit": null,
+   "fit": {
+    "massRatio": 0.798,
+    "massRatio_err": 0.931,
+    "rMin_kpc": 1.527,
+    "rMin_err": 0.196,
+    "tMin_Myr": 65.827,
+    "tMin_err": 9.22,
+    "ecc": 0.657,
+    "ecc_err": 0.332,
+    "beta": 32.806,
+    "beta_err": 6.321,
+    "searchBounds": {
+     "massRatio": [
+      "0.074",
+      "29.031"
+     ],
+     "rMin": [
+      "0.075",
+      "141.077"
+     ],
+     "tMin": [
+      "0.000",
+      "8628.526"
+     ],
+     "ecc": [
+      "0.007",
+      "483.573"
+     ],
+     "beta": [
+      "0.003",
+      "14902.455"
+     ]
+    }
+   },
    "image": "images/Double_Ring,_Heart.jpg",
    "z": 0.04674,
    "zKind": "spec",
@@ -1532,7 +1565,40 @@
    "ra": 139.1725,
    "dec": 18.963722,
    "aliases": "UGC 4897, 09164141+1857487",
-   "fit": null,
+   "fit": {
+    "massRatio": 2.436,
+    "massRatio_err": 0.861,
+    "rMin_kpc": 8.734,
+    "rMin_err": 0.84,
+    "tMin_Myr": 91.811,
+    "tMin_err": 22.209,
+    "ecc": 2.821,
+    "ecc_err": 0.761,
+    "beta": 1.026,
+    "beta_err": 0.572,
+    "searchBounds": {
+     "massRatio": [
+      "0.035",
+      "6.708"
+     ],
+     "rMin": [
+      "0.150",
+      "140.689"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.014",
+      "383.936"
+     ],
+     "beta": [
+      "0.002",
+      "3378.716"
+     ]
+    }
+   },
    "image": "images/NGC_2802/3.jpg",
    "z": 0.029168,
    "zKind": "spec",
@@ -1875,7 +1941,40 @@
    "ra": 181.164583,
    "dec": 52.957194,
    "aliases": "12043959+5257265",
-   "fit": null,
+   "fit": {
+    "massRatio": 2.099,
+    "massRatio_err": 0.375,
+    "rMin_kpc": 4.953,
+    "rMin_err": 1.116,
+    "tMin_Myr": 50.236,
+    "tMin_err": 16.381,
+    "ecc": 0.471,
+    "ecc_err": 0.089,
+    "beta": 5.908,
+    "beta_err": 8.829,
+    "searchBounds": {
+     "massRatio": [
+      "0.197",
+      "4.140"
+     ],
+     "rMin": [
+      "0.110",
+      "263.861"
+     ],
+     "tMin": [
+      "0.000",
+      "8657.975"
+     ],
+     "ecc": [
+      "0.001",
+      "596.985"
+     ],
+     "beta": [
+      "0.002",
+      "11168.961"
+     ]
+    }
+   },
    "image": "images/MCG_+09-20-082.jpg",
    "z": 0.080801,
    "zKind": "spec",

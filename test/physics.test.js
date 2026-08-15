@@ -16,14 +16,14 @@ import { pointMass, plummer, hernquist, composite } from '../src/engine/potentia
 import * as K from '../src/engine/kepler.js';
 import { RestrictedSim, erf, frictionWeight, frictionWeightX } from '../src/engine/cpu.js';
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
-import { galaxyModel, buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
+import { galaxyModel, buildEncounter, SCENARIOS, domainOfValidity } from '../src/engine/encounter.js';
 import { pairTable } from '../src/engine/pairforce.js';
 import { record } from './measured.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(51);
+  expectChecks(52);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -225,6 +225,46 @@ export function runPhysicsTests() {
     record('mergerPeriKpc', enc.spec.executedPeri);
     return `merges at t = ${mergedAt.toFixed(0)} (${(mergedAt * 4.714920).toFixed(0)} Myr), `
          + `inside a tSpan reaching ${(tEnd * 4.714920).toFixed(0)} Myr; max separation ${maxSep.toFixed(1)} kpc`;
+  });
+
+  check('THE CATALOGUE: bucket counts and the bimodality claim, on PUBLISHED values', () => {
+    // Round 4 found three defects here at once.
+    //   1. build_targets.py joined Table 1 to Table 4 BY NAME, and three names
+    //      differ between the tables, so three fits were dropped silently — with
+    //      r_min 1.527, 8.734 and 4.953 kpc, all below the median, biasing the
+    //      loss toward exactly the deep encounters this classification is about.
+    //      Now joined by display order with the mismatches printed.
+    //   2. The app classified CLAMPED parameters, and the ecc floor of 0.4
+    //      inflates apocentre 1.5-2.1x, moving systems out of the categorical
+    //      tier. The domain claim belongs to the PUBLISHED values.
+    //   3. Nothing tested domainOfValidity at all.
+    const P1 = galaxyModel(1.0);
+    const buckets = { unbound: 0, ok: 0, marginal: 0, outside: 0, 'inside-disc': 0 };
+    let n = 0, bound = 0;
+    for (const t of (globalThis.__catalogue?.targets ?? [])) {
+      const f = t.fit;
+      if (!f || f.rMin_kpc == null || f.ecc == null) continue;
+      n++;
+      if (f.ecc < 1) bound++;
+      const mrRaw = f.massRatio > 1 ? 1 / f.massRatio : f.massRatio;
+      const mr = Math.min(1, Math.max(0.05, mrRaw));
+      const P2 = galaxyModel(mr, Math.cbrt(mr));
+      buckets[domainOfValidity(P1, P2, f.rMin_kpc, f.ecc).tier]++;
+    }
+    ok(n === 62, `expected 62 fitted targets, got ${n} — the Table 1/Table 4 join has regressed`);
+    ok(bound === 38, `expected 38 bound published fits, got ${bound}`);
+    // THE claim the domain gate rests on: the distribution is bimodal, so the
+    // answer does not depend on where the threshold sits.
+    ok(buckets.marginal === 0,
+      `the marginal bucket is NOT empty (${buckets.marginal}); the bimodality claim that makes this a gate rather than a tuned threshold no longer holds`);
+    const outside = buckets['inside-disc'] + buckets.outside + buckets.marginal;
+    record('catalogueN', n);
+    record('catalogueOutside', outside);
+    record('catalogueBound', bound);
+    record('catalogueOutsideByRatio', buckets.outside);
+    return `${n} fitted targets: ${buckets.unbound} unbound, ${buckets.ok} inside the model, `
+         + `${buckets.marginal} marginal, ${buckets.outside} outside by ratio, ${buckets['inside-disc']} inside-disc `
+         + `— ${outside} of ${n} outside the model; ${bound} bound`;
   });
 
   check('every scenario lies inside the ranges the interface offers', () => {

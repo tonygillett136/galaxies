@@ -116,8 +116,24 @@ def main():
     h4, r4 = read_tsv(os.path.join(GZ, 'table4.txt'))
     print(f'table1: {len(r1)} rows, table4: {len(r4)} rows')
 
-    # index table4 by short name
+    # INDEX TABLE 4 BY DISPLAY ORDER, NOT BY NAME.
+    #
+    # Both tables carry 62 rows in the same display order, but three names differ
+    # between them — "Double Ring, Heart" vs "Double Ring", "NGC 2802/3" vs
+    # "NGC 2802", and "MCG +09-20-082" vs "Pair 42" (table 4 uses the display-order
+    # id for that one). A name join therefore dropped three fits SILENTLY, and the
+    # three it dropped had r_min of 1.527, 8.734 and 4.953 kpc — all below the
+    # median, so the loss was biased toward exactly the deep encounters the
+    # domain-of-validity discussion turns on.
+    #
+    # Downstream that moved median r_min from 11.614 to 12.117, "82.3 per cent
+    # under 20 kpc" to 81, and the bound-fit count from 38 to 36 — the denominator
+    # in "24 of the 36 bound published fits".
+    #
+    # Position is the reliable key; the names are checked and mismatches PRINTED
+    # rather than silently accepted, so a genuine misalignment cannot hide.
     fits = {}
+    fits_by_order = []
     for r in r4:
         if not r or not r[0].strip():
             continue
@@ -141,6 +157,7 @@ def main():
                 'beta': [get(14), get(15)],
             },
         }
+        fits_by_order.append((name, fits[name]))
 
     # redshifts, for the angular scale that makes an overlay meaningful
     zmap = {}
@@ -158,7 +175,8 @@ def main():
         print('WARNING: no SDSS table; every overlay will be uncalibrated')
 
     targets = []
-    for r in r1:
+    renamed = []
+    for ti, r in enumerate(r1):
         if len(r) < 5 or not r[1].strip():
             continue
         name = r[1].strip()
@@ -177,11 +195,26 @@ def main():
             'sdssId': sid,
             'ra': round(ra, 6), 'dec': round(dec, 6),
             'aliases': (r[5].strip() if len(r) > 5 else ''),
-            'fit': fits.get(name),
+            'fit': None,   # filled in below, by order with a name check
             'image': f'images/{name.replace(" ", "_")}.jpg',
             'z': z, 'zKind': zkind,
             'kpcPerArcsec': round(kpc_per_arcsec, 5) if kpc_per_arcsec else None,
         })
+
+    # --- join the fits BY DISPLAY ORDER, checking the names ---
+    if len(fits_by_order) != len(targets):
+        print(f'WARNING: table4 has {len(fits_by_order)} fits for {len(targets)} table1 targets; '
+              'the positional join is not safe and fits will be left unattached')
+    else:
+        for t, (fname, fit) in zip(targets, fits_by_order):
+            t['fit'] = fit
+            if fname != t['name']:
+                renamed.append((t['name'], fname))
+    if renamed:
+        print(f'{len(renamed)} targets joined by ORDER because the two tables name them differently '
+              '(this is why a name join silently lost them):')
+        for a, b in renamed:
+            print(f'    table1 {a!r}  <->  table4 {b!r}')
 
     missing = [t['name'] for t in targets if not t['fit']]
     print(f'{len(targets)} targets, {len(missing)} without a Table 4 fit'

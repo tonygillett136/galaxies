@@ -107,6 +107,7 @@ export class App {
   // ------------------------------------------------------------- scenarios
 
   loadScenario(key) {
+    this.setBusy(true);
     this.scenarioKey = key;
     const sc = SCENARIOS[key];
     this.spec = structuredClone(sc.spec);
@@ -118,6 +119,7 @@ export class App {
     $('blurb').textContent = sc.blurb;
     for (const b of document.querySelectorAll('[data-scenario]')) b.classList.toggle('on', b.dataset.scenario === key);
     this.syncSpecControls();
+    if (!this.seeking) this.setBusy(false);
   }
 
   syncSpecControls() {
@@ -216,12 +218,58 @@ export class App {
    * the picture wrong, with no indication that anything had been truncated.
    */
   seek(target) {
-    const needed = Math.ceil(Math.abs(target - this.sim.time) / this.dt) + 64;
-    let guard = 0;
-    while (Math.abs(this.sim.time - target) > this.dt * 0.5 && guard++ < needed) {
-      this.sim.step(this.sim.time < target ? this.dt : -this.dt);
-    }
-    this.seekTruncated = guard >= needed;
+    // CHUNKED, because an unyielding loop here froze the tab for over two seconds.
+    //
+    // Measured: GpuSim.step() issues one queue.submit per step, so 6,000 steps
+    // cost 1,050 ms of which 99.7% is submission overhead (the same work recorded
+    // into a single encoder is 2.6 ms). A full-span scrub of `prograde` is 10,000
+    // steps = 2,181 ms with no indicator, and a 2.4 s frozen tab is
+    // indistinguishable from a crash.
+    //
+    // The real fix is to batch the submits — one encoder per seek, with the
+    // galaxy trajectory uploaded once and indexed by step. That needs a
+    // bind-group-layout change and per-dispatch dynamic offsets, and this
+    // project's worst bugs have all come from bind-group layouts, so it is logged
+    // in action_tracking rather than rushed. What this does instead is stop the
+    // FREEZE: the work is spread across animation frames, the picture updates as
+    // it goes, and a busy state is on screen throughout. Measured on a full-span
+    // scrub of `prograde` at N = 300k: worst single main-thread block 2,200 ms ->
+    // 100 ms at CHUNK 400, and 23 frames render during the seek where none did
+    // before. Total elapsed is unchanged, because the submission overhead is the
+    // cost; what changes is that the tab is alive and says so.
+    this.seekTarget = target;
+    if (this.seeking) return;                      // already draining; retarget only
+    this.seeking = true;
+    this.setBusy(true);
+
+    const CHUNK = 200;                             // measured ~50 ms of submits per frame
+    const pump = () => {
+      const tgt = this.seekTarget;
+      let n = 0;
+      while (Math.abs(this.sim.time - tgt) > this.dt * 0.5 && n++ < CHUNK) {
+        this.sim.step(this.sim.time < tgt ? this.dt : -this.dt);
+      }
+      if (Math.abs(this.sim.time - tgt) > this.dt * 0.5) {
+        requestAnimationFrame(pump);
+      } else {
+        this.seeking = false;
+        this.seekTruncated = false;
+        this.setBusy(false);
+      }
+    };
+    pump();
+  }
+
+  /**
+   * A visible busy state. There was none anywhere — grep for busy, spinner,
+   * progress, cursor:wait or aria-busy returned nothing — so every long rebuild
+   * looked like the page had died.
+   */
+  setBusy(on) {
+    const el = $('busy');
+    if (el) el.style.display = on ? 'block' : 'none';
+    document.body.style.cursor = on ? 'progress' : '';
+    document.body.setAttribute('aria-busy', on ? 'true' : 'false');
   }
 
   // ------------------------------------------------------------- detective
@@ -649,8 +697,26 @@ export class App {
       this.padTo(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)),
                  Math.max(0, Math.min(1, (e.clientY - r.top) / r.height)));
     };
+    let padFrame = 0;
     pad.addEventListener('pointerdown', (e) => { padding = true; pad.setPointerCapture(e.pointerId); padXY(e); });
-    pad.addEventListener('pointermove', (e) => { if (padding) padXY(e); });
+    // COALESCED to one rebuild per animation frame. padTo() calls rebuild() and
+    // seek(), and it was wired straight to pointermove: a single 8-move drag
+    // fired 9 rebuilds and blocked 2,367 ms in one gesture, against a panel that
+    // promises "the shape of the space is something you feel rather than read".
+    let padPending = null;
+    pad.addEventListener('pointermove', (e) => {
+      if (!padding) return;
+      const r = pad.getBoundingClientRect();
+      padPending = [Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)),
+                    Math.max(0, Math.min(1, (e.clientY - r.top) / r.height))];
+      if (padPending && !padFrame) {
+        padFrame = requestAnimationFrame(() => {
+          padFrame = 0;
+          const p = padPending; padPending = null;
+          if (p) this.padTo(p[0], p[1]);
+        });
+      }
+    });
     const padEnd = (e) => { padding = false; try { pad.releasePointerCapture(e.pointerId); } catch {} };
     pad.addEventListener('pointerup', padEnd);
     pad.addEventListener('pointercancel', padEnd);

@@ -84,6 +84,12 @@ const CLAIMS = [
     key: 'massEpochInvariance', tol: 0.5, what: 'IDENTIFIABILITY invariance' },
   { file: 'docs/IDENTIFIABILITY.md', re: /differs by \*\*(\d+) per cent\*\*/,
     key: 'massEpochControlPct', tol: 0.05, what: 'IDENTIFIABILITY control' },
+  { file: 'src/engine/encounter.js', re: /(\d+) outside by ratio and \d+ inside-disc: (?:\d+) of \d+ outside the model/,
+    key: 'catalogueOutsideByRatio', tol: 0.001, what: 'domainOfValidity docstring, outside-by-ratio count' },
+  { file: 'src/engine/encounter.js', re: /inside-disc: (\d+) of \d+ outside the model/,
+    key: 'catalogueOutside', tol: 0.001, what: 'domainOfValidity docstring, total outside' },
+  { file: 'src/engine/encounter.js', re: /across the (\d+)\n \* Galaxy Zoo systems with a published fit/,
+    key: 'catalogueN', tol: 0.001, what: 'encounter.js catalogue size' },
 ];
 
 export function runClaimsTests() { expectChecks(3); }

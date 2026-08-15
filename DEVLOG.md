@@ -614,8 +614,8 @@ found it independently. The *result* was right; the table nobody regenerated was
 project's headline validation result.
 
 And `encounter.js` asserted that "real interacting pairs pass at tens of kpc" — **refuted by
-this project's own data.** Across the 59 Galaxy Zoo systems with a published fit, the median
-r_min is 12.1 kpc and 81 per cent are under 20. Real pairs routinely pass inside the disc
+this project's own data.** Across the 62 Galaxy Zoo systems with a published fit, the median
+r_min is 11.6 kpc and 82 per cent are under 20. Real pairs routinely pass inside the disc
 radius. My justification for the retune was wrong even though the retune itself was right, for a
 different reason: the old pericentres were small because the *model* was a dwarf.
 

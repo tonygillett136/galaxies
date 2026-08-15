@@ -288,7 +288,7 @@ function measureFromState(P1, P2, M1, M2, c1, v1, c2, v2, friction) {
  *     host's disc edge against the host's own pull there.
  *
  * Over the 59 published fits this gives 23 unbound, 15 comfortably inside, 0
- * marginal, 7 outside by ratio and 14 inside-disc: 21 of 59 outside the model.
+ * marginal, 8 outside by ratio and 15 inside-disc: 23 of 62 outside the model.
  * The MARGINAL BUCKET IS EMPTY — the distribution is bimodal — so the answer does
  * not depend on where the threshold sits between 0.3 and 1.0. That matters more
  * than the threshold itself, and is why this is a gate rather than a tuned number.
@@ -573,9 +573,9 @@ export function buildEncounter(spec) {
  *
  * A correction worth keeping. An earlier version of this comment justified the
  * retune by claiming "real interacting pairs pass at tens of kpc". A reviewer
- * checked that against this project's OWN data and it is false: across the 59
- * Galaxy Zoo systems with a published fit, the median r_min is 12.1 kpc, the
- * quartiles are 6.4 / 12.1 / 18.6, and 81 per cent are under 20 kpc. Real pairs
+ * checked that against this project's OWN data and it is false: across the 62
+ * Galaxy Zoo systems with a published fit, the median r_min is 11.6 kpc, the
+ * quartiles are 6.1 / 11.6 / 18.1, and 82 per cent are under 20 kpc. Real pairs
  * routinely pass INSIDE the disc radius, so a penetrating encounter is a normal
  * observed configuration and not a modelling error.
  *

@@ -15,6 +15,8 @@ import { runClaimsTests, runClaimsChecks } from './claims.test.js';
 
 const el = document.getElementById('out');
 try {
+  // the catalogue is a data file, and one check classifies every published fit
+  globalThis.__catalogue = await (await fetch('../data/targets/targets.json')).json();
   runPhysicsTests();
   runAdjointTests();
   runClaimsTests();
