@@ -152,3 +152,115 @@ own findings were already fixed by the time it ran. Both are real limits on the 
 are recorded rather than smoothed over.
 
 Assertions went **46 → 57**.
+
+---
+
+## Round 3 — 2026-08-15 00:12 to 00:44, on a FROZEN tree
+
+Same six reviewers, each given the round-2 change list and asked to check whether
+those fixes are **correct** rather than present. Two changes to the method:
+
+1. **The tree was frozen.** Round 2's synthesis reported that files were being
+   edited while its reviewers wrote, so a large fraction of its findings were
+   already fixed by the time it ran. Nothing was edited during round 3.
+2. **Verification joined by INDEX, not title.** Round 2's join failed silently and
+   all 47 findings reached the synthesis marked `NOT CHECKED`. With the index
+   join, **0 of 36 were unchecked**.
+
+**36 findings. 30 confirmed, 6 partial, 0 refuted outright.** All six verdicts
+"not yet". Two findings were corrected by their verifiers in the **worse**
+direction.
+
+### The headline: round 3 found round 2's fixes were wrong
+
+This is the pattern the round was designed to catch, recurring in the fixes the
+previous round shipped. Four were present, commented as handled, and wrong.
+
+| Round-2 fix | What was actually true |
+|---|---|
+| **Friction validity gate** | Identically **inert**. It divided the perturber's MIN component scale (bulge, 0.5·rScale) by the field's MAX (halo, 20·rScale) — a built-in factor of 40 against ever firing. Measured w = 1.0000 at every mass ratio the interface can reach. Its test passed because it used bare potentials where min and max coincide: **it validated a branch `galaxyModel()` cannot construct.** |
+| **Pair force** | Adopted `M_i M_j d/(d²+a_i²+a_j²)^{3/2}` under a comment claiming it exact for Plummer and erring toward *more* softening. Against quadrature: **3.09x too strong at 20 kpc** for the halo carrying 94% of the mass, and 1.29x at d=5 for Plummer–Plummer, so not exact there either. |
+| **Colour ramp** | Overshot into the opposite failure. Both ends of the legend showed colours no particle has. |
+| **Share link colour mode** | Restores the mode without calling `updateLegend()`, so a shared `?cd=1` renders provenance colours under the population key. |
+
+Two of these were mine from round 2, written confidently, with comments asserting
+they were handled. **A comment claiming a thing is fixed is not evidence that it
+is**, and the reviewers who caught these did so by re-deriving the arithmetic
+rather than by reading the comment.
+
+### What I found myself, while round 3 was in flight
+
+The tree was frozen, so I could only verify. That turned out to be the most
+productive constraint of the night — verification-only work found the single worst
+defect in the project.
+
+**Encounters requested as BOUND were executed as UNBOUND.** `buildEncounter` set
+the orbit from a point-mass Kepler solution while the galaxies are extended;
+`solveKeplerPericentre` corrected the *distance* of closest approach and nothing
+corrected the *energy*. At the published Arp 244 fit the total energy went
+−1.007e3 (point mass) to **+1.289e3** (real potential) — a sign flip — and a
+4.6 kpc Kepler apocentre executed as a runaway to 559 kpc. **24 of the 36 bound
+published fits.** And nothing anywhere checked eccentricity, so the sandbox
+slider was equally untrue: 0.95 requested, 0.908 executed.
+
+Verified two independent ways (energy at the initial state; integration) before
+any code changed.
+
+**21 of 59 published fits are outside the model's domain entirely.** Ten have an
+apocentre inside the disc radius, so the galaxies never separate; eleven more have
+the companion dominating the disc edge at apocentre. My first attempt at a
+criterion was wrong in an instructive way — a single perturbation ratio that
+reported 30–50x for the deepest systems because the clamp made it measure the
+companion's pull at its own centre. The correct structure is two tiers, and the
+**"marginal" bucket comes out empty**, so the classification does not depend on
+where the threshold sits.
+
+### Applied
+
+| Finding | What changed |
+|---|---|
+| Pair force 3.09x too strong | `src/engine/pairforce.js`: exact mutual force and potential by quadrature, the angular integral reduced to a radial one with an elementary inner step. Cubic Hermite tabulation where the force supplies the potential's nodal derivative, so F and W are consistent BY CONSTRUCTION — linear interpolation gave 4.9e-4 energy drift, Hermite gives 1.5e-7 |
+| Friction gate inert | Gated on R_perturber/separation, which is what Chandrasekhar's point-mass assumption requires. Full weight below 0.2, zero by 0.6 |
+| Bound orbits unbound | Closed-form (E, L) from the requested turning points in the REAL potential; state placed at pericentre and rewound through the shipped leapfrog. Rewind CAPPED AT APOCENTRE, because a tight orbit's radial period is shorter than tStart and wrapping left the pair outbound at t=0 |
+| Outside the model | `domainOfValidity()`, surfaced in the UI. Loading the Antennae fit now says so instead of drawing something |
+| Detect hid its own controls | Measured `offsetParent === null` for all eight orbit and disc controls. `data-mode` is now a list |
+| Space stolen from controls | The round-1 shortcut fix overshot; the retrograde checkboxes had no keyboard route at all |
+| Pan a no-op | `applyFollow()` wrote the same field `pan()` did. Separate offset |
+| Ring shown after it had gone | Ring lives 24→71 Myr of a 1037 Myr timeline; the tour sat at 66 Myr, contrast 1.51. Moved to 28 Myr, contrast 219 |
+| Recovery demo an inverse crime on a non-parameter | Now fits (inclination, **node**) against an INDEPENDENT realisation, reporting error against N |
+| Mirror degeneracy unsearched | L(−inc) = L(+inc) = 0.000e+0 exactly, coplanar. Documented with a control |
+| Adjoint guessed at unknown potentials | Throws instead — `nfw` was 20.6x too strong with a Jacobian consistent with the wrong force, so every gradient check still passed |
+| Documents drifted from measurements | `test/claims.test.js` — see below |
+
+Assertions **57 → 71**, all complete.
+
+### The structural fix: the documents are now checked against the measurements
+
+Every round has found the same defect somewhere new. Each was fixed by hand,
+which restores the values and leaves the mechanism — and the mechanism is that
+prose and measurement are not connected.
+
+They are connected now. The suites record what they measured; `claims.test.js`
+fetches the shipped text and fails the build when a registered figure has drifted.
+Eleven figures across `index.html`, `tour.js`, `encounter.js` (blurb *and* file
+header), `README.md`, `adjoint.js` and `DEVLOG.md`. It caught the drift
+immediately, including two the reviewers had not listed, and it has since fired
+three times on my own changes — which is the point.
+
+It carries its own limits in its header: it checks the numbers it is told about,
+and a wrong number registered against a wrong measurement still passes.
+
+### And the limits of round 3
+
+The synthesis named what three rounds have still never examined, and it is worth
+recording because it is a criticism of the *process*, not the code:
+
+> Round-1 fixes have not been re-verified since round 1. Only one reviewer checked
+> any round-1 item — and one of the two he checked had regressed. The tree has
+> changed twice since. Given that round 3's largest yield was "round-2 fixes that
+> are wrong", the untested hypothesis is that round-1 fixes are wrong too.
+
+Also unexamined across all three rounds: the GPU float32 path (the thing that
+actually ships), any measured frame rate on a full scene by a reviewer, the
+catalogue's provenance against its published source, and the units boundary. And
+no reviewer represents a person without dev tools.

@@ -632,3 +632,216 @@ The synthesis reported that **no verifier result reached it** — all 47 finding
 labelled anything it had not personally reproduced as *reported*. It also noted the tree was
 being edited while the reviewers wrote, so some of its own findings were already fixed. Both
 limits are recorded in `review_board/REVIEW_LOG.md` rather than smoothed over.
+
+---
+
+## Round 3, and the night the force law turned out to be wrong
+
+*2026-08-15, 00:12 to 04:30.*
+
+Two process changes, both from round 2's own criticism of itself. The tree was
+**frozen** for the duration — round 2 had been reviewed against files that were
+moving underneath it — and verification was joined by **index** rather than by
+title, because round 2's title join had failed silently and delivered all 47
+findings to the synthesis marked `NOT CHECKED`.
+
+Both worked. 36 findings, **30 confirmed, 6 partial, 0 refuted, 0 unchecked.**
+
+### Freezing the tree turned out to be the productive constraint
+
+I could not edit anything for thirty-two minutes, so I could only measure. That
+is how the worst defect in the project was found — not by the reviewers, and not
+by anything I would have done if I had been free to type.
+
+I was checking something mundane: whether the Antennae scenario's 16 kpc
+pericentre was defensible against the published 1.57 kpc. It was not, but the
+interesting part was what happened when I ran the published fit. Eccentricity
+0.493 is a **bound** orbit with a 4.6 kpc apocentre — the two galaxies should
+oscillate inside 5 kpc. The engine flung them to 559 kpc.
+
+My first hypothesis was that the extended potentials are shallower than a point
+mass, so the Kepler velocity exceeds escape. I built a control: make the galaxies
+point-like and the problem should vanish. **The numbers came back identical to
+four significant figures**, which is not what a working control looks like. The
+spec keys I had used did not exist, so `buildEncounter` had silently ignored them
+and run the same configuration twice. The identical digits were the only reason I
+noticed.
+
+The decisive test was energy, computed at the initial state the builder actually
+produces, independent of any integration:
+
+| requested | E (point mass) | E (real potential) | |
+|---|---|---|---|
+| e=0.493, r_p=1.572 | −1.007e3 | **+1.289e3** | sign flip |
+| e=0.493, r_p=5 | −5.379e2 | **+6.858e1** | sign flip |
+| e=0.493, r_p=12 | −2.226e2 | −4.186e1 | bound |
+
+`solveKeplerPericentre` corrects the **distance** of closest approach — the
+comments say so, at length — and nothing corrects the **energy**. So an encounter
+requested as bound was launched above escape speed in the potential it actually
+inhabits. **24 of the 36 bound published fits**, including the Antennae.
+
+And it was never only Detect mode. Nothing anywhere checked eccentricity, so the
+sandbox slider was untrue too: it said 0.95 and executed 0.908, said 0.85 and
+executed 0.693. Pericentre had been solved for; eccentricity had been assumed.
+The label was wider than the check behind it, which is the same failure the review
+board has now found in three separate places.
+
+### The fix is exact, and it needed no iteration
+
+For a bound orbit both turning points are known. At a turning point ṙ = 0, so
+
+    E = L²/(2μ r_p²) + W(r_p) = L²/(2μ r_a²) + W(r_a)
+
+Subtracting eliminates E and gives L in closed form; E follows. Verified to
+reduce to Kepler for a point mass at **1e-16**, and to deliver requested
+pericentre *and* eccentricity exactly — request 0.95, execute 0.95000.
+
+Placing the pair at pericentre and rewinding through the shipped leapfrog makes
+the executed pericentre correct by construction rather than secant-solved. The
+rewind is **capped at apocentre**, because a tight bound orbit's radial period is
+shorter than `tStart` and rewinding the full span wraps past apocentre and leaves
+the pair *outbound* at t = 0. I found that by testing: a request for r_p = 5
+executed at 10.7 with "pericentre" at t = 0. Round 3 found the same failure from
+the Kepler side, on 23 of 59 fits.
+
+### Making the orbit bound does not make it modellable
+
+Ten catalogue fits have an apocentre **inside the disc radius**: the galaxies
+never separate, and a rigid-potential model with discs equilibrated in isolation
+is not describing them. Eleven more have the companion dominating the disc edge
+even at apocentre. **21 of 59 are outside the model.**
+
+My first attempt at a criterion was wrong in a way worth recording. I used one
+perturbation ratio for everything and got 30–50 for the deepest systems, which
+looked decisive and was garbage: when the apocentre is inside the disc my code
+clamped the evaluation distance to 1e-3 kpc, so it was measuring the companion's
+acceleration at its own centre. **A metric undefined in precisely the regime it
+was built to judge.** The correct structure is two tiers, and the useful property
+is that the *marginal bucket comes out empty* — the distribution is bimodal, so
+the answer does not depend on where the threshold sits. That matters more than the
+threshold, because an arbitrary threshold is what a referee should attack.
+
+Detect mode now says so. Loading the Antennae's published fit reports
+*"OUTSIDE THIS MODEL: apocentre 4.6 kpc is inside the 13.5 kpc disc"* instead of
+drawing something and inviting a judgement.
+
+### Meanwhile, the reviewers found that round 2's fixes were wrong
+
+Two of them were mine, written confidently, under comments asserting they were
+handled.
+
+**The friction validity gate was inert.** It divided the perturber's *smallest*
+component scale by the field's *largest* — a built-in factor of 40 — so w =
+1.0000 at every mass ratio the interface can reach. Its asserting test passed
+because it used bare single-component potentials where those coincide. **It
+validated a branch `galaxyModel()` cannot construct.** Two reviewers found it
+independently with identical arithmetic.
+
+**The pair force was up to 3.09x too strong.** Round 2 had replaced a
+2.83x-too-strong kernel with `M_i M_j d/(d²+a_i²+a_j²)^{3/2}` under a comment
+claiming it was "exact for the Plummer components" and erred "toward more
+softening rather than less". Measured against quadrature, every part of that was
+false — 1.96x at 5 kpc, 2.51x at 10, **3.09x at 20**, for the halo carrying 94%
+of the mass; and 1.29x at d=5 for Plummer–Plummer, so not exact there either. The
+convolution of two Plummer *densities* is not a Plummer density; only a single
+Plummer sphere's *potential* has the softened point-mass form, which is what I
+had confused.
+
+The pericentre solver had been hiding it for two rounds: it retunes until the
+executed r_min matches the request, so the **distance** of closest approach
+stayed right while the **speed** through it did not.
+
+`src/engine/pairforce.js` now computes the exact force and the exact mutual
+potential energy by quadrature. The angular integral reduces to a radial one with
+an elementary inner step for both Hernquist and Plummer, so the exact answer costs
+one well-behaved 1-D quadrature rather than a 2-D one.
+
+The tabulation is cubic Hermite where the **force supplies the potential's nodal
+derivative**, so F and W are consistent by construction rather than at the nodes
+only. That is not a refinement: with linear interpolation the leapfrog stopped
+conserving the energy being reported, 4.9e-4 relative drift over 3000 steps.
+Hermite gives 1.5e-7. I got the sign wrong first, and the check that caught it was
+the one comparing the two independently derived integrals against each other.
+
+**The consequence is that every morphology number moved.** Prograde tidal fraction
+3.9% → **15.1%**, retrograde zero → **2.5%**, ratio 6.0. A weaker mutual force
+means the pair moves more slowly through pericentre and forces the discs for
+longer. The qualitative result — the prograde/retrograde contrast — survives.
+Every number built on the old force law did not.
+
+### The documents are now checked against the measurements
+
+Three rounds, three instances of the same defect: a number in prose that no longer
+matches the check that produced it. Round 3 found six at once. Each previous time
+I fixed it by hand, which restores the values and leaves the mechanism intact —
+and the mechanism is that prose and measurement are not connected.
+
+`test/claims.test.js` connects them. The suites record what they measured; the
+check fetches the shipped text and fails the build when a registered figure has
+drifted. Eleven figures across the HTML, the tour, the engine (blurb *and* file
+header), the README, the adjoint and this file.
+
+It caught the drift immediately, including two the reviewers had not listed — this
+file's tidal cut radius said 9 kpc where the test uses 20, and `encounter.js`'s
+own header carried the stale 4.7%. It has since fired three times on my own
+changes within the same night. That is the point: **the failure is now loud.**
+
+The 4.7% is worth dwelling on. It had already replaced the dwarf model's figure
+after a referee caught that, and the correction notice is still in this file.
+Then it went stale again when the force law changed. Twice in three rounds the
+same sentence has been wrong, both times in a passage explaining that the previous
+version was wrong. That is why it is a test now and not a discipline.
+
+### The recovery demonstration was recovering the particle realisation
+
+The finding that most changes what this project can claim.
+
+It fitted (inclination, **argPeri**) against a target built from the same particle
+draw. argPeri rotates an axisymmetric disc within its own plane: shifting every
+particle's phase by δ and shifting argPeri by δ give identical states, **verified
+to 3.6e-15**. So it is a relabelling of which particle sits where, visible only
+through finite sampling — this project's own `IDENTIFIABILITY.md` already called
+it a discretisation artefact, and the check was fitting it anyway. And sharing the
+realisation with the target made the optimum exactly reachable, loss ~1e-30: a
+demonstration that an optimiser can find a configuration it was handed.
+
+It now fits (inclination, **node**) — the node rotates the disc *plane*, which was
+hardcoded to zero — against an **independent** realisation, and reports error
+against N:
+
+| N | floor/L(start) | recovered inc | recovered node | error |
+|---|---|---|---|---|
+| 40 | **1.26** | 0.51 | **−0.95** | 1.853 |
+| 150 | 0.62 | 0.76 | 1.15 | 0.329 |
+| 600 | 0.32 | 0.61 | 1.17 | 0.274 |
+| 2400 | 0.089 | 0.59 | 0.86 | 0.052 |
+
+True: inclination 0.55, node 0.90. The error falls with sampling, so the
+parameters *are* identifiable from morphology in principle. But at N = 40 two
+independent draws of the same disc differ **more** than the true and starting
+orientations do, so there is no signal above the sampling noise — and the node
+converges to **−0.95** against a true **+0.90**.
+
+That negative sign is the reflection degeneracy, caught in the act. I had
+documented it an hour earlier from a completely different direction: reflecting a
+disc's inclination through the sky plane gives L(−inc) = L(+inc) = **0.000e+0
+exactly** for a coplanar encounter, and with the scene's 4 kpc offset it survives
+as a local minimum behind a 12x barrier. Three rounds of degeneracy-hunting missed
+it because all three looked for **continuous** degeneracies. A flat direction
+announces itself; a discrete one produces a confident, tight, wrong answer with a
+small residual and a well-conditioned Hessian.
+
+The two findings were made independently and corroborate each other, which is the
+most reassuring thing that happened all night.
+
+### Where this leaves it
+
+Assertions **57 → 71**, all complete, deployed and verified live at 60 fps with
+300k particles and no console output.
+
+Six reviewers, six verdicts of "not yet". The A+ gate has not passed, and the
+synthesis was right about why the process itself is the weak point: **round-1
+fixes have not been re-verified since round 1**, and round 3's largest single
+yield was round-2 fixes that were wrong. The untested hypothesis is that round-1
+fixes are wrong too. Nothing in the loop would currently surface that.
