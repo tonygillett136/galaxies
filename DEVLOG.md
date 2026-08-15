@@ -849,3 +849,152 @@ synthesis was right about why the process itself is the weak point: **round-1
 fixes have not been re-verified since round 1**, and round 3's largest single
 yield was round-2 fixes that were wrong. The untested hypothesis is that round-1
 fixes are wrong too. Nothing in the loop would currently surface that.
+
+---
+
+## Round 4: the round that found my fixes were the problem
+
+*2026-08-15, 01:38 to 04:00.*
+
+Half the board on the new code, half aimed at the blind spots round 3's own
+synthesis had named: round-1 fixes never re-verified, the GPU path that actually
+ships, data provenance, and the review process itself. Two new lenses — a
+regression auditor and a performance engineer.
+
+**36 findings, 30 confirmed, 8 critical, 6 regressions.** One verdict of *serious
+problems*. It was the strongest round by a distance, and most of its criticals
+were mine from round 3.
+
+### The demonstration I want to remember
+
+A reviewer proved my friction-gate test inert by **deleting the gate from
+`cpu.js` entirely** and running the suite. It passed with byte-identical output.
+
+The test re-implemented the gate locally instead of calling it, so it was
+checking a copy of the logic against itself while the shipped code could be
+removed without consequence. Round 3's lesson was "a fix can be present,
+commented as handled, and wrong". Round 4's is sharper: **a fix can be present,
+commented as handled, and validated by an assertion that cannot fail, in a regime
+the application never enters.**
+
+### My gate was wrong in both directions at once
+
+Round 2's gate was inert. I diagnosed that correctly and replaced it with
+`R_perturber / separation`, which sounded like the right physical quantity —
+Chandrasekhar assumes a point perturber in a locally uniform field, so compare
+the perturber's size to the scale over which the field varies.
+
+It failed at both ends. Beyond ~100 kpc both weights are exactly 1 and the M²
+pathology runs at **20.4x** the physical term. Below ~33 kpc it zeroes *all*
+drag, which is where friction physically dominates. **58.7% of the shipped
+merger's dissipation came from the term the file itself calls "the formula being
+used outside its domain."**
+
+I found the too-strict half myself the previous evening, by noticing the merger
+no longer merged. I did not find the too-loose half, and I would not have: I had
+tested the gate at close separations because that was where I expected trouble.
+
+Worse, one bad criterion undid two earlier rounds. Round 1 added friction
+precisely so that "a scenario blurbed as a merger" could merge; round 2 raised
+`tSpan` so a user could scrub to the second passage. My gate broke both.
+
+The right criterion is the size **asymmetry** — which is exactly what round 2's
+comment had always said it was. Its bug was taking the minimum over the
+perturber's components and the maximum over the field's, a factor of 40. Using
+the outer scale on both sides restores the stated intent:
+
+| q | big → small | small → big |
+|---|---|---|
+| 1.0 | 1.000 | 1.000 |
+| 0.6 | 0.976 | 1.000 |
+| 0.1 | 0.385 | 1.000 |
+| 0.05 | **0.055** | 1.000 |
+
+Three attempts, and the correct answer was written in a comment the whole time.
+
+### The disc I made thick was not in equilibrium
+
+I set `thickness = 0.1` so the dust could produce a lane. Directly above that
+default was a paragraph I had written earlier explaining that non-zero thickness
+is **not** in equilibrium. I did not read it.
+
+Giving every particle a height and a purely tangential velocity puts them all at
+ψ = 0 — each at its own vertical extremum, at rest in z, *in phase*. They fall
+through the midplane together: rms|z| collapsed 40% in 19 Myr. A coherent
+breathing mode, which is precisely the "looks like a tidal response and is not"
+failure this project's own check table warns about.
+
+And the guard could not see it. The shipped equilibrium assertion measures the
+**spherical** radius, which for these orbits is conserved by construction — it
+returns ~4e-5 at thickness 0, 0.1, 0.5 *and* 2.0. It passes at every thickness,
+including absurd ones.
+
+My first fix was also wrong: a height plus a harmonic vertical velocity at random
+phase is phase-mixed, but it *adds* vertical kinetic energy on top of a tangential
+speed already set for the spherical radius, so the disc flew apart by a factor of
+160. The correct construction is not a displacement at all. In a spherical
+potential every orbit is planar and a circular orbit stays circular, so
+**thickness is orbital inclination**: a circular orbit of radius r tilted by β has
+|x| = r and |v| = v_c(r) exactly. Thick, phase-mixed, and in equilibrium with no
+approximation. Measured rms|z| excursion 4.6%, cylindrical radius 0.02%.
+
+### Two claims retracted
+
+**"The parameters are identifiable in principle from morphology alone."** A
+reviewer ran the control nobody had: an exhaustive 37×73 grid over the loss. The
+global minimum is nowhere near the truth at any N, including 2400, and **Adam's
+own endpoint beats the truth at every N**. What my four-row table measured was
+where a fixed start stops after 200 iterations. Identifiability is a property of
+the argmin. Retracted.
+
+**"The two findings corroborate each other."** They do not. The sky-plane
+degeneracy flips *inclination*; the N=40 fit returns inclination +0.506 against a
+true +0.55, sign unchanged. It is the *node* that lands negative, and the basin
+belongs to a third degeneracy I had not found: (i, ω, Ω) → (−i, ω+π, Ω+π), exact
+at **every** geometry because R_z(π) R_x(−i) R_z(π) = R_x(i) identically. I
+verified it at 5.0e-16.
+
+I had two results that were adjacent in time and both involved a sign, and I
+wrote them into agreement. That is the most seductive error in the whole night's
+work, because corroboration is exactly what you want to find and it costs nothing
+to assert.
+
+### And the file that has now been wrong twice
+
+`docs/IDENTIFIABILITY.md` — heading "Verified, not argued" — had every figure in
+its mass-epoch table stale again, moved by my own pair-force correction. Round 2
+caught the same table. The round-2 fix added a sentence telling the reader that
+*"any future change to the check must regenerate this table rather than leave it
+standing"*, and then a change to the check did exactly that and the table stood.
+
+Which is the argument, as plainly as it can be made, against relying on a
+sentence that asks a human to remember. All six figures are registered in the
+claims guard now. The build fails instead.
+
+### Three galaxies lost to a string join
+
+`build_targets.py` joined Table 1 to Table 4 by name, and three names differ
+between the tables. Three fits were dropped in silence — and the dropped r_min
+values are 1.527, 8.734 and 4.953 kpc, **all below the median**, so the loss fell
+on exactly the deep encounters the domain-of-validity argument turns on. Every
+catalogue statistic in the project was computed on 59 rows of a 62-row table.
+Meanwhile `LITERATURE.md` carries a proud section resolving a *phantom* 62-vs-56
+discrepancy while a real 62-vs-59 one sat one script downstream.
+
+### Instruments that lie
+
+After `device.destroy()` the render loop kept running, the clock kept advancing,
+and the fps readout held a steady 60 — *because* the device was dead. Every GPU
+call becomes a no-op, so the rAF callback lands on vsync exactly. The instrument
+was not merely wrong; it read **best when the situation was worst**, in a project
+whose stated first principle is that instruments must not lie. Now handled:
+`device.lost`, `uncapturederror`, the loop stops, and the readout says GPU LOST.
+
+### Where it stands
+
+**75 assertions, all complete, zero failures**, deployed and verified live.
+Round 4's own verdict is *no*, and it is right: this is an excellent engine with
+an evidence chain that could not, this morning, be trusted end to end. It is
+better now than it was at midnight, and the honest summary is that four rounds
+have moved the defects steadily *upward* — from the physics, to the fixes, to the
+tests that guard the fixes, to the documents that describe them.

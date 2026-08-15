@@ -180,5 +180,33 @@ export async function createDevice() {
       maxBufferSize: Math.min(lim.maxBufferSize, 1 << 30),
     },
   });
+  // DEVICE LOSS AND UNCAPTURED ERRORS, which the app had no handling for at all.
+  //
+  // Round 4 destroyed two sim buffers under a live loop and got 185 uncaptured
+  // errors in 700 ms with zero app-side logging — and the fps readout went UP.
+  // After device.destroy() the rAF loop kept running, sim.time kept advancing,
+  // and the instrument read a steady "60 fps / 16.7 ms" — precisely BECAUSE the
+  // device was dead: every GPU call becomes a no-op, so the callback lands on
+  // vsync exactly. The frame counter times rAF deltas and never awaits the GPU.
+  //
+  // In a project whose stated first principle is that instruments must not lie,
+  // that is the worst possible failure mode: the reading is not merely wrong,
+  // it is BEST when the situation is worst.
+  //
+  // `device.lost` is a promise that never rejects, so this cannot throw; the flag
+  // it sets is what the render loop and the fps readout consult.
+  device.__lost = null;
+  device.lost.then((info) => {
+    device.__lost = info;
+    console.error(`WebGPU device lost (${info.reason}): ${info.message}`);
+    globalThis.dispatchEvent(new CustomEvent('gpudevicelost', { detail: info }));
+  });
+  device.addEventListener?.('uncapturederror', (e) => {
+    device.__errorCount = (device.__errorCount ?? 0) + 1;
+    // log the first few in full, then count, so a runaway does not drown the console
+    if (device.__errorCount <= 5) console.error('WebGPU uncaptured error:', e.error?.message ?? e.error);
+    else if (device.__errorCount === 6) console.error('WebGPU: further uncaptured errors suppressed');
+  });
+
   return { adapter, device, info: adapter.info ?? {} };
 }

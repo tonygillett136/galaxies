@@ -67,9 +67,27 @@ export class App {
         $('fitWarn').textContent = 'Run data/build_targets.py to fetch the observed-target catalogue.';
       });
 
+    // Stop pretending after the device goes away. Without this the loop keeps
+    // running, the clock keeps advancing and the fps readout keeps saying 60.
+    globalThis.addEventListener('gpudevicelost', (e) => this.onDeviceLost(e.detail));
+
     new ResizeObserver(() => this.resize()).observe(canvas);
     this.resize();
     requestAnimationFrame(() => this.frame());
+  }
+
+  /** The device is gone: stop the loop and say so, rather than reading 60 fps. */
+  onDeviceLost(info) {
+    this.deviceLost = info ?? { reason: 'unknown', message: '' };
+    this.playing = false;
+    $('fps').textContent = '— fps';
+    $('ms').textContent = 'GPU LOST';
+    const el = $('busy');
+    if (el) {
+      el.style.display = 'block';
+      el.style.color = 'var(--warm)';
+      el.textContent = `GPU device lost (${this.deviceLost.reason}) — reload to continue`;
+    }
   }
 
   resize() {
@@ -462,6 +480,7 @@ export class App {
     this.camera.update();
     this.renderer.render(this.ctx.getCurrentTexture().createView(), this.sim, this.camera, now * 0.001);
     this.updateInstruments(frameMs);
+    if (this.deviceLost) return;          // do not keep drawing a dead device
     requestAnimationFrame(() => this.frame());
   }
 
@@ -480,6 +499,7 @@ export class App {
   }
 
   updateInstruments(frameMs) {
+    if (this.deviceLost) return;
     const sorted = [...this.frameTimes].sort((a, b) => a - b);
     const med = sorted[Math.floor(sorted.length / 2)] || frameMs;
     $('fps').textContent = `${(1000 / med).toFixed(0)} fps`;

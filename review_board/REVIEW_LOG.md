@@ -264,3 +264,123 @@ Also unexamined across all three rounds: the GPU float32 path (the thing that
 actually ships), any measured frame rate on a full scene by a reviewer, the
 catalogue's provenance against its published source, and the units boundary. And
 no reviewer represents a person without dev tools.
+
+---
+
+## Round 4 — 2026-08-15 01:38 to 02:57, on a FROZEN tree
+
+Half the board re-attacked the new code; half was aimed at what the *process* had
+never examined, from round 3's own list of blind spots. Two new lenses replaced
+two returning ones: a **regression auditor** (round-1 fixes had never been
+re-verified) and a **GPU/performance engineer** (the interactive tier is what
+ships and had the least adversarial attention of anything).
+
+**36 findings. 30 confirmed, 6 partial, 0 refuted. 8 critical, 6 regressions.**
+Verdicts: five "not yet", one **"serious problems"**.
+
+This was the strongest round by a distance, and most of its criticals are defects
+I introduced in round 3.
+
+### The pattern got worse, not better
+
+Round 3's headline was "four round-2 fixes are present, commented as handled, and
+wrong". Round 4 found at least six of the same kind, and sharpened the diagnosis:
+**a fix, present, commented as handled, validated by an assertion that cannot
+fail, in a regime the application never enters.**
+
+The demonstration is the one that should be remembered. A reviewer proved the
+friction-gate test inert by **deleting the gate from `cpu.js` entirely** and
+running the suite: it passed with byte-identical output, because the test
+re-implemented the gate locally instead of calling it.
+
+### My friction gate was wrong in both directions
+
+| | criterion | failure |
+|---|---|---|
+| Round 2 | min-over-perturber ÷ max-over-field | inert, w = 1.0000 always |
+| Round 3 (mine) | R_perturber / separation | **both** directions |
+| Round 4 | R_perturber / R_field, outer scale both sides | — |
+
+Mine failed to suppress where the pathology is **20.4x** the physical term
+(beyond ~100 kpc both weights are 1), and suppressed *everything* below ~33 kpc,
+where friction physically dominates. **58.7% of the shipped merger's dissipation
+came from the term the file itself calls "the formula being used outside its
+domain."**
+
+I found the too-strict half myself, by measuring the merger. I did **not** find
+the too-loose half. And the too-strict half had destroyed round 1's "a scenario
+blurbed as a merger must merge" and defeated round 2's `tSpan` fix — one bad
+criterion undoing two earlier rounds' work.
+
+### Everything else it found in my round-3 work
+
+- **`periConverged: true` was a hardcoded literal** on the bound branch. With
+  friction, r_p = 60 executed **0.012 kpc** — a full plunge — and reported
+  converged. That is exactly the silent non-solution the flag exists to prevent.
+- **`executedApo` was computed from the request**, so the eccentricity assertion
+  reduced algebraically to "requested equals requested" and could not fail on the
+  quantity in its own name.
+- **The disc was out of vertical equilibrium.** Setting `thickness = 0.1` put
+  every particle at ψ = 0, in phase; rms|z| collapsed 40% in 19 Myr. The guard
+  measures the SPHERICAL radius, conserved by construction, and passes at
+  thickness 0, 0.1, 0.5 and 2.0.
+- **The claims guard's sensitivity check asserted that 0.5 > 0.05**, never
+  touching CLAIMS, a regex, or the comparison loop. And a NaN capture passed
+  silently, because `NaN > tol` is false.
+- **The drag impulse cap was dimensionally inconsistent** — `0.25/dt` compared
+  against an acceleration, equal only when v = 1.
+- **`IDENTIFIABILITY.md` was stale again**, every figure moved by my pair-force
+  fix, in the file headed "Verified, not argued" — one round after round 2 caught
+  the same table, and directly under a sentence I had added telling the reader to
+  regenerate it.
+
+### And the two findings that change what the project may claim
+
+**The identifiability conclusion is contradicted by the shipped objective.** An
+exhaustive 37×73 grid — the control nobody had run — puts the global minimum
+nowhere near the truth at any N including 2400, and Adam's own endpoint beats the
+truth at every N. Retracted.
+
+**A second exact degeneracy, stronger than the one I documented.**
+(i, ω, Ω) → (−i, ω+π, Ω+π) is bit-identical at **every** geometry, because
+R_z(π) R_x(−i) R_z(π) = R_x(i). I verified it independently at 5.0e-16. My
+"the two findings corroborate each other" was **false corroboration** — the
+reflection flips inclination, and inclination keeps its sign in the N=40 fit.
+
+### What round 4 verified as CORRECT
+
+Worth as much as the findings, because it tells the project what to stop
+re-litigating. Three reviewers attacked the pair force with three independently
+written quadratures and could not break it: **5.5e-5** against independent 2-D
+integration, F = dW/dd to **1.7e-7** through the Hermite table, turning points to
+**4e-14** at every corner of the slider, Newton's third law exact by construction.
+The bound-orbit closed form, the units, the deployed bundle, the absence of
+`layout: 'auto'`, no buffer or texture leaks, science view's linearity, WCAG AA,
+and all four round-3 UI fixes were confirmed by measurement.
+
+### Applied
+
+Friction gate rewritten on size asymmetry, with the test now calling the shipped
+function. Disc thickness reimplemented as **orbital inclination** (a circular
+orbit tilted by β has |x| = r and |v| = v_c(r) exactly, so it is thick *and* in
+equilibrium), with new rms|z| and cylindrical-radius assertions and a sensitivity
+check that the superseded construction fails them. Impulse cap corrected.
+`periConverged` derived; `executedApo` measured. Merger retuned (lnΛ 0.6 → 0.2)
+and `tSpan` extended so the coalescence at 1944 Myr is actually reachable, with
+an assertion that it merges **and** merges inside its own timeline. Claims guard
+made able to fail, and `IDENTIFIABILITY.md`'s six figures registered in it. The
+Table 1/Table 4 join fixed — three fits recovered, all below the median r_min —
+and every catalogue statistic re-derived on 62. Seek chunked and the atlas pad
+coalesced (worst main-thread block 2,200 → 100 ms) with a busy indicator.
+`device.lost` and `uncapturederror` handled, and the fps readout no longer reads
+60 against a destroyed device.
+
+Assertions **71 → 75**.
+
+### Not done, and why
+
+Batching the GPU submits — the real fix for the 1.6 s scrub — needs a
+bind-group-layout change with per-dispatch dynamic offsets. Every one of this
+project's worst bugs has come from bind-group layouts, and it was 3am. Logged
+rather than rushed. The dust lane (S-13), the Detect residual instrument (S-14),
+the multi-seed N-scaling (S-17) and the LRL check remain open.

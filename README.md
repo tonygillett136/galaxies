@@ -13,8 +13,19 @@ carries the reasoning that nothing else does.
 ## What it does
 
 Two galaxies, gravity, and nothing else — and out of that come bridges, tidal tails, rings,
-warps and mergers. 300,000 massless test particles orbiting live analytic potentials on the
-GPU at 60 fps.
+warps and mergers. 280,000-350,000 massless test particles orbiting live analytic potentials
+on the GPU.
+
+**The frame rate, stated properly**, because the project's own check table demands the
+scenario, the epoch, N and the resolution and no reviewer had ever measured it: median
+**16.6-16.7 ms (59.9-60.2 fps)** with p95 18.4-18.7 ms, measured over 150 frames on the FULL
+scene at a 2400x2328 backing store (DPR 2) on an Apple M4. That is every shipped scenario —
+prograde, antennae, ring, merger and flyby — so the best and the worst are 0.3 fps apart and
+the figure is vsync-limited rather than headroom-limited.
+
+Scrubbing is NOT 60 fps: one `queue.submit` per step makes a full-span seek cost ~1.6 s of
+wall time. It is chunked across frames with a busy indicator so the tab stays alive, and
+batching the submits is an open action.
 
 Four modes:
 
