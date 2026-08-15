@@ -531,13 +531,16 @@ fn fsComposite(in : VOut) -> @location(0) vec4f {
     let dens = textureSample(hdr, samp, in.uv).a;
     let v = vec3f(dens / C.params2.w);           // params2.w = fixed full scale
     if (v.r >= 1.0) {
-      return vec4f(1.0, 0.0, 0.85, 0.0);         // CLIPPED — out of range, not just bright
+      return vec4f(1.0, 0.0, 0.85, 1.0);         // CLIPPED — out of range, not just bright
     }
     // sRGB display encode (exact piecewise form, not the 2.2 approximation)
     let lo = v * 12.92;
     let hi = 1.055 * pow(max(v, vec3f(1e-8)), vec3f(1.0 / 2.4)) - 0.055;
     let srgb = select(hi, lo, v <= vec3f(0.0031308));
-    return vec4f(srgb, 0.0);
+    // OPAQUE. The science view is a calibrated instrument, not an overlay:
+    // pixel value maps to density by a stated rule, so nothing may show through
+    // it. At alpha 0 it was subject to the same clamp as the main path.
+    return vec4f(srgb, 1.0);
   }
 
   var col = mix(h, h + b, C.params.y) * C.params.x;
@@ -550,10 +553,25 @@ fn fsComposite(in : VOut) -> @location(0) vec4f {
   let d = length(in.uv - vec2f(0.5)) * 1.414;
   col = col * (1.0 - C.params.w * d * d);
 
-  // Alpha 0 with premultiplied compositing means the canvas ADDS its light to
-  // whatever is behind it and never obscures it. In sandbox that is black, so
-  // nothing changes; in detective mode it is a real SDSS frame, and the
-  // simulation lays over the observation the way light actually would.
-  return vec4f(col, 0.0);
+  // ALPHA MUST NOT BE ZERO WHILE RGB IS NOT.
+  //
+  // This returned vec4f(col, 0.0) to get purely additive compositing over the
+  // SDSS backdrop — light that adds and never obscures. Firefox does exactly
+  // that, so it looked correct for the whole build.
+  //
+  // But it relies on undefined behaviour. With alphaMode 'premultiplied' the
+  // colour is declared ALREADY multiplied by alpha, which REQUIRES rgb <= a.
+  // rgb > 0 at a = 0 is out of gamut, and an implementation is free to resolve
+  // it by clamping rgb to alpha — i.e. to black. That is the reported symptom
+  // exactly: a black canvas in Chrome and Safari with the HUD, the frame
+  // counter and the particle count all perfectly alive on top of it, on a real
+  // Metal adapter with isFallbackAdapter false and a steady 60 fps.
+  //
+  // Alpha is now the peak channel, so rgb <= a holds by construction. Empty sky
+  // keeps alpha 0 and stays transparent, so the observation still shows through
+  // it in Detect; bright structure carries its own alpha and lays over the
+  // frame. Defined everywhere, instead of correct in one browser by luck.
+  let a = clamp(max(col.r, max(col.g, col.b)), 0.0, 1.0);
+  return vec4f(col, a);
 }
 `;
