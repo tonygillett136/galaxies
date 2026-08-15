@@ -142,9 +142,29 @@ body.collapsed #sciNote{left:16px}
 body.science{--accent:var(--good)}
 body.science #hudTop b{color:var(--good)}
 
-@media (max-width:760px){
-  #panel{width:100%;transform:translateX(-100%)}
+/* MOBILE: the panel must not eat the picture.
+   It was width:100%, so opening the controls hid the entire simulation — and a
+   slider you cannot see the effect of is not a control, it is a guess. On a
+   phone it now takes the bottom 52% as a sheet, leaving the encounter visible
+   above it, which is the only arrangement in which changing a tilt teaches you
+   anything. Landscape phones keep the side drawer, narrowed, because there is
+   no vertical room to spare. */
+@media (max-width:760px) and (orientation:portrait){
+  #panel{
+    width:100%; max-width:none; height:52svh; top:auto; bottom:0;
+    border-right:none; border-top:1px solid var(--line);
+    transform:translateY(100%); border-radius:14px 14px 0 0;
+  }
   body:not(.collapsed) #panel{transform:none}
+  #panelToggle{top:auto; bottom:14px; left:14px}
+  body:not(.collapsed) #panelToggle{left:auto; right:14px; bottom:calc(52svh + 10px)}
+  #view{height:48svh}
+  #timeline{left:16px; right:16px; bottom:calc(52svh + 54px)}
+  #targetName{left:16px}
+  #hudTop{font-size:10px}
+}
+@media (max-width:760px) and (orientation:landscape){
+  #panel{width:min(320px,55%)}
   #panelToggle{left:14px}
   body:not(.collapsed) #panelToggle{left:auto;right:14px}
   #timeline,#targetName{left:16px}
