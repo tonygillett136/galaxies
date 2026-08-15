@@ -290,6 +290,20 @@ export async function runMorphologyTests(device) {
     }
     const peak = Math.max(...fracs);
     ok(peak > 0.005, `all three softenings gave <0.5% tidal material; the sweep cannot detect anything`);
+    // THE KNOB MUST BE CONNECTED. Round 6 deleted `softeningScale` from the model
+    // entirely and this check still passed, because it asserted only that the
+    // tidal fraction was non-zero — the three arms became identical, the spread
+    // went 0.9% -> 0.0%, and nothing objected. A sweep over a parameter that does
+    // nothing reports the same shape as a sweep over a parameter that is
+    // insensitive, and the project's whole point about silent knobs is that those
+    // are different.
+    //
+    // The MAGNITUDE stays recorded rather than asserted, which is the honest
+    // design. What is asserted is that varying the knob varies the answer at all.
+    const distinct = new Set(fracs.map((f) => f.toFixed(6))).size;
+    ok(distinct === fracs.length,
+      `softening produced ${distinct} distinct results from ${fracs.length} settings `
+      + `(${fracs.map((f) => (f * 100).toFixed(3) + '%').join(', ')}) — the parameter is not reaching the model`);
     const spread = (peak - Math.min(...fracs)) / peak;
     return `tidal fraction ${fracs.map((f) => (f * 100).toFixed(2) + '%').join(' / ')} at 0.5x/1x/2x softening, spread ${(spread * 100).toFixed(1)}% — RECORDED, not asserted`;
   });

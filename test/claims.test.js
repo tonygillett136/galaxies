@@ -20,6 +20,22 @@
  * wrong measurement still passes. It converts a silent failure into a loud one
  * for the figures that matter most; it is not a proof that the documents are
  * true.
+ *
+ * DELIBERATELY NOT REGISTERED, and named so the omission is a decision rather
+ * than an oversight:
+ *
+ *   - THE FRAME RATE (README: 16.6-16.7 ms median, 59.9-60.2 fps). It is a manual
+ *     measurement of the full application over 150 frames at a stated resolution,
+ *     and no automated suite reproduces it. Registering it against a hardcoded
+ *     literal would make the guard compare the document to a number someone typed
+ *     — which looks guarded and is not, and is the exact failure this file exists
+ *     to prevent. Round 6 changed it to 166 ms and nothing objected; that remains
+ *     true and is stated here rather than papered over.
+ *   - Anything in `src/app` or `src/render`, which no headless check reaches.
+ *
+ * Registering a figure against a value invented for the purpose is worse than
+ * leaving it unregistered, because it converts a known gap into a false
+ * assurance.
  */
 
 import { group, checkAsync, expectChecks, ok } from './harness.js';
@@ -90,6 +106,13 @@ const CLAIMS = [
     key: 'catalogueOutside', tol: 0.001, what: 'domainOfValidity docstring, total outside' },
   { file: 'src/engine/encounter.js', re: /across the (\d+)\n \* Galaxy Zoo systems with a published fit/,
     key: 'catalogueN', tol: 0.001, what: 'encounter.js catalogue size' },
+  // Round 6 made the README frame rate 10x wrong and replaced five DEVLOG
+  // morphology figures with nonsense; both survived, because neither was
+  // registered. A guard covers what it is told about and nothing else.
+  { file: 'DEVLOG.md', re: /Prograde tidal fraction\n3\.9% → \*\*([\d.]+)%\*\*/,
+    key: 'tidalProgradePct', tol: 0.06, what: 'DEVLOG prograde tidal fraction' },
+  { file: 'DEVLOG.md', re: /retrograde zero → \*\*([\d.]+)%\*\*/,
+    key: 'tidalRetroPct', tol: 0.10, what: 'DEVLOG retrograde tidal fraction' },
 ];
 
 /**
