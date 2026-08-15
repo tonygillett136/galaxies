@@ -9,6 +9,7 @@
  */
 
 import { group, checkAsync, expectChecks, below, above, ok } from './harness.js';
+import { COMPOSITE_WGSL } from '../src/render/shaders.js';
 import { record } from './measured.js';
 import { plummer, hernquist, composite } from '../src/engine/potentials.js';
 import { RestrictedSim } from '../src/engine/cpu.js';
@@ -46,9 +47,52 @@ const worstOf = (gpuVec4, cpuVec3, n) => {
   return worst;
 };
 
+/**
+ * PREMULTIPLIED ALPHA IS A CONTRACT: rgb <= a.
+ *
+ * The composite pass returned `vec4f(col, 0.0)` for the whole life of the
+ * project, to get purely additive light over the SDSS backdrop. Firefox renders
+ * that as intended. Chrome and Safari are entitled to resolve the out-of-gamut
+ * value by clamping rgb down to alpha — to black — and both did. The result was
+ * a BLACK CANVAS on two of the three engines, with the HUD, the frame counter
+ * and the particle count all alive on top of it, on real hardware at 60 fps.
+ *
+ * Eight review rounds and 311 findings did not catch it, and neither did any
+ * check here, because every automated measurement screenshotted the CANVAS
+ * ELEMENT — which captures the texture and bypasses page compositing entirely.
+ * The instrument was structurally blind to the whole class of defect. A user
+ * found it in one minute by opening the page in a second browser.
+ *
+ * This is a source-level check rather than a rendered one, which is weaker than
+ * this project likes. It is here because it would have caught the actual defect
+ * and it costs nothing; the rendered version needs a real compositor and is an
+ * open action.
+ */
+function assertNoZeroAlphaEmission() {
+  const bad = [];
+  // every `return vec4f(<something>, 0.0)` in the composite path
+  const re = /return\s+vec4f\(([^;]*?),\s*0\.0\s*\)/g;
+  let m;
+  while ((m = re.exec(COMPOSITE_WGSL)) !== null) bad.push(m[0].replace(/\s+/g, ' ').slice(0, 90));
+  return bad;
+}
+
 export async function runGpuTests(device, info) {
-  expectChecks(5);
+  expectChecks(6);
   group('GPU kernel vs CPU reference — two implementations, one physics');
+
+  await checkAsync('the composite pass never emits colour at zero alpha', async () => {
+    // See assertNoZeroAlphaEmission above: this is the defect that made the
+    // canvas black in Chrome and Safari while Firefox looked perfect.
+    const bad = assertNoZeroAlphaEmission();
+    ok(bad.length === 0,
+      `the composite shader returns colour with alpha 0 in ${bad.length} place(s): ${bad.join(' | ')}. `
+      + 'The canvas is configured alphaMode "premultiplied", which declares rgb as ALREADY '
+      + 'multiplied by alpha and therefore requires rgb <= a. rgb > 0 at a = 0 is out of gamut, '
+      + 'and Chrome and Safari resolve it by clamping rgb to alpha — a black canvas on two of '
+      + 'three engines, with everything else working perfectly.');
+    return 'no zero-alpha colour returns in the composite path (premultiplied requires rgb <= a)';
+  });
 
   await checkAsync('adapter reports as expected', async () =>
     `${info.vendor ?? '?'} / ${info.architecture ?? '?'}`);
