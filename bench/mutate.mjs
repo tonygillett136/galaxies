@@ -133,6 +133,12 @@ const MUTATIONS = [
     find: '        const worst = Math.max(F / gs[0].mass, F / gs[1].mass);',
     to:   '        const worst = Math.min(F / gs[0].mass, F / gs[1].mass);' },
 
+  { name: 'physics/softened-test-particle-force', kills: ['LRL drift'],
+    why: 'CLAUDE.md: energy and angular momentum are conserved by ANY central force; only LRL detects a wrong force law',
+    file: 'src/engine/potentials.js',
+    find: "      const inv = 1 / Math.sqrt(r2);\n      const f = -mass * inv * inv * inv;\n      out[0] = f * dx; out[1] = f * dy; out[2] = f * dz;\n      return out;\n    },\n    vcirc: (r) => Math.sqrt(mass / r),",
+    to:   "      const inv = 1 / Math.sqrt(r2);\n      const f = -mass * inv * inv * inv * (1 + 1e-3 * inv);\n      out[0] = f * dx; out[1] = f * dy; out[2] = f * dz;\n      return out;\n    },\n    vcirc: (r) => Math.sqrt(mass / r)," },
+
   { name: 'units/wrong-G', kills: ['velocity unit', 'Earth'],
     why: 'round 1: the units check must be independent of the derivation it checks',
     file: 'src/engine/units.js',
@@ -152,7 +158,10 @@ try { p.runPhysicsTests(); a.runAdjointTests(); } catch (e) {
 h.report(null);
 const r = globalThis.__testResults;
 console.log(JSON.stringify({ total: r.total, expected: r.expected, failed: r.failed, complete: r.complete,
-  failing: r.results.filter((x) => !x.pass).map((x) => x.name).slice(0, 4) }));
+  // NOT truncated. Slicing this to 4 made the harness report MISATTRIB for a
+  // mutation its named guard DID catch, purely because the guard was fifth in the
+  // list — the instrument's own reporting hiding the result it was measuring.
+  failing: r.results.filter((x) => !x.pass).map((x) => x.name) }));
 `;
 
 function runIn(dir) {

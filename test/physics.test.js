@@ -23,7 +23,7 @@ import { record } from './measured.js';
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(53);
+  expectChecks(55);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -536,6 +536,73 @@ export function runPhysicsTests() {
     sim.run(K.period(mu, 0.5, 1.0) / 8000, 8000 * 3);
     const A1 = K.laplaceRungeLenz(mu, Array.from(sim.pos), Array.from(sim.vel));
     return above(dist(A0, A1) / norm(A0), 0.05, 'LRL drift with softening = r_peri/2');
+  });
+
+  check('LRL drift on the TEST-PARTICLE path CONVERGES at second order', () => {
+    // The existing LRL checks run on the two-body galaxy pair. The TEST-PARTICLE
+    // integrator is a different code path — particles feel P.accel() directly and
+    // never touch the pair force — and it is the path 300,000 particles use. It
+    // had no LRL check, which is the one CLAUDE.md names as THE force-law test:
+    // energy and angular momentum are conserved by ANY central force, so neither
+    // can tell an inverse-square law from a softened one.
+    //
+    // A FIXED TOLERANCE WOULD BE THE WRONG TEST, and my first attempt used one.
+    // It failed at 1.17e-4 against a 1e-5 limit — not because the force law is
+    // wrong but because I used a quarter of the steps per orbit that the two-body
+    // check uses, and leapfrog is second order, so 4x the step is 16x the error.
+    // A tolerance chosen without that arithmetic measures the timestep and calls
+    // it physics.
+    //
+    // CONVERGENCE ORDER separates the two. Integration error falls as dt^2; a
+    // wrong force law produces a drift that does NOT converge, because it is a
+    // property of the force rather than of the discretisation.
+    const mu = 2.0, rp = 1.0, e = 0.5;
+    const a = rp / (1 - e);
+    const period = 2 * Math.PI * Math.sqrt(a * a * a / mu);
+
+    const driftAt = (potential, steps) => {
+      const st = K.stateAtTrueAnomaly(mu, e, rp, 0);
+      const particles = { count: 1,
+        pos: Float64Array.from(st.r), vel: Float64Array.from(st.v),
+        radius: new Float32Array([rp]), origin: new Float32Array([0]) };
+      const sim = new RestrictedSim({
+        galaxies: [{ mass: mu, potential, pos: [0, 0, 0], vel: [0, 0, 0] }], particles });
+      const A0 = K.laplaceRungeLenz(mu, Array.from(sim.pos), Array.from(sim.vel));
+      sim.run(period * 3 / steps, steps);
+      const A1 = K.laplaceRungeLenz(mu, Array.from(sim.pos), Array.from(sim.vel));
+      return dist(A0, A1) / norm(A0);
+    };
+
+    const P = pointMass(mu);
+    const d1 = driftAt(P, 6000), d2 = driftAt(P, 12000), d4 = driftAt(P, 24000);
+    const r1 = d1 / d2, r2 = d2 / d4;
+    ok(d4 < d1, `the drift does not fall with resolution (${d1.toExponential(2)} -> ${d4.toExponential(2)})`);
+    ok(r1 > 3.2 && r1 < 5.0 && r2 > 3.2 && r2 < 5.0,
+      `LRL drift is not converging at second order: halving dt gave ratios ${r1.toFixed(2)} and ${r2.toFixed(2)}, `
+      + 'so the residual is a property of the FORCE rather than of the discretisation');
+    record('lrlDriftTestParticle', d4);
+    return `drift ${d1.toExponential(2)} / ${d2.toExponential(2)} / ${d4.toExponential(2)} at 2k/4k/8k steps per orbit, `
+         + `ratios ${r1.toFixed(2)} and ${r2.toFixed(2)} — second order, so it is integration error and not the force law`;
+  });
+
+  check('SENSITIVITY: the test-particle LRL check fails on a SOFTENED potential', () => {
+    // Same orbit through a Plummer sphere of the same mass. If this does not
+    // drift, the check above cannot detect a wrong force law and is decorative.
+    const mu = 2.0;
+    const P = plummer(mu, 0.5);                              // softening = r_peri/2
+    const rp = 1.0, e = 0.5;
+    const st = K.stateAtTrueAnomaly(mu, e, rp, 0);
+    const particles = { count: 1,
+      pos: Float64Array.from(st.r), vel: Float64Array.from(st.v),
+      radius: new Float32Array([rp]), origin: new Float32Array([0]) };
+    const sim = new RestrictedSim({
+      galaxies: [{ mass: mu, potential: P, pos: [0, 0, 0], vel: [0, 0, 0] }], particles });
+    const A0 = K.laplaceRungeLenz(mu, Array.from(sim.pos), Array.from(sim.vel));
+    const a = rp / (1 - e);
+    const period = 2 * Math.PI * Math.sqrt(a * a * a / mu);
+    sim.run(period * 3 / 6000, 6000);
+    const A1 = K.laplaceRungeLenz(mu, Array.from(sim.pos), Array.from(sim.vel));
+    return above(dist(A0, A1) / norm(A0), 0.05, 'test-particle LRL drift through a Plummer sphere');
   });
 
   check('NEWTON III: the pair force is equal and opposite at every mass ratio', () => {
