@@ -15,6 +15,7 @@ import { record } from './measured.js';
 import { GpuSim } from '../src/engine/gpu.js';
 import { buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
 import { TOUR } from '../src/app/tour.js';
+import { speedFromKms } from '../src/engine/units.js';
 
 /**
  * Fraction of a galaxy's own material now beyond `rCut` from its own centre.
@@ -76,7 +77,7 @@ function radialProfile(pos, origin, galaxies, count, gi, RMAX, BINS) {
 }
 
 export async function runMorphologyTests(device) {
-  expectChecks(6);
+  expectChecks(7);
   group('morphology — the physics claims, measured with controls');
 
   // ~85 time units (about 400 Myr past pericentre), where the tidal signal is
@@ -235,6 +236,40 @@ export async function runMorphologyTests(device) {
     above(peak, 1, `radial bin of the peak at the tour's chosen epoch (t = ${step.time})`);
     above(contrast, 2.0, `ring-to-centre contrast at the tour's chosen epoch (t = ${step.time} = ${(step.time * 4.714920).toFixed(0)} Myr)`);
     return `tour lands at t = ${step.time} (${(step.time * 4.714920).toFixed(0)} Myr): peak bin ${peak}, contrast ${contrast.toFixed(1)}x`;
+  });
+
+  await checkAsync('the ring depends on the disc being COLD, and by how much is recorded', async () => {
+    // Round 3: the ring's density contrast is partly an artefact of a perfectly
+    // cold disc, and nothing said so anywhere a user would look. A dispersion
+    // below the solar neighbourhood's sigma_R takes the gain down materially.
+    //
+    // This RECORDS the sensitivity rather than asserting insensitivity, because
+    // the honest expectation is that it matters. Same treatment as softening: the
+    // point is that a future change to the default becomes a visible decision.
+    //
+    // sigma is quoted in km/s and converted, so the comparison to a real galaxy
+    // (Milky Way sigma_R ~ 30-40 km/s at the solar radius) is meaningful.
+    const BINS = 14, RMAX = 50, DT = 0.05;
+    const gains = [];
+    for (const kms of [0, 20, 40]) {
+      const spec = structuredClone(SCENARIOS.ring.spec);
+      spec.particles = 30000;
+      const sig = speedFromKms(kms);
+      spec.disc1 = { ...(spec.disc1 ?? {}), dispersion: sig };
+      const before = await runEncounter(device, spec, 200, DT);
+      const after = await runEncounter(device, spec, 900, DT);
+      const pb = radialProfile(before.pos, before.origin, before.galaxies, before.count, 0, RMAX, BINS);
+      const pa = radialProfile(after.pos, after.origin, after.galaxies, after.count, 0, RMAX, BINS);
+      let peak = 0;
+      for (let b = 1; b < BINS; b++) if (pa[b] > pa[peak]) peak = b;
+      gains.push({ kms, gain: pa[peak] / Math.max(pb[peak], 1e-12), peak });
+    }
+    record('ringGainCold', gains[0].gain);
+    record('ringGainWarm40', gains[2].gain);
+    ok(gains[0].gain > gains[2].gain * 0.999,
+      `a warmer disc produced a STRONGER ring (${gains[0].gain.toFixed(2)} cold vs ${gains[2].gain.toFixed(2)} at 40 km/s), which is backwards`);
+    return gains.map((g) => `${g.kms} km/s -> ${g.gain.toFixed(2)}x (bin ${g.peak})`).join(', ')
+         + ' — RECORDED, not asserted; the shipped default is a cold disc';
   });
 
   await checkAsync('softening changes the answer, and by how much is recorded', async () => {

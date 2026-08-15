@@ -112,7 +112,8 @@ function inverseEnclosed(target) {
  *   which is a discretisation artefact and not a parameter.
  */
 export function exponentialDisc({
-  potential, count, scaleLength, rMax = 4.5, thickness = 0,
+  potential, count, scaleLength, rMax = 4.5, thickness = 0.1,
+  dispersion = 0,
   inclination = 0, argPeri = 0, node = 0,
   retrograde = false, origin = 0,
   centre = [0, 0, 0], velocity = [0, 0, 0], seed = 1,
@@ -143,10 +144,41 @@ export function exponentialDisc({
     // and would slowly breathe on its own. Small (z/R ~ 0.03 here) and precisely
     // the kind of small that is indistinguishable from a weak tidal response.
     const rs = Math.hypot(r, z);
-    const vc = potential.vcirc(rs) * spin;
+    let vc = potential.vcirc(rs) * spin;
 
-    const p = rotateToOrbitFrame([r * Math.cos(th), r * Math.sin(th), z], inclination, argPeri, node);
-    const w = rotateToOrbitFrame([-vc * Math.sin(th), vc * Math.cos(th), 0], inclination, argPeri, node);
+    // VELOCITY DISPERSION, with the asymmetric drift that makes it an
+    // equilibrium rather than an expansion.
+    //
+    // Adding random motion to particles on exactly circular orbits does not give
+    // a warmer disc, it gives a disc with too much kinetic energy, which expands.
+    // Pressure support has to come out of rotation: for an exponential disc of
+    // roughly constant dispersion,
+    //     v_phi^2 = v_c^2 - sigma^2 (R / R_d)
+    // which is the standard asymmetric-drift relation with d ln(rho)/d ln R =
+    // -R/R_d. Clamped at zero so a large sigma at large R cannot invert the spin.
+    //
+    // Default 0, because the ring result depends on it and shipping a change to
+    // that quietly would be exactly the sort of silent knob this project keeps
+    // finding. The sweep is RECORDED in morphology.test.js instead.
+    let sr = 0, sp = 0, sz = 0;
+    if (dispersion > 0) {
+      const v2 = vc * vc - dispersion * dispersion * (r / scaleLength);
+      vc = Math.sign(vc) * Math.sqrt(Math.max(0, v2));
+      // Box-Muller, isotropic-ish with the vertical component colder as observed
+      const g = () => Math.sqrt(-2 * Math.log(1 - rng())) * Math.cos(2 * Math.PI * rng());
+      sr = dispersion * g();
+      sp = dispersion * 0.7 * g();
+      sz = dispersion * 0.5 * g();
+    }
+
+    const ct = Math.cos(th), st = Math.sin(th);
+    const p = rotateToOrbitFrame([r * ct, r * st, z], inclination, argPeri, node);
+    // radial unit vector (ct, st, 0); azimuthal (-st, ct, 0)
+    const w = rotateToOrbitFrame([
+      -vc * st + sr * ct - sp * st,
+      vc * ct + sr * st + sp * ct,
+      sz,
+    ], inclination, argPeri, node);
     pos[i * 3] = p[0] + centre[0]; pos[i * 3 + 1] = p[1] + centre[1]; pos[i * 3 + 2] = p[2] + centre[2];
     vel[i * 3] = w[0] + velocity[0]; vel[i * 3 + 1] = w[1] + velocity[1]; vel[i * 3 + 2] = w[2] + velocity[2];
     radius[i] = r;

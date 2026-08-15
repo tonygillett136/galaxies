@@ -432,7 +432,14 @@ export function buildEncounter(spec) {
     sets.push(exponentialDisc({
       potential: P1, count: Math.round(particles * share),
       scaleLength: disc1.scaleLength ?? 3.0, rMax: disc1.rMax ?? 4.5,
-      thickness: disc1.thickness ?? 0,
+      // REAL THICKNESS. thickness = 0 made the discs razor-thin sheets, which is
+      // not a galaxy and specifically breaks the dust: the two-slab model needs
+      // near-side material to sit in front of far-side material, and a sheet's
+      // two halves occupy disjoint screen regions, so the optical depth landed
+      // where there was nothing to attenuate. 0.1 scale lengths is the figure
+      // galaxy.js's own equilibrium comment already assumed (z/R ~ 0.03).
+      thickness: disc1.thickness ?? 0.1,
+      dispersion: disc1.dispersion ?? 0,
       inclination: disc1.inclination ?? 0,
       // node, not argPeri, is the second meaningful angle: argPeri rotates an
       // axisymmetric disc within its own plane and changes nothing physical
@@ -445,7 +452,8 @@ export function buildEncounter(spec) {
     sets.push(exponentialDisc({
       potential: P2, count: Math.round(particles * share),
       scaleLength: (disc2.scaleLength ?? 3.0) * Math.cbrt(massRatio),
-      rMax: disc2.rMax ?? 4.5, thickness: disc2.thickness ?? 0,
+      rMax: disc2.rMax ?? 4.5, thickness: disc2.thickness ?? 0.1,
+      dispersion: disc2.dispersion ?? 0,
       inclination: disc2.inclination ?? 0,
       node: disc2.node ?? disc2.argPeri ?? 0,
       retrograde: !!disc2.retrograde, origin: 1,
