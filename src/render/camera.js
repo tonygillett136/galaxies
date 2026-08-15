@@ -62,6 +62,20 @@ export class OrbitCamera {
     this._want.distance = Math.min(4000, Math.max(0.5, this._want.distance * Math.exp(delta * 0.0015)));
   }
 
+  /**
+   * A user pan OFFSET, kept separate from the follow point.
+   *
+   * `setTarget` is called by applyFollow() every frame, and it wrote the same
+   * field `pan()` writes, so a shift-drag was overwritten within two frames in
+   * every follow mode except 'bary' — three of four, including the default. The
+   * panel advertised the control and it did nothing. Registering two galaxy
+   * centres onto an SDSS cutout IS a translation, so this is the control Detect
+   * mode most needs.
+   *
+   * The offset is preserved across follow changes and cleared only by reset.
+   */
+  panOffset = [0, 0, 0];
+
   pan(dx, dy, viewportH) {
     // pan in the camera plane, scaled so a drag moves the same screen distance
     // regardless of zoom
@@ -69,10 +83,14 @@ export class OrbitCamera {
     const sp = Math.sin(this.theta), cp = Math.cos(this.theta);
     const right = [cp, 0, -sp];
     const upish = [0, 1, 0];
-    this._want.target = add(this._want.target, add(scale(right, -dx * s), scale(upish, dy * s)));
+    const d = add(scale(right, -dx * s), scale(upish, dy * s));
+    for (let i = 0; i < 3; i++) this.panOffset[i] += d[i];
   }
 
+  /** The follow point. Pan is applied on top of it, so the two do not fight. */
   setTarget(t) { this._want.target = t.slice(); }
+
+  clearPan() { this.panOffset = [0, 0, 0]; }
 
   /** Exponential smoothing towards the wanted state. Called once per frame. */
   update() {
@@ -81,7 +99,10 @@ export class OrbitCamera {
     this.theta += (this._want.theta - this.theta) * k;
     this.phi += (this._want.phi - this.phi) * k;
     this.roll += ((this._want.roll ?? 0) - this.roll) * k;
-    for (let i = 0; i < 3; i++) this.target[i] += (this._want.target[i] - this.target[i]) * k;
+    for (let i = 0; i < 3; i++) {
+      const want = this._want.target[i] + this.panOffset[i];
+      this.target[i] += (want - this.target[i]) * k;
+    }
   }
 
   viewProjection(aspect) {

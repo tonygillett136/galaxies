@@ -539,7 +539,11 @@ export const SCENARIOS = {
   },
   minorMerger: {
     label: 'Minor companion',
-    blurb: 'A ten-to-one companion passing at 14 kpc. Its disc is torn apart while the large galaxy is barely disturbed except for a warp. Note the companion does NOT spiral in: this model has no dynamical friction, so there is no orbital decay and no merger.',
+    // The blurb used to say "this model has no dynamical friction, so there is
+    // no orbital decay and no merger". That stopped being true when friction was
+    // added in round 1, and a user could disprove it with the slider two panels
+    // away. The claim belongs to the SCENARIO, not to the model.
+    blurb: 'A ten-to-one companion passing at 14 kpc. Its disc is torn apart while the large galaxy is barely disturbed except for a warp. Friction is set to zero here, so the orbit does not decay and the pair does not merge — turn the friction slider up and it will.',
     spec: { massRatio: 0.1, rPeri: 14, ecc: 0.85, tStart: -42, particles: 300000,
             disc1: { inclination: 0.1, argPeri: 0, scaleLength: 3.2 },
             disc2: { inclination: 0.9, argPeri: 1.6, scaleLength: 1.5 } },

@@ -16,6 +16,7 @@ import { buildEncounter, SCENARIOS } from '../engine/encounter.js';
 import { timeToMyr, timeFromMyr } from '../engine/units.js';
 import { loadTargets, specFromFit, fitRows } from './detective.js';
 import { TOUR } from './tour.js';
+import { stellarColourJS, rampRange } from '../render/shaders.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -85,7 +86,11 @@ export class App {
   setMode(mode) {
     this.mode = mode;
     for (const b of document.querySelectorAll('#modes button')) b.classList.toggle('on', b.dataset.mode === mode);
-    for (const s of document.querySelectorAll('section.mode')) s.classList.toggle('on', s.dataset.mode === mode);
+    // data-mode is a LIST: the orbit and disc controls are shared between
+    // Sandbox and Detect, because Detect cannot do its job without them.
+    for (const s of document.querySelectorAll('section.mode')) {
+      s.classList.toggle('on', s.dataset.mode.split(/\s+/).includes(mode));
+    }
     const showImg = mode === 'detective';
     $('backdrop').style.opacity = showImg ? String(this.imgOpacity ?? 0.85) : '0';
     $('targetName').style.display = showImg ? 'block' : 'none';
@@ -140,8 +145,26 @@ export class App {
     $('periWarn').style.display = built.spec.periConverged ? 'none' : 'block';
     if (!built.spec.periConverged) {
       $('periWarn').textContent =
-        `Pericentre solver did not converge: requested ${built.spec.requestedPeri.toFixed(1)} kpc, `
-        + `this orbit executes ${built.spec.executedPeri.toFixed(1)} kpc. The value shown is the orbit’s, not yours.`;
+        `Pericentre solver did not converge (${built.spec.periWhy}): requested `
+        + `${built.spec.requestedPeri.toFixed(1)} kpc, this orbit executes `
+        + `${built.spec.executedPeri.toFixed(1)} kpc. The value shown is the orbit’s, not yours.`;
+    }
+
+    // DOMAIN OF VALIDITY. Making a bound orbit actually bound does not make it
+    // modellable. If the two galaxies never separate by more than a disc radius,
+    // a rigid-potential restricted three-body model with discs equilibrated in
+    // isolation is not describing them, and the picture is not evidence of
+    // anything. 21 of the 59 published fits are in that category. Saying so is
+    // the honest behaviour; drawing something anyway is not.
+    const dom = built.spec.domain;
+    const dw = $('domainWarn');
+    if (dom && !dom.ok) {
+      dw.style.display = 'block';
+      dw.textContent = dom.tier === 'inside-disc'
+        ? `OUTSIDE THIS MODEL: ${dom.why}. What is drawn is not a prediction — treat it as a picture of the model failing, not of the galaxies.`
+        : `AT THE EDGE OF THIS MODEL: ${dom.why}. The discs are not close to isolated, so tidal features here are not trustworthy.`;
+    } else {
+      dw.style.display = 'none';
     }
     // t0 anchors the clock to the EXECUTED closest approach, so t = 0 is the
     // moment the timeline marker claims it is.
@@ -260,10 +283,22 @@ export class App {
    */
   updateLegend() {
     const mode = this.renderer.settings.colourMode;
+    // The population bar is SAMPLED from the same ramp the shader uses, over the
+    // t range the shader actually reaches. Hand-written stops advertised the
+    // t = 0 and t = 1 colours while the shader spans only 0.06 to 0.80 on a
+    // 13.5 kpc disc, so both ends of the key showed colours no particle has.
+    const [t0, t1] = rampRange(13.5);
+    const stops = [];
+    for (let i = 0; i <= 8; i++) {
+      const t = t0 + (t1 - t0) * (i / 8);
+      const [r, g, b] = stellarColourJS(t);
+      stops.push(`rgb(${r},${g},${b}) ${(100 * i / 8).toFixed(0)}%`);
+    }
+    const popRamp = `linear-gradient(90deg,${stops.join(',')})`;
     const ramp = 'linear-gradient(90deg,#ff6b2e,#ffdbae,#9ec2ff)';
     const spec = {
       0: { title: 'Stellar population (by birth radius, indicative)',
-           bar: ramp, ends: ['older, inner', 'younger, outer'] },
+           bar: popRamp, ends: ['older, inner', 'younger, outer'] },
       1: { title: 'Origin galaxy',
            bar: 'linear-gradient(90deg,#73b8ff 0 50%,#ff8c4d 50% 100%)',
            ends: ['primary', 'secondary'] },
@@ -442,7 +477,14 @@ export class App {
       this.spec.disc2.node = n('nd2', this.spec.disc2.node ?? 0);
       this.rebuild();
       if (q.has('t')) { this.playing = false; this.seek(parseFloat(q.get('t'))); }
-      if (q.has('cd')) { this.renderer.settings.colourMode = parseInt(q.get('cd'), 10); $('colour').value = q.get('cd'); }
+      // updateLegend() matters as much as the mode itself: without it a shared
+      // ?cd=1 link renders provenance colours under the "Stellar population"
+      // key, which fails on exactly the URLs people send to other people.
+      if (q.has('cd')) {
+        this.renderer.settings.colourMode = parseInt(q.get('cd'), 10);
+        $('colour').value = q.get('cd');
+        this.updateLegend();
+      }
       if (q.get('sci') === '1') { $('science').checked = true; $('science').dispatchEvent(new Event('change')); }
       if (q.has('sp')) { $('speed').value = q.get('sp'); $('speed').dispatchEvent(new Event('input')); }
       if (q.has('fo')) { this.follow = q.get('fo'); $('follow').value = this.follow; }
@@ -595,7 +637,15 @@ export class App {
 
       const modes = ['sandbox', 'detective', 'tour', 'atlas'];
       if (e.key >= '1' && e.key <= '4' && !onControl) this.setMode(modes[Number(e.key) - 1]);
-      if (e.key === ' ') { e.preventDefault(); $('play').click(); }
+      // Space must NOT be stolen from a focused control. Fixing the "shortcuts
+      // die on any focused control" bug overshot the other way: Space is how a
+      // keyboard user toggles a checkbox or presses a button, so the retrograde
+      // checkboxes — the whole point of the prograde/retrograde comparison — had
+      // no keyboard route at all, and every panel button silently paused
+      // playback instead of activating. `s` was gated by !onControl already, so
+      // there was no fallback either.
+      const activates = onControl || tag === 'BUTTON' || e.target.isContentEditable;
+      if (e.key === ' ' && !activates) { e.preventDefault(); $('play').click(); }
       if (e.key === 'r' && !onControl) $('reset').click();
       if (e.key === 's' && !onControl) { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
       if (e.key === 'ArrowLeft') { this.playing = false; this.sim.step(-this.dt * 8); }

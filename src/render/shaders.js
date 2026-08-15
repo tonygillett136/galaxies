@@ -9,6 +9,42 @@
  * without either being authored.
  */
 
+/**
+ * THE STELLAR-POPULATION RAMP, defined once.
+ *
+ * The legend used to hand-write its gradient stops while the shader computed a
+ * different mapping, so the two drifted: the shader's t maxes out at 0.80 on a
+ * 13.5 kpc disc, and the legend advertised the t = 1.0 colour at its blue end —
+ * a colour no particle ever has. Both ends of the key were wrong.
+ *
+ * So the stops and the birth-radius mapping live here, the WGSL is built from
+ * them by interpolation, and the legend samples the JS twin. A drift between the
+ * picture and its key is now impossible rather than merely unlikely, and
+ * `rampRange()` reports the span actually reached.
+ */
+export const RAMP_STOPS = {
+  cool: [1.00, 0.42, 0.18],   // old, metal-rich, bulge-like
+  mid:  [1.00, 0.86, 0.68],   // solar
+  hot:  [0.62, 0.76, 1.00],   // young OB association
+};
+export const RAMP_SLOPE = 0.055, RAMP_OFFSET = 0.06;
+
+/** The JS twin of the WGSL stellarColour(), same arithmetic. */
+export function stellarColourJS(t) {
+  const k = Math.min(1, Math.max(0, t));
+  const { cool, mid, hot } = RAMP_STOPS;
+  const mix = (a, b, u) => a.map((x, i) => x + (b[i] - x) * u);
+  const c = k < 0.5 ? mix(cool, mid, k * 2) : mix(mid, hot, (k - 0.5) * 2);
+  return c.map((x) => Math.round(255 * Math.min(1, Math.max(0, x))));
+}
+
+/** t at the inner and outer edge of a disc of the given extent. */
+export function rampRange(discRadiusKpc = 13.5) {
+  return [Math.min(1, RAMP_OFFSET), Math.min(1, discRadiusKpc * RAMP_SLOPE + RAMP_OFFSET)];
+}
+
+const V3 = (c) => `vec3f(${c.map((x) => x.toFixed(2)).join(', ')})`;
+
 export const SPLAT_WGSL = /* wgsl */ `
 struct Uniforms {
   viewProj    : mat4x4f,
@@ -35,6 +71,7 @@ struct VSOut {
   @location(2) weight : f32,
   @location(3) nearSide : f32,   // 1 if in front of its own galaxy's centre
   @location(4) dustW    : f32,   // dust column contribution
+  @location(5) areaComp : f32,   // min-pixel area compensation, shared by emission and dust
 };
 
 /**
@@ -45,9 +82,9 @@ struct VSOut {
  */
 fn stellarColour(t : f32) -> vec3f {
   let k = clamp(t, 0.0, 1.0);
-  let cool = vec3f(1.00, 0.42, 0.18);   // old, metal-rich, bulge-like
-  let mid  = vec3f(1.00, 0.86, 0.68);   // solar
-  let hot  = vec3f(0.62, 0.76, 1.00);   // young OB association
+  let cool = ${V3(RAMP_STOPS.cool)};   // old, metal-rich, bulge-like
+  let mid  = ${V3(RAMP_STOPS.mid)};   // solar
+  let hot  = ${V3(RAMP_STOPS.hot)};   // young OB association
   if (k < 0.5) { return mix(cool, mid, k * 2.0); }
   return mix(mid, hot, (k - 0.5) * 2.0);
 }
@@ -98,7 +135,7 @@ fn vs(@builtin(vertex_index) vi : u32, @builtin(instance_index) ii : u32) -> VSO
     // entire outer half — and every tidal tail, which comes from exactly there —
     // was one flat colour, and the advertised warm end never appeared at all.
     // 0.055 puts the full ramp across a ~16 kpc disc.
-    c = stellarColour(clamp(birthR * 0.055 + 0.06, 0.0, 1.0));
+    c = stellarColour(clamp(birthR * ${RAMP_SLOPE} + ${RAMP_OFFSET}, 0.0, 1.0));
   }
   out.colour = c;
 
@@ -109,7 +146,15 @@ fn vs(@builtin(vertex_index) vi : u32, @builtin(instance_index) ii : u32) -> VSO
   // shader compile error, an invalid pipeline, and then hundreds of downstream
   // "invalid command buffer" warnings that say nothing about the cause.
   let refSize = U.params.x;
-  out.weight = U.params.y * (refSize * refSize) / (size * size);
+  // The pure geometric part of the flux compensation, kept separate because the
+  // DUST needs it too. Optical depth is a column density: a fixed dust mass
+  // smeared over a larger area gives a smaller tau, by exactly the same factor
+  // the emission is dimmed. Omitting it meant emission dimmed correctly as the
+  // clamp engaged while extinction did not, so dust grew disproportionately
+  // strong the further out you zoomed.
+  let areaComp = (refSize * refSize) / (size * size);
+  out.weight = U.params.y * areaComp;
+  out.areaComp = areaComp;
 
   // --- two-slab dust ---
   //
@@ -158,7 +203,9 @@ fn fs(in : VSOut) -> FragOut {
   var o : FragOut;
   o.far  = e * (1.0 - in.nearSide);
   o.near = e * in.nearSide;
-  o.tau  = vec4f(g * in.dustW * in.nearSide, 0.0, 0.0, 0.0);
+  // areaComp, exactly as the emission carries it: tau is a column density,
+  // so spreading the same dust over a clamped-larger splat must thin it.
+  o.tau  = vec4f(g * in.dustW * in.nearSide * in.areaComp, 0.0, 0.0, 0.0);
   return o;
 }
 `;

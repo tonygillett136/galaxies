@@ -177,7 +177,15 @@ body.science #hudTop b{color:var(--good)}
     <h2>Encounter</h2>
     <div id="scenarios"></div>
     <p class="blurb" id="blurb"></p>
+  </section>
 
+  <!-- ----- SHARED: the orbit and disc controls belong to Sandbox AND Detect -----
+       Detect's whole job is to match a simulated encounter to a real image, and
+       detective.js's own header says "Disc orientations are NOT taken from the
+       published fit. They are the user's to set." They were not settable: every
+       one of these controls was inside the sandbox-only section, so in Detect the
+       mode could not perform its stated function. -->
+  <section class="mode on" data-mode="sandbox detective">
     <h2>Orbit</h2>
     <div class="row"><label for="massRatio">Mass ratio</label><output id="massRatiov"></output></div>
     <input type="range" id="massRatio" min="0.05" max="1" step="0.05" value="1" autocomplete="off">
@@ -204,8 +212,9 @@ body.science #hudTop b{color:var(--good)}
     <p class="note">Spin direction matters more than closeness. Set one retrograde and one
       prograde to get a long tail on one galaxy and almost nothing on the other — that
       asymmetry, not the closeness of the passage, is the dominant effect in a tidal encounter.
-      Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde throws none of
-      60,000 particles.</p>
+      Measured here: prograde throws 15.1% of a disc beyond 20 kpc against 2.5% retrograde,
+      a ratio of 6.0x on identical orbits.</p>
+    <p class="warn" id="domainWarn" style="display:none"></p>
   </section>
 
   <!-- ---------------- DETECTIVE ---------------- -->
@@ -314,7 +323,12 @@ body.science #hudTop b{color:var(--good)}
   <div><b>SCIENCE VIEW</b> — linear in accumulated density</div>
   <div>display 1.0 = <span id="sciScale">—</span> density units · sRGB encode only</div>
   <div style="color:#ff00d9">magenta = clipped (at or above full scale)</div>
-  <div style="color:var(--faint)">no bloom · no tone curve · no dust · no vignette · no starfield</div>
+  <!-- each item nowrap so the line breaks BETWEEN items, never mid-item -->
+  <div style="color:var(--faint)"><span style="white-space:nowrap">no bloom</span> ·
+    <span style="white-space:nowrap">no tone curve</span> ·
+    <span style="white-space:nowrap">no dust</span> ·
+    <span style="white-space:nowrap">no vignette</span> ·
+    <span style="white-space:nowrap">no starfield</span></div>
 </div>
 
 <div class="hud" id="hudTop">
