@@ -91,13 +91,42 @@ established are stated as loudly as the parts that are:
   how you get a confident wrong overlay. Clamping is reported. Photometric redshifts are
   flagged as unreliable, and targets without one say UNCALIBRATED rather than showing a wrong
   scale.
-- **Mass and epoch are an exactly flat direction** (invariant to 3.8e-8). Morphology cannot
-  separate them. See `docs/IDENTIFIABILITY.md` for the declared gauge and for the degeneracies
-  that have *not* been searched for.
+- **THE IDENTIFIABILITY CLAIM IS RETRACTED.** This project published "the parameters are
+  recoverable from morphology alone" and it is not supported by its own objective: an
+  exhaustive grid puts the global minimum nowhere near the truth at any N up to 2400, and the
+  optimiser's own endpoint scores better than the truth. What is established is that the
+  optimiser converges. Whether the objective's minimum *is* the answer is open, and the
+  evidence currently points the wrong way. `docs/IDENTIFIABILITY.md` carries the numbers.
+- **THREE exact degeneracies**, two of them discrete and therefore far more dangerous than the
+  flat one, because a discrete degeneracy gives a confident, tight, WRONG answer with a small
+  residual: mass-epoch (invariant to 9.2e-9), (i, ω, Ω) → (−i, ω+π, Ω+π) which is bit-identical
+  at *every* geometry, and reflection through the sky plane when coplanar.
+- **23 of the 62 published fits lie outside this model's domain** — 15 have an apocentre inside
+  the disc radius, so the two galaxies never separate. Detect says so instead of drawing
+  something.
 - The claimed literature gap rests on **one search session** and is labelled a hypothesis.
-- Dust extinction is a **two-slab approximation**, disabled entirely in science view.
-- Not built: the differentiable inverse problem, amortised posteriors, the 62-system benchmark,
-  viewing-angle parameters, gas, star formation.
+- Dust extinction is a two-slab approximation, disabled in science view — and it does **not**
+  currently produce a visible lane. The extinction's vertical extent is measured *broader*
+  than the emission it should silhouette. Open.
+- A reverse-mode **adjoint exists as a spike**: gradients agree with finite differences to
+  4e-10 and the angle gradient the optimiser consumes is separately asserted. It differentiates
+  disc orientation only, with the galaxy trajectory held fixed.
+- Not built: posteriors, the 62-system benchmark, differentiating through the orbit, gas,
+  star formation, disc self-gravity.
+
+## How much of this is guarded
+
+78 standing assertions is the wrong number to quote on its own, because five review rounds
+found assertions that pass when the code they guard is deleted. So:
+
+```bash
+node bench/mutate.mjs      # reverts each fix; requires the suite to NOTICE
+```
+
+15 mutations, 15 killed, 0 survived — each by the check *named* for it, not by collateral
+damage. It prints its own coverage limits, and they matter: it runs 63 of the 78 checks and
+reaches **0%** of `src/app` and `src/render`. A green run means the engine's node-runnable
+subset is guarded. It does not mean the project is guarded.
 
 ## Data
 
