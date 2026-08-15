@@ -68,6 +68,22 @@ const CLAIMS = [
     key: 'mergerMyr', tol: 0.05, what: 'merger scenario blurb, coalescence epoch' },
   { file: 'src/engine/encounter.js', re: /first passage at ([\d.]+) kpc against a requested 30/,
     key: 'mergerPeriKpc', tol: 0.03, what: 'merger scenario blurb, first passage' },
+  // docs/IDENTIFIABILITY.md — the file round 2 AND round 4 caught with stale
+  // figures, in a document headed "Verified, not argued". Registering it is the
+  // whole point: it had a sentence telling the reader to regenerate the table,
+  // and the table went stale anyway.
+  { file: 'docs/IDENTIFIABILITY.md', re: /\| λ = 1 \| ([\d.]+) \|/,
+    key: 'meanR', tol: 0.01, what: 'IDENTIFIABILITY mass-epoch mean radius' },
+  { file: 'docs/IDENTIFIABILITY.md', re: /\| λ = 1 \| [\d.]+ \| ([\d.]+) \|/,
+    key: 'rmsR', tol: 0.01, what: 'IDENTIFIABILITY mass-epoch rms radius' },
+  { file: 'docs/IDENTIFIABILITY.md', re: /\| λ = 1 \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|/,
+    key: 'maxR', tol: 0.01, what: 'IDENTIFIABILITY mass-epoch max radius' },
+  { file: 'docs/IDENTIFIABILITY.md', re: /\| λ = 1 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|/,
+    key: 'sepR', tol: 0.01, what: 'IDENTIFIABILITY mass-epoch separation' },
+  { file: 'docs/IDENTIFIABILITY.md', re: /rescaling: \*\*([\d.e+-]+)\*\*/,
+    key: 'massEpochInvariance', tol: 0.5, what: 'IDENTIFIABILITY invariance' },
+  { file: 'docs/IDENTIFIABILITY.md', re: /differs by \*\*(\d+) per cent\*\*/,
+    key: 'massEpochControlPct', tol: 0.05, what: 'IDENTIFIABILITY control' },
 ];
 
 export function runClaimsTests() { expectChecks(3); }

@@ -274,7 +274,7 @@ export function runAdjointTests() {
     record('recoveryErrN40', rows[0].err);
     record('recoveryErrN600', rows[rows.length - 1].err);
     return rows.map((r) => `N=${r.n}: err ${r.err.toFixed(3)} (inc ${r.inc.toFixed(2)}, node ${r.nod.toFixed(2)}, floor/L0 ${r.ratio.toFixed(2)})`).join('; ')
-      + ` -- at N=40 the node lands NEGATIVE, i.e. in the mirror basin of the reflection degeneracy`;
+      + ` -- at N=40 the node lands NEGATIVE. NOT the sky-plane reflection (that flips inclination, and inclination keeps its sign here) but the (i,w,W)->(-i,w+pi,W+pi) twin, which is exact at every geometry.`;
   });
 
   check('the ANGLE gradient — the one the optimiser consumes — matches finite differences', () => {

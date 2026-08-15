@@ -22,21 +22,34 @@ with the epoch rescaled, and compares **four** morphological moments:
 
 | | ⟨r⟩ | rms r | max r | separation |
 |---|---|---|---|---|
-| λ = 1 | 20.533 | 21.441 | 39.572 | 40.514 |
-| λ = 4, with t/√λ | 20.533 | 21.441 | 39.572 | 40.514 |
-| λ = 4, control (time NOT rescaled) | 31.804 | 32.848 | 56.498 | 62.675 |
+| λ = 1 | 14.173 | 14.941 | 27.006 | 30.202 |
+| λ = 4, with t/√λ | 14.173 | 14.941 | 27.006 | 30.202 |
 
-Worst relative difference under the rescaling: **3.6e-9**, which is float64
-roundoff over a 3000-step integration. The control differs by **55 per cent**,
-which is what proves the comparison can detect a difference at all.
+Worst relative difference under the rescaling: **9.2e-9**, which is float64
+roundoff over a 3000-step integration. The control — mass scaled, time NOT
+rescaled — differs by **28 per cent**, which is what proves the comparison can
+detect a difference at all.
+
+**These figures are now REGISTERED in `test/claims.test.js`** and read back out of
+this file on every build, because leaving them to be transcribed by hand has
+failed twice.
 
 *These figures are reproducible from the shipped code, and were regenerated from
-it.* An earlier version of this table listed five moments — including an rms
-height that the check does not compute — with numbers from a scratch script that
-used a different particle count. Three reviewers independently found that the
-table could not be produced by the test it cited, in the file whose whole purpose
-is to say what has been verified. Any future change to the check must regenerate
-this table rather than leave it standing.
+it.* The table has now been wrong twice, both times in the file whose whole
+purpose is to say what has been verified.
+
+- **Round 2** found it listing five moments — including an rms height the check
+  does not compute — with numbers from a scratch script at a different particle
+  count. Three reviewers found it independently.
+- **Round 4** found every replacement number stale as well: the pair-force
+  correction moved every trajectory, so the published ⟨r⟩ of 20.533 had become a
+  computed 13.785, a 33 per cent error.
+
+The round-2 fix added the sentence *"Any future change to the check must
+regenerate this table rather than leave it standing."* A change to the check then
+did exactly that, and the table stood. Which is the argument against relying on
+the sentence: the figures are registered in the claims guard now, so the build
+fails instead of the document lying.
 
 ## Consequence
 
@@ -83,7 +96,37 @@ them as free.
 declared gauge, and it is stated where it is set rather than left as a default
 someone might helpfully "fix" later.
 
-## A second exact degeneracy: reflection through the sky plane
+## An exact degeneracy at EVERY geometry: (i, ω, Ω) → (−i, ω+π, Ω+π)
+
+Found in round 4, and it is stronger than the sky-plane reflection below in the
+way that matters: that one is exact only for a coplanar encounter, this one is
+exact **always**.
+
+`rotateToOrbitFrame` applies R_z(Ω) R_x(i) R_z(ω). Since R_z(π) = diag(−1,−1,1),
+
+    R_z(π) R_x(−i) R_z(π) = R_x(i)
+
+identically, so R_z(Ω+π) R_x(−i) R_z(ω+π) **is the same matrix**. Verified
+numerically over four orientations and four vectors: worst component difference
+**5.0e-16**. The two parameter triples do not merely give the same image — they
+give bit-identical states.
+
+Consequences, and they are not small:
+
+- **Every fitted orientation has an exact twin.** A posterior over (i, ω, Ω) is
+  at least 2-to-1 everywhere, not just near special geometries. Reporting a
+  single mode as "the" orientation is reporting one of a pair, arbitrarily.
+- **The recovery metric used elsewhere in this project is wrong for it.**
+  `hypot(inc − TRUE_inc, node − TRUE_node)` scores an exactly equivalent solution
+  as a failure of order π, and it does not wrap the node angle. Recovery must be
+  scored on the symmetry quotient, with angles wrapped.
+- The identifiable set declared below must be read with this quotient applied.
+
+The fix is a gauge, as with mass-epoch: restrict i to [0, π) and let ω and Ω run
+over the full circle. That is a choice, not a discovery, and it must be declared
+rather than assumed.
+
+## A degeneracy exact only when coplanar: reflection through the sky plane
 
 Found in review round 3, and worth recording as much for how long it went
 unnoticed as for what it is. Three rounds of adversarial review searched for
@@ -169,16 +212,39 @@ True values: inclination 0.55, node 0.90.
 
 Three things follow, and only the first was previously claimed.
 
-1. **The error falls with sampling**, so the parameters are identifiable in
-   principle from morphology alone. That is the positive result.
+1. **The error falls with sampling** in the seed pair originally reported. That
+   was published as "the parameters are identifiable in principle from morphology
+   alone", and **that conclusion is retracted** — see the box below.
 2. **At N = 40 it fails outright** — and the ratio says why: two independent
    draws of the *same* disc differ MORE than the true and starting orientations
    do (floor/L(start) = 1.26). There is no signal above the sampling noise. Any
    fit at that resolution is fitting the realisation.
-3. **At N = 40 the node converges to −0.95 against a true +0.90.** That is the
-   reflection degeneracy documented above, caught in the act: the optimiser did
-   not merely fail, it confidently found the mirror image. The two findings were
-   made independently and corroborate each other.
+3. **At N = 40 the node converges to −0.95 against a true +0.90.**
+
+### RETRACTION, from round 4
+
+Two claims made here on the strength of that table were wrong, and both were mine.
+
+**"The parameters are identifiable in principle from morphology alone" is not
+supported by the shipped objective.** An exhaustive 37×73 grid over (i, Ω) — the
+control nobody had run — puts the global minimum nowhere near the truth at ANY N,
+including N = 2400: distance 2.224 / 3.539 / 1.184 / 3.375, with L(argmin) =
+1.23e4 against L(truth) = 1.92e4. **Adam's own endpoint beats the truth at every
+N.** What the four-row table measures is where a fixed start stops after 200
+iterations. Identifiability is a property of the *argmin*, and the argmin does not
+approach the truth over a 60× range in N. The honest statement is that the
+optimiser converges; whether the objective's minimum is the truth is **an open
+question this project has not answered**, and the evidence currently points the
+wrong way.
+
+**"The two findings corroborate each other" is false corroboration.** The
+sky-plane degeneracy flips the INCLINATION. The N = 40 fit returns inclination
+**+0.506** against a true +0.55 — sign unchanged. It is the NODE that lands
+negative, which is a different thing, and the wrong basin at large N belongs to
+the (−i, ω+π, Ω+π) twin documented above rather than to the reflection. I wrote
+a tidy story connecting two results because they were adjacent in time and both
+involved a sign. Two findings agreeing is evidence; two findings I have
+*narrated* into agreeing is not.
 
 ## What is NOT yet established
 

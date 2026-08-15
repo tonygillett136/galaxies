@@ -823,17 +823,21 @@ independent draws of the same disc differ **more** than the true and starting
 orientations do, so there is no signal above the sampling noise — and the node
 converges to **−0.95** against a true **+0.90**.
 
-That negative sign is the reflection degeneracy, caught in the act. I had
-documented it an hour earlier from a completely different direction: reflecting a
-disc's inclination through the sky plane gives L(−inc) = L(+inc) = **0.000e+0
-exactly** for a coplanar encounter, and with the scene's 4 kpc offset it survives
-as a local minimum behind a 12x barrier. Three rounds of degeneracy-hunting missed
-it because all three looked for **continuous** degeneracies. A flat direction
-announces itself; a discrete one produces a confident, tight, wrong answer with a
-small residual and a well-conditioned Hessian.
+I wrote here that the negative sign was the reflection degeneracy caught in the
+act, and that the two findings corroborated each other. **Round 4 showed that was
+false, and it is the mistake from this round I would least like to repeat.**
 
-The two findings were made independently and corroborate each other, which is the
-most reassuring thing that happened all night.
+The reflection degeneracy flips the INCLINATION. The N = 40 fit returns
+inclination +0.506 against a true +0.55 — sign unchanged. It is the NODE that
+lands negative, which is a different quantity entirely. The wrong basin belongs to
+a *third* degeneracy round 4 found and I had not: (i, ω, Ω) → (−i, ω+π, Ω+π),
+which is exact at EVERY geometry rather than only when coplanar, because
+R_z(π) R_x(−i) R_z(π) = R_x(i) identically. Verified to 5.0e-16.
+
+Two results were adjacent in time and both involved a sign, and I narrated them
+into agreement. Two findings agreeing is evidence. Two findings I have *arranged*
+to agree is a story, and it is exactly the kind of story that feels like
+understanding.
 
 ### Where this leaves it
 

@@ -300,7 +300,16 @@ export function runPhysicsTests() {
     const scaled = worst(a, b), control = worst(a, c);
     above(control, 0.2, 'control (mass scaled, time NOT) must differ');
     below(scaled, 1e-6, 'worst moment difference under the mass-time rescaling');
-    return `invariant to ${scaled.toExponential(1)}; control differs by ${(control * 100).toFixed(0)}%`;
+    // RECORDED so docs/IDENTIFIABILITY.md's table is checked rather than
+    // transcribed. Round 2 caught that table listing five moments where this
+    // computes four; round 4 caught every one of its numbers stale again, moved
+    // by the pair-force fix, in the file headed "Verified, not argued". The
+    // claims guard now reads them back.
+    record('meanR', a[0]); record('rmsR', a[1]); record('maxR', a[2]); record('sepR', a[3]);
+    record('massEpochInvariance', scaled);
+    record('massEpochControlPct', control * 100);
+    return `invariant to ${scaled.toExponential(1)}; control differs by ${(control * 100).toFixed(0)}%; `
+         + `moments ${a.map((v) => v.toFixed(3)).join(' | ')}`;
   });
 
   check('plummer converges to point mass as a -> 0', () => {
