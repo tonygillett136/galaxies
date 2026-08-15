@@ -137,6 +137,9 @@ export class App {
     $('blurb').textContent = sc.blurb;
     for (const b of document.querySelectorAll('[data-scenario]')) b.classList.toggle('on', b.dataset.scenario === key);
     this.syncSpecControls();
+    // Frame the new scenario. Loading one and being shown a black frame with a
+    // speck in it is the commonest way this app has looked broken while working.
+    this.frameToContent();
     if (!this.seeking) this.setBusy(false);
   }
 
@@ -484,6 +487,41 @@ export class App {
     requestAnimationFrame(() => this.frame());
   }
 
+  /**
+   * Frame the encounter: set the camera distance so the pair and its tidal
+   * material fill the view.
+   *
+   * The camera distance was fixed at 66 kpc when the app was constructed and
+   * NOTHING ever changed it. Scenarios span 14 to 55 kpc pericentre and separate
+   * to hundreds of kpc, so the subject was routinely a small object in the middle
+   * of a large black frame — visible in review/40-final-live.png, where an 88 kpc
+   * pair occupies about a sixth of the height. The ring scenario, the most
+   * spectacular thing the engine does, ran off the edges entirely.
+   *
+   * The extent is estimated rather than measured: half the current separation
+   * plus a disc radius and a half. Reading 300,000 particle positions back from
+   * the GPU to compute a true bounding radius would cost more than the framing is
+   * worth, and this proxy is within a factor the eye cannot distinguish. It is an
+   * ESTIMATE and is labelled as one — it is not reported as a measurement
+   * anywhere.
+   */
+  contentRadius() {
+    const g = this.sim?.orbit?.galaxies;
+    if (!g || g.length < 2) return 40;
+    const sep = Math.hypot(g[0].pos[0] - g[1].pos[0], g[0].pos[1] - g[1].pos[1], g[0].pos[2] - g[1].pos[2]);
+    const disc = 4.5 * (this.spec?.disc1?.scaleLength ?? 3.0);
+    return Math.max(20, sep * 0.5 + disc * 1.5);
+  }
+
+  /** Set the camera distance to frame the content. `f` at the default fov ~ fills the view. */
+  frameToContent() {
+    const r = this.contentRadius();
+    const fov = this.camera.fov ?? (50 * Math.PI / 180);
+    const d = r / Math.tan(fov / 2) * 1.15;
+    this.camera._want.distance = Math.min(4000, Math.max(8, d));
+    this.camera.clearPan?.();
+  }
+
   /** Point the camera at whatever the user asked to follow. */
   applyFollow() {
     const g = this.sim?.orbit?.galaxies;
@@ -764,6 +802,7 @@ export class App {
       const activates = onControl || tag === 'BUTTON' || e.target.isContentEditable;
       if (e.key === ' ' && !activates) { e.preventDefault(); $('play').click(); }
       if (e.key === 'r' && !onControl) $('reset').click();
+      if (e.key === 'f' && !onControl) this.frameToContent();
       if (e.key === 's' && !onControl) { $('science').checked = !$('science').checked; $('science').dispatchEvent(new Event('change')); }
       if (e.key === 'ArrowLeft') { this.playing = false; this.sim.step(-this.dt * 8); }
       if (e.key === 'ArrowRight') { this.playing = false; this.sim.step(this.dt * 8); }
