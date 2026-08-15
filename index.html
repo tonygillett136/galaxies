@@ -150,16 +150,36 @@ body.science #hudTop b{color:var(--good)}
    anything. Landscape phones keep the side drawer, narrowed, because there is
    no vertical room to spare. */
 @media (max-width:760px) and (orientation:portrait){
+  /* THE CANVAS KEEPS THE FULL VIEWPORT. An earlier version of this shrank
+     #view to 48svh and left #backdrop at inset:0, which misregistered the
+     Detect overlay by 219 px — 54% of the canvas height — while the UI went on
+     printing "Scale matched". A control that occludes is a UX problem; a scale
+     bar that lies is a correctness one. The sheet now OVERLAYS the bottom half
+     instead of resizing the picture, so image and simulation stay in register. */
   #panel{
     width:100%; max-width:none; height:52svh; top:auto; bottom:0;
     border-right:none; border-top:1px solid var(--line);
-    transform:translateY(100%); border-radius:14px 14px 0 0;
+    border-radius:14px 14px 0 0;
   }
+  /* Specificity: `body.collapsed #panel` is (0,2,1) and a media query adds
+     none, so a bare `#panel{transform:...}` here LOSES to it and the sheet slid
+     sideways instead of down — leaving a 72 px strip permanently on screen.
+     Both states are therefore stated at matching specificity. */
+  body.collapsed #panel{transform:translateY(100%)}
   body:not(.collapsed) #panel{transform:none}
   #panelToggle{top:auto; bottom:14px; left:14px}
   body:not(.collapsed) #panelToggle{left:auto; right:14px; bottom:calc(52svh + 10px)}
-  #view{height:48svh}
-  #timeline{left:16px; right:16px; bottom:calc(52svh + 54px)}
+  /* the instruments travel with the sheet, or they end up behind it */
+  body:not(.collapsed) #timeline{bottom:calc(52svh + 54px)}
+  /* !important because #legend and #sciNote carry INLINE bottom values, and an
+     inline style beats any stylesheet rule however specific. Without it these
+     sat 365 px behind the open sheet — the scale bar and the colour key, i.e.
+     the two instruments that make the picture readable, hidden by the controls
+     that change it. */
+  body:not(.collapsed) #legend,
+  body:not(.collapsed) #sciNote,
+  body:not(.collapsed) #scalebar{bottom:calc(52svh + 12px) !important}
+  #timeline{left:16px; right:16px}
   #targetName{left:16px}
   #hudTop{font-size:10px}
 }

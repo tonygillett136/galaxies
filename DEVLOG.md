@@ -1606,3 +1606,110 @@ bulge-only revert dies by name.
 I would not have found that by reading it. I found it because I ran the mutation
 before believing the guard — which is the only habit from this whole night that
 has never once been wrong.
+
+---
+
+## 08:35–09:15 — Round 8, aimed only at what round 7 had just fixed
+
+Seven rounds had each found the previous round's fixes wrong. So the last act of
+the night was to point the board at the previous ninety minutes of work and
+nothing else. Four reviewers, thirteen findings.
+
+**It happened again, and the sharpest finding was structural.**
+
+### The probe tested each tolerance against itself
+
+Round 7 killed two attacks on the claims guard by probing every claim "just
+outside its own declared tolerance". Round 8 pointed out what that actually does:
+
+```js
+const near = truth * (1 + c.tol * 0.5);      // inside
+const far  = truth * (1 + c.tol * 1.5);      // outside
+```
+
+Both bounds are derived from `c.tol`, and they are compared against a comparison
+that also uses `c.tol`. **They agree by construction for any value of `c.tol`
+whatsoever.** Widening one entry from 0.05 to 0.60 ships a 53%-wrong figure while
+the check prints "each at its own declared tolerance".
+
+And this one needs no adversary. It is precisely what anyone does to turn a red
+build green: nudge the tolerance. The guard was built to stop exactly that and
+was blind to exactly that.
+
+Three more attacks landed, each keeping 79/79 green with a real figure wrong:
+pre-seeding the ledger from CLAIMS; laundering a rejection (the ledger recorded
+each verdict and *nothing asserted on the recorded verdict*); and a one-line
+predicate distinguishing probe text from real document text, which defeated the
+ledger and the probe simultaneously.
+
+The fixes: the ledger now records the **matched document text**, which cannot be
+manufactured from the table; the recorded verdicts are asserted, not decorative;
+the tolerances are bounded **here, independently of themselves**, with a sanctioned
+count that has to be edited visibly to raise; and the probe now doctors the **real
+file** and runs it through the same call site, so no predicate can separate a probe
+from a claim. All four attacks now die.
+
+One of my repairs was itself wrong first time round: the forgery check tested
+`src.includes(e.matched)`, and `includes('')` is true for every string, so a
+ledger preseeded with `matched: ''` sailed straight through the check written to
+catch it. An emptiness test is not a provenance test.
+
+### The softening knob, again — I substituted a bigger wrong one
+
+Round 7 found `softeningScale` reached only the bulge (1.42% of the mass) and
+made it multiply all three core radii. Sensitivity went from below the noise floor
+to 21.8x above it, which felt like a clean win.
+
+Round 8 measured what the new knob does to the galaxy: `v_circ(8 kpc)` runs
+**303 / 220 / 152 km/s** across the three arms. Scaling every core radius at fixed
+component mass is a **homology rescaling of the galaxy**, not a change of numerical
+smoothing. Two of the three arms are not the shipped galaxy at all, and would fail
+this project's own flat-rotation-curve assertion; the 2x arm is the ~150 km/s dwarf
+the DEVLOG already rejected once. The response is non-monotonic and near-symmetric
+about the tuned default — the signature of detuning, not of a smoothing limit.
+
+So the check is renamed to what it measures, the prose is corrected, and **the real
+softening study goes back on the open list**. The durable part of round 7's work
+here is the noise-floor arm, which is why the defect was visible at all.
+
+### And the mobile fix I shipped an hour earlier was broken three ways
+
+I moved the phone panel to a bottom sheet and measured 0% occlusion. Round 8
+measured the things I had not:
+
+- `#view` shrank to 48svh and `#backdrop` stayed at `inset:0`, so the **Detect
+  overlay was misregistered by 219 px** — 54% of the canvas height — while the UI
+  went on printing "Scale matched". A control that occludes is a UX problem; a
+  scale bar that lies is a correctness one, and I introduced it while fixing the
+  first.
+- The sheet **never fully hid**: `body.collapsed #panel` is specificity (0,2,1)
+  and a media query adds none, so my bare `#panel{transform:translateY(100%)}`
+  lost and the panel slid sideways instead of down, leaving a 72 px strip.
+- The **legend and scale bar** — the two instruments that make the picture
+  readable — sat 365 px below the canvas, behind the sheet. They carry inline
+  `bottom` values, which beat any stylesheet rule.
+
+All three fixed and measured: sheet fully off-screen when closed, canvas and
+backdrop co-registered to **0 px**, legend 12 px clear of the open sheet.
+
+I had verified the original fix by removing the `collapsed` class in script and
+measuring immediately — which measured a *closed* panel with an unsettled
+transform, and would have passed whatever the CSS said. Third time tonight the
+instrument was the broken thing.
+
+### The three broken instruments, collected
+
+Worth listing together, because it is the real result of the night:
+
+1. `bench/devserver.py` chdirs to its own repo root, so every browser mutation
+   served the original tree and "survived".
+2. An arrow-key test read `sim.time` while the simulation was **playing**, so the
+   clock moved on its own and the control looked stolen.
+3. `curl` without `-L` fetched a 308 redirect body — zero bytes — and I nearly
+   reported a deployment failure that had not happened. That exact pitfall is
+   written in this project's own CLAUDE.md.
+
+Each time the code was fine and the measurement was not. After eight rounds the
+lesson has stopped being "check the code" and become **check the check** — which
+is what mutation testing is, and why it is the only habit here that has never
+once been wrong.

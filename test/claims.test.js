@@ -164,7 +164,17 @@ export const evaluated = [];
 
 export function compareClaim(text, claim) {
   const out = compareClaimInner(text, claim);
-  evaluated.push({ file: claim.file, key: claim.key, status: out.status });
+  // RECORD THE MATCHED TEXT, not just the identity of the claim.
+  //
+  // Round 8 pre-seeded this ledger straight from CLAIMS —
+  // `evaluated = CLAIMS.map((c) => ({file: c.file, key: c.key, status: 'accepted'}))` —
+  // which satisfied both ledger assertions before a single comparison had run,
+  // and combined with round 7's bypass shipped a 6.6x-wrong figure green. An
+  // entry that can be constructed from CLAIMS alone proves nothing about CLAIMS
+  // having been compared. `matched` is a substring of the fetched document, so
+  // it cannot be manufactured from the table, and the check asserts exactly that.
+  const m = typeof text === 'string' ? text.match(claim.re) : null;
+  evaluated.push({ file: claim.file, key: claim.key, status: out.status, matched: m ? m[0] : null });
   return out;
 }
 
@@ -238,9 +248,15 @@ export async function runClaimsChecks(assertionCount) {
     }
     ok(bad.length === 0, bad.join('\n        '));
 
-    // THE LEDGER. Every claim must have gone THROUGH compareClaim, not merely
-    // been iterated over. A bypass that spares the canary leaves these entries
-    // missing, because skipping the call is the whole mechanism of the bypass.
+    // THE LEDGER. Every claim must have gone THROUGH compareClaim, and the
+    // evidence has to be something only the real comparison could produce.
+    //
+    // Round 8 defeated the first version four ways, each keeping 79/79 green
+    // while shipping a wrong figure. All four are guarded here:
+    //   (a) pre-seeding `evaluated` from CLAIMS         -> `matched` must be real document text
+    //   (b) laundering a rejection through the return   -> the recorded STATUS is asserted
+    //   (c) widening ONE claim's declared tolerance     -> tolerances are bounded independently
+    //   (d) discriminating probe text from real text    -> probes now use the real documents
     const seen = new Set(evaluated.map((e) => `${e.file}|${e.key}`));
     const missing = CLAIMS.filter((c) => !seen.has(`${c.file}|${c.key}`))
       .map((c) => `${c.what} (${c.file})`);
@@ -248,35 +264,94 @@ export async function runClaimsChecks(assertionCount) {
       `${missing.length} registered claims never reached the comparison: ${missing.join('; ')}. `
       + 'They were iterated over but not evaluated, which is what a short circuit around the '
       + 'canary looks like.');
+
+    // (a) UNFORGEABLE ENTRIES. Every ledger entry must quote text that actually
+    // occurs in the file it names. A ledger built from CLAIMS cannot do this.
+    const forged = evaluated.filter((e) => {
+      if (e.file === '__canary__') return false;
+      const src = files.get(e.file);
+      // `matched` must have SUBSTANCE. The first version accepted any string a
+      // src.includes() call would swallow — and src.includes('') is true for
+      // every file, so a ledger preseeded with `matched: ''` sailed through the
+      // check written to catch exactly that. An emptiness test is not a
+      // provenance test.
+      if (typeof e.matched !== 'string' || e.matched.length < 8) return true;
+      if (!src || !src.includes(e.matched)) return true;
+      // and it must carry the digits it claims to have compared
+      return !/\d/.test(e.matched);
+    }).map((e) => `${e.file}|${e.key}`);
+    ok(forged.length === 0,
+      `${forged.length} ledger entries do not quote text from the file they claim to have read `
+      + `(${forged.join('; ')}) — the ledger was populated by something other than the comparison.`);
+
+    // (b) THE RECORDED VERDICT IS LOAD-BEARING. It used to be written and never
+    // read, so compareClaim could push the honest status and return a laundered
+    // one. `bad` is now derived from the ledger, not from the loop's return value.
+    const ledgerBad = evaluated.filter((e) => e.file !== '__canary__' && e.status !== 'accepted')
+      .map((e) => `${e.what ?? e.key} (${e.file}): ${e.status}`);
+    ok(ledgerBad.length === 0,
+      `the comparison RECORDED ${ledgerBad.length} non-accepted results that the report did not `
+      + `surface: ${ledgerBad.join('; ')} — a verdict was laundered between comparison and report.`);
+    const canaryEntries = evaluated.filter((e) => e.file === '__canary__');
+    ok(canaryEntries.length >= 1 && canaryEntries.every((e) => e.status === 'rejected'),
+      'the canary is missing from the ledger or was not recorded as rejected');
     ok(evaluated.length >= CLAIMS.length + 1,
       `the comparison ran ${evaluated.length} times for ${CLAIMS.length} claims plus a canary — `
       + 'fewer evaluations than claims means the loop was short-circuited');
 
-    // PER-CLAIM TOLERANCE. The canary is one fixed magnitude (3x), so any
-    // tolerance inflation that stays under it survives: round 7 put a 45% floor
-    // under all 24 tolerances and passed a 39.5%-wrong figure with the canary
-    // still rejected and the suite green. Probing each claim just outside ITS
-    // OWN tolerance cannot be satisfied by a floor, because the floor has to be
-    // below every probe to be invisible and above every tolerance to be useful.
+    // (c) THE TOLERANCES ARE BOUNDED HERE, not by themselves.
+    //
+    // The round-7 probe derived its own bounds from `c.tol` and compared them
+    // against a comparison that also used `c.tol` — it tested each tolerance
+    // against itself and agreed by construction for ANY value. Widening one
+    // entry from 0.05 to 0.60 shipped a 53%-wrong figure green while the check
+    // printed "each at its own declared tolerance". This needs no adversary:
+    // it is what anyone does to turn a red build green.
+    const LOOSE_ALLOWED = 2;          // massEpochInvariance and the adjoint FD figure
+    const loose = CLAIMS.filter((c) => c.tol > 0.30).map((c) => `${c.what} (${c.tol})`);
+    ok(CLAIMS.every((c) => c.tol <= 0.50),
+      'a claim tolerance exceeds 0.50: ' + CLAIMS.filter((c) => c.tol > 0.5).map((c) => c.what).join('; '));
+    ok(loose.length <= LOOSE_ALLOWED,
+      `${loose.length} claims carry a tolerance above 30% (${loose.join('; ')}), and only `
+      + `${LOOSE_ALLOWED} are sanctioned. Widening a tolerance to make a build pass unguards that `
+      + 'figure permanently; raising this ceiling has to be a deliberate, visible edit.');
+
+    // (d) THE PROBE RUNS ON THE REAL DOCUMENTS, at a magnitude fixed HERE rather
+    // than derived from the tolerance being audited. Round 8 defeated the
+    // synthetic-text probe with a one-line predicate on the input; the probe now
+    // traverses the same text, the same call site and the same ledger as the
+    // live claims, so no predicate can separate them.
     const blunt = [];
     for (const c of CLAIMS) {
       const truth = measured(c.key);
-      if (!Number.isFinite(truth) || truth === 0) continue;
-      const near = truth * (1 + c.tol * 0.5);          // inside tolerance
-      const far = truth * (1 + c.tol * 1.5 + 1e-12);   // outside it
-      const fmt = (v) => v.toPrecision(12);
-      const a = compareClaimInner(`probe ${fmt(near)} probe`, { ...c, re: /probe ([\d.eE+-]+) probe/ });
-      const b = compareClaimInner(`probe ${fmt(far)} probe`, { ...c, re: /probe ([\d.eE+-]+) probe/ });
-      if (a.status !== 'accepted' || b.status !== 'rejected') {
-        blunt.push(`${c.what}: tol ${c.tol} behaves as accepted=${a.status}/rejected=${b.status}`);
+      const src = files.get(c.file);
+      if (!Number.isFinite(truth) || truth === 0 || !src) continue;
+      const m = src.match(c.re);
+      if (!m) continue;
+      // The substitute must keep the SHAPE the regex expects — writing "531.000"
+      // where the pattern captures (\d+) makes the match fail rather than the
+      // comparison reject, which reports as a pass and is exactly the kind of
+      // false green this file exists to stop.
+      const wrong = truth * 3;                        // 200% off: outside every sanctioned tolerance
+      const wrongStr = /^\d+$/.test(m[1]) ? String(Math.max(1, Math.round(wrong))) : wrong.toPrecision(4);
+      const doctored = src.replace(m[0], m[0].replace(m[1], wrongStr));
+      if (doctored === src) continue;
+      const probe = compareClaim(doctored, c);
+      if (probe.status === 'not-found') {
+        blunt.push(`${c.what}: the doctored probe did not re-match, so this claim's guard could `
+          + 'not be exercised at all');
+      } else if (probe.status !== 'rejected') {
+        blunt.push(`${c.what}: a 3x-wrong figure (${wrongStr}) was ACCEPTED at tol ${c.tol}`
+          + ` — the comparison read ${probe.written} against a measurement of ${probe.truth}`);
       }
     }
     ok(blunt.length === 0,
-      'the effective tolerance does not match the declared one for: ' + blunt.join('; ')
-      + ' — a floor or a widening has decoupled them');
+      'the comparison accepts a figure three times the measured value for: ' + blunt.join('; ')
+      + ' — that claim is not guarded whatever its declared tolerance says');
 
-    return `${CLAIMS.length} documented figures match their measurements, all ${evaluated.length} `
-         + 'evaluations accounted for, each at its own declared tolerance';
+    return `${CLAIMS.length} documented figures match their measurements; ${evaluated.length} `
+         + 'evaluations on the ledger, each quoting real document text, each recorded verdict '
+         + 'asserted, and every claim seen to REJECT a 3x-wrong figure in its own file';
   });
 
   await checkAsync('SENSITIVITY: the guard rejects a drift, a rewording and a malformed number', async () => {

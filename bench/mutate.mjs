@@ -138,6 +138,34 @@ const MUTATIONS = [
     find: '      const r = compareClaim(files.get(c.file), c);',
     to:   "      const r = c === CANARY ? compareClaim(files.get(c.file), c) : { status: 'accepted' };" },
 
+  // ROUND 8's four defeats of the round-7 ledger. All four kept the suite at
+  // 79/79 green while shipping a wrong figure, each proved with a runtime marker
+  // read back over CDP. All four are now killed. Run by hand — see the
+  // devserver.py note; these need a copy served by the COPY'S OWN devserver.
+  { name: 'claims/widen-one-tolerance', kills: ['registered figure'], browserOnly: true,
+    why: 'round 8: the per-claim probe derived its bounds from the same tol it audited, so it '
+       + 'tested each tolerance against itself and agreed by construction. Widening ONE entry '
+       + '0.05 -> 0.60 shipped a 53%-wrong figure green. Needs no adversary: it is what anyone '
+       + 'does to turn a red build green.',
+    file: 'test/claims.test.js',
+    find: "    key: 'tidalProgradePct', tol: 0.05, what: 'tour step 3, prograde tidal fraction' },",
+    to:   "    key: 'tidalProgradePct', tol: 0.60, what: 'tour step 3, prograde tidal fraction' }," },
+
+  { name: 'claims/preseed-ledger', kills: ['registered figure'], browserOnly: true,
+    why: 'round 8: the ledger was a module array derivable from CLAIMS, so preseeding it from '
+       + 'CLAIMS satisfied both ledger assertions before a single comparison ran',
+    file: 'test/claims.test.js',
+    find: 'export const evaluated = [];',
+    to:   "export const evaluated = CLAIMS.map((c) => ({ file: c.file, key: c.key, status: 'accepted', matched: '' }));" },
+
+  { name: 'claims/launder-verdict', kills: ['registered figure'], browserOnly: true,
+    why: 'round 8: the ledger recorded each verdict and nothing asserted on it, so compareClaim '
+       + 'could push the honest status and return a laundered one',
+    file: 'test/claims.test.js',
+    find: '  const out = compareClaimInner(text, claim);',
+    to:   `  const out0 = compareClaimInner(text, claim);
+  const out = (out0.status === 'rejected' && claim.file !== '__canary__') ? { ...out0, status: 'accepted' } : out0;` },
+
   { name: 'claims/tolerance-floor', kills: ['registered figure'], browserOnly: true,
     why: 'round 7: a 45% floor under every tolerance passes a 39.5%-wrong figure — both the 3x '
        + 'canary and the 1.5x sensitivity check sit above it and never notice',

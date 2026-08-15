@@ -272,7 +272,16 @@ export async function runMorphologyTests(device) {
          + ' — RECORDED, not asserted; the shipped default is a cold disc';
   });
 
-  await checkAsync('softening changes the answer, and by how much is recorded', async () => {
+  // NAMED HONESTLY AFTER ROUND 8. This sweeps softeningScale, which multiplies
+  // all three component core radii at fixed mass — a HOMOLOGY RESCALING of the
+  // galaxy, not a change of numerical smoothing. Measured v_circ(8 kpc) across
+  // the arms: 303 / 220 / 152 km/s, so two of the three are not the shipped
+  // galaxy and would fail the project's own flat-rotation-curve check. A true
+  // softening study — varying the regularisation while holding the mass model
+  // fixed — is still an OPEN ACTION. What this check does establish, and what
+  // is worth keeping, is that the recorded sensitivity is above the realisation
+  // noise, which the pre-round-7 version could not claim.
+  await checkAsync('the mass-model scale sweep moves the answer above its own noise floor', async () => {
     // Softening is the classic silent knob: it changes results without erroring.
     // This does NOT assert insensitivity, because the honest expectation is that
     // it DOES matter. It records the sensitivity so that a future change to the

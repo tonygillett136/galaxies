@@ -133,11 +133,17 @@ established are stated as loudly as the parts that are:
   the disc radius, so the two galaxies never separate. Detect says so instead of drawing
   something.
 - The claimed literature gap rests on **one search session** and is labelled a hypothesis.
-- **Softening is now a real sweep.** `softeningScale` multiplies every component's core radius,
-  not just the bulge's (1.42% of the mass), and the check measures its own noise floor: the
-  sweep moves the tidal fraction **18.7% against a 0.9% seed-to-seed floor, signal/noise 21.8x**.
-  Until round 7 it was 0.73% against 1.68% — a sensitivity *below* the sampling scatter nobody
-  had measured.
+- **The softening study is still open, and the sweep now shipped is NOT it.** `softeningScale`
+  used to multiply only the bulge core (1.42% of the mass), so a full 0.5x-2x sweep moved |g|
+  by 0.33% at the 20 kpc tidal cut and recorded a spread (0.73%) *below* the seed-to-seed
+  sampling scatter (1.68%) that nothing measured. Round 7 made it multiply all three core radii
+  and the sensitivity became real — 18.7% against a 0.9% noise floor. **Round 8 showed that is
+  the wrong knob.** Scaling every core radius at fixed component mass is a *homology rescaling
+  of the galaxy*, not a change of numerical smoothing: v_circ(8 kpc) runs 303 / 220 / 152 km/s
+  across the three arms, so two of them fail this project's own flat-rotation-curve assertion
+  and the 2x arm is the ~150 km/s dwarf the DEVLOG already rejected. What the check now measures
+  is sensitivity to *making the galaxy half or twice its size* — worth knowing, honestly
+  labelled, and not a softening study. The noise-floor arm it gained is the durable part.
 - Dust extinction is a two-slab approximation, disabled in science view. It now lies in each
   galaxy's **own** disc plane at a 0.06 kpc scale height, against a stellar rms height of
   0.297 kpc. Measured on antennae with its control: **14.55% of the light extinguished with
@@ -173,15 +179,16 @@ found assertions that pass when the code they guard is deleted. So:
 node bench/mutate.mjs      # reverts each fix; requires the suite to NOTICE
 ```
 
-20 mutations: **17 killed, 0 survived, 3 not covered** (those three need a browser) — each kill
+24 mutations: **17 killed, 0 survived, 7 not covered** (those seven need a browser) — each kill
 by the check *named* for it, not by collateral damage. It prints its own coverage limits,
 derived from the run rather than typed, and they matter: it reaches 64 of the 79 checks and
 **0%** of `src/app` and `src/render`. A green run means the engine's node-runnable subset is
 guarded. It does not mean the project is guarded — round 7 found five defects in `src/app`
 alone, all of them in code this harness cannot see.
 
-The three browser-only mutations were run by hand against a served copy, and both round-7
-attacks on the claims guard now die by name:
+The browser-only mutations are run by hand against a served copy. Both round-7 attacks and all
+four round-8 attacks on the claims guard now die by name — `physics/softening-bulge-only` was
+verified by hand too (it fails the noise-floor assertion at signal/noise 1.1x):
 
 ```
 claims/bypass-sparing-canary → "25 registered claims never reached the comparison: …"
