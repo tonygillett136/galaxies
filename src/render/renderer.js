@@ -21,10 +21,13 @@ import { SPLAT_WGSL, POST_WGSL, COMPOSITE_WGSL, COMBINE_WGSL } from './shaders.j
 const HDR_FORMAT = 'rgba16float';
 const TAU_FORMAT = 'r16float';
 const BLOOM_LEVELS = 6;
-// 2 mat4 (128 B) + 9 vec4 (144 B) = 272 B = 68 floats.
+// 2 mat4 (128 B) + 11 vec4 (176 B) = 304 B = 76 floats.
+// COUNT THIS BY HAND EVERY TIME IT CHANGES. Getting it wrong once wrote `dust`
+// over `g1` and produced a black canvas plus 198 unrelated warnings; it is this
+// project's most expensive single mistake per character changed.
 // Counted wrong once as 64, which silently wrote `dust` over `g1` and produced
 // a "buffer too small" validation error buried under 199 cascade warnings.
-const UNIFORM_FLOATS = 68;
+const UNIFORM_FLOATS = 76;
 
 // Science-view calibration. Fixed constants, not settings: the whole claim of
 // that view is that pixel value maps to density by a stated, unchanging rule.
@@ -98,6 +101,12 @@ export class Renderer {
       dustInner: 0.9,       // central hole scale length
       dustOuter: 3.4,       // outer falloff scale length
       dustSoftness: 2.5,    // kpc over which near/far blend, killing the hard edge
+      // Dust SCALE HEIGHT, kpc. Real dust lies in a layer several times thinner
+      // than the stellar disc, and that thinness is the whole reason a lane reads
+      // as a lane rather than as general dimming. The stellar disc here has an
+      // rms height near 0.16 kpc at the shipped thickness, so 0.06 puts the dust
+      // well inside it.
+      dustHeight: 0.06,
       scienceFullScale: 2.0, // accumulated splat density mapped to display 1.0
     };
   }
@@ -219,8 +228,12 @@ export class Renderer {
   /**
    * Pack the splat uniform block. Layout must match Uniforms in shaders.js:
    *   viewProj[16] view[16] right[4] up[4] eye[4] params[4] params2[4]
-   *   forward[4]   g0[4]    g1[4]    dust[4]
-   * = 32 + 36 = 68 floats / 272 bytes. Offsets below are in FLOATS.
+   *   forward[4]   g0[4]    g1[4]    dust[4]  n0[4]  n1[4]
+   * = 32 + 44 = 76 floats / 304 bytes. Offsets below are in FLOATS.
+   *
+   * n0/n1 are the two DISC NORMALS. The dust needs them: a lane is a thin
+   * absorbing layer about the disc plane, and the shader has no other way to know
+   * where that plane is — particles arrive as bare positions.
    */
   writeSplatUniforms(camera, aspect, galaxies) {
     const vp = camera.viewProjection(aspect);
@@ -258,6 +271,13 @@ export class Renderer {
     // dust off entirely in science mode: it is an approximation, and the honest
     // view must not carry an approximation that looks like data
     s.set([st.dustInner, st.dustOuter, st.scienceMode ? 0 : st.dustStrength, st.dustSoftness], 64);
+    // DISC NORMALS at 68 and 72. .w carries the dust scale height in kpc, which
+    // is what makes the absorbing layer thinner than the stellar disc — real dust
+    // scale heights are a few times smaller than the stars'.
+    const n0 = galaxies?.[0]?.discNormal ?? [0, 0, 1];
+    const n1 = galaxies?.[1]?.discNormal ?? [0, 0, 1];
+    s.set([n0[0], n0[1], n0[2], st.dustHeight], 68);
+    s.set([n1[0], n1[1], n1[2], st.dustHeight], 72);
 
     this.device.queue.writeBuffer(this.splatUniform, 0, s);
   }

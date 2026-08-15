@@ -18,7 +18,7 @@
  */
 
 import { plummer, hernquist, composite } from './potentials.js';
-import { stateAtTrueAnomaly, trueAnomalyAtTime } from './kepler.js';
+import { stateAtTrueAnomaly, trueAnomalyAtTime, rotateToOrbitFrame } from './kepler.js';
 import { exponentialDisc, mergeParticles } from './galaxy.js';
 import { RestrictedSim } from './cpu.js';
 import { pairTable } from './pairforce.js';
@@ -475,6 +475,20 @@ export function buildEncounter(spec) {
     { mass: M2, potential: P2, pos: c2, vel: v2 },
   ];
 
+  // THE DISC NORMAL, carried through to the renderer.
+  //
+  // The dust could not produce a lane and three rounds said so. `dustW` was a
+  // function of birth radius alone, with no |z| term anywhere, so the absorbing
+  // layer was as thick as the disc — round 4 measured the extinction's vertical
+  // extent as BROADER than the emission it is meant to silhouette (133 px against
+  // 105), with the mid-plane the LEAST extinguished region.
+  //
+  // A lane needs the dust confined to a thin layer about the disc PLANE, and the
+  // shader cannot know where that plane is without being told. Nothing else in
+  // the pipeline carries orientation: the particles arrive as bare positions.
+  const discNormal = (d) => rotateToOrbitFrame([0, 0, 1],
+    d.inclination ?? 0, d.argPeri ?? 0, d.node ?? d.argPeri ?? 0);
+
   // A disc can ask to be oriented perpendicular to the MEASURED approach
   // direction rather than to an assumed one. The ring scenario needs this: it
   // was set to a fixed perpendicular inclination, the orbit precessed in the
@@ -538,6 +552,9 @@ export function buildEncounter(spec) {
         : 'the pericentre solver did not converge');
 
   const domain = domainOfValidity(P1, P2, rPeri, ecc);
+
+  galaxies[0].discNormal = discNormal(disc1);
+  galaxies[1].discNormal = discNormal(disc2);
 
   return {
     galaxies, particles: mergeParticles(sets), friction, t0,

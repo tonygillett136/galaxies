@@ -58,6 +58,8 @@ struct Uniforms {
   g0          : vec4f,     // galaxy 0 centre (xyz)
   g1          : vec4f,     // galaxy 1 centre (xyz)
   dust        : vec4f,     // x = inner hole scale, y = outer scale, z = strength, w = slab softness
+  n0          : vec4f,     // galaxy 0 disc normal (xyz), w = dust scale height (kpc)
+  n1          : vec4f,     // galaxy 1 disc normal (xyz), w = dust scale height (kpc)
 };
 
 @group(0) @binding(0) var<uniform> U : Uniforms;
@@ -181,7 +183,24 @@ fn vs(@builtin(vertex_index) vi : u32, @builtin(instance_index) ii : u32) -> VSO
   // which is the right behaviour when a tail is drawn out of the disc.
   let rb = birthR;
   let hole = 1.0 - exp(-rb / max(U.dust.x, 1e-3));
-  out.dustW = U.dust.z * hole * exp(-rb / max(U.dust.y, 1e-3));
+  let radial = U.dust.z * hole * exp(-rb / max(U.dust.y, 1e-3));
+
+  // CONFINE THE DUST TO A THIN LAYER ABOUT THE DISC PLANE.
+  //
+  // dustW was a function of birth radius ALONE — no |z| term anywhere — so the
+  // absorbing layer was exactly as thick as the stellar disc and could not
+  // silhouette it. Round 4 measured the extinction's vertical extent as BROADER
+  // than the emission (133 px against 105) with the mid-plane the LEAST
+  // extinguished region: the brightest ridge ran precisely where the lane
+  // should be. Three rounds asked for a lane; this is what was missing.
+  //
+  // Height is measured along the particle's OWN galaxy's disc normal, which the
+  // shader now receives, because particles arrive as bare positions and nothing
+  // else in the pipeline carries orientation.
+  let nrm = select(U.n0.xyz, U.n1.xyz, originId > 0.5);
+  let h = abs(dot(p.xyz - centre, nrm));
+  let hScale = max(U.n0.w, 1e-3);
+  out.dustW = radial * exp(-h / hScale);
   return out;
 }
 
