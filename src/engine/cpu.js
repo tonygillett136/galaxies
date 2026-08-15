@@ -271,17 +271,18 @@ export class RestrictedSim {
         // produces a force that, divided by the SATELLITE's small mass, dominates
         // its acceleration. That is how the M^2 pathology reaches the light body
         // — through Newton's third law rather than directly.
-        const outerOf = (P) => {
-          const parts = P.kind === 'composite' ? P.parts : [P];
-          return Math.max(...parts.map((p) => p.scale).filter((s) => s > 0));
-        };
         const chandra = (P, other) => {
           const rho = P.density ? P.density(d) : 0;
           if (rho <= 0) return 0;
-          const x = frictionWeightX(other.potential, P);
-          if (x >= 3) return 0;
-          const t = Math.max(0, Math.min(1, (x - 1) / 2));
-          const w = 1 - t * t * (3 - 2 * t);            // smoothstep 1 -> 0 over x in [1,3]
+          // CALL the exported gate. Round 4 exported frictionWeight() so its test
+          // would stop re-implementing the logic — and then left this site with an
+          // INLINE COPY of the same smoothstep, sharing only frictionWeightX. So
+          // the test exercised a function nothing in the simulation called, and
+          // round 5 proved it: five separate mutations of the inline copy, each
+          // reverting or weakening the gate, produced byte-identical suite output.
+          // The comment above frictionWeight even claimed "the same function the
+          // integrator uses", which was false the moment it was written.
+          const w = frictionWeight(other.potential, P);
           if (w <= 0) return 0;
           const sigma = Math.max(P.vcirc(d) / Math.SQRT2, 1e-6);
           const X = v / (Math.SQRT2 * sigma);
@@ -307,20 +308,25 @@ export class RestrictedSim {
         // accelerates. Limit the change to a quarter of v per step, which leaves
         // the physics untouched in every regime where the formula is valid and
         // only clips the regime where the integrator would fail regardless.
-        // DIMENSIONALLY CORRECT, which it was not. The comment has always said
-        // "limit the change to a quarter of v per step", i.e. |a| dt <= 0.25 v,
-        // so the ceiling on |a| is 0.25 v / dt. The code formed `0.25 / dt` and
-        // compared it against an acceleration — the two agree only when v = 1
-        // exactly, in internal units. Instrumented on a lnL=3 bound orbit over
-        // 60,000 steps: the shipped cap fired 0 times while the correctly formed
-        // one fires 32, and the worst single-step |dv|/v reached 57.3 — exactly
-        // the overshoot-and-reverse the comment says it prevents, unguarded.
+        // 0.25 / dt IS CORRECT, and I broke it in round 4 by "fixing" a
+        // dimensional inconsistency that was not one.
         //
-        // Note F here is a FORCE, so the per-body acceleration is F/m.
+        // The drag is applied below as `acc -= F * vx / mass`, where vx is a
+        // component of the relative velocity VECTOR rather than a unit vector. So
+        // the acceleration magnitude is F|v|/m, not F/m, and
+        //     |a| dt <= 0.25 |v|   =>   F|v|dt/m <= 0.25|v|   =>   F/m <= 0.25/dt
+        // with |v| cancelling exactly. Comparing F/m against 0.25/dt is therefore
+        // dimensionally right and my 0.25 v/dt made the cap |v| times too
+        // permissive.
+        //
+        // A round-4 reviewer reported this as dimensionally inconsistent and I
+        // changed it without checking how F is applied. Someone else's report is
+        // the hypothesis to test, not the premise to act on — which is written in
+        // this project's own ways-of-working, and I did not follow it.
         const dtAbs = Math.abs(this._dt || 0.02);
-        const maxA = 0.25 * v / dtAbs;                  // max |a| for a quarter-v step
+        const maxK = 0.25 / dtAbs;                      // max fractional dv per step
         const worst = Math.max(F / gs[0].mass, F / gs[1].mass);
-        if (worst > maxA) F *= maxA / worst;
+        if (worst > maxK) F *= maxK / worst;
 
         gs[0].acc[0] -= F * vx / gs[0].mass;
         gs[0].acc[1] -= F * vy / gs[0].mass;

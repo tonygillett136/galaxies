@@ -22,8 +22,8 @@ with the epoch rescaled, and compares **four** morphological moments:
 
 | | ⟨r⟩ | rms r | max r | separation |
 |---|---|---|---|---|
-| λ = 1 | 14.173 | 14.941 | 27.006 | 30.202 |
-| λ = 4, with t/√λ | 14.173 | 14.941 | 27.006 | 30.202 |
+| λ = 1 | 13.788 | 14.622 | 26.932 | 30.202 |
+| λ = 4, with t/√λ | 13.788 | 14.622 | 26.932 | 30.202 |
 
 Worst relative difference under the rescaling: **9.2e-9**, which is float64
 roundoff over a 3000-step integration. The control — mass scaled, time NOT

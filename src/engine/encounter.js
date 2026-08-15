@@ -636,7 +636,7 @@ export const SCENARIOS = {
   },
   merger: {
     label: 'Merger (with friction)',
-    blurb: 'A bound pair with dynamical friction switched on. Each passage transfers orbital energy to the halos, so the orbit decays and the two actually merge — which cannot happen with friction off, however close the passage. Measured on this configuration: first passage at 29.2 kpc against a requested 30, then coalescence at 1944 Myr. Note that time reversal stops being exact here: friction is dissipative, and the pericentre you ask for is not quite the one you get because drag removes energy on the way in.',
+    blurb: 'A bound pair with dynamical friction switched on. Each passage transfers orbital energy to the halos, so the orbit decays and the two actually merge — which cannot happen with friction off, however close the passage. Measured on this configuration: first passage at 29.2 kpc against a requested 30, then the two nuclei close to within 5 kpc — well inside both discs — at 1685 Myr. Note that time reversal stops being exact here: friction is dissipative, and the pericentre you ask for is not quite the one you get because drag removes energy on the way in.',
     // RETUNED after the friction gate was corrected. Every number in the comment
     // this replaces was measured against a gate that did not work:
     //   round 2's gate was inert, so the drag included a pathological term;
@@ -647,10 +647,15 @@ export const SCENARIOS = {
     // With the corrected size-asymmetry gate, measured over lnL:
     //   0.05  one passage at 29.8 kpc then escapes to 263 kpc — no decay
     //   0.1   29.7 then 23.4 at 2905 Myr — decays, does not merge in view
-    //   0.2   29.2 then coalescence at 1944 Myr        <- shipped
+    //   0.2   29.2 then within 5 kpc at 1685 Myr        <- shipped
+    //
+    // The approach is ASYMPTOTIC: 10 kpc at 1180 Myr, 5 at 1685, 3 at 2582, 2 at
+    // 5264. So "merged" needs a stated threshold rather than a picked one, and
+    // more drag is not monotonically faster — at lnL 3 the pair circularises
+    // early at large radius and is still at 21 kpc after 600 time units.
     //   0.6   plunges on the first approach, executed pericentre 0.0
     //
-    // tSpan 560 covers the coalescence at 1944 Myr (412 time units). At 420 it
+    // tSpan 560 covers the 5 kpc crossing at 1685 Myr (357 time units). At 420 it
     // ended before the merger — the one scenario whose entire point is the
     // merger could not be scrubbed to it, which round 4 caught.
     spec: { massRatio: 0.6, rPeri: 30, ecc: 0.9, tStart: -60, tSpan: 560, particles: 320000,

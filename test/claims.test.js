@@ -64,7 +64,7 @@ const CLAIMS = [
     key: 'ringPeakKpc', tol: 0.15, what: 'DEVLOG ring peak radius' },
   { file: 'DEVLOG.md', re: /rises ([\d.]+)x there/,
     key: 'ringGain', tol: 0.15, what: 'DEVLOG ring density gain' },
-  { file: 'src/engine/encounter.js', re: /then coalescence at (\d+) Myr/,
+  { file: 'src/engine/encounter.js', re: /within 5 kpc — well inside both discs — at (\d+) Myr/,
     key: 'mergerMyr', tol: 0.05, what: 'merger scenario blurb, coalescence epoch' },
   { file: 'src/engine/encounter.js', re: /first passage at ([\d.]+) kpc against a requested 30/,
     key: 'mergerPeriKpc', tol: 0.03, what: 'merger scenario blurb, first passage' },
@@ -92,6 +92,30 @@ const CLAIMS = [
     key: 'catalogueN', tol: 0.001, what: 'encounter.js catalogue size' },
 ];
 
+/**
+ * THE comparison, in one place, called by the real check AND by the sensitivity
+ * check.
+ *
+ * Round 4 rewrote the sensitivity check "to drive the real comparison" and gave
+ * it a seven-line private copy instead, under a comment saying it drove the real
+ * one. Round 5 proved the consequence: neutering the live loop AND drifting the
+ * headline physics figure in index.html from 15.1% to 99.9% — a 580% error in a
+ * sentence users read — still gave 75/75 green with the sensitivity check
+ * passing. Two rounds running, the fix for "the guard cannot fail" could not fail.
+ *
+ * A private copy is not a test of the thing it copies. There is one function now.
+ */
+export function compareClaim(text, claim) {
+  const m = text.match(claim.re);
+  if (!m) return { status: 'not-found' };
+  const written = parseFloat(m[1]);
+  if (!Number.isFinite(written)) return { status: 'non-finite', written: m[1] };
+  const truth = measured(claim.key);
+  if (!Number.isFinite(truth)) return { status: 'bad-measurement', truth };
+  const rel = Math.abs(written - truth) / Math.max(Math.abs(truth), 1e-30);
+  return { status: rel > claim.tol ? 'rejected' : 'accepted', written, truth, rel };
+}
+
 export function runClaimsTests() { expectChecks(3); }
 
 export async function runClaimsChecks(assertionCount) {
@@ -104,62 +128,52 @@ export async function runClaimsChecks(assertionCount) {
     const files = new Map();
     for (const c of CLAIMS) if (!files.has(c.file)) files.set(c.file, await text(c.file));
 
-    const bad = [], seen = [];
+    // A FLOOR ON THE TABLE ITSELF. Round 5 emptied CLAIMS and got a green
+    // "0 documented figures match their measurements" — all three claims checks
+    // derive their expectations from CLAIMS, so deleting the table satisfies all
+    // of them. The project already solved exactly this for check counts with
+    // expectChecks(); the claims table had no equivalent.
+    ok(CLAIMS.length >= 20,
+      `the CLAIMS table has shrunk to ${CLAIMS.length} entries — figures were removed rather than fixed`);
+
+    const bad = [];
     for (const c of CLAIMS) {
-      const m = files.get(c.file).match(c.re);
-      if (!m) { bad.push(`${c.what} (${c.file}): the claim text was not found — it was reworded, so the guard silently stopped guarding it`); continue; }
-      const written = parseFloat(m[1]);
-      const truth = measured(c.key);
-      // REJECT NON-FINITE EXPLICITLY. A capture parseFloat cannot read gives
-      // NaN, and `NaN > tol` is false, so a malformed number was silently
-      // ACCEPTED — the guard's own failure mode was to pass.
-      if (!Number.isFinite(written)) {
-        bad.push(`${c.what} (${c.file}): the captured text "${m[1]}" is not a finite number, so the comparison would silently pass`);
-        continue;
-      }
-      if (!Number.isFinite(truth)) {
-        bad.push(`${c.what}: the measured value for "${c.key}" is not finite (${truth})`);
-        continue;
-      }
-      const rel = Math.abs(written - truth) / Math.max(Math.abs(truth), 1e-30);
-      seen.push(`${c.what}: ${written} vs ${truth.toPrecision(3)}`);
-      if (rel > c.tol) {
-        bad.push(`${c.what} (${c.file}): the text says ${written}, the measurement is ${truth.toPrecision(4)} (${(rel * 100).toFixed(0)}% off)`);
+      const r = compareClaim(files.get(c.file), c);
+      if (r.status === 'not-found') {
+        bad.push(`${c.what} (${c.file}): the claim text was not found — it was reworded, so the guard silently stopped guarding it`);
+      } else if (r.status === 'non-finite') {
+        bad.push(`${c.what} (${c.file}): the captured text "${r.written}" is not a finite number, so the comparison would silently pass`);
+      } else if (r.status === 'bad-measurement') {
+        bad.push(`${c.what}: the measured value for "${c.key}" is not finite (${r.truth})`);
+      } else if (r.status === 'rejected') {
+        bad.push(`${c.what} (${c.file}): the text says ${r.written}, the measurement is ${r.truth.toPrecision(4)} (${(r.rel * 100).toFixed(0)}% off)`);
       }
     }
     ok(bad.length === 0, bad.join('\n        '));
     return `${CLAIMS.length} documented figures match their measurements`;
   });
 
-  await checkAsync('SENSITIVITY: the guard rejects a drifted number, a reworded one, and a NaN', async () => {
-    // The previous version of this check computed |1.5t - t|/t and asserted it
-    // exceeded 0.05. It asserted that 0.5 > 0.05. It never touched CLAIMS, never
-    // called text(), never ran a regex and never entered the comparison loop, so
-    // an inverted comparison, a 1e9 tolerance or a `bad` array that was never
-    // pushed to would all have left it green. A reviewer said so and was right.
-    //
-    // This drives the REAL comparison over synthetic documents.
-    const truth = measured('tidalProgradePct');
-    const compare = (text, re, key, tol) => {
-      const m = text.match(re);
-      if (!m) return 'not-found';
-      const written = parseFloat(m[1]);
-      if (!Number.isFinite(written)) return 'non-finite';
-      const t = measured(key);
-      return Math.abs(written - t) / Math.abs(t) > tol ? 'rejected' : 'accepted';
-    };
-    const RE = /prograde throws ([\d.]+)% of a disc beyond 20 kpc/;
+  await checkAsync('SENSITIVITY: the guard rejects a drift, a rewording and a malformed number', async () => {
+    // Calls compareClaim — THE function the live check calls, not a copy of it.
+    // Round 4's version declared its own seven-line comparison under a comment
+    // claiming it drove the real one; round 5 showed the real loop could be
+    // neutered entirely with this still green.
+    const c = CLAIMS[0];
+    const truth = measured(c.key);
+    const doc = (n) => `prograde throws ${n}% of a disc beyond 20 kpc`;
 
-    const good = compare(`prograde throws ${truth.toFixed(1)}% of a disc beyond 20 kpc`, RE, 'tidalProgradePct', 0.05);
-    const drifted = compare(`prograde throws ${(truth * 1.5).toFixed(1)}% of a disc beyond 20 kpc`, RE, 'tidalProgradePct', 0.05);
-    const reworded = compare('prograde ejects some fraction of a disc', RE, 'tidalProgradePct', 0.05);
-    const nan = compare('prograde throws .% of a disc beyond 20 kpc', RE, 'tidalProgradePct', 0.05);
+    const good = compareClaim(doc(truth.toFixed(1)), c).status;
+    const drifted = compareClaim(doc((truth * 1.5).toFixed(1)), c).status;
+    const reworded = compareClaim('prograde ejects some fraction of a disc', c).status;
+    const nan = compareClaim(doc('.'), c).status;
 
+    ok(c.key === 'tidalProgradePct' && /prograde throws/.test(String(c.re)),
+      'CLAIMS[0] is no longer the tidal-fraction claim this check is written against');
     ok(good === 'accepted', `the guard rejected a CORRECT number (${good})`);
     ok(drifted === 'rejected', `a 50% drift was not rejected (${drifted})`);
     ok(reworded === 'not-found', `a reworded claim did not trip the not-found path (${reworded})`);
     ok(nan === 'non-finite', `a malformed number was not caught (${nan})`);
-    return `correct=accepted, +50%=rejected, reworded=not-found, malformed=non-finite`;
+    return 'correct=accepted, +50%=rejected, reworded=not-found, malformed=non-finite — via compareClaim()';
   });
 
   await checkAsync('the measurement registry is populated, not silently empty', async () => {

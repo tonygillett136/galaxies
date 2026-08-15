@@ -13,7 +13,7 @@
  *     makes a human solve by hand. Differentiating through the orbit as well is
  *     the same machinery over two more bodies and is not done yet.
  *   - float64 CPU. The float32 GPU path has a measured reversal residual —
- *     median 1.9e-5, p99 9.4e-4, worst 4.89e-3 kpc over 3000 forward and 3000
+ *     median 1.9e-5, p99 9.4e-4, worst 1.11e-2 kpc over 3000 forward and 3000
  *     reverse steps — that would dominate a gradient, so the reference must be
  *     float64 before the fast path can be trusted. Quoting the p99 alone
  *     understated it; the WORST case is what bounds a gradient.

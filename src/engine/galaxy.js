@@ -171,9 +171,30 @@ export function exponentialDisc({
     //
     // beta is set per particle so the vertical amplitude is `amp` regardless of
     // radius, giving a constant scale height rather than a flared one.
+    //
+    // AND THE TILT AXIS IS RANDOM PER PARTICLE. Tilting every orbit by the same
+    // beta about the same axis is exactly in equilibrium and is not a disc: it is
+    // a FOLDED SHEET, because <z> then varies coherently with azimuth. Measured
+    // on the previous construction, the m=1 vertical moment was 0.64 of rms|z|.
+    // A real disc has <z(phi)> = 0 with rms|z| > 0.
+    //
+    // Rodrigues rotation about a unit axis k in the disc plane preserves |x| = r
+    // and |v| = v_c exactly, so randomising the node costs nothing in equilibrium
+    // and is what turns the sheet into a disc.
     const amp = -thickness * scaleLength * Math.log(1 - rng());
     const beta = r > 1e-9 ? Math.asin(Math.min(0.95, amp / r)) : 0;
+    const nodeAng = 2 * Math.PI * rng();
+    const kx = Math.cos(nodeAng), ky = Math.sin(nodeAng);
     const cb = Math.cos(beta), sb = Math.sin(beta);
+    /** rotate (ax, ay, az) about the in-plane unit axis (kx, ky, 0) by beta */
+    const tilt = (ax, ay, az) => {
+      const kdotu = kx * ax + ky * ay;
+      return [
+        ax * cb + (ky * az) * sb + kx * kdotu * (1 - cb),
+        ay * cb + (-kx * az) * sb + ky * kdotu * (1 - cb),
+        az * cb + (kx * ay - ky * ax) * sb,
+      ];
+    };
 
     // Circular speed at the orbit's radius. (The old comment here worried about
     // spherical vs cylindrical radius; with an inclined circular orbit the two
@@ -206,15 +227,10 @@ export function exponentialDisc({
     }
 
     const ct = Math.cos(th), st = Math.sin(th);
-    // Circle of radius r tilted by beta about the x axis: the y and z components
-    // of both position and velocity rotate together, so |pos| = r and |vel| = vc.
-    const p = rotateToOrbitFrame(
-      [r * ct, r * st * cb, r * st * sb], inclination, argPeri, node);
-    const w = rotateToOrbitFrame([
-      -vc * st + sr * ct - sp * st,
-      (vc * ct + sr * st + sp * ct) * cb,
-      (vc * ct) * sb + sz,
-    ], inclination, argPeri, node);
+    const pt = tilt(r * ct, r * st, 0);
+    const wt = tilt(-vc * st + sr * ct - sp * st, vc * ct + sr * st + sp * ct, 0);
+    const p = rotateToOrbitFrame(pt, inclination, argPeri, node);
+    const w = rotateToOrbitFrame([wt[0], wt[1], wt[2] + sz], inclination, argPeri, node);
     pos[i * 3] = p[0] + centre[0]; pos[i * 3 + 1] = p[1] + centre[1]; pos[i * 3 + 2] = p[2] + centre[2];
     vel[i * 3] = w[0] + velocity[0]; vel[i * 3 + 1] = w[1] + velocity[1]; vel[i * 3 + 2] = w[2] + velocity[2];
     radius[i] = r;
