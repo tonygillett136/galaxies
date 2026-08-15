@@ -12,12 +12,16 @@
  *     the disc orientation angles, which is exactly the sub-problem Identikit
  *     makes a human solve by hand. Differentiating through the orbit as well is
  *     the same machinery over two more bodies and is not done yet.
- *   - float64 CPU. The float32 GPU path has a measured reversal residual
- *     (p99 8.4e-4 kpc over 3000 steps) that would dominate a gradient, so the
- *     reference must be float64 before the fast path can be trusted.
- *   - loss is L2 between Gaussian-splatted density grids, which is the same
- *     operation the renderer performs. That is deliberate: the image on screen
- *     and the objective being minimised should be one code path.
+ *   - float64 CPU. The float32 GPU path has a measured reversal residual —
+ *     median 1.9e-5, p99 9.4e-4, worst 4.89e-3 kpc over 3000 forward and 3000
+ *     reverse steps — that would dominate a gradient, so the reference must be
+ *     float64 before the fast path can be trusted. Quoting the p99 alone
+ *     understated it; the WORST case is what bounds a gradient.
+ *   - loss is L2 between Gaussian-splatted density grids, the same KIND of
+ *     operation the renderer performs. An earlier version of this comment said
+ *     they "are one code path", which is not true and a reviewer was right to
+ *     say so: different kernel, different projection, different weighting, no
+ *     shared code. Making them one path is a goal, not a description.
  *
  * The adjoint of leapfrog KDK, for one step:
  *     v_mid = v_in  + a(x_in)  * h        (h = dt/2)

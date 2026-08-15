@@ -21,6 +21,13 @@ export function group(name) { currentGroup = name; }
  */
 export function expectChecks(n) { expectedTotal += n; }
 
+/**
+ * The DECLARED total. README quotes this rather than a hand-counted number, and
+ * report() already fails the build when the actual count differs from it, so the
+ * figure in the documentation is guarded at both ends.
+ */
+export function expectedCount() { return expectedTotal; }
+
 export function check(name, fn) {
   const t0 = performance.now();
   try {

@@ -11,6 +11,7 @@
  */
 
 import { group, checkAsync, expectChecks, above, below, ok } from './harness.js';
+import { record } from './measured.js';
 import { GpuSim } from '../src/engine/gpu.js';
 import { buildEncounter, SCENARIOS } from '../src/engine/encounter.js';
 
@@ -95,6 +96,10 @@ export async function runMorphologyTests(device) {
     // and it carries its own resolution limit: 1/N.
     const nRetro = Math.round(fr.total * retro.count);
     const bound = 1 / retro.count;
+    record('tidalProgradePct', fp.total * 100);
+    record('tidalRetroPct', fr.total * 100);
+    record('tidalRatio', fr.total > 0 ? fp.total / fr.total : Infinity);
+    record('tidalCutKpc', RCUT);
     if (nRetro === 0) {
       above(fp.total / bound, 3.0, 'prograde fraction vs the 1/N detection limit');
       return `prograde ${(fp.total * 100).toFixed(1)}% beyond ${RCUT} kpc; retrograde ZERO of ${retro.count} particles `
@@ -186,6 +191,9 @@ export async function runMorphologyTests(device) {
     ok(peakB === 0, `the disc was ALREADY ring-shaped before the impact (peak bin ${peakB}); the test is vacuous`);
     above(peakA, 2, 'radial bin of the peak surface density after the encounter');
     above(gain, 3.0, `surface density at the ring radius, relative to the same radius before`);
+    record('ringPeakKpc', peakA * RMAX / BINS);
+    record('ringGain', gain);
+    record('ringInteriorPct', dip * 100);
     return `peak moved bin ${peakB} -> ${peakA} (~${(peakA * RMAX / BINS).toFixed(0)} kpc); `
          + `density there rose ${gain.toFixed(1)}x; interior is ${(dip * 100).toFixed(0)}% of the peak `
          + `(the nucleus survives, as in the Cartwheel)`;

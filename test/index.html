@@ -6,22 +6,28 @@ pre{white-space:pre-wrap}</style></head>
 <body>
 <pre id="out">running…</pre>
 <script type="module">
-import { report } from './harness.js';
+import { report, expectedCount } from './harness.js';
 import { runPhysicsTests } from './physics.test.js';
 import { runGpuTests, createDevice } from './gpu.test.js';
 import { runMorphologyTests } from './morphology.test.js';
 import { runAdjointTests } from './adjoint.test.js';
+import { runClaimsTests, runClaimsChecks } from './claims.test.js';
 
 const el = document.getElementById('out');
 try {
   runPhysicsTests();
   runAdjointTests();
+  runClaimsTests();
   report(el);                              // show CPU results before the slow GPU pass
   const { device, info } = await createDevice();
   device.addEventListener?.('uncapturederror', (e) => console.error('GPU', e.error.message));
   await runGpuTests(device, info);
   report(el);
   await runMorphologyTests(device);
+  report(el);
+  // LAST: the claims guard compares the shipped prose against what the suites
+  // above actually measured, so it has to run after they have measured it.
+  await runClaimsChecks(expectedCount());
   report(el);
 } catch (e) {
   el.textContent += '\n\nHARNESS EXCEPTION\n' + (e.stack || e.message);

@@ -36,10 +36,9 @@ export const TOUR = [
     title: 'The same orbit, spun the other way',
     text: 'Identical masses, identical pericentre, identical eccentricity, identical epoch. '
         + 'The only change is that both discs now rotate against their orbit instead of with '
-        + 'it. The tails almost vanish. Measured on this engine: 4.7 per cent of a disc thrown '
-        + 'beyond 20 kpc prograde, against ZERO of 60,000 particles retrograde — a limit set by '
-        + 'the particle count, not a measured value — with the two orbits verified identical to '
-        + 'one part in a million.',
+        + 'it. The tails almost vanish. Measured on this engine: 15.1 per cent of a disc thrown '
+        + 'beyond 20 kpc prograde, against 2.5 per cent retrograde — a ratio of 6.0 — with the '
+        + 'two orbits verified identical to one part in a million.',
     scenario: 'retrograde',
     time: 24,
     camera: { distance: 62, theta: 0.9, phi: 1.1 },

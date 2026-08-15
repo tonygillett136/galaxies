@@ -9,6 +9,7 @@
  */
 
 import { group, checkAsync, expectChecks, below, above, ok } from './harness.js';
+import { record } from './measured.js';
 import { plummer, hernquist, composite } from '../src/engine/potentials.js';
 import { RestrictedSim } from '../src/engine/cpu.js';
 import { GpuSim, createDevice } from '../src/engine/gpu.js';
@@ -64,6 +65,8 @@ export async function runGpuTests(device, info) {
     const worst = worstOf(g, cpu.pos, cpu.count);
     ok(cpu.diagnostics().separation < 100, 'galaxies flew apart; scenario is wrong');
     gpu.destroy();
+    record('gpuAgreement', worst);
+    record('gpuAgreementLimit', 2e-3);
     return below(worst, 2e-3, `worst |dPosition| over ${cpu.count} particles, ${n} steps`);
   });
 
@@ -147,6 +150,9 @@ export async function runGpuTests(device, info) {
     // point: it is the floor on gradient accuracy through a reversible-recompute
     // adjoint, and it decides the checkpoint interval.
     below(q(0.999), 5.0, 'p99.9 reversal residual (kpc)');
+    record('f32ReversalMedian', q(0.5));
+    record('f32ReversalP99', q(0.99));
+    record('f32ReversalWorst', errs[errs.length - 1]);
     return `median ${q(0.5).toExponential(1)} / p99 ${q(0.99).toExponential(1)} / p99.9 ${q(0.999).toExponential(1)} `
          + `/ worst ${errs[errs.length - 1].toExponential(1)} kpc, after ${n}+${n} steps at dt=${dt} `
          + `(particles moved up to ${moved.toFixed(0)} kpc)`;
