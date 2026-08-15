@@ -136,9 +136,33 @@ export async function runClaimsChecks(assertionCount) {
     ok(CLAIMS.length >= 20,
       `the CLAIMS table has shrunk to ${CLAIMS.length} entries — figures were removed rather than fixed`);
 
+    // A CANARY, evaluated through the SAME loop as everything else.
+    //
+    // For four consecutive rounds this check has been neuterable in one line:
+    // replace the comparison with {status:'accepted'} and every document can be
+    // arbitrarily wrong while the suite reports "22 documented figures match".
+    // A separate sensitivity check cannot fix that, because it exercises a
+    // different call site — which is exactly the defect it kept being rewritten
+    // to fix.
+    //
+    // So the live loop carries a claim that MUST be rejected. If the loop is
+    // disabled, short-circuited, or its tolerance widened, the canary stops
+    // being rejected and THIS check fails. The guard now verifies itself.
+    const truth = measured('tidalProgradePct');
+    const CANARY = { file: '__canary__', key: 'tidalProgradePct', tol: 0.05,
+      what: 'canary', re: /canary ([\d.]+)%/ };
+    files.set('__canary__', `canary ${(truth * 3).toFixed(2)}%`);
+
     const bad = [];
-    for (const c of CLAIMS) {
+    for (const c of [...CLAIMS, CANARY]) {
       const r = compareClaim(files.get(c.file), c);
+      if (c === CANARY) {
+        ok(r.status === 'rejected',
+          `THE CANARY WAS NOT REJECTED (status "${r.status}"). A deliberately 3x-wrong figure `
+          + 'passed the live comparison, so the comparison is not running and every other '
+          + 'figure in this check is unverified.');
+        continue;
+      }
       if (r.status === 'not-found') {
         bad.push(`${c.what} (${c.file}): the claim text was not found — it was reworded, so the guard silently stopped guarding it`);
       } else if (r.status === 'non-finite') {

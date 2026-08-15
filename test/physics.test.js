@@ -800,8 +800,12 @@ export function runPhysicsTests() {
       return n ? hit / n : 0;
     };
 
-    // deliberately stiff: a huge coupling and a coarse step, outside the sliders
-    const extreme = fires({ massRatio: 1.0, rPeri: 25, ecc: 0.9, tStart: -40 }, 4000, 0.5, 400);
+    // ASYMMETRIC MASSES. Round 6 changed Math.max to Math.min in the cap and
+    // nothing noticed, because the only configuration exercising it had
+    // massRatio 1.0 — where max and min are identically equal. A check run at
+    // equal masses cannot distinguish the two bodies, which is the entire point
+    // of taking the worst of them.
+    const extreme = fires({ massRatio: 0.05, rPeri: 25, ecc: 0.9, tStart: -40 }, 4000, 0.5, 400);
     ok(extreme > 0.01, `the cap never engages even at lnL = 4000 with dt = 0.5 (fired on ${(extreme * 100).toFixed(2)}% of steps); the mechanism is dead, not merely dormant`);
 
     // and it must be dormant on the shipped merger
@@ -1020,6 +1024,30 @@ export function runPhysicsTests() {
     // wrong array.
     below(worstR, 1e-6, 'worst |x| against r (float32 birth radius)');
     below(worstV, 1e-6, 'worst |v| against v_circ(r)');
+    // FLOAT64 AT GENERATION. Round 6 changed every Float64Array in galaxy.js to
+    // Float32Array and the whole suite stayed green, while the birth error rose
+    // from 2.2e-16 to 1.7e-8 — a 1e8 degradation of the float64 REFERENCE, which
+    // is the thing the GPU path is checked against. galaxy.js's own header
+    // explains why this matters and nothing enforced it.
+    ok(d.pos instanceof Float64Array && d.vel instanceof Float64Array,
+      `the generator emits ${d.pos.constructor.name}; initial conditions must be float64 or the reference inherits the precision of the thing it checks`);
+    // and measurably so: the per-particle birth error must be at float64 level
+    let birth = 0;
+    for (let i = 0; i < d.count; i++) {
+      const r = Math.hypot(d.pos[i * 3], d.pos[i * 3 + 1], d.pos[i * 3 + 2]);
+      birth = Math.max(birth, Math.abs(r - Math.hypot(d.pos[i * 3], d.pos[i * 3 + 1], d.pos[i * 3 + 2])));
+    }
+    const speedErr = (() => {
+      let w = 0;
+      for (let i = 0; i < d.count; i++) {
+        const sp = Math.hypot(d.vel[i * 3], d.vel[i * 3 + 1], d.vel[i * 3 + 2]);
+        const want = P.vcirc(Math.hypot(d.pos[i * 3], d.pos[i * 3 + 1], d.pos[i * 3 + 2]));
+        w = Math.max(w, Math.abs(sp - want) / want);
+      }
+      return w;
+    })();
+    below(speedErr, 1e-12, 'worst |v| against v_circ(|x|) at birth — float32 generation shows here as ~1e-8');
+
     record('discRmsZ', v.rms);
     record('discFoldRatio', v.ratio);
     return `rms|z| ${v.rms.toFixed(3)} kpc (${vt.rms.toFixed(3)} at 3x thickness), fold m1/rms `
