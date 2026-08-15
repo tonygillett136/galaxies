@@ -73,6 +73,14 @@ export class App {
 
     new ResizeObserver(() => this.resize()).observe(canvas);
     this.resize();
+
+    // FRAME AFTER EVERYTHING HAS SETTLED. loadScenario() frames as it builds, but
+    // at that moment the pair is at tStart — near its widest — so the opening view
+    // was set from a separation the user never sees. Measured on the live site:
+    // camera at 848 kpc for a content radius of 34. Unless a shared link supplied
+    // a camera, frame once more now that the scenario is at its view epoch.
+    if (!new URLSearchParams(location.search).has('cam')) this.frameToContent();
+
     requestAnimationFrame(() => this.frame());
   }
 
@@ -334,7 +342,16 @@ export class App {
       const cat = this.catalogue;
       const fieldKpc = t.kpcPerArcsec * cat.cutoutScaleArcsecPerPixel * cat.cutoutSizePx;
       this.fieldKpc = fieldKpc;
-      this.camera._want.distance = fieldKpc / (2 * Math.tan(this.camera.fov / 2));
+      // ONLY IN DETECT. fillTargets() resolves after start() and calls
+      // selectTarget(targets[0]), so this scale-matching used to run while the app
+      // was sitting in Sandbox — setting the opening camera from the angular
+      // diameter of a target the user had not selected. Measured on the live site:
+      // the first view was at 848 kpc for a content radius of 34, i.e. Arp 240's
+      // frame width, in the prograde scenario. Round 4 saw the same mechanism
+      // overwrite a restored camera from a shared link.
+      if (this.mode === 'detective') {
+        this.camera._want.distance = fieldKpc / (2 * Math.tan(this.camera.fov / 2));
+      }
       notes.push(`Scale matched: frame is ${fieldKpc.toFixed(0)} kpc across, z = ${t.z.toFixed(4)}.`);
       if (t.zKind === 'photo') {
         notes.push('SCALE UNRELIABLE: this is a PHOTOMETRIC redshift, not spectroscopic. '
