@@ -384,3 +384,90 @@ bind-group-layout change with per-dispatch dynamic offsets. Every one of this
 project's worst bugs has come from bind-group layouts, and it was 3am. Logged
 rather than rushed. The dust lane (S-13), the Detect residual instrument (S-14),
 the multi-seed N-scaling (S-17) and the LRL check remain open.
+
+---
+
+## Round 5 — 2026-08-15 03:25 to 04:13, on a FROZEN tree
+
+Aimed squarely at round 4's fixes, three of which were third attempts at the same
+defect. The brief said: assume the pattern has repeated until you have measured
+otherwise, and set a flag when you have *proved* an assertion cannot fail.
+
+**36 findings. 32 confirmed, 4 partial, 0 refuted. Fourteen guards proved inert.**
+Verdicts: three "serious problems", three "not yet".
+
+**Six of round 4's eleven fixes were present, commented as handled, and wrong.**
+
+### The technique that made this round
+
+Mutation testing. Reviewers took `git archive HEAD` copies, deleted or reverted a
+shipped fix, and ran the suite. Thirteen mutations, thirteen greens — including
+setting the friction weight to `1` outright, reverting the disc thickness default
+to `0`, and emptying the entire CLAIMS table.
+
+That is a stronger instrument than reading, and it is the one this project should
+have been using from round 1. A test that passes when you delete the code it
+guards is not evidence of anything.
+
+### The two that hurt most
+
+**The friction gate, fourth attempt.** Round 4 exported `frictionWeight()` "so the
+test calls the shipped function" — and left the integrator with an inline copy of
+the same smoothstep, sharing only `frictionWeightX`. The comment above the export
+reads *"`frictionWeight` below is the same function the integrator uses"*, and it
+was false the moment it was written. Five mutations of the inline copy, five
+byte-identical outputs.
+
+So round 4's fix for "a guard that does not call the thing it guards is not a
+guard" produced a guard that does not call the thing it guards.
+
+**The claims guard, third attempt.** Round 4's sensitivity check declared a
+private seven-line copy of the comparison under a comment claiming it drove the
+real one. Round 5 neutered the live loop *and* drifted `index.html`'s headline
+physics figure from 15.1% to 99.9% — a 580% error in a sentence users read — and
+the suite reported **75/75, all green**, sensitivity check passing.
+
+### And one where I was wrong twice in opposite directions
+
+The drag impulse cap. Round 4 reported it dimensionally inconsistent; I changed it
+without checking how the force is applied. `acc -= F * vx / mass` uses the
+velocity **vector**, so the acceleration is F|v|/m and |v| cancels exactly —
+`0.25/dt` was right and my "fix" made the cap |v| times too permissive. My own
+ways-of-working says a report is the hypothesis to test, not the premise to act
+on, and I did not follow it.
+
+Round 5 then over-attributed in the other direction, claiming no lnΛ merges "under
+the correct cap". **I measured: the cap fires on 0.0% of steps at every lnΛ from
+0.2 to 6.** It is not the cap that limits the merger; the drag law is asymptotic.
+Verifying the reviewers remains as necessary as verifying the code.
+
+### The disc, fourth construction
+
+Round 4's "thickness is orbital inclination" is correct per particle — |x| = r and
+|v| = v_c(r) to float32 epsilon — and structurally a **folded sheet**: every orbit
+tilted by the same β about the same node line, so ⟨z⟩ tracked azimuth with an m=1
+moment 0.64 of rms|z|. The round-4 assertions were azimuthal **averages**, which
+is exactly the operation that cannot see an azimuthal defect.
+
+Each orbit now tilts about its own random node axis (Rodrigues, exact, so
+equilibrium is untouched). Fold ratio **0.6405 → 0.0135**.
+
+### Applied
+
+`chandra()` calls `frictionWeight()`. Impulse cap reverted with the derivation
+written out. Disc nodes randomised, with a check testing vertical extent, scaling
+with thickness, the m=1 fold moment and per-particle |x| and |v| — plus a
+sensitivity check that rejects *both* mutations round 5 used. One `compareClaim()`
+called by the guard and its own sensitivity check. A length floor on CLAIMS.
+Merger threshold given a stated definition (5 kpc, inside both discs, reached at
+1685 Myr) rather than a picked one.
+
+**75/75, all complete, zero failures.**
+
+### What this round establishes about the loop
+
+Five rounds, and every one has found the previous round's fixes wrong. The
+defects have moved steadily *upward* — from the physics, to the fixes, to the
+tests guarding the fixes, to the documents describing them — which is progress of
+a kind, but the gate has not passed and the honest reading is that it will not
+until the guards themselves are routinely mutation-tested.

@@ -998,3 +998,104 @@ an evidence chain that could not, this morning, be trusted end to end. It is
 better now than it was at midnight, and the honest summary is that four rounds
 have moved the defects steadily *upward* — from the physics, to the fixes, to the
 tests that guard the fixes, to the documents that describe them.
+
+---
+
+## Round 5: mutation testing, and the fix that failed at being a fix
+
+*2026-08-15, 03:25 to 04:40.*
+
+I pointed round 5 straight at round 4's work, because three of those fixes were
+third attempts at the same defect and the pattern had held four rounds running.
+The brief said to assume it had repeated until measured otherwise.
+
+It had. **Six of eleven round-4 fixes were present, commented as handled, and
+wrong.**
+
+### The instrument this project should have had from the start
+
+Round 5's reviewers stopped reading code and started **breaking it**. Take a `git
+archive HEAD` copy, delete or revert a shipped fix, run the suite, see whether it
+notices.
+
+Thirteen mutations. Thirteen greens. Including:
+
+- setting the friction validity weight to `1` outright — the entire gate
+- reverting the disc thickness default to `0` — the entire feature, **byte-identical output**
+- emptying the whole CLAIMS table — "0 documented figures match their measurements", green
+
+A test that passes when you delete the code it guards is not evidence. Four rounds
+of reading found real defects; one round of mutation found that fourteen of the
+assertions protecting them were decorative.
+
+### The fix that failed at being a fix
+
+Round 4's headline lesson, in `cpu.js`, is *"A guard that does not call the thing
+it guards is not a guard."* Immediately beneath it: *"`frictionWeight` below is
+the same function the integrator uses."*
+
+It was not. I exported the function so the test would stop re-implementing it,
+and then left the integrator with an inline copy of the same smoothstep, sharing
+only the ratio helper. So the test exercised a function nothing in the simulation
+called — and the sentence asserting otherwise was false the moment I wrote it.
+
+The claims guard failed the same way. Round 4 rewrote its sensitivity check "to
+drive the real comparison" and gave it a private seven-line copy instead. Round 5
+neutered the live loop *and* changed the headline physics figure in `index.html`
+from 15.1% to 99.9% — a 580% error in a sentence a user reads — and the suite
+reported 75/75 green with that check passing.
+
+Both of those are fixes written specifically because a reviewer had proved the
+previous version decorative. Writing the fix and writing the thing the fix was
+for are apparently different acts, and I did the second badly while believing I
+had done it.
+
+### Wrong twice, in opposite directions, about one line
+
+The drag impulse cap. Round 4 reported `0.25/dt` as dimensionally inconsistent —
+it compares a per-mass force against a rate — and I agreed and changed it to
+`0.25·v/dt`.
+
+The drag is applied as `acc -= F * vx / mass`, where `vx` is a component of the
+velocity **vector**, not a unit vector. So the acceleration is F|v|/m, and
+|a|·dt ≤ 0.25|v| gives F/m ≤ 0.25/dt with |v| cancelling exactly. **The original
+was right.** I made the cap |v| times too permissive on the strength of a report
+I did not check, which is precisely what this project's own ways-of-working tells
+me not to do: a report is the hypothesis to test, not the premise to act on.
+
+Then round 5 over-corrected in the other direction, saying no lnΛ merges "under
+the correct cap". I measured it: **the cap fires on 0.0% of steps at every lnΛ
+from 0.2 to 6.** It is not the cap that limits the merger — the drag law is
+asymptotic, and more drag is not monotonically faster because strong drag
+circularises the orbit early at large radius. Verifying the reviewers is still
+as necessary as verifying the code.
+
+### The disc was a folded sheet
+
+"Thickness is orbital inclination" was right per particle and wrong as an
+ensemble. Every orbit tilted by the same β about the same node line, so ⟨z⟩ varied
+coherently with azimuth — an m=1 moment 0.64 of rms|z|. A folded sheet, not a
+disc.
+
+And the assertions I wrote for it were azimuthal **averages**, which is exactly
+the operation that cannot see an azimuthal defect. That is the round-4 lesson
+recurring inside my round-4 fix: I measured the quantity I had been thinking
+about rather than the one that could go wrong.
+
+Tilting each orbit about its own random node axis fixes it — Rodrigues rotation is
+exact, so the equilibrium is untouched — and takes the fold ratio from 0.6405 to
+**0.0135**.
+
+### Where five rounds have got to
+
+**75 assertions, all complete, zero failures**, deployed and verified live at
+16.7 ms median / 59.9 fps on a single tab. (An earlier reading of 44 fps was six
+browser tabs contending for the GPU, not a regression — worth measuring before
+believing.)
+
+Every round has found the previous round's fixes wrong. What has changed is
+*where* the defects live: round 2 found them in the physics, round 3 in the fixes,
+round 4 in the tests guarding the fixes, round 5 in the tests guarding the tests.
+That is a real direction of travel, and it is not convergence. The gate has not
+passed and will not until the guards are mutation-tested as a matter of course —
+which is now the single most valuable process change available to this project.
