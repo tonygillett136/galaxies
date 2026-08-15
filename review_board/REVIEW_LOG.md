@@ -471,3 +471,81 @@ defects have moved steadily *upward* — from the physics, to the fixes, to the
 tests guarding the fixes, to the documents describing them — which is progress of
 a kind, but the gate has not passed and the honest reading is that it will not
 until the guards themselves are routinely mutation-tested.
+
+---
+
+## Round 6 — 2026-08-15 04:38 to 05:46, on a FROZEN tree
+
+Aimed at round 5's fixes and at `bench/mutate.mjs`, the mutation harness round 5
+introduced to break the pattern. Mutation was made the primary instrument and
+reviewers were warned about equivalent mutants.
+
+**38 findings. 32 confirmed, 4 partial, 0 refuted. Fourteen more guards proved
+inert.** Verdicts: two "serious problems", four "not yet".
+
+**Five of round 5's eight changes were wrong — 63%, against 55% the round before.
+The rate has not improved.**
+
+### What changed, and it is the first good news in six rounds
+
+All three substantive **engine** fixes survived every mutation aimed at them by
+five independent reviewers: the friction gate wiring, the impulse-cap dimensions,
+and the disc's per-orbit Rodrigues rotation. The code is right. Every failure this
+round was in a **guard, the harness, or the prose**.
+
+### The harness reported perfection on a broken tree
+
+`bench/mutate.mjs` said "12 killed, 0 survived" — and the suite said 76/76 — on a
+tree with `setBusy`, the science-view backdrop, `onDeviceLost` and the chunked
+seek **all reverted simultaneously**. It reaches 61 of 76 checks and **0%** of
+`src/app` and `src/render`.
+
+It was also scoring an **unparseable mutant as a kill**, and scoring mutations as
+killed by collateral checks after their own guard was destroyed.
+
+### Fourteen inert guards, each demonstrated by mutation
+
+The ones that matter most: the claims live loop (neuterable in one line, fourth
+consecutive round); the impulse cap's `Math.max` → `Math.min`; every
+`Float64Array` in `galaxy.js` → `Float32Array` (birth error 2.2e-16 → 1.7e-8);
+the disc thickness magnitude (×0.34 passes); the softening sweep (deleting
+`softeningScale` entirely passes); the README frame rate (10× wrong passes); and
+five DEVLOG morphology figures replaced with nonsense.
+
+One guard was found **stronger** than its label — the "m=1 vertical moment" is
+sensitive to every m ≥ 1 and correctly killed a rigid m=2 warp at 0.637 against a
+0.10 limit. The only comment understating its code all week.
+
+### Equivalent mutants, handled correctly for the first time
+
+**Zero findings rest on an equivalent mutant.** One reviewer *withheld* a
+survivor after establishing it was statistically equivalent — quantising the disc
+node to four symmetric axes leaves ⟨z(φ)⟩ and the |z| mixture unchanged — and a
+deliberate comment-only control confirmed the harness is deterministic. That is
+the discipline the technique needs and it appeared without being asked for.
+
+### Applied
+
+Harness: kills must come from the check NAMED for that mutation (`MISATTRIB`
+otherwise); crashes are `BROKEN`, not kills; browser-only mutations report `NOT
+COVERED`; coverage limits printed in the summary.
+
+Claims guard, fourth attempt and the one that works: a **canary inside the live
+loop** — a deliberately 3×-wrong figure evaluated through the same comparison and
+required to be rejected. Rounds 4 and 5 both rewrote the *sensitivity check*
+instead, which cannot witness whether the live loop ran. Verified by browser
+mutation.
+
+Two new guards: float64-at-generation, and the impulse cap exercised at q = 0.05
+rather than q = 1.0 where max and min coincide.
+
+**76/76 complete. Harness 14 killed, 0 survived, 1 not covered.**
+
+### The finding about the process, after six rounds
+
+Every instrument this project has built to check itself has first failed in
+exactly the way it was built to detect — the assertions, the sensitivity checks,
+the claims guard, and finally the mutation harness. The only defences that have
+held more than once are those that turn the check on **itself**: `expectChecks`
+for the suite, and the canary for the claims guard. That is the transferable
+result.
