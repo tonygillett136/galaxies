@@ -1203,3 +1203,52 @@ assertions, the sensitivity checks, the claims guard, and finally the mutation
 harness. The only defence that has worked more than once is the one that turns the
 check on itself — `expectChecks` for the suite, the canary for the claims guard —
 and that is the pattern worth carrying to the next project.
+
+
+---
+
+## The Laplace-Runge-Lenz check, and an instrument hiding a result from itself
+
+*2026-08-15, 06:15 to 06:30.*
+
+`CLAUDE.md`'s own check table names LRL as **the** force-law test, and gives the
+reason: energy and angular momentum are conserved by *any* central force, so
+neither can distinguish an inverse-square law from a softened one. The project had
+LRL checks on the two-body galaxy pair. The **test-particle** integrator — a
+different code path, feeling `P.accel()` directly, never touching the pair force,
+and the one 300,000 particles actually use — had none. Three review briefs asked
+for it and none got to it.
+
+**My first attempt used a fixed tolerance and was the wrong test.** It failed at
+1.17e-4 against a 1e-5 limit. The limit was the error: I used a quarter of the
+steps per orbit the two-body check uses, and leapfrog is second order, so 4x the
+step is 16x the drift. A tolerance chosen without that arithmetic measures the
+timestep and reports it as physics.
+
+**Convergence order separates them.** Integration error falls as dt²; a wrong
+force law leaves a residual that does not converge, because it is a property of
+the force rather than of the discretisation. Measured on the shipped path:
+
+| steps per orbit | 2,000 | 4,000 | 8,000 |
+|---|---|---|---|
+| LRL drift over 3 orbits | 1.17e-4 | 2.93e-5 | 7.32e-6 |
+
+Ratios **4.00 and 4.00**. Textbook second order, so the residual is integration
+error and the test-particle force law is exactly inverse-square. A Plummer sphere
+of the same mass drifts 1.19 — a factor of 160,000 — and a mutation adding a 1e-3
+non-1/r² term makes the drift stop converging entirely (6.54e-3 → 6.66e-3 across
+a 4× refinement).
+
+### And then the harness hid that from itself
+
+The mutation harness reported `MISATTRIB` for that non-1/r² mutation — claiming
+only collateral checks had fired — while the LRL check had in fact caught it
+exactly as designed. The cause: I had sliced the failing-check list to the first
+four entries, and the LRL check was fifth.
+
+**The instrument's own reporting concealed the result it was measuring.** That is
+the third time in one night that a thing built to detect a class of defect has
+exhibited that defect: the assertions, then the claims guard, then the harness,
+and now the harness's reporting. I have stopped being surprised by it and started
+treating it as the expected behaviour of any new instrument — which is, in the
+end, the most useful thing this project has taught me.
