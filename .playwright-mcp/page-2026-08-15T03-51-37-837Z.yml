@@ -1,0 +1,17 @@
+- generic [active] [ref=f27e1]:
+  - heading "Directory listing for /data/" [level=1] [ref=f27e2]
+  - separator [ref=f27e3]
+  - list [ref=f27e4]:
+    - listitem [ref=f27e5]:
+      - link "build_targets.py" [ref=f27e6] [cursor=pointer]:
+        - /url: build_targets.py
+    - listitem [ref=f27e7]:
+      - link "galaxy_zoo_mergers/" [ref=f27e8] [cursor=pointer]:
+        - /url: galaxy_zoo_mergers/
+    - listitem [ref=f27e9]:
+      - link "reference/" [ref=f27e10] [cursor=pointer]:
+        - /url: reference/
+    - listitem [ref=f27e11]:
+      - link "targets/" [ref=f27e12] [cursor=pointer]:
+        - /url: targets/
+  - separator [ref=f27e13]

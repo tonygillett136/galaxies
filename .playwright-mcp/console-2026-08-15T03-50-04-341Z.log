@@ -1,0 +1,3 @@
+[    8671ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://127.0.0.1:8799/favicon.ico:0
+[    8702ms] [ERROR] Access to script at 'http://localhost:8787/src/engine/gpu.js' from origin 'http://127.0.0.1:8799' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://127.0.0.1:8799/test/index.html:0
+[    8702ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost:8787/src/engine/gpu.js:0

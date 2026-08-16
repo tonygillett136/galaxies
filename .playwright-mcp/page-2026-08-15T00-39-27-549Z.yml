@@ -1,0 +1,135 @@
+- generic [active] [ref=f6e1]:
+  - button "☰" [ref=f6e4] [cursor=pointer]
+  - complementary [ref=f6e5]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f6e6]:
+      - text: Galaxy Collisions
+      - generic [ref=f6e7]: Restricted three-body, WebGPU
+    - generic [ref=f6e8]:
+      - button "Sandbox" [ref=f6e9] [cursor=pointer]
+      - button "Detect" [ref=f6e10] [cursor=pointer]
+      - button "Tour" [ref=f6e11] [cursor=pointer]
+      - button "Atlas" [ref=f6e12] [cursor=pointer]
+    - generic [ref=f6e13]:
+      - heading "Orbit" [level=2] [ref=f6e14]
+      - generic [ref=f6e15]:
+        - generic [ref=f6e16]: Mass ratio
+        - status [ref=f6e17]: "1.00"
+      - slider "Mass ratio" [ref=f6e18]: "1"
+      - generic [ref=f6e19]:
+        - generic [ref=f6e20]: Pericentre
+        - status [ref=f6e21]: 25.0 kpc
+      - slider "Pericentre" [ref=f6e22]: "25"
+      - generic [ref=f6e23]:
+        - generic [ref=f6e24]: Eccentricity
+        - status [ref=f6e25]: "1.00"
+      - slider "Eccentricity" [ref=f6e26]: "1"
+      - generic [ref=f6e27]:
+        - generic [ref=f6e28]: Dynamical friction (lnΛ)
+        - status [ref=f6e29]: "off"
+      - slider "Dynamical friction (lnΛ)" [ref=f6e30]: "0"
+      - heading "Disc orientation" [level=2] [ref=f6e31]
+      - generic [ref=f6e32]:
+        - generic [ref=f6e33]: Primary tilt
+        - status [ref=f6e34]: "-1°"
+      - slider "Primary tilt" [ref=f6e35]: "-0.02"
+      - generic [ref=f6e36]:
+        - generic [ref=f6e37]: Secondary tilt
+        - status [ref=f6e38]: 19°
+      - slider "Secondary tilt" [ref=f6e39]: "0.33"
+      - generic [ref=f6e40] [cursor=pointer]:
+        - checkbox "Primary disc retrograde" [ref=f6e41]
+        - text: Primary disc retrograde
+      - generic [ref=f6e42] [cursor=pointer]:
+        - checkbox "Secondary disc retrograde" [ref=f6e43]
+        - text: Secondary disc retrograde
+      - paragraph [ref=f6e44]: "Spin direction matters more than closeness. Set one retrograde and one prograde to get a long tail on one galaxy and almost nothing on the other — that asymmetry, not the closeness of the passage, is the dominant effect in a tidal encounter. Measured here: prograde throws 15.1% of a disc beyond 20 kpc against 2.5% retrograde, a ratio of 6.0x on identical orbits."
+    - generic [ref=f6e45]:
+      - heading "Observed system" [level=2] [ref=f6e46]
+      - generic [ref=f6e47]: Target
+      - combobox "Target" [ref=f6e49] [cursor=pointer]
+      - generic [ref=f6e50]:
+        - generic [ref=f6e51]: Image blend
+        - status [ref=f6e52]: "0.86"
+      - slider "Image blend" [ref=f6e53]: "0.86"
+      - generic [ref=f6e54]:
+        - generic [ref=f6e55]: Image scale
+        - status [ref=f6e56]: 1.00x
+      - slider "Image scale" [ref=f6e57]: "1"
+      - heading "Viewing geometry" [level=2] [ref=f6e58]
+      - paragraph [ref=f6e59]: The orientation you are looking from is part of the fit, not a camera convenience. Drag in the view for the two angles; roll sets the position angle on the sky, which nothing else can supply.
+      - generic [ref=f6e60]:
+        - generic [ref=f6e61]: Roll (position angle)
+        - status [ref=f6e62]: 1°
+      - slider "Roll (position angle)" [ref=f6e63]: "0.01"
+      - heading "Published fit" [level=2] [ref=f6e64]
+      - table
+      - button "Load published fit" [ref=f6e66] [cursor=pointer]
+      - paragraph
+    - heading "Playback" [level=2] [ref=f6e67]
+    - generic [ref=f6e68]:
+      - generic [ref=f6e69]: Speed
+      - status [ref=f6e70]: 1.00x
+    - slider "Speed" [ref=f6e71]: "1"
+    - generic [ref=f6e72]:
+      - button "Pause" [ref=f6e73] [cursor=pointer]
+      - button "Reset" [ref=f6e74] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f6e75]
+    - generic [ref=f6e76]:
+      - generic [ref=f6e77]: Splat size
+      - status [ref=f6e78]: "0.220"
+    - slider "Splat size" [ref=f6e79]: "0.22"
+    - generic [ref=f6e80]:
+      - generic [ref=f6e81]: Intensity
+      - status [ref=f6e82]: "0.022"
+    - slider "Intensity" [ref=f6e83]: "0.022"
+    - generic [ref=f6e84]:
+      - generic [ref=f6e85]: Exposure
+      - status [ref=f6e86]: "1.00"
+    - slider "Exposure" [ref=f6e87]: "1"
+    - generic [ref=f6e88]:
+      - generic [ref=f6e89]: Bloom
+      - status [ref=f6e90]: "0.56"
+    - slider "Bloom" [ref=f6e91]: "0.56"
+    - generic [ref=f6e92]:
+      - generic [ref=f6e93]: Dust extinction
+      - status [ref=f6e94]: "1.9"
+    - slider "Dust extinction" [ref=f6e95]: "1.9"
+    - generic [ref=f6e96]:
+      - generic [ref=f6e97]: Camera follows
+      - combobox "Camera follows" [ref=f6e98] [cursor=pointer]:
+        - option "Midpoint of the pair" [selected]
+        - option "Primary galaxy"
+        - option "Secondary galaxy"
+        - option "Barycentre (fixed)"
+    - generic [ref=f6e99]:
+      - generic [ref=f6e100]: Colour by
+      - combobox "Colour by" [ref=f6e101] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f6e102] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom, no dust)" [ref=f6e103]
+      - text: Science view (linear, no bloom, no dust)
+    - button "Copy link to this state" [ref=f6e105] [cursor=pointer]
+    - paragraph [ref=f6e106]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step, r reset, s science view, 1–4 modes. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: 2 fps · 612.1 ms
+    - generic: 300,000 test particles
+    - generic: separation 98.6 kpc
+  - generic:
+    - generic:
+      - generic: "-243 Myr"
+      - generic: before pericentre
+    - generic: 10 kpc
+  - generic:
+    - generic: Stellar population (by birth radius, indicative)
+    - generic:
+      - generic: older, inner
+      - generic: younger, outer
+  - generic [ref=f6e107]:
+    - generic [ref=f6e108]:
+      - slider [ref=f6e109]: "-51.5850000000018"
+      - generic: pericentre
+    - generic [ref=f6e110]:
+      - generic [ref=f6e111]: before
+      - generic [ref=f6e112]: after

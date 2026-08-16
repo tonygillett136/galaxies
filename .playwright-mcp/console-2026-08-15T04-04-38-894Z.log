@@ -1,0 +1,2 @@
+[      56ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8802/favicon.ico:0
+[    1410ms] [ERROR] WebGPU device lost (destroyed): Device was destroyed. @ http://localhost:8802/src/engine/gpu.js:200

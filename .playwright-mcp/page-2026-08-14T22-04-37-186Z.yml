@@ -1,0 +1,97 @@
+- generic [active] [ref=f28e1]:
+  - button "☰" [ref=f28e4] [cursor=pointer]
+  - complementary [ref=f28e5]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f28e6]:
+      - text: Galaxy Collisions
+      - generic [ref=f28e7]: Restricted three-body, WebGPU
+    - generic [ref=f28e8]:
+      - button "Sandbox" [ref=f28e9] [cursor=pointer]
+      - button "Detect" [ref=f28e10] [cursor=pointer]
+      - button "Tour" [ref=f28e11] [cursor=pointer]
+      - button "Atlas" [ref=f28e12] [cursor=pointer]
+    - generic [ref=f28e13]:
+      - heading "Encounter" [level=2] [ref=f28e14]
+      - paragraph
+      - heading "Orbit" [level=2] [ref=f28e15]
+      - generic [ref=f28e16]:
+        - generic [ref=f28e17]: Mass ratio
+        - status
+      - slider "Mass ratio" [ref=f28e18]: "1"
+      - generic [ref=f28e19]:
+        - generic [ref=f28e20]: Pericentre
+        - status
+      - slider "Pericentre" [ref=f28e21]: "25"
+      - generic [ref=f28e22]:
+        - generic [ref=f28e23]: Eccentricity
+        - status
+      - slider "Eccentricity" [ref=f28e24]: "1"
+      - heading "Disc orientation" [level=2] [ref=f28e25]
+      - generic [ref=f28e26]:
+        - generic [ref=f28e27]: Primary tilt
+        - status
+      - slider "Primary tilt" [ref=f28e28]: "-0.02"
+      - generic [ref=f28e29]:
+        - generic [ref=f28e30]: Secondary tilt
+        - status
+      - slider "Secondary tilt" [ref=f28e31]: "0.33"
+      - generic [ref=f28e32] [cursor=pointer]:
+        - checkbox "Primary disc retrograde" [ref=f28e33]
+        - text: Primary disc retrograde
+      - generic [ref=f28e34] [cursor=pointer]:
+        - checkbox "Secondary disc retrograde" [ref=f28e35]
+        - text: Secondary disc retrograde
+      - paragraph [ref=f28e36]: "Spin direction matters more than closeness. Set one retrograde and one prograde to get a long tail on one galaxy and almost nothing on the other — that asymmetry, not the closeness of the passage, is the central result of Toomre & Toomre 1972. Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde throws none of 60,000 particles."
+    - heading "Playback" [level=2] [ref=f28e37]
+    - generic [ref=f28e38]:
+      - generic [ref=f28e39]: Speed
+      - status
+    - slider "Speed" [ref=f28e40]: "1"
+    - generic [ref=f28e41]:
+      - button "Pause" [ref=f28e42] [cursor=pointer]
+      - button "Reset" [ref=f28e43] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f28e44]
+    - generic [ref=f28e45]:
+      - generic [ref=f28e46]: Splat size
+      - status
+    - slider "Splat size" [ref=f28e47]: "0.22"
+    - generic [ref=f28e48]:
+      - generic [ref=f28e49]: Intensity
+      - status
+    - slider "Intensity" [ref=f28e50]: "0.022"
+    - generic [ref=f28e51]:
+      - generic [ref=f28e52]: Exposure
+      - status
+    - slider "Exposure" [ref=f28e53]: "1"
+    - generic [ref=f28e54]:
+      - generic [ref=f28e55]: Bloom
+      - status
+    - slider "Bloom" [ref=f28e56]: "0.56"
+    - generic [ref=f28e57]:
+      - generic [ref=f28e58]: Dust extinction
+      - status
+    - slider "Dust extinction" [ref=f28e59]: "1.9"
+    - generic [ref=f28e60]:
+      - generic [ref=f28e61]: Colour by
+      - combobox "Colour by" [ref=f28e62] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f28e63] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom, no dust)" [ref=f28e64]
+      - text: Science view (linear, no bloom, no dust)
+    - button "Copy link to this state" [ref=f28e66] [cursor=pointer]
+    - paragraph [ref=f28e67]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step, r reset, s science view, 1–4 modes. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: — · —
+    - generic: — test particles
+    - generic: separation —
+  - generic:
+    - generic: —
+    - generic: —
+  - generic [ref=f28e68]:
+    - generic [ref=f28e69]:
+      - slider [ref=f28e70]: "-22"
+      - generic: pericentre
+    - generic [ref=f28e71]:
+      - generic [ref=f28e72]: before
+      - generic [ref=f28e73]: after

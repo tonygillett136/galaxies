@@ -1,0 +1,3 @@
+[     109ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://127.0.0.1:8792/favicon.ico:0
+[     710ms] [LOG] SHIPPED SWEEP 0.5/1/2: 14.677% / 14.677% / 14.677%  spread 0.00% @ http://127.0.0.1:8792/test/sweep.html:5
+[     710ms] [LOG] ASSERTION peak>0.005: PASSES @ http://127.0.0.1:8792/test/sweep.html:5

@@ -1,0 +1,1751 @@
+[     579ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     579ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     580ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     580ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     593ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     593ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     608ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     608ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     625ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     625ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     641ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     641ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     658ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     658ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     675ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     675ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     692ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     692ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     707ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     707ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     725ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     725ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     741ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     741ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     758ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     758ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     775ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     775ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     791ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     791ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     807ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     807ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     825ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     825ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     840ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     840ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     858ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     858ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     874ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     874ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     892ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     892ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     908ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     908ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     925ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     925ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     942ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     942ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     958ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     958ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     975ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     975ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     992ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     992ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1008ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1008ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1024ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1024ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1040ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1040ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1058ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1058ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1075ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1075ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1092ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1092ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1108ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1108ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1125ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1125ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1142ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1142ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1158ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1158ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1175ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1175ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1192ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1192ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1209ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1209ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1224ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1224ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1242ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1242ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1259ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1259ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1275ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1275ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1292ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1292ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1309ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1309ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1325ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1325ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1342ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1342ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1359ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1359ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1374ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1374ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1392ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1392ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1409ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1409ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1425ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1425ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1442ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1442ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1458ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1458ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1475ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1475ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1491ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1491ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1508ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1508ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1525ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1525ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1542ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1542ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1558ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1558ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1575ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1575ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1592ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1592ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1608ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1609ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1625ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1625ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1642ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1642ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1658ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1658ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1675ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1675ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1691ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1691ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1709ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1709ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1725ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1725ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1742ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1742ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1758ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1758ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1775ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1775ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1791ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1791ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1809ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1809ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1824ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1824ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1841ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1841ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1858ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1858ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1874ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1874ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1891ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1891ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1908ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1908ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1924ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1925ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1941ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1941ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1958ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1958ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1974ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1974ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1991ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1991ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2009ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2009ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2025ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2025ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2040ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2040ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2057ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2057ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2074ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2074ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2091ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2092ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2108ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2108ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2126ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2126ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2142ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2142ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2158ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2158ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2175ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2175ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2192ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2192ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2209ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2209ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2224ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2224ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2242ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2242ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2259ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2259ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2276ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2276ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2291ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2292ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2309ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2309ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2325ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2325ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2341ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2341ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2359ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2359ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2375ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2375ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2392ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2392ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2407ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2408ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2425ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2425ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2441ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2441ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2458ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2458ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2474ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2474ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2492ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2492ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2508ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2509ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2525ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2525ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2542ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2542ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2559ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2559ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2575ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2575ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2592ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2592ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2608ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2608ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2625ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2625ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2642ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2642ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2659ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2659ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2675ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2675ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2692ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2692ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2709ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2709ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2725ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2725ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2742ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2742ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2758ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2759ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2775ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2775ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2792ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2792ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2809ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2809ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2825ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2825ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2842ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2842ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2858ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2858ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2874ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2874ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2891ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2891ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2908ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2908ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2925ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2925ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2942ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2942ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2957ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2957ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2975ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2975ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2992ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2992ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3008ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3008ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3025ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3025ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3042ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3042ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3058ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3058ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3075ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3075ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3091ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3091ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3108ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3108ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3124ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3125ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3140ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3140ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3158ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3158ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3174ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3174ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3191ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3191ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3209ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3209ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3224ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3224ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3242ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3242ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3257ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3257ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3276ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3276ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3292ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3292ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3309ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3309ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3326ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3326ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3340ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3340ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3358ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3358ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3375ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3375ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3392ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3392ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3408ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3408ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3425ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3425ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3441ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3441ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3458ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3458ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3475ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3475ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3492ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3492ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3509ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3509ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3526ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3526ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3541ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3541ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3558ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3558ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3574ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3575ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3593ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3593ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3610ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3610ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3625ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3625ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3643ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3643ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3659ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3660ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3675ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3676ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3692ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3692ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3709ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3709ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3724ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3724ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3742ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3742ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3759ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3759ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3776ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3776ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3792ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3792ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3809ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3809ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3826ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3826ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3842ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3842ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3859ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3859ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3874ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3874ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3892ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3892ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3908ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3908ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3924ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3924ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3942ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3942ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3958ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3958ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3975ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3975ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3991ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3991ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4008ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4008ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4025ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4025ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4042ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4042ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4056ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4056ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4075ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4075ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4092ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4092ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4106ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4107ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4124ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4124ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4142ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4142ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4157ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4158ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4175ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4175ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4191ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4192ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4209ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4209ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4225ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4225ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4241ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4241ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4258ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4258ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4275ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4275ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4292ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4292ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4308ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4308ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4325ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4325ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4342ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4342ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4358ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4358ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4374ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4374ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4391ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4391ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4411ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4411ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4425ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4425ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4442ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4442ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4458ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4458ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4475ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4475ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4492ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4492ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4508ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4508ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4525ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4525ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4542ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4542ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4559ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4559ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4575ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4575ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4592ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4592ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4608ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4608ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4624ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4624ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4642ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4642ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4659ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4659ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4675ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4675ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4692ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4692ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4708ms] [WARNING] [Buffer (unlabeled)] bound with size 256 at group 0, binding 0 is too small. The pipeline ([RenderPipeline "splat"]) requires a buffer binding which is at least 272 bytes. This binding is a uniform buffer binding. It is padded to a multiple of 16 bytes, and as a result may be larger than the associated data in the shader source.
+ - While encoding [RenderPassEncoder (unlabeled)].Draw(6, 300000, 0, 0).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4709ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4709ms] [WARNING] WebGPU: too many warnings, no more warnings will be reported to the console for this GPUDevice. @ http://127.0.0.1:8787/index.html:0

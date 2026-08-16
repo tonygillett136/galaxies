@@ -1,0 +1,1 @@
+[   10364ms] [ERROR] WebGPU device lost (destroyed): Device was destroyed. @ http://localhost:8787/src/engine/gpu.js:200

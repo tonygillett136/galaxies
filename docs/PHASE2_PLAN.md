@@ -39,14 +39,20 @@ all-pairs self-gravity on this M4 saturates at **1.16e11 pair-interactions/s**
 | 8 ms (renderer gets the rest) | ~30,000 |
 | 16.7 ms (physics only) | ~44,000 |
 
-**Film tier**, offline, no frame budget:
+**Film tier**, offline, no frame budget. **Re-measured 2026-08-16 with the direct arm
+extended into the film range, so these are measurements and not a fit:**
 
-| N | ms/step | 2 steps/frame × 27,576 frames |
-|---|---|---|
-| 100k | 86 | 1.3 h |
-| 150k | 194 | **3.0 h** |
-| 200k | 345 | 5.3 h |
-| 300k | 776 | 11.9 h |
+| N | ms/step (measured) | pairs/s | 2 steps/frame × 27,576 frames |
+|---|---|---|---|
+| 131,072 | 155.5 | 1.10e11 | 2.38 h |
+| 150,000 | **205.4** | 1.10e11 | **3.15 h** |
+| 200,000 | 359.6 | 1.11e11 | 5.51 h |
+| 262,144 | 613.5 | 1.12e11 | 9.40 h |
+
+Throughput saturates at **~1.10e11**, not the 1.16e11 the first run recorded, so the earlier
+extrapolation was optimistic by about 5 per cent. This run was taken with a browser open and a
+session active rather than on a truly idle machine — per the project's own standing lesson,
+that is stated rather than hidden, and the conservative figure is the one to plan with.
 
 Direct N² wins for Friday because it is **exact** — no opening angle, no grid
 resolution, no tree to build — and because the kernel already exists and is
@@ -181,8 +187,14 @@ foreground tail to the far nucleus), never as a default.
 
 Ten hours available. Physics and render are sequential per segment.
 
-- **Target:** N = 150k, 16 samples → 3.0 h + 2.2 h = **5.2 h**. Comfortable.
-- **Stretch:** N = 200k, 32 samples → 5.3 h + 4.4 h = 9.7 h. No room for a mistake.
+- **Target:** N = 150k, 16 samples → 3.15 h + 2.2 h = **5.4 h**. Comfortable.
+- **Stretch:** N = 200k, 32 samples → 5.5 h + 4.4 h = 9.9 h. No room for a mistake.
+
+**Write to `/Volumes/SSD1`, never to the scratchpad.** Measured 2026-08-16: the scratchpad is
+on the boot volume, which has **35 GiB free at 92% capacity**, while SSD1 has 5.3 TiB. A 4K
+frame is 33 MB uncompressed and the film is 27,576 of them, so anything that spills frames to
+disk fills the system volume long before it finishes — which is precisely the failure machine
+note 2 describes, and it is silent until the machine is in trouble.
 
 Take the target. Spend what is left on a second pass, not on a bigger first one.
 

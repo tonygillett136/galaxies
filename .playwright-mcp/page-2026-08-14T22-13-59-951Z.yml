@@ -1,0 +1,112 @@
+- generic [active] [ref=f34e1]:
+  - button "☰" [ref=f34e4] [cursor=pointer]
+  - complementary [ref=f34e5]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f34e6]:
+      - text: Galaxy Collisions
+      - generic [ref=f34e7]: Restricted three-body, WebGPU
+    - generic [ref=f34e8]:
+      - button "Sandbox" [ref=f34e9] [cursor=pointer]
+      - button "Detect" [ref=f34e10] [cursor=pointer]
+      - button "Tour" [ref=f34e11] [cursor=pointer]
+      - button "Atlas" [ref=f34e12] [cursor=pointer]
+    - generic [ref=f34e13]:
+      - heading "Encounter" [level=2] [ref=f34e14]
+      - generic [ref=f34e15]:
+        - button "Prograde passage" [ref=f34e16] [cursor=pointer]
+        - button "Retrograde passage" [ref=f34e17] [cursor=pointer]
+        - button "Mice-like" [ref=f34e18] [cursor=pointer]
+        - button "Antennae-like" [ref=f34e19] [cursor=pointer]
+        - button "Minor companion" [ref=f34e20] [cursor=pointer]
+        - button "Distant fly-by" [ref=f34e21] [cursor=pointer]
+        - button "Merger (with friction)" [ref=f34e22] [cursor=pointer]
+        - button "Ring galaxy" [ref=f34e23] [cursor=pointer]
+      - paragraph [ref=f34e24]: "Discs spinning the same way as the orbit, passing at 25 kpc. The classic case: long, thin tidal tails from both galaxies."
+      - heading "Orbit" [level=2] [ref=f34e25]
+      - generic [ref=f34e26]:
+        - generic [ref=f34e27]: Mass ratio
+        - status [ref=f34e28]: "1.00"
+      - slider "Mass ratio" [ref=f34e29]: "1"
+      - generic [ref=f34e30]:
+        - generic [ref=f34e31]: Pericentre
+        - status [ref=f34e32]: 25.0 kpc
+      - slider "Pericentre" [ref=f34e33]: "25"
+      - generic [ref=f34e34]:
+        - generic [ref=f34e35]: Eccentricity
+        - status [ref=f34e36]: "1.00"
+      - slider "Eccentricity" [ref=f34e37]: "1"
+      - generic [ref=f34e38]:
+        - generic [ref=f34e39]: Dynamical friction (lnΛ)
+        - status [ref=f34e40]: "off"
+      - slider "Dynamical friction (lnΛ)" [ref=f34e41]: "0"
+      - heading "Disc orientation" [level=2] [ref=f34e42]
+      - generic [ref=f34e43]:
+        - generic [ref=f34e44]: Primary tilt
+        - status [ref=f34e45]: "-1°"
+      - slider "Primary tilt" [ref=f34e46]: "-0.02"
+      - generic [ref=f34e47]:
+        - generic [ref=f34e48]: Secondary tilt
+        - status [ref=f34e49]: 19°
+      - slider "Secondary tilt" [ref=f34e50]: "0.33"
+      - generic [ref=f34e51] [cursor=pointer]:
+        - checkbox "Primary disc retrograde" [ref=f34e52]
+        - text: Primary disc retrograde
+      - generic [ref=f34e53] [cursor=pointer]:
+        - checkbox "Secondary disc retrograde" [ref=f34e54]
+        - text: Secondary disc retrograde
+      - paragraph [ref=f34e55]: "Spin direction matters more than closeness. Set one retrograde and one prograde to get a long tail on one galaxy and almost nothing on the other — that asymmetry, not the closeness of the passage, is the central result of Toomre & Toomre 1972. Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde throws none of 60,000 particles."
+    - heading "Playback" [level=2] [ref=f34e56]
+    - generic [ref=f34e57]:
+      - generic [ref=f34e58]: Speed
+      - status [ref=f34e59]: 1.00x
+    - slider "Speed" [ref=f34e60]: "1"
+    - generic [ref=f34e61]:
+      - button "Pause" [ref=f34e62] [cursor=pointer]
+      - button "Reset" [ref=f34e63] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f34e64]
+    - generic [ref=f34e65]:
+      - generic [ref=f34e66]: Splat size
+      - status [ref=f34e67]: "0.220"
+    - slider "Splat size" [ref=f34e68]: "0.22"
+    - generic [ref=f34e69]:
+      - generic [ref=f34e70]: Intensity
+      - status [ref=f34e71]: "0.022"
+    - slider "Intensity" [ref=f34e72]: "0.022"
+    - generic [ref=f34e73]:
+      - generic [ref=f34e74]: Exposure
+      - status [ref=f34e75]: "1.00"
+    - slider "Exposure" [ref=f34e76]: "1"
+    - generic [ref=f34e77]:
+      - generic [ref=f34e78]: Bloom
+      - status [ref=f34e79]: "0.56"
+    - slider "Bloom" [ref=f34e80]: "0.56"
+    - generic [ref=f34e81]:
+      - generic [ref=f34e82]: Dust extinction
+      - status [ref=f34e83]: "1.9"
+    - slider "Dust extinction" [ref=f34e84]: "1.9"
+    - generic [ref=f34e85]:
+      - generic [ref=f34e86]: Colour by
+      - combobox "Colour by" [ref=f34e87] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f34e88] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom, no dust)" [ref=f34e89]
+      - text: Science view (linear, no bloom, no dust)
+    - button "Copy link to this state" [ref=f34e91] [cursor=pointer]
+    - paragraph [ref=f34e92]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step, r reset, s science view, 1–4 modes. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: 172 fps · 5.8 ms
+    - generic: 300,000 test particles
+    - generic: separation 95.1 kpc
+  - generic:
+    - generic:
+      - generic: "-211 Myr"
+      - generic: before pericentre
+    - generic: 10 kpc
+  - generic [ref=f34e93]:
+    - generic [ref=f34e94]:
+      - slider [ref=f34e95]: "-44.75"
+      - generic: pericentre
+    - generic [ref=f34e96]:
+      - generic [ref=f34e97]: before
+      - generic [ref=f34e98]: after

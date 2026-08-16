@@ -1,0 +1,109 @@
+- generic [active] [ref=f3e1]:
+  - button "☰" [ref=f3e4] [cursor=pointer]
+  - complementary [ref=f3e5]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f3e6]:
+      - text: Galaxy Collisions
+      - generic [ref=f3e7]: Restricted three-body, WebGPU
+    - generic [ref=f3e8]:
+      - button "Sandbox" [ref=f3e9] [cursor=pointer]
+      - button "Detect" [ref=f3e10] [cursor=pointer]
+      - button "Tour" [ref=f3e11] [cursor=pointer]
+      - button "Atlas" [ref=f3e12] [cursor=pointer]
+    - generic [ref=f3e13]:
+      - heading "Encounter" [level=2] [ref=f3e14]
+      - paragraph
+    - generic [ref=f3e15]:
+      - heading "Orbit" [level=2] [ref=f3e16]
+      - generic [ref=f3e17]:
+        - generic [ref=f3e18]: Mass ratio
+        - status
+      - slider "Mass ratio" [ref=f3e19]: "1"
+      - generic [ref=f3e20]:
+        - generic [ref=f3e21]: Pericentre
+        - status
+      - slider "Pericentre" [ref=f3e22]: "25"
+      - generic [ref=f3e23]:
+        - generic [ref=f3e24]: Eccentricity
+        - status
+      - slider "Eccentricity" [ref=f3e25]: "1"
+      - generic [ref=f3e26]:
+        - generic [ref=f3e27]: Dynamical friction (lnΛ)
+        - status
+      - slider "Dynamical friction (lnΛ)" [ref=f3e28]: "0"
+      - heading "Disc orientation" [level=2] [ref=f3e29]
+      - generic [ref=f3e30]:
+        - generic [ref=f3e31]: Primary tilt
+        - status
+      - slider "Primary tilt" [ref=f3e32]: "-0.02"
+      - generic [ref=f3e33]:
+        - generic [ref=f3e34]: Secondary tilt
+        - status
+      - slider "Secondary tilt" [ref=f3e35]: "0.33"
+      - generic [ref=f3e36] [cursor=pointer]:
+        - checkbox "Primary disc retrograde" [ref=f3e37]
+        - text: Primary disc retrograde
+      - generic [ref=f3e38] [cursor=pointer]:
+        - checkbox "Secondary disc retrograde" [ref=f3e39]
+        - text: Secondary disc retrograde
+      - paragraph [ref=f3e40]: "Spin direction matters more than closeness. Set one retrograde and one prograde to get a long tail on one galaxy and almost nothing on the other — that asymmetry, not the closeness of the passage, is the dominant effect in a tidal encounter. Measured here: prograde throws 15.1% of a disc beyond 20 kpc against 2.5% retrograde, a ratio of 6.0x on identical orbits."
+    - heading "Playback" [level=2] [ref=f3e41]
+    - generic [ref=f3e42]:
+      - generic [ref=f3e43]: Speed
+      - status
+    - slider "Speed" [ref=f3e44]: "1"
+    - generic [ref=f3e45]:
+      - button "Pause" [ref=f3e46] [cursor=pointer]
+      - button "Reset" [ref=f3e47] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f3e48]
+    - generic [ref=f3e49]:
+      - generic [ref=f3e50]: Splat size
+      - status
+    - slider "Splat size" [ref=f3e51]: "0.22"
+    - generic [ref=f3e52]:
+      - generic [ref=f3e53]: Intensity
+      - status
+    - slider "Intensity" [ref=f3e54]: "0.022"
+    - generic [ref=f3e55]:
+      - generic [ref=f3e56]: Exposure
+      - status
+    - slider "Exposure" [ref=f3e57]: "1"
+    - generic [ref=f3e58]:
+      - generic [ref=f3e59]: Bloom
+      - status
+    - slider "Bloom" [ref=f3e60]: "0.56"
+    - generic [ref=f3e61]:
+      - generic [ref=f3e62]: Dust extinction
+      - status
+    - slider "Dust extinction" [ref=f3e63]: "1.9"
+    - generic [ref=f3e64]:
+      - generic [ref=f3e65]: Camera follows
+      - combobox "Camera follows" [ref=f3e66] [cursor=pointer]:
+        - option "Midpoint of the pair" [selected]
+        - option "Primary galaxy"
+        - option "Secondary galaxy"
+        - option "Barycentre (fixed)"
+    - generic [ref=f3e67]:
+      - generic [ref=f3e68]: Colour by
+      - combobox "Colour by" [ref=f3e69] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f3e70] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom, no dust)" [ref=f3e71]
+      - text: Science view (linear, no bloom, no dust)
+    - button "Copy link to this state" [ref=f3e73] [cursor=pointer]
+    - paragraph [ref=f3e74]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step, r reset, f frame, s science view, 1–4 modes. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: — · —
+    - generic: — test particles
+    - generic: separation —
+  - generic:
+    - generic: —
+    - generic: —
+  - generic [ref=f3e75]:
+    - generic [ref=f3e76]:
+      - slider [ref=f3e77]: "-22"
+      - generic: pericentre
+    - generic [ref=f3e78]:
+      - generic [ref=f3e79]: before
+      - generic [ref=f3e80]: after

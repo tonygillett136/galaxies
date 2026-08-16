@@ -1,0 +1,84 @@
+- generic [active] [ref=f14e1]:
+  - button "☰" [ref=f14e3] [cursor=pointer]
+  - complementary [ref=f14e4]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f14e5]:
+      - text: Galaxy Collisions
+      - generic [ref=f14e6]: Restricted three-body, WebGPU
+    - heading "Encounter" [level=2] [ref=f14e7]
+    - paragraph
+    - heading "Orbit" [level=2] [ref=f14e8]
+    - generic [ref=f14e9]:
+      - generic [ref=f14e10]: Mass ratio
+      - status
+    - slider "Mass ratio" [ref=f14e11]: "1"
+    - generic [ref=f14e12]:
+      - generic [ref=f14e13]: Pericentre
+      - status
+    - slider "Pericentre" [ref=f14e14]: "4"
+    - generic [ref=f14e15]:
+      - generic [ref=f14e16]: Eccentricity
+      - status
+    - slider "Eccentricity" [ref=f14e17]: "1"
+    - heading "Disc orientation" [level=2] [ref=f14e18]
+    - generic [ref=f14e19]:
+      - generic [ref=f14e20]: Primary tilt
+      - status
+    - slider "Primary tilt" [ref=f14e21]: "-0.02"
+    - generic [ref=f14e22]:
+      - generic [ref=f14e23]: Secondary tilt
+      - status
+    - slider "Secondary tilt" [ref=f14e24]: "0.33"
+    - generic [ref=f14e25] [cursor=pointer]:
+      - checkbox "Retrograde spin (both discs)" [ref=f14e26]
+      - text: Retrograde spin (both discs)
+    - heading "Playback" [level=2] [ref=f14e27]
+    - generic [ref=f14e28]:
+      - generic [ref=f14e29]: Speed
+      - status
+    - slider "Speed" [ref=f14e30]: "1"
+    - generic [ref=f14e31]:
+      - button "Pause" [ref=f14e32] [cursor=pointer]
+      - button "Reset" [ref=f14e33] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f14e34]
+    - generic [ref=f14e35]:
+      - generic [ref=f14e36]: Splat size
+      - status
+    - slider "Splat size" [ref=f14e37]: "0.055"
+    - generic [ref=f14e38]:
+      - generic [ref=f14e39]: Intensity
+      - status
+    - slider "Intensity" [ref=f14e40]: "0.03"
+    - generic [ref=f14e41]:
+      - generic [ref=f14e42]: Exposure
+      - status
+    - slider "Exposure" [ref=f14e43]: "1"
+    - generic [ref=f14e44]:
+      - generic [ref=f14e45]: Bloom
+      - status
+    - slider "Bloom" [ref=f14e46]: "0.56"
+    - generic [ref=f14e47]:
+      - generic [ref=f14e48]: Dust extinction
+      - status
+    - slider "Dust extinction" [ref=f14e49]: "2.6"
+    - generic [ref=f14e50]:
+      - generic [ref=f14e51]: Colour by
+      - combobox "Colour by" [ref=f14e52] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f14e53] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom)" [ref=f14e54]
+      - text: Science view (linear, no bloom)
+    - paragraph [ref=f14e55]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step in time, r reset, s science view. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: — · —
+    - generic: — test particles
+    - generic: separation —
+  - generic:
+    - generic: —
+    - generic: —
+  - generic [ref=f14e56]:
+    - slider [ref=f14e58]: "-22"
+    - generic [ref=f14e59]:
+      - generic [ref=f14e60]: before pericentre
+      - generic [ref=f14e61]: after pericentre

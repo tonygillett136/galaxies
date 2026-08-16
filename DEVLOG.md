@@ -1891,3 +1891,75 @@ It had been reporting them at 0.1s and they had been read as noise.
 Timings come from `film/segment_durations.json` now, recovered from the shipped
 cut and verified to reproduce its 459.6s total exactly, so the words can be
 revised after the 4K renders are long deleted without silently retiming picture.
+
+---
+
+## Phase 2, day 1 — self-gravity works, and the arms grow
+
+The plan said the riskiest question was whether a live disc would actually
+develop structure, and that everything downstream depended on the answer. So it
+got built and run before the beat sheet that assumes it was written.
+
+**The engine.** `src/engine/livekernels.js` + `live.js`: tiled O(N²) direct
+self-gravity in workgroup memory, plus the existing analytic components for the
+bulge and halo. Two decisions worth recording:
+
+- The acceleration is **cached between steps**. Leapfrog KDK wants the
+  acceleration at both ends of a step, and the restricted kernel just evaluates
+  it twice because two analytic potentials are free. Here an evaluation is the
+  whole O(N²) pass. The standard rearrangement — closing half-kick and opening
+  half-kick share an acceleration — makes it one pass per step, which is what
+  makes 205 ms/step at N=150k the real cost rather than half of it.
+- Mass needed **its own buffer**. The obvious trick is `pos[i].w`, which is what
+  the bench kernel does, but here that is the particle's birth radius and
+  `vel[i].w` is its origin galaxy. Packing mass over either would have silently
+  recoloured the film rather than erroring.
+
+**The initial conditions, which were the actual risk.** Three things had to be
+right at once and each has a check:
+
+1. The disc's mass is removed from the rigid potential and carried by particles
+   instead. `rigidWithoutDisc()` does it in one place and throws rather than
+   guessing if the model is not the shape it expects.
+2. The circular speed includes the disc's **own** contribution — Freeman, not
+   the Plummer term it replaced. This is not a rounding correction: v_circ at
+   2.15 scale lengths is **25.4% higher** with it than without.
+3. The disc is pressure-supported consistently: σ_R from the target Q, σ_φ from
+   the epicyclic ratio, and the mean azimuthal speed reduced by **asymmetric
+   drift**. Skip that last one and the disc is born rotating too fast for its own
+   pressure, expands — and an expanding disc grows non-axisymmetric structure
+   that looks exactly like a beautiful spiral.
+
+It holds. An isolated live disc moves its mean radius by **1.14%** over 40 time
+units. The deliberate double-counting failure moves it by **10.0%** against the
+5% tolerance the correct model passes, so the equilibrium check is measuring
+something rather than being satisfied by construction.
+
+**The answer: yes, and it is Q-ordered.** m=2 amplitude over its own shot-noise
+floor, N=50,000, 240 time units (1132 Myr), softening 0.2 kpc:
+
+| Q | 0.8 | 1.2 | 1.5 | 2.0 | 3.0 |
+|---|---|---|---|---|---|
+| peak A₂/floor | **7.84** | 4.68 | 4.55 | 3.53 | 2.87 |
+| peak at t | 160 | 160 | 20 | 140 | 240 |
+
+Monotone in Q, which is the physics. Structure peaks around **t = 160 (754 Myr)**
+and decays after — recurrent transient spirals, not a standing pattern.
+
+**A₂ alone would have been meaningless** and was never quoted alone. A
+Poisson-sampled axisymmetric disc has A₂ ≈ 1/√N by construction, so the only
+honest statement is the ratio to that floor, and the floor is recomputed from the
+particle count in each annulus at each sample.
+
+**The instrument was then checked, and it needed checking.** The first pass
+averaged m=2 over annuli a full scale length wide. A wound spiral's phase rotates
+across that, which cancels the signal being looked for. Re-run at 0.4 Rd: peaks
+came out 6.5 against 7.84, so the wide binning was not badly diluting — but it
+had invented a spurious "peak at t=20" for Q=1.2 that the narrow measurement puts
+at t=160 with the rest. The conclusion survived; one of its details did not.
+
+**Honest limits.** A₂/floor of 5-8 is flocculent, not grand-design. N=50k is low,
+the shipped disc is only 4.69% of the model mass, and no encounter is involved —
+tidally induced arms during a passage are a different and much stronger thing.
+Whether this reads on screen is a question for the renderer and has not been
+asked yet. It is not a physics claim and must not be answered by looking.

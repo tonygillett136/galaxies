@@ -10,6 +10,7 @@ import { report, expectedCount } from './harness.js';
 import { runPhysicsTests } from './physics.test.js';
 import { runGpuTests, createDevice } from './gpu.test.js';
 import { runMorphologyTests } from './morphology.test.js';
+import { runLiveTests } from './live.test.js';
 import { runAdjointTests } from './adjoint.test.js';
 import { runClaimsTests, runClaimsChecks } from './claims.test.js';
 
@@ -26,6 +27,8 @@ try {
   await runGpuTests(device, info);
   report(el);
   await runMorphologyTests(device);
+  report(el);
+  await runLiveTests(device);
   report(el);
   // LAST: the claims guard compares the shipped prose against what the suites
   // above actually measured, so it has to run after they have measured it.

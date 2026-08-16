@@ -1,0 +1,2 @@
+[    9303ms] [ERROR] Access to script at 'http://localhost:8799/src/engine/cpu.js' from origin 'http://localhost:8787' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:8787/test/index.html?m2:0
+[    9303ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost:8799/src/engine/cpu.js:0

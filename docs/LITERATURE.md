@@ -138,6 +138,73 @@ hedging ever weakens, this note is the reason it must not.
 
 ---
 
+## Act III of the film — the origin of the galaxy classes
+
+Added 2026-08-16 for the three-act restructure. **None of this has been read in full.** It is
+recorded at the register it was actually obtained at, which is mostly *reported*, so that the
+narration can be written against sources rather than against recollection. Round 9 is the
+reason this section exists before a word of Act III is drafted.
+
+### Major mergers and the origin of ellipticals
+
+**Status: reported.** The proposal that mergers of comparable-mass spirals produce ellipticals
+originates with Toomre & Toomre (1972) and Toomre (1977). Simulations of low-velocity
+encounters between similar-mass spirals produce remnants described as in good agreement with
+the observed shapes, density profiles and velocity distributions of giant ellipticals, and the
+outcome is reported to be largely independent of whether the progenitors were spirals or
+ellipticals. Observationally, shells, tidal features and stellar trails around ellipticals are
+cited in support.
+
+**The nuance the film must not drop.** Both observations and simulations over the last two
+decades show that **disc** galaxies can also result from a major merger (e.g. work on the
+Illustris simulations), and whether the major-merger scenario accounts for the properties of
+most real ellipticals is described as still open. "Major merger produces an elliptical" is
+therefore a tendency and not a rule, and the narration must not state it as one.
+
+- https://arxiv.org/pdf/astro-ph/0301385 — Major Mergers and the Origin of Elliptical Galaxies
+- https://arxiv.org/pdf/1909.01033 — Disc galaxies formed from major mergers in Illustris
+- https://arxiv.org/pdf/1309.4096 — Mergers in Galaxy Groups I: structure of elliptical remnants
+
+### The Milky Way and Andromeda — NOT a certainty
+
+**Status: reported, and it overturns the popular account.** The familiar "the Milky Way and
+Andromeda will merge in about 4 billion years" is no longer the current position. Sawala et al.
+(2025, *Nature Astronomy*, "No certainty of a Milky Way–Andromeda collision") run 100,000
+simulations using Gaia and Hubble astrometry, **including observational uncertainties for the
+first time**, and report roughly a **50/50 chance of a merger within the next 10 billion
+years**. Including M33 raises the merger probability; the Large Magellanic Cloud, whose orbit
+runs perpendicular to the Milky Way–Andromeda orbit, lowers it. Where a merger does occur, the
+timing is nearer 5 Gyr than the earlier ~3.9 Gyr.
+
+**This is a better ending than the one it replaces**, and it is the one that is true: the
+confident version of this story was a consequence of ignoring the error bars. It should be told
+that way.
+
+- https://www.nature.com/articles/s41550-025-02563-1 — Sawala et al. 2025, Nature Astronomy
+- https://arxiv.org/abs/2408.00064 — preprint, "Apocalypse When?"
+- https://esahubble.org/news/heic2508/ — ESA/Hubble summary
+
+**Action**: read the Nature Astronomy paper before this goes in the narration. A probability
+quoted from a summary is exactly the kind of number this project has been wrong about before.
+
+### S0 galaxies and the morphology–density relation
+
+**Status: reported.** The morphology–density relation is attributed to Dressler (1980):
+spirals dominate low-density field environments, S0s come to dominate in groups and in the
+relaxed cores of clusters. Proposed transformation channels include ram-pressure stripping of
+the disc gas, starvation, thermal evaporation, turbulent stripping, tidal interaction and
+galaxy harassment. S0s in clusters are reported to be more rotationally supported (consistent
+with gas removal) while field S0s are more pressure supported (consistent with minor mergers
+shaping the kinematics).
+
+**Relevance and limit.** None of these mechanisms are in this model. There is no gas, so
+ram-pressure stripping and starvation cannot be shown at all. If Act III mentions S0s it is
+citing the field, not demonstrating anything, and it must say so.
+
+- https://academic.oup.com/mnras/article/441/1/333/981029 — origin of S0s in clusters
+- https://arxiv.org/pdf/1110.4384 — revised parallel-sequence classification
+- https://academic.oup.com/mnras/article/525/4/5359/7258838 — ram-pressure morphological transformation
+
 ## To read
 
 1. Toomre & Toomre 1972 in full — parameters to reproduce.

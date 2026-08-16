@@ -1,0 +1,6 @@
+[      38ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://127.0.0.1:8791/favicon.ico:0
+[     584ms] [LOG] SHIPPED SWEEP 0.5/1/2: 14.722% / 14.677% / 14.600%  spread 0.83% @ http://127.0.0.1:8791/test/sweep.html:5
+[    1520ms] [LOG] WIDE SWEEP 0.25..8: 14.740% / 14.722% / 14.677% / 14.600% / 14.557% / 14.418%  spread 2.18% @ http://127.0.0.1:8791/test/sweep.html:5
+[    2137ms] [LOG] SEED SWEEP 11..14: 14.677% / 14.645% / 14.623% / 14.993%  spread 2.47% @ http://127.0.0.1:8791/test/sweep.html:5
+[    2748ms] [LOG] RING vs SOFTENING: soft 0.5x: peakBin 2 gain 3.63 interior 18.9% | soft 1x: peakBin 2 gain 3.63 interior 16.4% | soft 2x: peakBin 2 gain 3.61 interior 9.0% | soft 4x: peakBin 2 gain 3.62 interior 0.9% @ http://127.0.0.1:8791/test/sweep.html:5
+[    3346ms] [LOG] RING vs SEED: seed 11: gain 3.62 interior 16.3% | seed 12: gain 3.57 interior 17.0% | seed 13: gain 3.63 interior 16.8% | seed 14: gain 3.58 interior 16.4% @ http://127.0.0.1:8791/test/sweep.html:5

@@ -1,0 +1,1756 @@
+[     647ms] [WARNING] Error while parsing WGSL: :86:7 error: 'ref' is a reserved keyword
+  let ref = U.params.x;
+      ^^^
+
+
+ - While calling [Device].CreateShaderModule([ShaderModuleDescriptor ""splat""]).
+ @ http://127.0.0.1:8787/index.html:0
+[     648ms] [WARNING] [Invalid ShaderModule "splat"] is invalid due to a previous error.
+ - While validating vertex stage ([Invalid ShaderModule "splat"], entryPoint: "vs").
+ - While validating vertex state.
+ - While calling [Device].CreateRenderPipeline([RenderPipelineDescriptor]).
+ @ http://127.0.0.1:8787/index.html:0
+[     913ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     913ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     913ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     913ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     920ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     920ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     928ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     928ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     934ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     934ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     935ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     935ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     938ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     938ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     953ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     953ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     969ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     969ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[     986ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[     986ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1003ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1003ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1019ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1020ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1036ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1036ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1053ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1053ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1069ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1070ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1087ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1087ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1104ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1104ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1120ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1120ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1137ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1137ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1154ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1154ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1170ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1170ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1188ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1188ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1204ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1204ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1221ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1221ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1238ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1238ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1254ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1254ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1271ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1271ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1287ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1287ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1303ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1303ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1321ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1321ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1337ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1337ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1354ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1354ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1371ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1371ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1387ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1387ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1404ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1404ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1421ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1421ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1437ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1437ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1454ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1454ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1471ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1471ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1487ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1487ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1504ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1504ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1520ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1520ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1537ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1537ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1554ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1554ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1570ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1570ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1587ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1587ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1605ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1605ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1620ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1621ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1637ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1637ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1654ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1654ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1670ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1671ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1687ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1687ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1704ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1704ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1721ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1721ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1737ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1737ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1754ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1754ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1770ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1770ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1787ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1787ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1804ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1804ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1820ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1821ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1837ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1837ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1854ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1854ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1871ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1871ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1887ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1887ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1903ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1903ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1920ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1920ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1936ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1936ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1953ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1954ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1970ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1970ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    1987ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    1987ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2004ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2004ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2020ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2020ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2036ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2036ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2053ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2054ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2071ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2071ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2087ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2087ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2104ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2104ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2120ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2120ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2137ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2137ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2154ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2154ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2170ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2171ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2187ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2187ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2204ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2204ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2220ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2220ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2236ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2236ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2254ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2254ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2269ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2269ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2288ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2288ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2304ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2304ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2321ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2321ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2337ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2337ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2354ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2354ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2371ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2371ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2387ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2387ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2404ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2404ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2420ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2420ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2437ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2437ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2454ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2454ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2470ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2470ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2488ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2488ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2504ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2504ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2521ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2521ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2537ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2537ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2554ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2554ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2571ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2571ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2587ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2587ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2604ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2605ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2621ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2621ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2637ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2637ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2654ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2654ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2671ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2671ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2687ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2687ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2704ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2704ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2720ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2720ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2737ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2737ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2754ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2754ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2771ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2771ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2787ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2787ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2804ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2804ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2821ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2821ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2838ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2838ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2854ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2854ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2870ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2870ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2887ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2887ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2904ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2904ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2920ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2920ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2937ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2937ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2953ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2953ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2971ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2971ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    2987ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    2987ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3004ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3004ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3020ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3020ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3037ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3037ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3054ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3054ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3071ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3071ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3088ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3088ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3104ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3104ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3120ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3120ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3137ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3137ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3154ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3154ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3170ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3170ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3188ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3188ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3204ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3204ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3221ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3221ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3237ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3237ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3254ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3254ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3271ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3271ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3288ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3288ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3303ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3303ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3320ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3320ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3338ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3338ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3354ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3354ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3370ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3371ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3387ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3387ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3404ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3404ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3421ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3421ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3437ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3437ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3454ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3454ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3471ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3471ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3487ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3487ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3504ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3504ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3520ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3520ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3537ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3537ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3554ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3554ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3570ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3570ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3587ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3587ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3604ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3604ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3621ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3621ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3637ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3637ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3654ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3654ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3670ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3670ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3687ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3687ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3704ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3704ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3720ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3720ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3737ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3737ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3754ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3754ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3770ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3770ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3787ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3787ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3804ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3804ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3820ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3820ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3837ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3837ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3854ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3854ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3870ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3870ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3887ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3887ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3904ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3904ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3921ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3921ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3937ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3937ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3954ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3954ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3972ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3972ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    3987ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    3987ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4004ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4004ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4020ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4020ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4038ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4038ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4054ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4054ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4071ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4071ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4087ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4087ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4103ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4103ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4121ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4121ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4137ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4137ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4154ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4154ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4170ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4170ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4188ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4188ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4204ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4204ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4221ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4221ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4237ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4237ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4254ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4254ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4272ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4272ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4287ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4287ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4304ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4305ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4321ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4321ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4337ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4337ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4354ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4354ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4371ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4371ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4387ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4387ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4404ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4404ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4420ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4421ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4437ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4437ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4454ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4454ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4470ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4470ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4487ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4487ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4504ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4504ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4521ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4521ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4537ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4537ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4554ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4554ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4571ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4571ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4587ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4587ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4604ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4604ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4621ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4621ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4637ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4637ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4654ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4654ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4671ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4671ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4687ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4687ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4704ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4704ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4720ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4720ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4737ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4737ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4754ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4754ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4771ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4771ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4788ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4788ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4804ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4804ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4821ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4821ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4837ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4837ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4854ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4854ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4871ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4871ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4887ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4887ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4904ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4904ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4921ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4921ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4937ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4937ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4953ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4953ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4971ms] [WARNING] [Invalid RenderPipeline (unlabeled)] is invalid due to a previous error.
+ - While encoding [RenderPassEncoder (unlabeled)].SetPipeline([Invalid RenderPipeline (unlabeled)]).
+ - While finishing [CommandEncoder (unlabeled)].
+ @ http://127.0.0.1:8787/index.html:0
+[    4971ms] [WARNING] [Invalid CommandBuffer] is invalid due to a previous error.
+ - While calling [Queue].Submit([[Invalid CommandBuffer]])
+ @ http://127.0.0.1:8787/index.html:0
+[    4971ms] [WARNING] WebGPU: too many warnings, no more warnings will be reported to the console for this GPUDevice. @ http://127.0.0.1:8787/index.html:0

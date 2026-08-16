@@ -1,0 +1,102 @@
+- generic [active] [ref=f23e1]:
+  - button "☰" [ref=f23e4] [cursor=pointer]
+  - complementary [ref=f23e5]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f23e6]:
+      - text: Galaxy Collisions
+      - generic [ref=f23e7]: Restricted three-body, WebGPU
+    - generic [ref=f23e8]:
+      - button "Sandbox" [ref=f23e9] [cursor=pointer]
+      - button "Detect" [ref=f23e10] [cursor=pointer]
+      - button "Tour" [ref=f23e11] [cursor=pointer]
+      - button "Atlas" [ref=f23e12] [cursor=pointer]
+    - generic [ref=f23e13]:
+      - heading "Encounter" [level=2] [ref=f23e14]
+      - generic [ref=f23e15]:
+        - button "Prograde passage" [ref=f23e16] [cursor=pointer]
+        - button "Retrograde passage" [ref=f23e17] [cursor=pointer]
+        - button "Mice-like" [ref=f23e18] [cursor=pointer]
+        - button "Antennae-like" [ref=f23e19] [cursor=pointer]
+        - button "Minor merger" [ref=f23e20] [cursor=pointer]
+        - button "Distant fly-by" [ref=f23e21] [cursor=pointer]
+        - button "Ring galaxy" [ref=f23e22] [cursor=pointer]
+      - paragraph [ref=f23e23]: "Discs spinning the same way as the orbit. The classic case: long, thin tidal tails from both galaxies."
+      - heading "Orbit" [level=2] [ref=f23e24]
+      - generic [ref=f23e25]:
+        - generic [ref=f23e26]: Mass ratio
+        - status [ref=f23e27]: "1.00"
+      - slider "Mass ratio" [ref=f23e28]: "1"
+      - generic [ref=f23e29]:
+        - generic [ref=f23e30]: Pericentre
+        - status [ref=f23e31]: 4.0 kpc
+      - slider "Pericentre" [ref=f23e32]: "4"
+      - generic [ref=f23e33]:
+        - generic [ref=f23e34]: Eccentricity
+        - status [ref=f23e35]: "1.00"
+      - slider "Eccentricity" [ref=f23e36]: "1"
+      - heading "Disc orientation" [level=2] [ref=f23e37]
+      - generic [ref=f23e38]:
+        - generic [ref=f23e39]: Primary tilt
+        - status [ref=f23e40]: "-1°"
+      - slider "Primary tilt" [ref=f23e41]: "-0.02"
+      - generic [ref=f23e42]:
+        - generic [ref=f23e43]: Secondary tilt
+        - status [ref=f23e44]: 19°
+      - slider "Secondary tilt" [ref=f23e45]: "0.33"
+      - generic [ref=f23e46] [cursor=pointer]:
+        - checkbox "Retrograde spin (both discs)" [ref=f23e47]
+        - text: Retrograde spin (both discs)
+      - paragraph [ref=f23e48]: Spin direction matters more than closeness. Prograde discs make long tails; retrograde ones from the same orbit make almost none — measured here at 131x.
+    - heading "Playback" [level=2] [ref=f23e49]
+    - generic [ref=f23e50]:
+      - generic [ref=f23e51]: Speed
+      - status [ref=f23e52]: 1.00x
+    - slider "Speed" [ref=f23e53]: "1"
+    - generic [ref=f23e54]:
+      - button "Pause" [ref=f23e55] [cursor=pointer]
+      - button "Reset" [ref=f23e56] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f23e57]
+    - generic [ref=f23e58]:
+      - generic [ref=f23e59]: Splat size
+      - status [ref=f23e60]: "0.055"
+    - slider "Splat size" [ref=f23e61]: "0.055"
+    - generic [ref=f23e62]:
+      - generic [ref=f23e63]: Intensity
+      - status [ref=f23e64]: "0.030"
+    - slider "Intensity" [ref=f23e65]: "0.03"
+    - generic [ref=f23e66]:
+      - generic [ref=f23e67]: Exposure
+      - status [ref=f23e68]: "1.00"
+    - slider "Exposure" [ref=f23e69]: "1"
+    - generic [ref=f23e70]:
+      - generic [ref=f23e71]: Bloom
+      - status [ref=f23e72]: "0.56"
+    - slider "Bloom" [ref=f23e73]: "0.56"
+    - generic [ref=f23e74]:
+      - generic [ref=f23e75]: Dust extinction
+      - status [ref=f23e76]: "1.9"
+    - slider "Dust extinction" [ref=f23e77]: "1.9"
+    - generic [ref=f23e78]:
+      - generic [ref=f23e79]: Colour by
+      - combobox "Colour by" [ref=f23e80] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f23e81] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom, no dust)" [ref=f23e82]
+      - text: Science view (linear, no bloom, no dust)
+    - button "Copy link to this state" [ref=f23e84] [cursor=pointer]
+    - paragraph [ref=f23e85]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step, r reset, s science view, 1–4 modes. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: 3 fps · 325.6 ms
+    - generic: 300,000 test particles
+    - generic: separation 13.4 kpc
+  - generic:
+    - generic:
+      - generic: "-103 Myr"
+      - generic: before pericentre
+    - generic: 10 kpc
+  - generic [ref=f23e86]:
+    - slider [ref=f23e87]: "-21.84"
+    - generic [ref=f23e88]:
+      - generic [ref=f23e89]: before pericentre
+      - generic [ref=f23e90]: after pericentre

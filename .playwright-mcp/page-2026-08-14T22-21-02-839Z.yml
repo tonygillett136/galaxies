@@ -1,0 +1,101 @@
+- generic [active] [ref=f36e1]:
+  - button "☰" [ref=f36e4] [cursor=pointer]
+  - complementary [ref=f36e5]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f36e6]:
+      - text: Galaxy Collisions
+      - generic [ref=f36e7]: Restricted three-body, WebGPU
+    - generic [ref=f36e8]:
+      - button "Sandbox" [ref=f36e9] [cursor=pointer]
+      - button "Detect" [ref=f36e10] [cursor=pointer]
+      - button "Tour" [ref=f36e11] [cursor=pointer]
+      - button "Atlas" [ref=f36e12] [cursor=pointer]
+    - generic [ref=f36e13]:
+      - heading "Encounter" [level=2] [ref=f36e14]
+      - paragraph
+      - heading "Orbit" [level=2] [ref=f36e15]
+      - generic [ref=f36e16]:
+        - generic [ref=f36e17]: Mass ratio
+        - status
+      - slider "Mass ratio" [ref=f36e18]: "1"
+      - generic [ref=f36e19]:
+        - generic [ref=f36e20]: Pericentre
+        - status
+      - slider "Pericentre" [ref=f36e21]: "25"
+      - generic [ref=f36e22]:
+        - generic [ref=f36e23]: Eccentricity
+        - status
+      - slider "Eccentricity" [ref=f36e24]: "1"
+      - generic [ref=f36e25]:
+        - generic [ref=f36e26]: Dynamical friction (lnΛ)
+        - status
+      - slider "Dynamical friction (lnΛ)" [ref=f36e27]: "0"
+      - heading "Disc orientation" [level=2] [ref=f36e28]
+      - generic [ref=f36e29]:
+        - generic [ref=f36e30]: Primary tilt
+        - status
+      - slider "Primary tilt" [ref=f36e31]: "-0.02"
+      - generic [ref=f36e32]:
+        - generic [ref=f36e33]: Secondary tilt
+        - status
+      - slider "Secondary tilt" [ref=f36e34]: "0.33"
+      - generic [ref=f36e35] [cursor=pointer]:
+        - checkbox "Primary disc retrograde" [ref=f36e36]
+        - text: Primary disc retrograde
+      - generic [ref=f36e37] [cursor=pointer]:
+        - checkbox "Secondary disc retrograde" [ref=f36e38]
+        - text: Secondary disc retrograde
+      - paragraph [ref=f36e39]: "Spin direction matters more than closeness. Set one retrograde and one prograde to get a long tail on one galaxy and almost nothing on the other — that asymmetry, not the closeness of the passage, is the central result of Toomre & Toomre 1972. Measured here: prograde throws 4.7% of a disc beyond 20 kpc, retrograde throws none of 60,000 particles."
+    - heading "Playback" [level=2] [ref=f36e40]
+    - generic [ref=f36e41]:
+      - generic [ref=f36e42]: Speed
+      - status
+    - slider "Speed" [ref=f36e43]: "1"
+    - generic [ref=f36e44]:
+      - button "Pause" [ref=f36e45] [cursor=pointer]
+      - button "Reset" [ref=f36e46] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f36e47]
+    - generic [ref=f36e48]:
+      - generic [ref=f36e49]: Splat size
+      - status
+    - slider "Splat size" [ref=f36e50]: "0.22"
+    - generic [ref=f36e51]:
+      - generic [ref=f36e52]: Intensity
+      - status
+    - slider "Intensity" [ref=f36e53]: "0.022"
+    - generic [ref=f36e54]:
+      - generic [ref=f36e55]: Exposure
+      - status
+    - slider "Exposure" [ref=f36e56]: "1"
+    - generic [ref=f36e57]:
+      - generic [ref=f36e58]: Bloom
+      - status
+    - slider "Bloom" [ref=f36e59]: "0.56"
+    - generic [ref=f36e60]:
+      - generic [ref=f36e61]: Dust extinction
+      - status
+    - slider "Dust extinction" [ref=f36e62]: "1.9"
+    - generic [ref=f36e63]:
+      - generic [ref=f36e64]: Colour by
+      - combobox "Colour by" [ref=f36e65] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f36e66] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom, no dust)" [ref=f36e67]
+      - text: Science view (linear, no bloom, no dust)
+    - button "Copy link to this state" [ref=f36e69] [cursor=pointer]
+    - paragraph [ref=f36e70]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step, r reset, s science view, 1–4 modes. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: — · —
+    - generic: — test particles
+    - generic: separation —
+  - generic:
+    - generic: —
+    - generic: —
+  - generic [ref=f36e71]:
+    - generic [ref=f36e72]:
+      - slider [ref=f36e73]: "-22"
+      - generic: pericentre
+    - generic [ref=f36e74]:
+      - generic [ref=f36e75]: before
+      - generic [ref=f36e76]: after

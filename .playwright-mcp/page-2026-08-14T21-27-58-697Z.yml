@@ -1,0 +1,94 @@
+- generic [active] [ref=f13e1]:
+  - button "☰" [ref=f13e3] [cursor=pointer]
+  - complementary [ref=f13e4]:
+    - heading "Galaxy Collisions Restricted three-body, WebGPU" [level=1] [ref=f13e5]:
+      - text: Galaxy Collisions
+      - generic [ref=f13e6]: Restricted three-body, WebGPU
+    - heading "Encounter" [level=2] [ref=f13e7]
+    - generic [ref=f13e8]:
+      - button "Prograde passage" [ref=f13e9] [cursor=pointer]
+      - button "Retrograde passage" [ref=f13e10] [cursor=pointer]
+      - button "Mice-like" [ref=f13e11] [cursor=pointer]
+      - button "Antennae-like" [ref=f13e12] [cursor=pointer]
+      - button "Minor merger" [ref=f13e13] [cursor=pointer]
+      - button "Distant fly-by" [ref=f13e14] [cursor=pointer]
+      - button "Ring galaxy" [ref=f13e15] [cursor=pointer]
+    - paragraph [ref=f13e16]: "Discs spinning the same way as the orbit. The classic case: long, thin tidal tails from both galaxies."
+    - heading "Orbit" [level=2] [ref=f13e17]
+    - generic [ref=f13e18]:
+      - generic [ref=f13e19]: Mass ratio
+      - status [ref=f13e20]: "1.00"
+    - slider "Mass ratio" [ref=f13e21]: "1"
+    - generic [ref=f13e22]:
+      - generic [ref=f13e23]: Pericentre
+      - status [ref=f13e24]: 4.0 kpc
+    - slider "Pericentre" [ref=f13e25]: "4"
+    - generic [ref=f13e26]:
+      - generic [ref=f13e27]: Eccentricity
+      - status [ref=f13e28]: "1.00"
+    - slider "Eccentricity" [ref=f13e29]: "1"
+    - heading "Disc orientation" [level=2] [ref=f13e30]
+    - generic [ref=f13e31]:
+      - generic [ref=f13e32]: Primary tilt
+      - status [ref=f13e33]: "-1°"
+    - slider "Primary tilt" [ref=f13e34]: "-0.02"
+    - generic [ref=f13e35]:
+      - generic [ref=f13e36]: Secondary tilt
+      - status [ref=f13e37]: 19°
+    - slider "Secondary tilt" [ref=f13e38]: "0.33"
+    - generic [ref=f13e39] [cursor=pointer]:
+      - checkbox "Retrograde spin (both discs)" [ref=f13e40]
+      - text: Retrograde spin (both discs)
+    - heading "Playback" [level=2] [ref=f13e41]
+    - generic [ref=f13e42]:
+      - generic [ref=f13e43]: Speed
+      - status [ref=f13e44]: 1.00x
+    - slider "Speed" [ref=f13e45]: "1"
+    - generic [ref=f13e46]:
+      - button "Pause" [ref=f13e47] [cursor=pointer]
+      - button "Reset" [ref=f13e48] [cursor=pointer]
+    - heading "Appearance" [level=2] [ref=f13e49]
+    - generic [ref=f13e50]:
+      - generic [ref=f13e51]: Splat size
+      - status [ref=f13e52]: "0.055"
+    - slider "Splat size" [ref=f13e53]: "0.055"
+    - generic [ref=f13e54]:
+      - generic [ref=f13e55]: Intensity
+      - status [ref=f13e56]: "0.030"
+    - slider "Intensity" [ref=f13e57]: "0.03"
+    - generic [ref=f13e58]:
+      - generic [ref=f13e59]: Exposure
+      - status [ref=f13e60]: "1.00"
+    - slider "Exposure" [ref=f13e61]: "1"
+    - generic [ref=f13e62]:
+      - generic [ref=f13e63]: Bloom
+      - status [ref=f13e64]: "0.56"
+    - slider "Bloom" [ref=f13e65]: "0.56"
+    - generic [ref=f13e66]:
+      - generic [ref=f13e67]: Dust extinction
+      - status [ref=f13e68]: "2.6"
+    - slider "Dust extinction" [ref=f13e69]: "2.6"
+    - generic [ref=f13e70]:
+      - generic [ref=f13e71]: Colour by
+      - combobox "Colour by" [ref=f13e72] [cursor=pointer]:
+        - option "Stellar population" [selected]
+        - option "Origin galaxy"
+        - option "Speed"
+    - generic [ref=f13e73] [cursor=pointer]:
+      - checkbox "Science view (linear, no bloom)" [ref=f13e74]
+      - text: Science view (linear, no bloom)
+    - paragraph [ref=f13e75]: Drag to orbit, shift-drag to pan, scroll to zoom. space play/pause, ← → step in time, r reset, s science view. Time runs backwards as genuine reversed integration, not replayed frames.
+  - generic:
+    - generic: 161 fps · 6.2 ms
+    - generic: 300,000 test particles
+    - generic: separation 13.3 kpc
+  - generic:
+    - generic:
+      - generic: "-103 Myr"
+      - generic: before pericentre
+    - generic: 10 kpc
+  - generic [ref=f13e76]:
+    - slider [ref=f13e78]: "-21.76"
+    - generic [ref=f13e79]:
+      - generic [ref=f13e80]: before pericentre
+      - generic [ref=f13e81]: after pericentre

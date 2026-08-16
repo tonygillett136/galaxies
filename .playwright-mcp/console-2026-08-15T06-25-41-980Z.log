@@ -1,0 +1,3 @@
+[   15928ms] TypeError: Cannot read properties of undefined (reading 'step')
+    at App.frame (http://127.0.0.1:8787/src/app/app.js:488:56)
+    at eval (eval at <anonymous> (eval at evaluate (:311:30)), <anonymous>:1:137)

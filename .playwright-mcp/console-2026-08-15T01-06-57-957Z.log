@@ -1,0 +1,1501 @@
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188125ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188140ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188140ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188140ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188141ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188157ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188158ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188171ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188190ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188205ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188206ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188222ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188239ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188255ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188256ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188272ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188273ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188289ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188305ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188306ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188306ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188306ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188306ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188306ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188322ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188340ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188356ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188357ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188357ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188357ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188357ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188357ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188371ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188389ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188408ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188422ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188439ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188455ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188456ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188472ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188473ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188473ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188489ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188505ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188506ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188506ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188506ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188506ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188522ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188523ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188540ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188554ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188555ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188555ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188555ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188573ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188590ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].Submit([[CommandBuffer]])
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (192 bytes))
+ @ http://localhost:8787/index.html:0
+[  188606ms] [WARNING] [Buffer (unlabeled)] used in submit while destroyed.
+ - While calling [Queue].WriteBuffer([Buffer (unlabeled)], (0 bytes), data, (16 bytes))
+ @ http://localhost:8787/index.html:0
+[  188607ms] [WARNING] WebGPU: too many warnings, no more warnings will be reported to the console for this GPUDevice. @ http://localhost:8787/index.html:0
