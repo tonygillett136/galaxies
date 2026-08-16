@@ -1,0 +1,269 @@
+{
+ "segments": [
+  {
+   "id": "title",
+   "kind": "card",
+   "seconds": 10,
+   "title": "GRAVITY, AND ENOUGH TIME",
+   "sub": "How galaxies pull each other apart, and what they become",
+   "lines": [
+    "Look up on a dark night, and the sky seems perfectly still.",
+    "It is not."
+   ]
+  },
+  {
+   "id": "realsky",
+   "clip": "realsky",
+   "title": "The sky, photographed",
+   "params": "Hubble and ESA imagery  \u00b7  credits on frame",
+   "lines": [
+    "These are photographs of real galaxies.",
+    "Not paintings, and not simulations.",
+    "Each one holds a hundred billion stars or more.",
+    "And each one is being pulled apart.",
+    "Look at those streamers of light.",
+    "They run for a hundred thousand light years and further,",
+    "longer than the galaxies that shed them.",
+    "When astronomers first saw these shapes,",
+    "they had no explanation for them at all.",
+    "Something was drawing whole galaxies out into ribbons,",
+    "and nobody could say what.",
+    "So they reached for the most violent things they could imagine.",
+    "Magnetic fields. Explosions.",
+    "Matter flung out from the hearts of galaxies."
+   ]
+  },
+  {
+   "id": "control",
+   "clip": "control_live",
+   "title": "A galaxy, undisturbed",
+   "params": "150,000 stars, self-gravitating  \u00b7  the arms are not imposed",
+   "lines": [
+    "To find the answer, it helps to begin somewhere quieter.",
+    "Here is a galaxy that nothing at all is disturbing.",
+    "A hundred and fifty thousand stars,",
+    "each one on its own orbit,",
+    "held by gravity that is mostly dark matter.",
+    "Left alone, it simply turns.",
+    "Once around, every quarter of a billion years.",
+    "And it does something rather lovely as it does.",
+    "Those arms were not drawn in.",
+    "They grew.",
+    "The disc's own gravity, gathering it into a pattern",
+    "that moves through the stars like a wave through water."
+   ]
+  },
+  {
+   "id": "prograde",
+   "clip": "prograde",
+   "title": "A close passage",
+   "params": "equal mass  \u00b7  25 kpc  \u00b7  discs turning with the encounter",
+   "lines": [
+    "So something must arrive. And here it comes.",
+    "Another galaxy, much the same size,",
+    "falling inward along a long curve.",
+    "They will not collide. They will not even touch.",
+    "They will simply pass close by,",
+    "closer than either disc is wide.",
+    "Watch the near side of each galaxy.",
+    "Those stars are already moving",
+    "in the direction of the pull,",
+    "so they stay in step with it.",
+    "And a gentle tug, applied patiently enough,",
+    "draws them out, and out, and away.",
+    "That is a tidal tail.",
+    "Not one star has struck another.",
+    "Only one force is at work here, and it is gravity.",
+    "Two brothers worked this out in 1972,",
+    "with a computer that had less memory",
+    "than the telephone in your pocket.",
+    "They gave their stars nothing but gravity."
+   ]
+  },
+  {
+   "id": "retrograde",
+   "clip": "retrograde",
+   "title": "The same orbit, reversed",
+   "params": "identical encounter  \u00b7  discs turning against it",
+   "lines": [
+    "And here is the test that settles it.",
+    "The same two galaxies, the same orbit,",
+    "the same closest approach.",
+    "One thing is different:",
+    "these discs are turning the other way.",
+    "Now those near-side stars move against the pull,",
+    "and carry themselves away before it can do much.",
+    "Turning with the encounter,",
+    "a galaxy throws fifteen per cent of its disc into space.",
+    "Turning against it: two and a half.",
+    "Reversing the spin spares a galaxy as much",
+    "as moving the encounter almost twice as far away."
+   ]
+  },
+  {
+   "id": "mice",
+   "clip": "mice",
+   "title": "The Mice",
+   "params": "closer pass  \u00b7  both discs gently inclined",
+   "lines": [
+    "Change the angle, and you change everything.",
+    "Two long, thin tails, very nearly parallel,",
+    "with a bridge of stars strung between them.",
+    "There is a real pair that looks just like this,",
+    "three hundred million light years away.",
+    "Astronomers call them the Mice."
+   ]
+  },
+  {
+   "id": "antennae",
+   "clip": "antennae",
+   "title": "Out of the plane",
+   "params": "16 kpc  \u00b7  bound orbit  \u00b7  discs steeply inclined",
+   "lines": [
+    "Tilt the two discs more steeply,",
+    "and the tails leave the orbital plane altogether.",
+    "That is what gives these encounters their shape,",
+    "and why the real ones look so little like a spiral.",
+    "But the stars out there are not lost.",
+    "Most are still bound, on long, patient orbits,",
+    "and in time a great many of them will come back.",
+    "What you are watching is a single passage.",
+    "The whole encounter will take billions of years."
+   ]
+  },
+  {
+   "id": "provenance",
+   "clip": "provenance",
+   "title": "Whose stars are whose",
+   "params": "every star coloured by the galaxy it was born in",
+   "lines": [
+    "Colour every star by the galaxy it was born in,",
+    "and something becomes clear.",
+    "The tails are not shared wreckage.",
+    "Each galaxy throws out its own stars,",
+    "and the two streams keep largely to themselves.",
+    "But look closely at the bridge between them.",
+    "A few stars are crossing over.",
+    "Some of them will spend the rest of their lives",
+    "orbiting a galaxy they were not born in."
+   ]
+  },
+  {
+   "id": "detect",
+   "clip": "detect",
+   "title": "Against the real sky",
+   "params": "simulation over photograph  \u00b7  matched scale  \u00b7  nothing fitted",
+   "lines": [
+    "And here is that photograph again,",
+    "with the simulation laid over it at the same scale.",
+    "The question is which encounter,",
+    "at which angle, and how long ago,",
+    "produced what the telescope actually saw.",
+    "We cannot answer that yet.",
+    "Nothing here has been fitted to this image."
+   ]
+  },
+  {
+   "id": "ring",
+   "clip": "ring",
+   "title": "A ring, not a tail",
+   "params": "small companion  \u00b7  straight through the disc",
+   "lines": [
+    "Now aim more carefully.",
+    "Send a small companion straight through the middle of a disc.",
+    "This time the pull is very nearly symmetric.",
+    "So instead of drawing stars out to one side,",
+    "it drives a wave outward through the whole disc,",
+    "like a stone dropped into still water.",
+    "The densest region leaves the centre,",
+    "and travels outward, as a ring.",
+    "Ring galaxies like the Cartwheel are made this way.",
+    "They are rare, because the aim has to be very good indeed."
+   ]
+  },
+  {
+   "id": "minor",
+   "clip": "minor",
+   "title": "The ordinary case",
+   "params": "companion at one tenth the mass  \u00b7  a returning orbit",
+   "lines": [
+    "But this is the dramatic case,",
+    "and the universe is mostly not dramatic.",
+    "Most galaxies are never caught in a great collision.",
+    "They are simply being rearranged, quietly,",
+    "by companions far smaller than themselves,",
+    "across spans of time that make a human life",
+    "look like a single photograph.",
+    "Our own galaxy is doing it now,",
+    "to the small companions that orbit it."
+   ]
+  },
+  {
+   "id": "merger",
+   "clip": "merger",
+   "title": "What becomes of spirals that meet",
+   "params": "bound orbit  \u00b7  dynamical friction  \u00b7  coalescence at 1685 Myr",
+   "lines": [
+    "And sometimes two galaxies cannot escape one another.",
+    "As each moves through the other's halo of dark matter,",
+    "it gathers a wake of material behind it,",
+    "and that wake pulls back on the galaxy that made it.",
+    "Orbital energy drains away into the dark.",
+    "The orbit decays.",
+    "Every passage is closer than the one before.",
+    "After some seventeen hundred million years,",
+    "the two centres finally come together.",
+    "Two spiral galaxies went in.",
+    "What comes out is something else entirely.",
+    "The ordered turning has gone.",
+    "Where these stars once moved together,",
+    "at two hundred kilometres every second,",
+    "they now move at random.",
+    "And the light changes shape along with them.",
+    "A spiral's brightness falls away gently from its centre.",
+    "This does not.",
+    "It falls away the way an elliptical galaxy's light falls.",
+    "This is how the great ellipticals are thought to have been built.",
+    "Not as another kind of galaxy,",
+    "but as what becomes of spirals that meet.",
+    "Though not always. Mergers can leave a disc behind too,",
+    "and it is still argued over."
+   ]
+  },
+  {
+   "id": "home",
+   "clip": "discs",
+   "title": "Andromeda",
+   "params": "the Milky Way has a large neighbour, and the two are approaching",
+   "lines": [
+    "Which brings us home.",
+    "Our own galaxy has a large neighbour, Andromeda,",
+    "and the two are approaching.",
+    "For years we said they would certainly merge,",
+    "in about four billion years.",
+    "Then the measurements improved.",
+    "And with the uncertainties honestly included,",
+    "that certainty went away.",
+    "The best estimate now is close to even odds,",
+    "over the next ten billion years.",
+    "We were sure. Then we looked more carefully,",
+    "and found that we were not."
+   ]
+  },
+  {
+   "id": "close",
+   "kind": "card",
+   "seconds": 22,
+   "title": "RUN IT YOURSELF",
+   "sub": "galaxies.gillett-projects.com",
+   "lines": [
+    "Every interacting pair in the sky",
+    "is a single frame from a film",
+    "we will never watch to the end.",
+    "The only way to see the rest",
+    "is to work out the rules and run them.",
+    "Gravity, and enough time."
+   ]
+  }
+ ]
+}

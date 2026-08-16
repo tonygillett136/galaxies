@@ -7,3 +7,16 @@ film/work/
 
 # main-branch working tree leftover; this branch has the project AT ITS ROOT
 galaxy_collisions/
+
+# Film renders, downloaded stills and model caches: outputs, reproducible from
+# shots.sh / imagery.sh, with every source URL and required credit recorded in
+# film/imagery/CREDITS.md.
+film4k/
+film/imagery/*.jpg
+film/*.mp4
+film/*.wav
+film/work/
+film/tts_model
+.hf/
+node_modules/
+**/__pycache__/

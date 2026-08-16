@@ -2400,3 +2400,187 @@ now demonstrable rather than absent: the light profile flips from exponential to
 r¼ when, and only when, the halo is allowed to respond. That second clause is the
 interesting part, and it is a better beat than the original plan, because the
 control is the story.
+
+---
+
+## The film, remade: motion blur, three acts, and a warmer voice
+
+### Motion blur, and three bugs on the way to it
+
+The splat pass is additive and runs before tone mapping, so N sub-frames summed
+and scaled by 1/N is the *exact* time average of the image rather than an
+approximation. `renderer.render()` is now `splat()` + `finish()`, and the film
+renderer calls `splat()` N times with the simulation and camera advanced between
+each, then `finish()` once. Object motion and camera motion both blur.
+
+Three things had to be got right, and each announced itself as a plausible
+picture rather than an error:
+
+1. **The dust column accumulates in the same pass**, so `dustStrength` is scaled
+   by 1/N alongside `intensity`. Without it the extinction comes out N times too
+   opaque.
+2. **The app's own frame loop was clearing between sub-splats.** `app.frame()`
+   reschedules on requestAnimationFrame and calls `render()`, whose splat pass
+   begins with `loadOp: 'clear'`. Harmless while `render()` was atomic. Measured:
+   exposure fell to **0.25** of a single-sample render, and the ratios across
+   N = 1/2/4/8 sat consistently above 1/N — the signature of only the last splat
+   surviving, softened by the tone curve.
+3. **Neutering `render()` was worse than not fixing it.** The loop kept running,
+   still took its own `getCurrentTexture()` each frame, drew nothing into it and
+   presented *that*, so the canvas went black and every captured frame with it.
+   Measured: identical 0.159 mean luma whether or not a splat had just been
+   issued — the tell that the screenshot was not seeing my render at all. The fix
+   is to stop the loop (`a.frame = () => {}`), because `frame()` reschedules via
+   `() => this.frame()`, which resolves the property at call time.
+
+Verified after: exposure across N = 1, 2, 4, 8, 16 holds at 1.00 / 0.99 / 0.97 /
+0.93 / **0.87**. The residual dimming is expected and is not a bug — blur spreads
+a bright core over more pixels, and AgX tone mapping is concave, so the mean of
+tone-mapped values sits below the tone-map of the mean. Peak luma falls 225 to
+204 in step with it. Motion smoothing measured 1.77x and high-frequency energy
+1.75x lower at N = 8.
+
+Cost: **~0.11 s/frame at 4K60 with 16 samples**, so the whole cut is about fifty
+minutes rather than the two-plus hours budgeted.
+
+### Time reversal is cut
+
+It was a coda beat and it is gone. Running the clock backwards is a property of a
+time-symmetric integrator — a fact about the *software*, not about galaxies — and
+in a film whose argument is "gravity, and enough time" it is a detour. It belongs
+in a separate film about the modelling, which is worth making.
+
+### The narration, rewritten towards Life On Earth
+
+`film/narration_v2.py`. The old script was accurate and clipped; the register it
+was missing is warmth, and the reference is Attenborough — clear, unhurried, and
+never talking down. Practically that means: the warmth comes from evident
+interest in the thing rather than from adjectives, so no "incredible" and no
+adverbs doing a fact's work; technical words are used and explained in passing
+instead of avoided; and numbers are made tangible by comparison, because "closer
+than either disc is wide" lands where "twenty five thousand parsecs" does not.
+
+1198 words, about 8.3 minutes of speech against roughly 8.5 minutes of picture.
+
+### Imagery for Act I, with the licence actually checked
+
+Act I opens on real photographs, and the bundled SDSS cutouts cannot do it: they
+are 512x512, which is hopeless held across a 4K frame, and they carry SDSS's own
+attribution terms. Three ESA/Hubble images were fetched instead — the Tadpole
+(4360x3798), the Antennae (3000x1773) and the Mice (4428x4257).
+
+ESA/Hubble material is CC BY 4.0 and video use is permitted, **but for YouTube
+the credit must be burned into the frame**, not left in the description. Verified
+from the source rather than assumed, and recorded with each object's exact credit
+wording in `film/imagery/CREDITS.md`.
+
+Every object was read from its own page rather than inferred from the file ID,
+and that check earned its keep immediately: `potw2036a`, guessed at as an
+interacting pair, is the globular cluster NGC 1805. It was discarded.
+
+---
+
+## The three-act film: what was built, and what was rejected
+
+### Structure
+
+The cut is now an argument rather than a catalogue. Act I opens on real
+photographs and a question nobody could answer in the 1960s, and ends on a
+galaxy left alone — whose spiral arms **grew**, which is the shot self-gravity
+was built for. Act II builds the mechanism and tests it with the retrograde
+control. Act III follows it to its consequence and ends, honestly, on the fact
+that the Milky Way and Andromeda are no longer a certainty.
+
+Time reversal is **cut**. It is a property of a time-symmetric integrator — a
+fact about the software, not about galaxies — and in a film whose argument is
+"gravity, and enough time" it was a detour. It belongs in a separate film about
+the modelling.
+
+### The Act I payoff shot took two attempts, and the first one failed
+
+The measurement said the arms were real: A₂ over its own shot-noise floor peaks
+near 7.8 at Q = 0.8. Whether that would *read on screen* was flagged as an open
+question at the time, and the answer was no. At 80,000 particles, framed at 92
+kpc, the disc was small, sparse and only faintly structured — the picture did not
+support the line "those arms were not drawn in, they grew".
+
+Re-rendered at 150,000 particles, Q = 0.8, and a much closer camera (54→45 kpc),
+it does: distinct arms with dark lanes between them, unmistakably a spiral.
+Q = 0.8 is below formal marginal stability and cooler than a typical real disc;
+it was chosen because it measured the strongest structure, and the disc
+demonstrably holds its radius (+2% over 1132 Myr), so it is marginally unstable
+rather than fragmenting. Recorded in the beat sheet as such.
+
+### Imagery: the licence check earned its keep three times
+
+Act I needs real photographs and the bundled SDSS cutouts cannot carry them —
+512x512 is hopeless held across a 4K frame, and they have their own attribution
+terms. Three ESA/Hubble images replaced them, CC BY 4.0, with the credit **burned
+into the frame** because that is what the terms require for YouTube rather than a
+line in the description.
+
+Every object was read from its own page instead of being inferred from the file
+ID, and every one of those checks caught something:
+
+- `potw2036a`, fetched on the assumption it was an interacting pair, is the
+  globular cluster NGC 1805.
+- `heic0812a` is a **collage** — two panels with a hard divider, measured at
+  x = 1186..1217 of 3000. The ESA page said so in words; the pixels confirmed it.
+  Its usable half is 1186x1773, portrait, far below 4K.
+- `heic0812c` shows the Antennae with their full tidal tails and would have been
+  the best image in the film, but it is credited solely to **Robert Gendler**.
+  ESA/Hubble's CC BY 4.0 covers ESA/Hubble's own material; a private
+  astrophotographer's image is not obviously theirs to sublicense. "Probably
+  fine" is not a licence. Replaced with `potw1345a`, credited ESA/Hubble & NASA.
+
+### The bigger speech model was tried and rejected, on measurement
+
+Parler-TTS large v1 was the candidate, chosen because it takes a *description* of
+the voice rather than a reference clip — which sidesteps the standing rule
+against imitating a real person entirely. It was installed, run, and rejected:
+
+| | Kokoro bm_lewis | Parler-TTS large v1 |
+|---|---|---|
+| speed | faster than realtime | **47x realtime** (~6.3 h for this film) |
+| median pitch | 100 Hz | **233 Hz** — not the voice described |
+| silence in a clip containing a full stop | 41% | **0%** |
+
+The last row is decisive. Continuous energy across a sentence boundary is a
+degenerate generation, not a voice. Six hours of compute to produce something
+measurably worse was not a trade worth making, and the numbers are recorded here
+so the next attempt starts from evidence rather than from the impression that
+"bigger is better" was never tried.
+
+### What replaced it: paragraph-first synthesis
+
+The change that actually addresses "it sounds like a machine" is architectural,
+not a bigger model. The pipeline used to run: write subtitle-shaped lines, build
+an SRT, synthesise from the SRT. That makes the caption box the author of the
+prose rhythm. A TTS engine handed a clause at a time cannot know where the
+thought is going, so it places stress and pauses as though every fragment were a
+complete utterance.
+
+`voice_paragraph.py` synthesises a whole segment in one call and fits the
+subtitles to the audio that comes out. It is **not** forced alignment, and says
+so: the measured paragraph duration is divided across its lines by the same
+affine weight used elsewhere. Subtitles need to be readable and roughly in step,
+and that is accurate to a fraction of a line.
+
+### The score, re-composed
+
+The first score's problem was never that it was synthetic — Vangelis and the
+original Cosmos are synthesiser scores. It was compositional, and there were five
+faults: one texture for seven minutes, no tune, no modulation, no pulse, and it
+never stopped.
+
+`score_v2.py` has a **theme** — six notes, stated on a bell alone at the top,
+given to strings in Act II, put in the bass in augmentation under the merger, and
+returned quietly at the end. An orchestration arc from one voice to many and
+back. A plucked ostinato under Act II for pulse. A modulation, and a major chord
+at the close after seven minutes of minor. And it stops, twice, on purpose.
+
+Measured: hush 1 drops **14 dB** below the five seconds preceding it, hush 2
+drops **19 dB**, and the overall dynamic range is **39.4 dB**. The first attempt
+also left an unintended 3 s hole at the Act I/II boundary (-47.7 dB); Act II now
+begins two and a half seconds early so the strings swell into the act break
+rather than following a gap.

@@ -287,3 +287,46 @@ listen. Kokoro is 82M parameters, which is small.
 | Arms are a resolution artefact | plausible at any N | 0.5x / 2x convergence |
 | Overnight run overruns | one mistake costs the night | take the target, not the stretch |
 | Act III claims outrun the sources | the failure round 9 just fixed | LITERATURE.md first |
+
+---
+
+## HDR10 — scoped, and NOT deliverable through the current capture path
+
+Wanted for YouTube. It is a bigger job than it looks, and the blocker is not the
+renderer.
+
+**The renderer is already fine.** Everything upstream of the composite pass runs
+in `rgba16float`: the splat targets, the combine, the bloom chain. The HDR data
+exists. The composite pass then applies AgX tone mapping and writes 8-bit SDR to
+the swapchain.
+
+**The capture path is the problem.** The film renderer captures frames with
+Playwright's `page.screenshot()`, which returns PNG or JPEG — **8 bits per
+channel, sRGB, no alternative**. Whatever the composite pass writes, the frames
+leaving the browser are 8-bit. Adding a PQ curve to the shader without changing
+the capture would produce PQ-encoded values quantised to 8 bits, which is worse
+than good SDR, not better.
+
+**What a real HDR10 master needs, in order:**
+
+1. A PQ (SMPTE ST 2084) output path in the composite shader, in place of AgX, and
+   BT.2020 primaries rather than sRGB.
+2. **A new capture path.** `copyTextureToBuffer` from the HDR target straight to a
+   staging buffer, and pipe raw 16-bit half-float (or converted 10-bit) frames to
+   ffmpeg with `-f rawvideo -pix_fmt rgba64le`. This replaces `page.screenshot()`
+   entirely and is the substantial piece of work. A first attempt at reading that
+   texture back returned zeros — the texture wants `COPY_SRC` usage, which it
+   does not currently have.
+3. A mastering decision: peak luminance, and where the AgX curve's rolloff should
+   sit on a 1000-nit display instead.
+4. `libx265` at 10 bit with `master-display` and `max-cll` metadata.
+
+**And it cannot be verified here.** There is no HDR display on this machine. The
+transfer function, the primaries and the metadata can all be checked
+*technically*; whether the picture actually looks right at 1000 nits cannot. A
+technically-tagged HDR master that is perceptually wrong is worse than a good SDR
+one, and shipping one unverified would be exactly the kind of claim this project
+does not make.
+
+**Position: the SDR master is the deliverable. HDR is a well-defined next piece
+of work, and step 2 is most of it.**

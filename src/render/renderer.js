@@ -340,11 +340,63 @@ export class Renderer {
    * @param {{posBuf:GPUBuffer, velBuf:GPUBuffer, count:number, orbit?:object}} sim
    */
   render(target, sim, camera, time = 0) {
+    this.splat(sim, camera, true);
+    this.finish(target, time);
+  }
+
+  /**
+   * The splat pass on its own, optionally WITHOUT clearing.
+   *
+   * This is how motion blur is done. Splatting is additive and happens before
+   * tone mapping, so summing N sub-frames and scaling by 1/N is exactly the time
+   * average of the image — not an approximation of one. The caller advances the
+   * simulation (and the camera) between calls and scales `intensity` and
+   * `dustStrength` by 1/N, because the dust column is accumulated in the same
+   * pass and would otherwise come out N times too opaque.
+   *
+   * The one place it is not exact: `combine` computes near + far*exp(-tau), and
+   * the average of that is not quite that of the averages. Over a sub-frame's
+   * worth of motion the difference is negligible, and it is stated rather than
+   * hidden.
+   */
+  splat(sim, camera, clearFirst = true) {
+    const dev = this.device;
+    const aspect = this.width / Math.max(1, this.height);
+    this.writeSplatUniforms(camera, aspect, sim.orbit?.galaxies);
+    const splatBind = dev.createBindGroup({ layout: this.splatBGL, entries: [
+      { binding: 0, resource: { buffer: this.splatUniform } },
+      { binding: 1, resource: { buffer: sim.posBuf } },
+      { binding: 2, resource: { buffer: sim.velBuf } },
+    ]});
+    const validating = this._validated !== true;
+    if (validating) { this._validated = true; dev.pushErrorScope('validation'); }
+    const enc = dev.createCommandEncoder();
+    const att = (tex) => (clearFirst
+      ? { view: tex.createView(), clearValue: { r: 0, g: 0, b: 0, a: 0 }, loadOp: 'clear', storeOp: 'store' }
+      : { view: tex.createView(), loadOp: 'load', storeOp: 'store' });
+    const pass = enc.beginRenderPass({ colorAttachments: [
+      att(this.farTex), att(this.nearTex), att(this.tauTex),
+    ]});
+    pass.setPipeline(this.splatPipeline);
+    pass.setBindGroup(0, splatBind);
+    pass.draw(6, sim.count);
+    pass.end();
+    dev.queue.submit([enc.finish()]);
+    if (validating) {
+      dev.popErrorScope().then((e) => {
+        if (e) {
+          this.firstFrameError = e.message;
+          console.error('RENDER VALIDATION ERROR on first frame:\n' + e.message);
+        }
+      });
+    }
+  }
+
+  /** combine + bloom + composite, from whatever is already in the splat targets. */
+  finish(target, time = 0) {
     const dev = this.device;
     const aspect = this.width / Math.max(1, this.height);
     const st = this.settings;
-
-    this.writeSplatUniforms(camera, aspect, sim.orbit?.galaxies);
 
     this.compScratch.set([st.exposure, st.scienceMode ? 0 : st.bloomMix,
                           st.scienceMode ? 1 : 0, st.scienceMode ? 0 : st.vignette], 0);
@@ -358,35 +410,8 @@ export class Renderer {
     this.compScratch.set([b.fwd[0], b.fwd[1], b.fwd[2], b.tanHalf], 16);
     dev.queue.writeBuffer(this.compUniform, 0, this.compScratch);
 
-    const splatBind = dev.createBindGroup({ layout: this.splatBGL, entries: [
-      { binding: 0, resource: { buffer: this.splatUniform } },
-      { binding: 1, resource: { buffer: sim.posBuf } },
-      { binding: 2, resource: { buffer: sim.velBuf } },
-    ]});
-
-    // Validate the first real frame and shout about it. WebGPU reports the CAUSE
-    // once and the CONSEQUENCES every frame forever, so a single validation
-    // error arrives as hundreds of "invalid command buffer" warnings that name
-    // nothing. That has now cost two debugging rounds: a reserved keyword, and a
-    // uniform buffer 16 bytes short. This makes the first one audible.
-    const validating = this._validated !== true;
-    if (validating) { this._validated = true; dev.pushErrorScope('validation'); }
-
     const enc = dev.createCommandEncoder();
     const clear = (view) => ({ view, clearValue: { r: 0, g: 0, b: 0, a: 0 }, loadOp: 'clear', storeOp: 'store' });
-
-    // ---- 1. splats into far / near / tau ----
-    {
-      const pass = enc.beginRenderPass({ colorAttachments: [
-        clear(this.farTex.createView()),
-        clear(this.nearTex.createView()),
-        clear(this.tauTex.createView()),
-      ]});
-      pass.setPipeline(this.splatPipeline);
-      pass.setBindGroup(0, splatBind);
-      pass.draw(6, sim.count);
-      pass.end();
-    }
 
     // ---- 2. combine through the dust column ----
     {
@@ -462,14 +487,5 @@ export class Renderer {
     }
 
     dev.queue.submit([enc.finish()]);
-
-    if (validating) {
-      dev.popErrorScope().then((e) => {
-        if (e) {
-          this.firstFrameError = e.message;
-          console.error('RENDER VALIDATION ERROR on first frame:\n' + e.message);
-        }
-      });
-    }
   }
 }

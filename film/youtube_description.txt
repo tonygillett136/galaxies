@@ -1,94 +1,106 @@
-TITLE (primary)
-When Galaxies Collide: a real-time simulation in 4K
+Gravity, and enough time: how galaxies pull each other apart
 
-TITLE (alternatives)
-Which Way a Galaxy Spins Matters More Than How Close It Gets
-300,000 Stars, Real Gravity: what happens when two galaxies meet
-Galaxy Collisions, Simulated Live in a Browser (4K60)
+Two galaxies pass close by. Neither explodes, and not one star strikes another —
+yet both are drawn out into streamers of light a hundred thousand light years
+long. This film builds that result from nothing but gravity, and then follows it
+to its conclusion: what becomes of spiral galaxies that meet.
 
-
-=====================================================================
-DESCRIPTION (paste below the line)
-=====================================================================
-
-Two galaxies, gravity, and nothing else.
-
-Everything in this film is a live simulation: 300,000 massless test particles
-orbiting analytic potentials on the GPU, rendered at 4K and 60 frames per second.
-No animation, no artistic licence, no post-processing of the physics. The
-parameters used to produce each scene are shown on screen as it begins.
-
-You can run all of it yourself, in your browser, right now:
-https://galaxies.gillett-projects.com
-
-Source, the full build log, and an honest account of what it gets wrong:
-https://github.com/tonygillett136/galaxies
-
-Commentary is on the subtitle track. Turn it on with the CC button, or leave it
-off and just watch.
+Everything you see is simulated in a web browser, in real time, on a single
+desktop machine. You can run any of it yourself at the link below.
 
 
-WHAT YOU ARE LOOKING AT
+RUN IT YOURSELF
 
-This is a restricted three-body model. Massless test particles move in rigid
-analytic potentials, the two galaxies attract each other, and the particles feel
-both galaxies but not one another. It is the approximation Alar and Juri Toomre
-used in 1972 to show that the long bridges and tails around interacting galaxies
-are tidal, rather than magnetic or explosive.
+  https://galaxies.gillett-projects.com
 
-That approximation buys enormous speed. It also leaves things out, and the film
-says so: no gas, no star formation, no disc self-gravity. Nothing here is a fluid.
-
-Distances are in kiloparsecs, about 3,260 light years. Times are in millions of
-years, measured from closest approach.
+  Source, method and every measured number: https://github.com/tonygillett136/galaxies
 
 
-THE RESULT WORTH WATCHING FOR
+WHAT IS BEING SIMULATED
 
-Compare the prograde and retrograde passages at 0:25 and 1:11. Same masses, same
-orbit, same closest approach. The only difference is which way the discs spin.
+Two galaxies, each a bulge, a disc and a dark-matter halo. The discs are made of
+particles that feel each other's gravity, so the spiral arms in the opening are
+not drawn in — they grow, on their own, out of a smooth disc. Nothing else is at
+work: no magnetic fields, no explosions, no collisions between stars.
 
-Prograde throws 15.1 per cent of a disc beyond 20 kiloparsecs. Retrograde throws
-2.5 per cent. The two orbits are asserted identical to one part in a million
-first, so the disc spin is demonstrably the only difference.
-
-Reversing the spin spares the disc as much as moving the whole encounter from
-25 to 46.6 kiloparsecs, nearly twice as far out.
-
-
-ON THE NUMBERS
-
-Every figure quoted in the commentary is measured by the project's own test
-suite and registered, so the prose fails the build if it drifts from the
-measurement that produced it. The merger timings, the ring density, the tidal
-fractions and the disc stability check are generated rather than typed.
-
-The one thing this project will not claim is that a good visual match means you
-have found the right encounter. It published exactly that claim, measured it
-properly, and retracted it. The reasoning is in the repository.
+The stars really do never touch. A galaxy is overwhelmingly empty; two of them
+can pass straight through one another and the odds of any two stars colliding are
+negligible. What tears the discs apart is tidal force alone.
 
 
-CHAPTERS
+THE RESULT WORTH POINTING AT
 
-0:00 Introduction
-0:09 The control
-0:25 Prograde passage
-1:11 Retrograde passage
-1:44 Two long tails
-2:26 Out of the plane
-3:16 Whose material is it
-3:49 A ring, not a tail
-4:31 A small perturber
-5:16 Merger
-6:18 Time, backwards
-6:57 Against the real sky
-7:24 Where to find it
+Which way a disc spins turns out to matter enormously.
+
+Run the same encounter twice, changing nothing but the direction the discs
+rotate. Turning WITH the encounter, a galaxy throws 15.1 per cent of its disc
+beyond 20 kiloparsecs. Turning AGAINST it, 2.5 per cent. The two orbits are
+asserted identical to one part in a million first, so the spin is demonstrably
+the only difference.
+
+Put another way: reversing the spin spares a galaxy as much as moving the whole
+encounter from 25 to 46.6 kiloparsecs — nearly twice as far away.
+
+That exchange rate is measured, not asserted. An earlier version of this project
+claimed spin "matters more than how close the encounter is" without ever having
+varied the distance, and that claim has been retracted.
 
 
-DATA AND CREDIT
+WHAT THE MERGER SHOWS
 
-Galaxy Zoo: Mergers, Holincheck et al. 2016, MNRAS 459, 720.
-Imagery from the SDSS DR18 SkyServer cutout service.
+When two galaxies cannot escape one another, the orbit decays and they coalesce.
+The remnant is measured against the disc it came from: ordered rotation falls
+from 205 km/s to 27, while random motion rises from 29 to 149. A
+rotation-supported disc has become a pressure-supported spheroid, which is the
+defining difference between a spiral and an elliptical.
 
-Built with Claude Code, then put through eight rounds of adversarial review. The
-review log is in the repository as well.
+The light profile moves the same way, from an exponential towards a de
+Vaucouleurs law — but only when the dark-matter halo is made of particles too and
+is free to respond. With a rigid halo it does not happen at all. Violent
+relaxation needs a potential that changes with time.
+
+It reaches a Sérsic index of 2.58, not the 4 of a classical bright elliptical, so
+the honest word is "towards". There is no gas in this model, and one merger is
+not how a real elliptical is assembled.
+
+
+ON THE MILKY WAY AND ANDROMEDA
+
+For years the answer was "they will certainly merge, in about four billion
+years". With Gaia and Hubble astrometry, and observational uncertainties included
+for the first time, that certainty has gone: the current estimate is close to
+even odds over the next ten billion years. The confident version came from
+ignoring the error bars.
+
+
+HOW IT IS MADE
+
+WebGPU compute shaders, plain ES modules, no build step. Direct N-body
+self-gravity for the discs and halos; a leapfrog integrator that is exactly
+time-reversible in double precision; dynamical friction that emerges from the
+particles rather than being added as a formula.
+
+The film is rendered offline at 4K60 with sixteen sub-frame samples per frame for
+true motion blur, then cut, scored and narrated from the same timeline, so the
+subtitles cannot drift against the picture.
+
+The physics carries 98 standing assertions that run on every build, including
+checks designed to FAIL when the code is broken on purpose. Where a number
+appears in this description, a test reads it back out of the prose and fails the
+build if it has drifted.
+
+
+IMAGE CREDITS
+
+  Tadpole Galaxy (UGC 10214) — NASA, Holland Ford (JHU), the ACS Science Team and ESA
+  Antennae Galaxies (NGC 4038/4039) — ESA/Hubble & NASA
+  The Mice (NGC 4676) — NASA, Holland Ford (JHU), the ACS Science Team and ESA
+
+  Used under CC BY 4.0. Credits also appear on the frames themselves.
+
+  Galaxy Zoo: Mergers target list and published fits — Holincheck et al. 2016.
+  SDSS imagery used for the overlay comparison carries SDSS's own attribution.
+
+
+The music is original, written for this film. The narration is synthesised, and
+is not an imitation of any real person.

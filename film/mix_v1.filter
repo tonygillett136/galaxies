@@ -1,6 +1,6 @@
-[0:a]volume=0.40[m];
+[0:a]volume=0.45[m];
 [1:a]highpass=f=95,equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.4:g=2.5,aecho=0.8:0.85:55:0.12,volume=1.25[v];
 [v]asplit=2[vmain][vkey];
-[m][vkey]sidechaincompress=threshold=0.020:ratio=9:attack=25:release=900:makeup=1[mduck];
+[m][vkey]sidechaincompress=threshold=0.028:ratio=7:attack=30:release=850:makeup=1[mduck];
 [mduck][vmain]amix=inputs=2:duration=longest:normalize=0[mixed];
 [mixed]loudnorm=I=-14:TP=-1.5:LRA=11[out]

@@ -31,6 +31,8 @@ os.makedirs(WORK, exist_ok=True)
 
 # Wide shots, matching batch4k.sh. Close-ups name the epoch window they replace.
 SHOTS = {
+    'realsky':    dict(secs=29),          # real photographs, no simulation clock
+    'control_live': dict(secs=22),        # the self-gravitating disc
     'discs':      dict(t0=-45, t1=-44,  secs=17),
     'prograde':   dict(t0=-45, t1=95,   secs=48, cu=('cu_prograde', 6, 26)),
     'retrograde': dict(t0=-45, t1=95,   secs=34),
@@ -40,7 +42,6 @@ SHOTS = {
     'ring':       dict(t0=-34, t1=95,   secs=44, cu=('cu_ring', 4, 24)),
     'minor':      dict(t0=-42, t1=100,  secs=46),
     'merger':     dict(t0=-60, t1=420,  secs=64, cu=('cu_merger', 300, 360)),
-    'reversal':   dict(t0=-45, t1=45,   secs=40),
     'detect':     dict(t0=60,  t1=110,  secs=28),
 }
 
@@ -177,7 +178,11 @@ def main():
         lead = 2.2 if s.get('kind') != 'card' else 1.6
         span = max(4.0, s['duration'] - lead - 1.2)
         MIN, MAX = 1.45, 6.0
-        wts = [max(12, len(x)) for x in lines]; tot = sum(wts)
+        # Affine, not proportional. Speaking a line costs a fixed amount
+        # (onset, breath, the pause after it) plus a per-character amount, so
+        # weighting purely by length starves short lines while long ones sit on
+        # slack. Same fix as narration.py.
+        wts = [20 + len(x) for x in lines]; tot = sum(wts)
         ds = [min(MAX, max(MIN, span * (w / tot))) for w in wts]
         c = s['tl_in'] + lead
         for line, d in zip(lines, ds):
