@@ -2105,3 +2105,65 @@ loop already exists, it just needs to run over a subrange per dispatch with the
 partial sums accumulated.
 
 94 assertions, 94 ran, 0 failed.
+
+---
+
+## Phase 2 — split dispatches, and the heating diagnosis narrowed
+
+### The device-loss fix
+
+The O(N²) accumulation now runs as several short dispatches instead of one long
+one. `Params` carries a tile range; the first chunk writes `acc` and adds the
+rigid components, the rest accumulate into it. The tile loop already existed — it
+only needed bounds. Chunk size comes from a target of 4e9 pair-interactions per
+dispatch, about 36 ms at the measured throughput.
+
+Measured after, 200 sustained steps each:
+
+| N | chunks | ms/step | ms/dispatch | before | after |
+|---|---|---|---|---|---|
+| 150,000 | 6 | 194.9 | 32.5 | untested | **survives** |
+| 175,000 | 8 | 279.8 | 35.0 | **died twice** | **survives** |
+| 200,000 | 11 | 367.4 | 33.4 | untested | **survives** |
+| 262,144 | 18 | 626.6 | 34.8 | untested | **survives** |
+
+Per-step cost is unchanged — 194.9 ms at 150k against the benchmark's 205.4, so
+splitting is free. The film tier's N = 150k target is now tested at length rather
+than assumed, and the 125k interim ceiling is withdrawn.
+
+**It is asserted, not just observed.** A standing check runs the same disc for 60
+steps as 1 dispatch and as 27, and requires the two to agree: worst position
+disagreement 3.82e-6 kpc over a 13.6 kpc disc, **2.8e-7 relative**. It will not be
+bit-identical, because the split version stores a partial sum to `acc` in float32
+between chunks while the single dispatch keeps it in a register. The tile order is
+unchanged, so the difference is rounding and nothing else. The check also asserts
+that the two arms really did use different chunk counts, because otherwise it
+compares a thing to itself.
+
+### The heating: two-body relaxation is now definitively excluded
+
+The fix made the previously-fatal configuration runnable, which bought the
+missing data point. Halo particle mass varied by a factor of **three**:
+
+| halo N | m_halo / m_disc | excess heating | A₂/floor |
+|---|---|---|---|
+| 50,000 | 8.8x | 16.8 km/s | 5.31 |
+| 150,000 | **2.9x** | 15.7 km/s | 6.06 |
+
+Relaxation heating is proportional to the perturber mass, so a 3x reduction
+should give a 3x reduction. It gave **7%**. That is not a marginal result and it
+closes the hypothesis.
+
+Note also that A₂/floor *rises* with halo resolution — 2.19 rigid, 5.31 at 50k,
+6.06 at 150k. Two-body damage would do the opposite. Whatever the live halo is
+doing to the disc, it is producing more non-axisymmetric structure at better
+resolution, not less.
+
+The cause of the σ_R rise is still undiagnosed. Five hypotheses have now been
+tested and rejected, which is worth stating plainly rather than dressing up: the
+honest position is that a live halo does something prompt to the disc that this
+project does not yet understand, and the leading candidate — that σ_R is counting
+ordered streaming as random motion — has not been tested because it needs the
+azimuthal mean velocity field removed first.
+
+95 assertions, 95 ran, 0 failed.

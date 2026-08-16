@@ -71,7 +71,7 @@ async function evolve(device, ic, rigid, steps, eps = EPS) {
 
 export async function runLiveTests(device) {
   group('live tier — self-gravity, where the initial conditions are the risk');
-  expectChecks(8);
+  expectChecks(9);
 
   const model = galaxyModel(1.0);
   const { rigid, discMass } = rigidWithoutDisc(model);
@@ -166,6 +166,42 @@ export async function runLiveTests(device) {
     above(dR, 0.05, 'radius change when the disc gravity is double-counted');
     return `mean R ${before.meanR.toFixed(3)} -> ${after.meanR.toFixed(3)} kpc `
          + `(${(dR * 100).toFixed(1)}%, against a 5% tolerance the correct model passes) — the guard fires`;
+  });
+
+  await checkAsync('SPLIT DISPATCHES give the same answer as one long one', async () => {
+    // One O(N^2) dispatch at 175k particles runs ~278 ms and macOS resets the
+    // GPU mid-run. The accumulation is now split across several shorter
+    // dispatches, which is only safe if it is arithmetically the same sum.
+    //
+    // It will not be bit-identical: a single dispatch accumulates in a register
+    // across every tile, while the split version stores a partial sum to `acc`
+    // in float32 between chunks. The tile ORDER is unchanged, so the difference
+    // is rounding and nothing else.
+    const N = 20000, STEPS = 60;
+    const ic = liveExponentialDisc({ count: N, discMass, scaleLength: Rd, rigid, toomreQ: 1.2, seed: 3 });
+    const mk = (maxPairs) => LiveSim.create(device, [{ pos: [0, 0, 0], potential: rigid }],
+      { count: N, pos: ic.pos, vel: ic.vel, mass: ic.mass }, EPS, { maxPairsPerDispatch: maxPairs });
+
+    const one = await mk(1e12);
+    const many = await mk(2e7);
+    ok(one.chunks.length === 1, `the single-dispatch arm used ${one.chunks.length} chunks; the comparison is vacuous`);
+    ok(many.chunks.length >= 4, `the split arm used only ${many.chunks.length} chunks; the comparison is vacuous`);
+
+    one.run(DT, STEPS); many.run(DT, STEPS);
+    await device.queue.onSubmittedWorkDone();
+    const a = await one.readPositions(), b = await many.readPositions();
+    let worst = 0, scale = 0;
+    for (let i = 0; i < N; i++) {
+      const d = Math.hypot(a[i * 4] - b[i * 4], a[i * 4 + 1] - b[i * 4 + 1], a[i * 4 + 2] - b[i * 4 + 2]);
+      const r = Math.hypot(a[i * 4], a[i * 4 + 1], a[i * 4 + 2]);
+      if (d > worst) worst = d;
+      if (r > scale) scale = r;
+    }
+    one.destroy(); many.destroy();
+    below(worst / scale, 1e-4, 'worst position disagreement between one dispatch and many, relative to the disc radius');
+    record('dispatchSplitAgreement', worst / scale);
+    return `${many.chunks.length} chunks against 1, after ${STEPS} steps: worst |dx| ${worst.toExponential(2)} kpc `
+         + `over a ${scale.toFixed(1)} kpc disc (${(worst / scale).toExponential(2)} relative)`;
   });
 
   await checkAsync('the halo dispersion formula agrees with the Jeans equation', async () => {

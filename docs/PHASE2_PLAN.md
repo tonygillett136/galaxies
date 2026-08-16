@@ -200,21 +200,20 @@ Take the target. Spend what is left on a second pass, not on a bigger first one.
 
 ---
 
-## 3a. A hard limit measured 2026-08-16: dispatch length
+## 3a. Dispatch splitting — FIXED 2026-08-16
 
-**175,000 particles loses the GPU device.** One O(N²) dispatch at that count is
-~278 ms and macOS resets the device: `A valid external Instance reference no
-longer exists`, reproduced twice including with the run alone.
+A single O(N²) dispatch at 175k particles ran ~278 ms and macOS reset the GPU
+mid-run, twice. The accumulation now runs as several short dispatches: `Params`
+carries a tile range, the first chunk writes `acc` and adds the rigid components,
+the rest accumulate into it. Chunk size targets 4e9 pair-interactions, ~36 ms.
 
-The film target of N = 150k is a ~205 ms dispatch — the same order, and untested
-at length. **Before the overnight run commits to 150k, split the accumulation
-across several shorter dispatches.** The tile loop in `computeAccel` already
-exists; it needs a start/end tile range in the uniform and partial sums
-accumulated into `acc`, which turns one 205 ms dispatch into (say) four of 50 ms.
-That is a small change and it removes a whole class of overnight failure.
+Measured over 200 sustained steps: **150k survives at 194.9 ms/step in 6 chunks,
+and so do 175k, 200k and 262k.** Per-step cost is unchanged, so splitting is
+free, and a standing assertion requires 1 chunk and 27 chunks to agree to 2.8e-7
+relative after 60 steps.
 
-Until that is done, treat **N = 125k as the tested ceiling** (a ~142 ms dispatch,
-which has run for thousands of steps without incident).
+**The film tier's N = 150k is now tested rather than assumed.** The earlier 125k
+interim ceiling is withdrawn.
 
 ## 4. Cinematography, folded in where it is cheap
 

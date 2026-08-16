@@ -27,13 +27,13 @@ export class LiveSim {
    *                            radius?, origin?}
    * @param {number} eps  self-gravity softening, in kpc
    */
-  static async create(device, galaxies, particles, eps) {
+  static async create(device, galaxies, particles, eps, opts = {}) {
     const s = new LiveSim();
-    await s._init(device, galaxies, particles, eps);
+    await s._init(device, galaxies, particles, eps, opts);
     return s;
   }
 
-  async _init(device, galaxies, particles, eps) {
+  async _init(device, galaxies, particles, eps, opts = {}) {
     this.device = device;
     this.count = particles.count;
     this.eps = eps;
@@ -85,7 +85,7 @@ export class LiveSim {
       size: Math.max(this.nComp * GALAXY_STRIDE * 4, 32),
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
     });
-    this.parBuf = device.createBuffer({ size: 16, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
+    this.parBuf = device.createBuffer({ size: 32, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
 
     const module = await makeShader(device, LIVE_KERNELS, 'live-nbody');
     // Explicit layout, never 'auto': 'auto' prunes bindings an entry point does
@@ -115,10 +115,24 @@ export class LiveSim {
     ]});
 
     this.groups = Math.max(1, Math.ceil(n / 256));
+    this.tiles = Math.max(1, Math.ceil(n / 256));
+
+    // DISPATCH SPLITTING. One O(N^2) dispatch at 175k particles runs ~278 ms and
+    // macOS resets the GPU mid-run. Cap the work per dispatch instead: the tile
+    // loop already existed, it just needed a range. 4e9 pair-interactions is
+    // about 36 ms at the measured 1.1e11/s, comfortably inside whatever the
+    // watchdog's real threshold is (which was never measured, only crossed).
+    const maxPairs = opts.maxPairsPerDispatch ?? 4e9;
+    const tilesPerDispatch = Math.max(1, Math.floor(maxPairs / Math.max(n * 256, 1)));
+    this.chunks = [];
+    for (let t = 0; t < this.tiles; t += tilesPerDispatch) {
+      this.chunks.push([t, Math.min(t + tilesPerDispatch, this.tiles)]);
+    }
+
     this.time = 0;
     this.steps = 0;
     this._writeGalaxies();
-    this._writeParams(0);
+    this._writeParams(0, 0, this.tiles);
     this._primed = false;
   }
 
@@ -140,13 +154,34 @@ export class LiveSim {
     this.device.queue.writeBuffer(this.gBuf, 0, s);
   }
 
-  _writeParams(dt) {
-    const b = new ArrayBuffer(16), dv = new DataView(b);
+  _writeParams(dt, tile0, tile1) {
+    const b = new ArrayBuffer(32), dv = new DataView(b);
     dv.setUint32(0, this.count, true);
     dv.setUint32(4, this.comps.length, true);
     dv.setFloat32(8, dt, true);
     dv.setFloat32(12, this.eps, true);
+    dv.setUint32(16, tile0, true);
+    dv.setUint32(20, tile1, true);
     this.device.queue.writeBuffer(this.parBuf, 0, b);
+  }
+
+  /**
+   * The full acceleration, as several short dispatches. The first chunk writes
+   * `acc` and adds the rigid components; the rest accumulate into it. Each chunk
+   * is its own submission because the tile range lives in the uniform buffer and
+   * a writeBuffer only takes effect between submissions.
+   */
+  _accumulateAccel(dt) {
+    for (const [t0, t1] of this.chunks) {
+      this._writeParams(dt, t0, t1);
+      const enc = this.device.createCommandEncoder();
+      const pass = enc.beginComputePass();
+      pass.setBindGroup(0, this.bind);
+      pass.setPipeline(this.pAccel);
+      pass.dispatchWorkgroups(this.groups);
+      pass.end();
+      this.device.queue.submit([enc.finish()]);
+    }
   }
 
   /**
@@ -161,19 +196,11 @@ export class LiveSim {
    * than into an error.
    */
   step(dt, centresAtEnd = null) {
-    this._writeParams(dt);
     const dev = this.device;
 
-    if (!this._primed) {
-      const e0 = dev.createCommandEncoder();
-      const p0 = e0.beginComputePass();
-      p0.setBindGroup(0, this.bind);
-      p0.setPipeline(this.pAccel); p0.dispatchWorkgroups(this.groups);
-      p0.end();
-      dev.queue.submit([e0.finish()]);
-      this._primed = true;
-    }
+    if (!this._primed) { this._accumulateAccel(dt); this._primed = true; }
 
+    this._writeParams(dt, 0, this.tiles);
     const e1 = dev.createCommandEncoder();
     const p1 = e1.beginComputePass();
     p1.setBindGroup(0, this.bind);
@@ -183,11 +210,13 @@ export class LiveSim {
 
     if (centresAtEnd) this.setCentres(centresAtEnd);
 
+    this._accumulateAccel(dt);
+
+    this._writeParams(dt, 0, this.tiles);
     const e2 = dev.createCommandEncoder();
     const p2 = e2.beginComputePass();
     p2.setBindGroup(0, this.bind);
-    p2.setPipeline(this.pAccel); p2.dispatchWorkgroups(this.groups);
-    p2.setPipeline(this.pKick);  p2.dispatchWorkgroups(this.groups);
+    p2.setPipeline(this.pKick); p2.dispatchWorkgroups(this.groups);
     p2.end();
     dev.queue.submit([e2.finish()]);
 

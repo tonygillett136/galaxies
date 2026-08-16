@@ -36,6 +36,16 @@ struct Params {
   nGalaxies : u32,
   dt        : f32,
   eps       : f32,   // self-gravity softening, a SILENT KNOB: sweep it
+  // Tile range for this dispatch. The O(N^2) sum is split across several
+  // dispatches because a single one at 175k particles runs ~278 ms and macOS
+  // resets the GPU mid-run ("A valid external Instance reference no longer
+  // exists"). Splitting turns one long dispatch into several short ones and
+  // removes the whole failure mode. tile0 == 0 is the FIRST chunk: it writes
+  // acc and adds the rigid components; later chunks accumulate into it.
+  tile0     : u32,
+  tile1     : u32,
+  _pad0     : u32,
+  _pad1     : u32,
 };
 
 @group(0) @binding(0) var<storage, read>       gNow : array<Galaxy>;
@@ -93,9 +103,10 @@ fn computeAccel(@builtin(global_invocation_id) gid : vec3u,
   var a = vec3f(0.0);
   let eps2 = P.eps * P.eps;
 
-  // --- self-gravity, tiled ---------------------------------------------------
-  let tiles = (n + TILE - 1u) / TILE;
-  for (var t : u32 = 0u; t < tiles; t = t + 1u) {
+  // --- self-gravity, tiled over THIS DISPATCH'S RANGE ------------------------
+  // tile0/tile1 come from a uniform, so the loop bounds and the barriers inside
+  // it are uniform across the workgroup, which is what workgroupBarrier requires.
+  for (var t : u32 = P.tile0; t < P.tile1; t = t + 1u) {
     let src = t * TILE + lid.x;
     if (src < n) { sPos[lid.x] = pos[src].xyz; sMass[lid.x] = mass[src]; }
     else         { sPos[lid.x] = vec3f(0.0);   sMass[lid.x] = 0.0; }
@@ -111,12 +122,15 @@ fn computeAccel(@builtin(global_invocation_id) gid : vec3u,
     workgroupBarrier();
   }
 
-  // --- rigid components ------------------------------------------------------
-  for (var k : u32 = 0u; k < P.nGalaxies; k = k + 1u) {
-    a = a + accelFrom(gNow[k], p);
+  // --- rigid components, added exactly ONCE, on the first chunk ---------------
+  if (P.tile0 == 0u) {
+    for (var k : u32 = 0u; k < P.nGalaxies; k = k + 1u) {
+      a = a + accelFrom(gNow[k], p);
+    }
+    if (i < n) { acc[i] = vec4f(a, 0.0); }
+  } else {
+    if (i < n) { acc[i] = acc[i] + vec4f(a, 0.0); }
   }
-
-  if (i < n) { acc[i] = vec4f(a, 0.0); }
 }
 
 @compute @workgroup_size(256)
