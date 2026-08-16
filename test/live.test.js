@@ -21,6 +21,7 @@ import { shapeKinematics } from '../src/engine/shape.js';
 import { decomposeDiscVelocities } from '../src/engine/kinematics.js';
 import { mulberry32 } from '../src/engine/galaxy.js';
 import { liveHernquistHalo, hernquistSigma2, hernquistSigma2Jeans, hernquistMassFrac, hernquistDF } from '../src/engine/livehalo.js';
+import { eddingtonDF } from '../src/engine/eddington.js';
 
 const Rd = 3.0;
 const EPS = 0.2;
@@ -73,7 +74,7 @@ async function evolve(device, ic, rigid, steps, eps = EPS) {
 
 export async function runLiveTests(device) {
   group('live tier — self-gravity, where the initial conditions are the risk');
-  expectChecks(10);
+  expectChecks(12);
 
   const model = galaxyModel(1.0);
   const { rigid, discMass } = rigidWithoutDisc(model);
@@ -302,6 +303,79 @@ export async function runLiveTests(device) {
     below(Math.abs(summed - expected) / expected, 1e-5, 'sampled halo total mass against the truncated analytic mass');
     return `worst dispersion ratio ${(worst * 100).toFixed(1)}% at r = ${atR} kpc; `
          + `mass ${summed.toFixed(3)} against the truncated analytic ${expected.toFixed(3)}`;
+  });
+
+  await checkAsync('Eddington inversion reproduces the analytic Hernquist DF', async () => {
+    // The numerical inversion is a double differentiation of rho with respect to
+    // Psi followed by a singular integral. It shares no algebra with the closed
+    // form, so agreement is a real check on both. Compared up to normalisation
+    // because hernquistDF returns an unnormalised shape.
+    const M = 66.005, a = 20.0;
+    const f = eddingtonDF((r) => M * a / (2 * Math.PI * r * Math.pow(r + a, 3)),
+      (r) => M / (r + a), { rMin: 1e-4, rMax: 1e6, nR: 4000, nE: 600 });
+    const vg2 = M / a;
+    const ratios = [];
+    for (const q of [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]) {
+      const fa = hernquistDF(q);
+      if (fa > 0) ratios.push(f(q * q * vg2) / fa);
+    }
+    ok(ratios.length >= 6, `only ${ratios.length} usable comparison points`);
+    const med = ratios.slice().sort((x, y) => x - y)[Math.floor(ratios.length / 2)];
+    const dev = Math.max(...ratios.map((r) => Math.abs(r / med - 1)));
+    below(dev, 0.02, 'worst deviation from a constant numeric/analytic ratio');
+    return `${ratios.length} energies from q=0.2 to 0.9, worst deviation from a constant ratio ${(dev * 100).toFixed(2)}%`;
+  });
+
+  await checkAsync('a halo built in the TOTAL potential does not contract; an isolated one does', async () => {
+    // The Stage 2 result. A halo sampled from the isolated-sphere DF is in
+    // equilibrium with ITSELF, not with the galaxy it is part of: drop a disc
+    // into it and it falls into the deeper combined potential, and the changing
+    // potential heats the disc. Building the DF by Eddington inversion in the
+    // total potential removes it.
+    //
+    // The isolated arm is the sensitivity control. Without it, "the halo held"
+    // would be equally consistent with the test being unable to see contraction.
+    const model = galaxyModel(1.0);
+    const halo = rigid.parts.reduce((x, y) => (y.mass > x.mass ? y : x));
+    const bulge = rigid.parts.find((x) => x !== halo);
+    const ND = 15000, NH = 30000, STEPS = 600;
+    const inner = (pos, stride, n0, n) => {
+      const r = new Float64Array(n);
+      for (let i = 0; i < n; i++) {
+        const j = n0 + i;
+        r[i] = Math.hypot(pos[j * stride], pos[j * stride + 1], pos[j * stride + 2]);
+      }
+      r.sort();
+      return [0.01, 0.05, 0.25].map((q) => r[Math.floor(q * n)]);
+    };
+    const arm = async (useTotal) => {
+      const disc = liveExponentialDisc({ count: ND, discMass, scaleLength: Rd, rigid, toomreQ: 1.2, seed: 11 });
+      const h = liveHernquistHalo({ count: NH, mass: halo.mass, a: halo.scale, rMax: 15 * halo.scale,
+        seed: 77, origin: 2, totalPotential: useTotal ? model : undefined });
+      const n = ND + NH;
+      const pos = new Float32Array(n * 3), vel = new Float32Array(n * 3), mass = new Float32Array(n);
+      pos.set(disc.pos, 0); vel.set(disc.vel, 0); mass.set(disc.mass, 0);
+      pos.set(h.pos, ND * 3); vel.set(h.vel, ND * 3); mass.set(h.mass, ND);
+      const before = inner(pos, 3, ND, NH);
+      const sim = await LiveSim.create(device, [{ pos: [0, 0, 0], potential: bulge }],
+        { count: n, pos, vel, mass }, EPS);
+      sim.run(DT, STEPS);
+      await device.queue.onSubmittedWorkDone();
+      const P = await sim.readPositions();
+      sim.destroy();
+      const after = inner(P, 4, ND, NH);
+      return Math.max(...before.map((x, i) => Math.abs(after[i] / x - 1)));
+    };
+    const isolated = await arm(false);
+    const total = await arm(true);
+    above(isolated, 0.15, 'contraction of a halo built from the ISOLATED-sphere DF');
+    below(total, 0.10, 'contraction of a halo built in the TOTAL potential');
+    above(isolated / total, 2.0, 'ratio of isolated to total-potential contraction');
+    record('haloContractionIsolated', isolated);
+    record('haloContractionTotal', total);
+    return `worst inner-shell drift: isolated DF ${(isolated * 100).toFixed(1)}%, `
+         + `total-potential DF ${(total * 100).toFixed(1)}% — ${(isolated / total).toFixed(1)}x better, `
+         + `and the isolated arm confirms the test can see contraction at all`;
   });
 
   await checkAsync('an isolated live halo HOLDS its Lagrangian radii', async () => {

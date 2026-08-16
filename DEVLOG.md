@@ -2248,3 +2248,100 @@ answer was in the halo, and it took thirty seconds to see once the question was
 asked of the right object.
 
 96 assertions, 96 ran, 0 failed.
+
+---
+
+## Phase 2, Stage 2 — SOLVED. The halo has to be built in the potential it will live in.
+
+The diagnosis was that the halo, sampled from the isolated-sphere distribution
+function, contracts when a disc is dropped into it. The fix follows directly:
+build its DF in the **total** potential instead.
+
+### Eddington inversion
+
+`src/engine/eddington.js` computes the isotropic DF numerically:
+
+    f(E) = 1/(sqrt(8) pi^2)  INT_0^E  d²rho/dPsi²  dPsi / sqrt(E - Psi)
+
+with rho the halo's density and Psi = -Phi the relative potential of
+**everything** — halo, disc and bulge. The singularity at Psi = E is removed by
+substituting Psi = E - u², which turns dPsi/sqrt(E-Psi) into 2 du and leaves
+nothing to special-case.
+
+The spherical approximation is stated rather than implied: Eddington assumes
+spherical symmetry and a disc is not spherical, so the disc enters as its
+monopole — which in this model is exactly the Plummer sphere `galaxyModel`
+already uses to carry the disc mass. No new approximation beyond the one the mass
+model already makes.
+
+**It is checked against a case with a known answer.** A Hernquist density in a
+Hernquist potential must reproduce the analytic Hernquist DF, and the two share
+no algebra: one is a closed form, the other a numerical double differentiation
+and a singular integral. Agreement is to **0.01%** across q = 0.2 to 0.9.
+
+Built in the total potential, the halo is hotter where the disc and bulge deepen
+the well — 1.56x the isolated dispersion at 1-3 kpc, 1.24x at 5-8 kpc, falling to
+1.06x beyond 40 kpc. That is the expected direction and magnitude.
+
+### The result
+
+Identical disc, identical halo particle count, 141 Myr:
+
+| arm | disc RANDOM heating | inner halo shells (1% / 5% / 25%) |
+|---|---|---|
+| rigid halo (control) | +2.0 km/s | — |
+| live halo, **isolated** DF | **+16.4 km/s** | **−36.5%, −29.4%, −22.9%** |
+| live halo, **total-potential** DF | **+4.2 km/s** | **+1.9%, +2.8%, −0.1%** |
+
+The contraction is gone and the heating falls four-fold, to within a factor of
+two of a rigid halo that cannot respond at all. The residual excess is small and
+may well be real physics — a live halo does interact with a disc — or the last of
+the monopole approximation. Either way it is no longer the dominant effect.
+
+The extra structure the isolated arm showed was largely the contraction
+transient: A₂/floor reads 2.19 rigid, 5.31 isolated, **3.19** total-potential. A
+responsive halo still gives more structure than a rigid one, modestly, which is
+the physically expected answer rather than the inflated one.
+
+**Stage 2 is cleared.** A live halo is usable, which means dynamical friction can
+stop being an analytic term on the galaxy centres and the film's "we do not
+simulate the wake" line can go.
+
+### Both halves are asserted, and the sensitivity control is the point
+
+The new check builds the same disc twice, with the halo sampled each way, and
+requires the total-potential arm to hold **and the isolated arm to fail**.
+Without the second half, "the halo held" would be equally consistent with a test
+that cannot see contraction at all.
+
+### The shape of this whole investigation
+
+Seven hypotheses, in order: two-body relaxation, halo settling from a Maxwellian
+approximation, a bulk-velocity measurement artefact, a systematic mean-field
+error, saturation masking the resolution scaling, streaming misread as random
+motion — and finally the right one. Five of the seven were tested by measuring
+the **disc**, because the disc was the thing that looked wrong. The answer was in
+the halo and took thirty seconds once the question was asked of the right object.
+
+Three instruments had to be built or repaired along the way, and each of them
+returned a plausible number before it returned a correct one.
+
+### A harness defect that cost forty minutes
+
+Adding the checks above, I duplicated an existing `import { galaxyModel }` in
+`test/live.test.js`. That is a module-level syntax error, and ES imports are
+hoisted — so the page died before the `try/catch` in `test/index.html` could run,
+`__testsDone` was never set, and the runner sat waiting for its full timeout.
+Twice: once at 600 s, then again at 1800 s after I raised the limit, on the
+assumption that the new checks were simply slow.
+
+They were not. The suite's actual compute is **82 seconds**.
+
+Two things were wrong and both are fixed. The duplicate import, obviously. And
+the runner, which treated "no result yet" and "the suite cannot start" as the
+same state. It now watches for `pageerror` and fails immediately with the
+message, so a syntax error costs two seconds instead of half an hour.
+
+The general shape is familiar from this project: **silence read as progress**. A
+harness that cannot distinguish "still working" from "died before starting" will
+always resolve that ambiguity in the most expensive direction.
