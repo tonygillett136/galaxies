@@ -79,10 +79,17 @@ for j, u in enumerate(utts):
     speed = BASE_SPEED
     a, sr = kok.create(u['text'], voice=VOICE, speed=speed, lang='en-gb')
     d = len(a) / sr
-    if d > allowed:
+    # Duration is not exactly inversely proportional to the speed parameter, so
+    # a single correction lands short and the line still collides by a tenth of
+    # a second. Iterate to the fit instead of assuming one pass reaches it, and
+    # stop either when it fits or when the voice would start to sound hurried.
+    tries = 0
+    while d > allowed and speed < MAX_SPEED and tries < 4:
         speed = min(MAX_SPEED, speed * d / allowed * 1.02)
         a, sr = kok.create(u['text'], voice=VOICE, speed=speed, lang='en-gb')
         d = len(a) / sr
+        tries += 1
+    if tries:
         refit += 1
     if d > allowed + 0.05:
         overruns.append((start, d, allowed, u['text'][:60]))

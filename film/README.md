@@ -200,6 +200,33 @@ two`. Every figure in the script is spelled out.
 
 ---
 
+### Refitting words to a finished picture
+
+The 4K segment renders are large and transient; the words get revised long after
+they have been deleted. `narration.py` therefore measures segment durations from
+the renders when they exist and otherwise falls back to
+`film/segment_durations.json`, recovered from the shipped cut and verified to
+reproduce its 459.6s total exactly. Rewriting a line must never silently retime
+the picture.
+
+Two allocator defects surfaced the first time the words were revised against a
+locked cut, both of which had been reporting themselves for weeks at a magnitude
+that read as noise:
+
+- **Cue slots were allocated by character count alone.** Speaking a line costs a
+  fixed amount (onset, breath, the pause after it) plus a per-character amount,
+  so short lines were systematically starved while long lines sat on slack:
+  "The stars never touch." was allotted 1.38s and needs 1.49s. The weight is now
+  affine, `20 + len(line)`.
+- **`voice.py` corrected an overlong sentence once and gave up.** Duration is not
+  exactly inversely proportional to Kokoro's `speed` parameter, so a single
+  correction with a 2% margin lands short and the line still collides by around a
+  tenth of a second. It now iterates to the fit, capped at `MAX_SPEED` so the
+  voice never sounds hurried.
+
+The overrun report that found both was already there, and had already been
+printing them. A check that fires and is not read is not a check.
+
 ## Music
 
 `score.py`. Original composition, written for this film, in the idiom of early

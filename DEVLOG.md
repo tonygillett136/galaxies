@@ -1801,3 +1801,93 @@ later.
 what it was pointed at. Nobody was pointed at "load the page, walk away, come
 back" — so eight rounds of adversarial review missed the defect that a single
 user hit within minutes. Reviewers verify claims. They do not use the thing.
+
+---
+
+## Round 9 — the headline claim had only ever been half measured
+
+The film was finished and about to go public, so the narration went to three
+adversarial reviewers: a galactic dynamicist, a research-integrity reviewer and
+a documentary editor. All three blocked. The overlap between them is the signal,
+and the largest item was not a narration defect at all.
+
+**"Which way a galaxy spins matters more than how close the encounter is."**
+
+That sentence was in the film, the README, `docs/GUIDE.md`, the YouTube
+description and the shipped `retrograde` scenario blurb. It compares two things.
+Only one of them had ever been run. Every morphology check in the suite fixes
+`rPeri` at 25 kpc and varies something else — particle count, timestep,
+dispersion, softening, seed. Pericentre appears in `physics.test.js` only as a
+value asserted to execute correctly, never as an independent variable. So the
+comparison was between a measurement and an assumption, and it had propagated
+into five places, including a public video.
+
+It is also not a well-posed question as it was written. A spin flip is binary and
+pericentre is continuous, so "which matters more" depends entirely on the range
+you pick. Measured, at matched dynamical phase, all prograde:
+
+| pericentre | 12 | 16 | 20 | 25 | 32 | 40 | 55 kpc |
+|---|---|---|---|---|---|---|---|
+| beyond 20 kpc | 32.0 | 26.3 | 20.7 | 15.1 | 9.3 | 4.8 | 0.8 % |
+
+Over 20–32 kpc distance changes the answer 2.2x and *loses* to the 6.0x spin
+flip. Over 12–55 kpc it changes it 40x and *wins*. Both are true. Quoting either
+as "which matters more" is picking the range to fit the sentence you wanted.
+
+The well-posed version is an exchange rate, which needs no range: **how much
+further away must an encounter be to spare a disc as much as reversing its spin
+does?** Reversing the spin takes the tidal fraction from 15.1% to 2.49%. Prograde
+reaches that same 2.49% at a pericentre of **46.6 kpc — 1.86x further out**. One
+number, no arbitrary window, and it is now `spinEquivPeriKpc` in
+`morphology.test.js`, bracketed by real runs at 38/44/50 kpc rather than
+extrapolated, and registered in `claims.test.js` against all four documents that
+quote it. 82 assertions, 82 ran, 0 failed.
+
+**The lesson is the same one as round 8, from the other end.** Round 8's defect
+survived because no reviewer ever just used the thing. Round 9's survived because
+no reviewer ever asked what the *other half* of a comparative sentence was
+measured against. A claim of the form "A matters more than B" needs an experiment
+on B, and the suite's discipline — controls, sensitivity checks, sweeps — was
+applied rigorously to A and never once pointed at B. Eight rounds and 311
+findings did not catch it, because it reads like a conclusion rather than a
+claim.
+
+### The rest of the narration review
+
+Nine further lines were wrong or misleading and are fixed:
+
+- the disc was "held by the gravity of all the others" — there is **no
+  self-gravity anywhere in this model**, the particles are massless, and 93.9% of
+  the mass is a dark halo the film never mentioned. Now "held by gravity that is
+  mostly dark matter", which is both true of the model and true of the sky.
+- "a hundred thousand stars" — it is 150,000 per disc.
+- "each disc is barely half as wide" — inverted. The discs are ~27 kpc across
+  against a 25 kpc pericentre; they very nearly overlap.
+- "a galaxy loses fifteen per cent of its disc" — it does not lose it. The
+  antennae segment says so two minutes later. Now "throws beyond 20 kpc".
+- the merger left "a single cloud keeping no memory of the two spirals" — the
+  provenance segment shows the memory surviving. Now says it is still there,
+  written into the orbits.
+- dynamical friction: the film described a wake it does not simulate. It now says
+  so in two lines. Chandrasekhar drag is an analytic term on the galaxy centres.
+- the reversal segment followed the merger and implied the merger was reversible.
+  Friction is dissipative. It now names the exception before making the claim.
+- coalescence at "sixteen hundred million years" — measured 1685.
+- the Detect segment posed the inverse problem and stopped, which reads as though
+  it had been solved. It now says outright that nothing was fitted to that image.
+
+Two tooling defects fell out of re-fitting the words to the finished picture:
+
+- `narration.py` allocated cue slots by character count alone. Speaking a line
+  costs a fixed amount plus a per-character amount, so short lines were starved —
+  "The stars never touch." was given 1.38s and needs 1.49s. Weight is now affine.
+- `voice.py` corrected an overlong sentence once and gave up. Duration is not
+  exactly inversely proportional to the speed parameter, so one pass lands short
+  and the line still collides by ~0.1s. It now iterates to the fit.
+
+Both were found by the check that already existed and already reported overruns.
+It had been reporting them at 0.1s and they had been read as noise.
+
+Timings come from `film/segment_durations.json` now, recovered from the shipped
+cut and verified to reproduce its 459.6s total exactly, so the words can be
+revised after the 4K renders are long deleted without silently retiming picture.

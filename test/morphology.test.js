@@ -77,7 +77,7 @@ function radialProfile(pos, origin, galaxies, count, gi, RMAX, BINS) {
 }
 
 export async function runMorphologyTests(device) {
-  expectChecks(7);
+  expectChecks(8);
   group('morphology — the physics claims, measured with controls');
 
   // ~85 time units (about 400 Myr past pericentre), where the tidal signal is
@@ -130,6 +130,68 @@ export async function runMorphologyTests(device) {
     above(ratio, 3.0, 'prograde/retrograde tidal fraction ratio');
     return `prograde ${(fp.total * 100).toFixed(1)}% vs retrograde ${(fr.total * 100).toFixed(2)}% beyond ${RCUT} kpc, `
          + `ratio ${ratio.toFixed(1)}x on ${nRetro} retrograde particles (identical orbits, separation ${pro.separation.toFixed(3)})`;
+  });
+
+  await checkAsync('spin and pericentre, on a common scale', async () => {
+    // Round 9. Until now this project asserted, in the README, the app, the
+    // guide and the film, that spin direction "matters more than how close the
+    // encounter is". Half of that sentence had never been measured: every
+    // morphology run in this file fixes rPeri at 25 kpc and varies something
+    // else. The comparison was between a measurement and an assumption.
+    //
+    // It is also not a well-posed comparison as it was written. A spin flip is
+    // binary; pericentre is continuous, so "which matters more" depends entirely
+    // on what distance range you pick. Over 20-32 kpc distance changes the tidal
+    // fraction by 2.2x and loses to the 6x spin flip; over 12-55 kpc it changes
+    // it by 40x and wins. Both are true, which means the question is wrong.
+    //
+    // The well-posed version is an exchange rate: how much further away must an
+    // encounter be, to do as little damage as reversing the spin does? That is a
+    // single number, it does not depend on an arbitrary range, and it is what
+    // the prose now claims.
+    const pro = await runEncounter(device, structuredClone(BASE), STEPS, DT);
+    const retroSpec = structuredClone(BASE);
+    retroSpec.disc1.retrograde = true;
+    retroSpec.disc2.retrograde = true;
+    const retro = await runEncounter(device, retroSpec, STEPS, DT);
+    const target = tidalFraction(retro.pos, retro.origin, retro.galaxies, retro.count, RCUT).total;
+    const base = tidalFraction(pro.pos, pro.origin, pro.galaxies, pro.count, RCUT).total;
+    ok(target > 0, 'retrograde threw nothing at all; there is no level to match');
+
+    // Prograde at a range of pericentres, same epoch after closest approach, so
+    // the comparison is at matched dynamical phase rather than matched clock.
+    const RP = [38, 44, 50];
+    const fr = [];
+    for (const rp of RP) {
+      const s = structuredClone(BASE); s.rPeri = rp;
+      const r = await runEncounter(device, s, STEPS, DT);
+      fr.push(tidalFraction(r.pos, r.origin, r.galaxies, r.count, RCUT).total);
+    }
+    for (let i = 1; i < fr.length; i++) {
+      ok(fr[i] < fr[i - 1],
+        `tidal fraction did not fall with pericentre (${RP[i - 1]}->${RP[i]} kpc: `
+        + `${(fr[i - 1] * 100).toFixed(2)}% -> ${(fr[i] * 100).toFixed(2)}%); `
+        + 'the distance arm is not behaving, so no exchange rate can be read off it');
+    }
+    ok(fr[0] > target && fr[fr.length - 1] < target,
+      `the retrograde level ${(target * 100).toFixed(2)}% is not bracketed by prograde over `
+      + `${RP[0]}-${RP[RP.length - 1]} kpc (${(fr[0] * 100).toFixed(2)}% to `
+      + `${(fr[fr.length - 1] * 100).toFixed(2)}%); the equivalent pericentre would be extrapolated`);
+
+    // log-linear interpolation: the fraction falls close to exponentially here
+    let k = 0;
+    while (k < fr.length - 2 && fr[k + 1] > target) k++;
+    const f = (Math.log(fr[k]) - Math.log(target)) / (Math.log(fr[k]) - Math.log(fr[k + 1]));
+    const equiv = RP[k] + f * (RP[k + 1] - RP[k]);
+    const factor = equiv / BASE.rPeri;
+
+    record('spinEquivPeriKpc', equiv);
+    record('spinEquivFactor', factor);
+    above(factor, 1.5, 'distance factor equivalent to a spin flip');
+    return `reversing the spin costs as much tidal mass as moving pericentre from ${BASE.rPeri} to `
+         + `${equiv.toFixed(1)} kpc (${factor.toFixed(2)}x further). Prograde ${(base * 100).toFixed(1)}% at `
+         + `${BASE.rPeri} kpc falls to the retrograde level ${(target * 100).toFixed(2)}% there. `
+         + `Bracketed by measurements at ${RP.join('/')} kpc, not extrapolated.`;
   });
 
   await checkAsync('the result is not a resolution artefact', async () => {

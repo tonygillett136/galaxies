@@ -636,7 +636,7 @@ export const SCENARIOS = {
   },
   retrograde: {
     label: 'Retrograde passage',
-    blurb: 'The same orbit, both discs spinning against it. Almost no tails. This contrast, not the closeness of the passage, is the dominant effect in a tidal encounter — measured here at 15.1 per cent of a disc thrown beyond 20 kpc prograde against 2.5 per cent retrograde, a ratio of 6.0 on identical orbits.',
+    blurb: 'The same orbit, both discs spinning against it. Almost no tails. Reversing the spin spares the disc as much as moving the encounter almost twice as far out (the same 2.5 per cent is reached prograde only at a 46.6 kpc pericentre) — measured here at 15.1 per cent of a disc thrown beyond 20 kpc prograde against 2.5 per cent retrograde, a ratio of 6.0 on identical orbits.',
     spec: { massRatio: 1.0, rPeri: 25, ecc: 1.0, tStart: -45, particles: 300000,
             disc1: { inclination: 0.0, argPeri: 0, retrograde: true },
             disc2: { inclination: 0.35, argPeri: 1.1, retrograde: true } },

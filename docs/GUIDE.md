@@ -90,9 +90,13 @@ spins.
 
 A factor of six, from spin alone. Particles orbiting *with* the companion's tug stay in
 resonance with it and get dragged out; particles orbiting against it feel the pull reverse
-before it can do much. **Which way a galaxy spins matters more than how close the encounter
-is** — that is the counter-intuitive core of tidal interaction, and you can reproduce it here
-in two clicks.
+before it can do much. To spare a disc that much by keeping your distance instead, you would
+have to move the whole encounter from 25 kpc out to **46.6 kpc**, nearly twice as far. That is
+the counter-intuitive core of tidal interaction, and you can reproduce it here in two clicks.
+
+Spin and distance are measured on the same scale by `morphology.test.js`, which brackets the
+retrograde level with prograde runs at 38, 44 and 50 kpc rather than extrapolating to it. The
+comparison used to be asserted without the distance half ever being run.
 
 ### Detect — match a real galaxy pair
 

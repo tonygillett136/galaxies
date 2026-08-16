@@ -7,7 +7,7 @@ cues cannot drift against the cut. The script also reports the speaking rate it
 implies for each segment: narration that needs more than about 2.6 words per
 second is too dense to read, and saying so here beats discovering it on YouTube.
 """
-import os, subprocess
+import os, subprocess, json
 
 SP = os.path.dirname(os.path.abspath(__file__))
 WORK = './work'
@@ -19,25 +19,25 @@ NARRATION = [
     ["Two galaxies, gravity, and nothing else."],
     # 1 the control
     ["A galaxy at rest.",
-     "A hundred thousand stars, each on its own orbit,",
-     "held by the gravity of all the others.",
+     "A hundred and fifty thousand stars,",
+     "each on its own orbit,",
+     "held by gravity that is mostly dark matter.",
      "Undisturbed, it will simply turn,",
      "as it has for ten billion years."],
     # 2 prograde
     ["Now give it a companion.",
      "An equal mass, falling in along a parabola,",
      "passing at twenty five thousand parsecs.",
-     "That is close. Each disc is barely half as wide.",
+     "That is close. Each disc is about that wide itself.",
      "Watch the near side of each galaxy.",
      "Those stars are already moving",
      "in the direction the companion is pulling them.",
      "They stay in step with that pull,",
      "and so they keep being drawn outward,",
-     "further, and further, and away.",
+     "further, and further away.",
      "That is a tidal tail.",
-     "Nothing has exploded. Nothing has collided.",
-     "The stars never touch.",
-     "One force is at work here, and it is gravity.",
+     "Nothing exploded, nothing collided, the stars never touch.",
+     "Only one force is at work here: gravity.",
      "Toomre and Toomre showed this",
      "in nineteen seventy two.",
      "Until then we had reached for magnetic fields,",
@@ -50,10 +50,12 @@ NARRATION = [
      "Stars orbiting against the companion's pull",
      "feel it reverse before it can do much with them.",
      "Turning with the encounter,",
-     "a galaxy loses fifteen per cent of its disc.",
+     "a galaxy throws fifteen per cent of its disc",
+     "beyond twenty thousand parsecs.",
      "Turning against it, two and a half.",
-     "Which way a galaxy spins matters more",
-     "than how closely it is approached."],
+     "Reversing the spin spares the galaxy as much",
+     "as moving the whole encounter",
+     "almost twice as far away."],
     # 4 mice
     ["A closer pass, and both discs gently inclined.",
      "Two long, thin, almost parallel tails,",
@@ -85,7 +87,7 @@ NARRATION = [
      "A little does cross over.",
      "Somewhere in that thin bridge of light,",
      "stars are changing hands,",
-     "and will finish their lives",
+     "and some will finish their lives",
      "orbiting a galaxy they were not born in."],
     # 7 ring
     ["Now send a smaller companion",
@@ -97,7 +99,7 @@ NARRATION = [
      "The densest region leaves the centre",
      "and travels outward, as a ring.",
      "The density there rises three and a half times.",
-     "Ring galaxies are made this way.",
+     "Ring galaxies like the Cartwheel are made this way.",
      "They are rare, because the aim must be very good."],
     # 8 minor
     ["A companion at one tenth of the mass,",
@@ -118,24 +120,30 @@ NARRATION = [
      "As each moves through the other's halo of dark matter,",
      "it leaves a wake of gathered mass behind it,",
      "and that wake pulls back on the galaxy that made it.",
+     "We do not simulate the wake itself.",
+     "We put in the pull that it makes.",
      "Orbital energy drains away into the dark.",
      "The orbit decays.",
      "Every passage is closer than the one before.",
      "The first brings them to within",
      "twenty nine thousand parsecs.",
      "Then closer. Then closer still.",
-     "After sixteen hundred million years,",
+     "After seventeen hundred million years,",
      "the two centres are within five thousand parsecs,",
      "deep inside what is left of both discs.",
      "Two galaxies went in.",
-     "What emerges is a single cloud of old stars,",
-     "turning slowly, keeping no memory",
-     "of the two spirals that made it.",
+     "What emerges looks like a single slow-turning cloud.",
+     "But the memory of the two spirals is still in there,",
+     "written into the orbits of the stars.",
      "This is how the great elliptical galaxies",
      "are thought to have been built."],
     # 10 reversal
     ["Gravity has a curious property.",
      "Run the clock backwards, and it works just as well.",
+     "Not the drag we just watched.",
+     "That only runs one way.",
+     "It is why a merger cannot be undone.",
+     "But this encounter is reversible.",
      "The tail forms. Then time reverses.",
      "This is not the film played backwards.",
      "The same equations are being solved,",
@@ -146,12 +154,12 @@ NARRATION = [
      "does not care which way the clock runs."],
     # 11 detect
     ["Finally, a real observation.",
-     "A photograph of two galaxies far away,",
-     "scaled so that one screen width",
-     "is the true distance across them.",
-     "The simulation is laid over the photograph.",
+     "A photograph of two real galaxies.",
+     "The simulation is laid over it, at the true scale.",
      "The question is which encounter",
      "produced what the telescope actually saw.",
+     "We cannot answer that yet.",
+     "Nothing here was fitted to this image.",
      "Every interacting pair in the sky",
      "is a single frame from a film",
      "we will never watch to the end."],
@@ -173,7 +181,18 @@ def srt_time(t):
     return f'{h:02d}:{m:02d}:{s:06.3f}'.replace('.', ',')
 
 
-durs = [dur(f'{WORK}/seg{i:02d}.mp4') for i in range(13)]
+# The segment renders are large and transient; the words get revised long after
+# they are gone. Measure them when they exist, and otherwise fall back to the
+# cached durations, which were recovered from the shipped cut and reproduce its
+# 459.6s total exactly. Rewriting a line must never silently retime the picture.
+_cache = os.path.join(SP, 'segment_durations.json')
+if all(os.path.exists(f'{WORK}/seg{i:02d}.mp4') for i in range(13)):
+    durs = [dur(f'{WORK}/seg{i:02d}.mp4') for i in range(13)]
+    json.dump(durs, open(_cache, 'w'), indent=1)
+    print('  segment durations measured from the renders')
+else:
+    durs = json.load(open(_cache))
+    print(f'  renders absent; using cached durations ({sum(durs) - XF * 12:.1f}s cut)')
 tl, t = [], 0.0
 for i, d in enumerate(durs):
     tl.append(t)
@@ -191,7 +210,12 @@ for i, lines in enumerate(NARRATION):
     if rate > 2.65:
         warn.append(f"segment {i}: {rate:.2f} words/sec over {span:.0f}s ({words} words)")
     MIN, MAX = 1.35, 6.0
-    wts = [max(14, len(x)) for x in lines]
+    # Speaking a line costs a fixed amount (onset, breath, the pause after it)
+    # plus a per-character amount. Weighting purely by length therefore starves
+    # short lines: "The stars never touch." was given 1.38s and needs 1.49s,
+    # while long lines sat on slack. An affine weight spreads that fixed cost
+    # properly and clears the collisions without changing a word.
+    wts = [20 + len(x) for x in lines]
     tot = sum(wts)
     ds = [min(MAX, max(MIN, span * (w / tot))) for w in wts]
     c = tl[i] + lead

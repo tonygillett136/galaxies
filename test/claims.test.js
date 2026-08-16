@@ -78,6 +78,16 @@ const CLAIMS = [
     key: 'tidalProgradePct', tol: 0.05, what: 'retrograde scenario blurb' },
   { file: 'README.md', re: /(\d+) standing assertions/,
     key: 'assertionCount', tol: 0.001, what: 'README assertion count' },
+  // Round 9. The prose used to say spin "matters more than how close the
+  // encounter is", comparing a measured 6x against a pericentre dependence
+  // nobody had ever run. The replacement is an exchange rate, and it appears in
+  // three documents and one shipped blurb, so all four are registered here.
+  { file: 'docs/GUIDE.md', re: /out to \*\*([\d.]+) kpc\*\*, nearly twice as far/,
+    key: 'spinEquivPeriKpc', tol: 0.05, what: 'GUIDE, pericentre equivalent to a spin flip' },
+  { file: 'src/engine/encounter.js', re: /reached prograde only at a ([\d.]+) kpc pericentre/,
+    key: 'spinEquivPeriKpc', tol: 0.05, what: 'retrograde blurb, spin/distance exchange rate' },
+  { file: 'film/youtube_description.txt', re: /25 to ([\d.]+) kiloparsecs/,
+    key: 'spinEquivPeriKpc', tol: 0.05, what: 'film description, spin/distance exchange rate' },
   { file: 'README.md', re: /GPU and CPU agree to ([\d.e+-]+) kpc/,
     key: 'gpuAgreement', tol: 0.25, what: 'README GPU/CPU agreement' },
   { file: 'src/engine/adjoint.js', re: /worst ([\d.e+-]+) kpc over 3000 forward/,

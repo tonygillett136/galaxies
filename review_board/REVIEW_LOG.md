@@ -637,3 +637,70 @@ inflated its own headline 16×, a stale coverage banner in the anti-staleness in
 number corrected in the wrong direction with a plausible mechanism attached.
 
 That is a better failure mode than round 3. It is not A+, and the gate has not passed.
+
+---
+
+## Round 9 — the narration, reviewed before it went public
+
+Three reviewers, briefed to block: a galactic dynamicist, a research-integrity
+reviewer and a documentary editor. All three returned "do not ship yet", on an
+overlapping set of findings. 24 findings, 9 rated must-fix.
+
+The trigger was a direct question — *"there's a reference to dark matter, is this
+defensible?"* — and the answer to that specific question was yes. The model has an
+explicit Hernquist dark halo carrying 93.9% of the mass, and dark halos are
+mainstream. The defect was next door: the line before it told the viewer the disc
+was **held together by the gravity of its own stars**, in a model with no
+self-gravity at all, whose particles are massless by construction.
+
+### What the reviewers found that I had not
+
+The dynamicist and the integrity reviewer independently flagged the same
+sentence, and it was not in the film's physics at all — it was the project's
+headline result:
+
+> "Which way a galaxy spins matters more than how closely it is approached."
+
+Neither of them could find the experiment. Neither could I: pericentre is fixed
+at 25 kpc in every morphology check in the tree. The claim had been in the README
+since the first day, and had propagated to four more places since. See DEVLOG
+round 9 for the measurement that replaced it.
+
+**This is the highest-value finding any round has produced**, and it came from
+pointing reviewers at *prose written for a general audience* rather than at code.
+The sentence had survived eight rounds of technical review because in a technical
+document it reads as a summary of the result above it. Read aloud to someone with
+no astronomy, it is plainly a comparison, and a comparison invites the question
+"compared with what?".
+
+### Verification of the findings, before acting on them
+
+Per the round-4 rule, every finding was checked before being applied, and what
+the check skipped is stated.
+
+- **"150,000 stars per disc, not 100,000."** Confirmed by measurement, not by
+  reading: the app builds 300,000 and `buildEncounter` splits them by `share`,
+  which is 0.5 at equal mass.
+- **"Each disc is ~27 kpc across, so 'barely half as wide' is inverted."**
+  Confirmed from the shipped construction (scaleLength 3.0, rMax 4.5).
+- **"Coalescence is 1685 Myr, not 1600."** Already asserted in the suite; the
+  film had rounded the wrong way.
+- **"The merger leaves no memory of the two spirals."** Rejected as written by the
+  film and confirmed as a defect: the provenance segment is on screen two minutes
+  earlier showing the two populations staying distinct.
+- **"Ring galaxies are made this way"** — true but unattributed; the suite's own
+  ring check already compares against the Cartwheel, so the film now names it.
+- **Not checked**: whether the 15:1 dark-to-visible ratio quoted in the rewritten
+  control segment is representative of real spirals rather than of this model. It
+  is this model's ratio, and the line was rewritten to drop the number rather than
+  defend it.
+
+### Where round 9 leaves it
+
+The film is scientifically defensible now, and the project's most-quoted claim is
+an experiment rather than an assumption. That is a real improvement and it is
+also an indictment: the claim was eight rounds old, it was on the front page, and
+it was the one sentence nobody had asked for evidence for, because it was the
+conclusion everything else was arranged to support.
+
+The gate has still not passed. Round 9 did not look at code.

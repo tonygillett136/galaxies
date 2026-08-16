@@ -52,7 +52,8 @@ Prograde throws 15.1 per cent of a disc beyond 20 kiloparsecs. Retrograde throws
 2.5 per cent. The two orbits are asserted identical to one part in a million
 first, so the disc spin is demonstrably the only difference.
 
-Which way a galaxy spins matters more than how close the encounter is.
+Reversing the spin spares the disc as much as moving the whole encounter from
+25 to 46.6 kiloparsecs, nearly twice as far out.
 
 
 ON THE NUMBERS

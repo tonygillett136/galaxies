@@ -28,8 +28,8 @@ rather than quietly pretending.
 
 ## The one result worth pointing at
 
-Disc **spin direction** matters more than how close the galaxies get. Run the same encounter
-twice, changing nothing but the sign of the disc's rotation:
+Disc **spin direction** does as much damage as distance does. Run the same encounter twice,
+changing nothing but the sign of the disc's rotation:
 
 - **prograde** throws **15.1%** of a disc beyond 20 kpc
 - **retrograde** throws **2.5%**
@@ -59,7 +59,7 @@ deploy.
 ```bash
 python3 bench/devserver.py 8787               # serves with Cache-Control: no-store
 open http://127.0.0.1:8787/index.html
-open http://127.0.0.1:8787/test/index.html    # 81 standing assertions
+open http://127.0.0.1:8787/test/index.html    # 82 standing assertions
 node bench/mutate.mjs                         # break the code, require the suite to notice
 ```
 
@@ -119,7 +119,7 @@ repository is worth reading.
 
 ## How much of this is actually guarded
 
-81 standing assertions is the wrong number to quote on its own, because review rounds kept
+82 standing assertions is the wrong number to quote on its own, because review rounds kept
 finding assertions that pass when the code they guard is deleted. So the repository carries a
 mutation harness:
 
