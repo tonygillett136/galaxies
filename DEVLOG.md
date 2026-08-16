@@ -2030,3 +2030,78 @@ inspection. The measurement that mattered was not the remnant's number; it was
 the progenitor's number sitting next to it.
 
 91 assertions, 91 ran, 0 failed.
+
+---
+
+## Phase 2, Stage 2 — a live halo. Partly solved, and honestly not finished.
+
+### What works
+
+`src/engine/livehalo.js`: a self-gravitating Hernquist halo. Positions by
+inverting M(<r) analytically; speeds by rejection against the **exact isotropic
+distribution function** (Hernquist 1990 eq. 17), sampled against the phase-space
+weight v²f(E) rather than f alone.
+
+Three things are now asserted, and the middle one is why the DF is exact:
+
+- the analytic dispersion (eq. 10) agrees with a direct numerical integration of
+  the isotropic Jeans equation to **4.0e-8**;
+- the sampled particles reproduce that dispersion to **2.0%**, and sum to the
+  truncated analytic mass to 1e-5;
+- an isolated live halo holds its Lagrangian radii to **4.6%** over 1200 steps.
+
+**The first version used an isotropic Maxwellian at the local Jeans dispersion.**
+That is the standard shortcut and it is wrong enough to matter: the halo was not
+in equilibrium and its shells moved up to **6.5%** in 566 Myr, inner expanding
+and middle contracting, which is a settling signature rather than noise. Caught
+by running the halo alone — with no disc present — against the profile it was
+sampled from.
+
+### What does not work, and what it is not
+
+Putting a live halo under the disc raises the disc's radial velocity dispersion
+from 29 to about **47.5 km/s within 52 Myr**, and it then stops. The rigid-halo
+control rises slowly and monotonically instead: 29.4 → 37.7 over 240 time units.
+
+Four explanations were tested and **all four are wrong**:
+
+| hypothesis | test | result |
+|---|---|---|
+| two-body relaxation from heavy halo particles | double the halo particle count | excess changed **1.04x**, not 2x |
+| the halo settling and stirring the disc | replace the Maxwellian with the exact DF | halo now holds; heating **unchanged** |
+| bulk velocity faking radial dispersion | subtract it, keep the raw for comparison | 48.23 corrected vs 48.22 raw |
+| a systematic error in the mean field | measure the sampled halo's enclosed mass and softened force against analytic | agree to ~1%, worth ~2 km/s |
+
+It is also too fast to be any relaxation process: it completes in **less than
+half an orbit**.
+
+**Leading hypothesis, untested.** σ_R may not be measuring heat. A₂/floor in the
+live arms reaches **5.29 and 5.07 against 2.19 for the rigid control** — a live
+halo produces *more* non-axisymmetric structure, which is a known effect, and the
+ordered streaming motions of that structure are being counted as random
+dispersion by a measurement that only knows about departures from a circular
+orbit. The internal contradiction is the argument: genuine heating raises Q,
+higher Q *suppresses* structure, and structure went up. Separating streaming from
+dispersion needs the azimuthal mean velocity field removed first, and that has
+not been built.
+
+**So Stage 2 is not cleared and not condemned.** The halo itself is sound and
+asserted. Whether it is usable under a disc depends on a question that is still
+open, and the honest position is that four confident diagnoses have already been
+wrong.
+
+### A hard limit found by accident
+
+**175,000 particles loses the GPU device.** A single O(N²) dispatch at that count
+is ~278 ms and macOS resets the device mid-run: `A valid external Instance
+reference no longer exists`. Reproduced twice, including with the arm running
+alone, so it is not cumulative pressure across arms.
+
+This matters beyond Stage 2. **The film tier plan assumes N = 150k**, which is a
+~205 ms dispatch — the same order. Before Friday commits to it, either the
+threshold gets measured properly or the accumulation is split across several
+shorter dispatches. Splitting is the safer fix and is not difficult: the tile
+loop already exists, it just needs to run over a subrange per dispatch with the
+partial sums accumulated.
+
+94 assertions, 94 ran, 0 failed.

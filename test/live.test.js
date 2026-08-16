@@ -18,6 +18,7 @@ import { plummer } from '../src/engine/potentials.js';
 import { composite } from '../src/engine/potentials.js';
 import { record } from './measured.js';
 import { shapeKinematics } from '../src/engine/shape.js';
+import { liveHernquistHalo, hernquistSigma2, hernquistSigma2Jeans, hernquistMassFrac, hernquistDF } from '../src/engine/livehalo.js';
 
 const Rd = 3.0;
 const EPS = 0.2;
@@ -70,7 +71,7 @@ async function evolve(device, ic, rigid, steps, eps = EPS) {
 
 export async function runLiveTests(device) {
   group('live tier — self-gravity, where the initial conditions are the risk');
-  expectChecks(5);
+  expectChecks(8);
 
   const model = galaxyModel(1.0);
   const { rigid, discMass } = rigidWithoutDisc(model);
@@ -165,6 +166,86 @@ export async function runLiveTests(device) {
     above(dR, 0.05, 'radius change when the disc gravity is double-counted');
     return `mean R ${before.meanR.toFixed(3)} -> ${after.meanR.toFixed(3)} kpc `
          + `(${(dR * 100).toFixed(1)}%, against a 5% tolerance the correct model passes) — the guard fires`;
+  });
+
+  await checkAsync('the halo dispersion formula agrees with the Jeans equation', async () => {
+    // Hernquist (1990) eq. 10 against a direct numerical integration of the
+    // isotropic Jeans equation. The two share no algebra beyond the density.
+    const M = 66.005, a = 20.0;
+    let worst = 0, atR = 0;
+    for (const x of [0.05, 0.1, 0.25, 0.5, 1, 2, 4, 8]) {
+      const r = x * a;
+      const s1 = Math.sqrt(hernquistSigma2(r, M, a));
+      const s2 = Math.sqrt(hernquistSigma2Jeans(r, M, a, 1, 1e6, 40000));
+      const rel = Math.abs(s1 - s2) / s2;
+      if (rel > worst) { worst = rel; atR = r; }
+    }
+    below(worst, 1e-5, 'worst analytic-vs-Jeans dispersion disagreement');
+    // the DF must be finite and non-negative everywhere it is sampled
+    let bad = 0;
+    for (let q = 0.001; q < 0.999; q += 0.002) { const f = hernquistDF(q); if (!(f >= 0) || !Number.isFinite(f)) bad++; }
+    ok(bad === 0, `hernquistDF returned ${bad} non-finite or negative values`);
+    return `worst ${worst.toExponential(2)} at r = ${atR} kpc over 8 radii; DF finite and non-negative at 499 points`;
+  });
+
+  await checkAsync('the SAMPLED halo reproduces the dispersion it was drawn from', async () => {
+    // The sampler uses rejection against the exact distribution function. If the
+    // envelope or the phase-space weight v^2 f(E) were wrong, the particles would
+    // still look like a Hernquist sphere in DENSITY and be wrong in VELOCITY —
+    // which is exactly the failure the Maxwellian version had.
+    const M = 66.005, a = 20.0, N = 60000;
+    const h = liveHernquistHalo({ count: N, mass: M, a, rMax: 15 * a, seed: 5 });
+    let worst = 0, atR = 0;
+    for (const [r0, r1] of [[1, 3], [5, 8], [15, 25], [40, 60], [90, 140]]) {
+      let s2 = 0, c = 0;
+      for (let i = 0; i < N; i++) {
+        const r = h.radius[i];
+        if (r < r0 || r >= r1) continue;
+        s2 += h.vel[i * 3] ** 2 + h.vel[i * 3 + 1] ** 2 + h.vel[i * 3 + 2] ** 2; c++;
+      }
+      const sig = Math.sqrt(s2 / c / 3);
+      const an = Math.sqrt(hernquistSigma2((r0 + r1) / 2, M, a));
+      const rel = Math.abs(sig / an - 1);
+      if (rel > worst) { worst = rel; atR = (r0 + r1) / 2; }
+    }
+    below(worst, 0.06, 'worst sampled-vs-analytic dispersion ratio');
+    // and the particles must sum to the ENCLOSED mass, not the nominal total
+    const summed = h.mass.reduce((x, y) => x + y, 0);
+    const expected = M * hernquistMassFrac(15 * a, a);
+    below(Math.abs(summed - expected) / expected, 1e-5, 'sampled halo total mass against the truncated analytic mass');
+    return `worst dispersion ratio ${(worst * 100).toFixed(1)}% at r = ${atR} kpc; `
+         + `mass ${summed.toFixed(3)} against the truncated analytic ${expected.toFixed(3)}`;
+  });
+
+  await checkAsync('an isolated live halo HOLDS its Lagrangian radii', async () => {
+    // The equilibrium test the Maxwellian version failed: sampled that way the
+    // shells moved up to 6.5% in 566 Myr, inner expanding and middle
+    // contracting, which is settling and not noise. Lagrangian radii are used
+    // rather than a density fit because they cannot be rescued by rebinning.
+    const M = 66.005, a = 20.0, N = 40000, STEPS = 1200;
+    const h = liveHernquistHalo({ count: N, mass: M, a, rMax: 15 * a, seed: 77 });
+    const lag = (pos, stride) => {
+      let cx = 0, cy = 0, cz = 0;
+      for (let i = 0; i < N; i++) { cx += pos[i * stride]; cy += pos[i * stride + 1]; cz += pos[i * stride + 2]; }
+      cx /= N; cy /= N; cz /= N;
+      const r = new Float64Array(N);
+      for (let i = 0; i < N; i++) r[i] = Math.hypot(pos[i * stride] - cx, pos[i * stride + 1] - cy, pos[i * stride + 2] - cz);
+      r.sort();
+      return [0.05, 0.1, 0.25, 0.5, 0.75].map((f) => r[Math.floor(f * N)]);
+    };
+    const before = lag(h.pos, 3);
+    // no rigid components at all: the halo must hold ITSELF
+    const sim = await LiveSim.create(device, [], { count: N, pos: h.pos, vel: h.vel, mass: h.mass }, 0.5);
+    sim.run(DT, STEPS);
+    await device.queue.onSubmittedWorkDone();
+    const pos = await sim.readPositions();
+    sim.destroy();
+    const after = lag(pos, 4);
+    const worst = Math.max(...before.map((x, i) => Math.abs(after[i] / x - 1)));
+    below(worst, 0.06, 'worst Lagrangian radius drift of an isolated live halo');
+    record('liveHaloLagrangianDrift', worst);
+    return `worst shell drift ${(worst * 100).toFixed(1)}% over ${STEPS} steps; `
+         + before.map((x, i) => `${(x).toFixed(1)}->${after[i].toFixed(1)}`).join(', ') + ' kpc';
   });
 
   await checkAsync('structure GROWS, and grows more at lower Toomre Q', async () => {
