@@ -40,10 +40,12 @@ export class LiveSim {
     // Flatten composites into leaf components, exactly as GpuSim does: the
     // kernel loop knows about single potentials, not about composites.
     this.comps = [];
-    for (const g of galaxies ?? []) {
+    (galaxies ?? []).forEach((g, gi) => {
       const parts = g.potential.kind === 'composite' ? g.potential.parts : [g.potential];
-      for (const potential of parts) this.comps.push({ pos: g.pos, potential });
-    }
+      // `galaxy` is the index the component came from, so setCentres can move a
+      // whole galaxy's components together without re-flattening.
+      for (const potential of parts) this.comps.push({ pos: g.pos, potential, galaxy: gi });
+    });
     this.nComp = Math.max(1, this.comps.length);
 
     const n = this.count;
@@ -147,24 +149,60 @@ export class LiveSim {
     this.device.queue.writeBuffer(this.parBuf, 0, b);
   }
 
-  /** One leapfrog KDK step. Exactly ONE O(N^2) pass, by keeping the acceleration. */
-  step(dt) {
+  /**
+   * One leapfrog KDK step. Exactly ONE O(N^2) pass, by keeping the acceleration.
+   *
+   * `centresAtEnd` is the position of each rigid galaxy at t+dt, for an encounter
+   * where the halos are moving. It must be applied BETWEEN the drift and the
+   * acceleration, because the acceleration being computed is the one at the end
+   * of the step and it has to see the potential there. Writing it before the
+   * drift instead evaluates the new positions against the old potential, which
+   * is a half-step of lag that accumulates into a visibly wrong orbit rather
+   * than into an error.
+   */
+  step(dt, centresAtEnd = null) {
     this._writeParams(dt);
-    const enc = this.device.createCommandEncoder();
-    const pass = enc.beginComputePass();
-    pass.setBindGroup(0, this.bind);
+    const dev = this.device;
+
     if (!this._primed) {
-      // a(x_0) must exist before the first half-kick can use it
-      pass.setPipeline(this.pAccel); pass.dispatchWorkgroups(this.groups);
+      const e0 = dev.createCommandEncoder();
+      const p0 = e0.beginComputePass();
+      p0.setBindGroup(0, this.bind);
+      p0.setPipeline(this.pAccel); p0.dispatchWorkgroups(this.groups);
+      p0.end();
+      dev.queue.submit([e0.finish()]);
       this._primed = true;
     }
-    pass.setPipeline(this.pKickDrift); pass.dispatchWorkgroups(this.groups);
-    pass.setPipeline(this.pAccel);     pass.dispatchWorkgroups(this.groups);
-    pass.setPipeline(this.pKick);      pass.dispatchWorkgroups(this.groups);
-    pass.end();
-    this.device.queue.submit([enc.finish()]);
+
+    const e1 = dev.createCommandEncoder();
+    const p1 = e1.beginComputePass();
+    p1.setBindGroup(0, this.bind);
+    p1.setPipeline(this.pKickDrift); p1.dispatchWorkgroups(this.groups);
+    p1.end();
+    dev.queue.submit([e1.finish()]);
+
+    if (centresAtEnd) this.setCentres(centresAtEnd);
+
+    const e2 = dev.createCommandEncoder();
+    const p2 = e2.beginComputePass();
+    p2.setBindGroup(0, this.bind);
+    p2.setPipeline(this.pAccel); p2.dispatchWorkgroups(this.groups);
+    p2.setPipeline(this.pKick);  p2.dispatchWorkgroups(this.groups);
+    p2.end();
+    dev.queue.submit([e2.finish()]);
+
     this.time += dt;
     this.steps++;
+  }
+
+  /**
+   * Move the rigid components. `centres` is one position per GALAXY, in the order
+   * they were passed to the constructor; every component flattened out of that
+   * galaxy's composite moves with it.
+   */
+  setCentres(centres) {
+    for (const c of this.comps) c.pos = centres[c.galaxy];
+    this._writeGalaxies();
   }
 
   run(dt, n) { for (let i = 0; i < n; i++) this.step(dt); }

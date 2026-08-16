@@ -17,6 +17,7 @@ import { LiveSim } from '../src/engine/live.js';
 import { plummer } from '../src/engine/potentials.js';
 import { composite } from '../src/engine/potentials.js';
 import { record } from './measured.js';
+import { shapeKinematics } from '../src/engine/shape.js';
 
 const Rd = 3.0;
 const EPS = 0.2;
@@ -69,10 +70,47 @@ async function evolve(device, ic, rigid, steps, eps = EPS) {
 
 export async function runLiveTests(device) {
   group('live tier — self-gravity, where the initial conditions are the risk');
-  expectChecks(4);
+  expectChecks(5);
 
   const model = galaxyModel(1.0);
   const { rigid, discMass } = rigidWithoutDisc(model);
+
+  await checkAsync('SELF-TEST: the shape instrument tells rotation from dispersion', async () => {
+    // This exists because the first version of shapeKinematics reported v/sigma
+    // = 0.01 for a COLD ROTATING DISC — identical to what it reported for the
+    // merger remnant. Two bugs at once: eigenvalues sorted without reordering
+    // their eigenvectors, so the "minor axis" was arbitrary; and the system's
+    // bulk velocity never subtracted. Both produce a plausible number rather
+    // than an error, and only the control exposed them. An instrument that has
+    // not been seen to separate these two cases cannot be used to claim a merger
+    // destroyed rotation.
+    let seed = 12345;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    const gauss = () => { let u, v, q; do { u = rnd() * 2 - 1; v = rnd() * 2 - 1; q = u * u + v * v; } while (!q || q >= 1); return u * Math.sqrt(-2 * Math.log(q) / q); };
+    const N = 8000;
+    const disc = [], blob = [];
+    for (let i = 0; i < N; i++) {
+      const R = 9 * Math.sqrt(rnd()), ph = rnd() * 2 * Math.PI;
+      // deliberately given a large bulk velocity: if that is not removed, the
+      // internal kinematics are contaminated by the galaxy's orbital motion
+      disc.push({ x: R * Math.cos(ph) + 50, y: R * Math.sin(ph) - 20, z: 0.3 * gauss(),
+        vx: -Math.sin(ph) + 0.05 * gauss() + 1.4, vy: Math.cos(ph) + 0.05 * gauss() - 0.7,
+        vz: 0.05 * gauss(), m: 1 });
+      blob.push({ x: 4 * gauss(), y: 4 * gauss(), z: 4 * gauss(),
+        vx: gauss(), vy: gauss(), vz: gauss(), m: 1 });
+    }
+    const idx = Array.from({ length: N }, (_, i) => i);
+    const com = (a) => [0, 1, 2].map((k) => a.reduce((s2, p) => s2 + [p.x, p.y, p.z][k], 0) / a.length);
+    const d = shapeKinematics((i) => disc[i], idx, com(disc));
+    const b = shapeKinematics((i) => blob[i], idx, com(blob));
+    above(d.vOverSigma, 3.0, 'v/sigma of a cold rotating disc');
+    below(b.vOverSigma, 0.5, 'v/sigma of an isotropic non-rotating blob');
+    below(d.c_a, 0.30, 'c/a of a thin disc');
+    above(b.c_a, 0.85, 'c/a of a round blob');
+    return `cold disc v/sigma ${d.vOverSigma.toFixed(1)} (c/a ${d.c_a.toFixed(3)}) against `
+         + `isotropic blob v/sigma ${b.vOverSigma.toFixed(2)} (c/a ${b.c_a.toFixed(3)}) — `
+         + `separated by ${(d.vOverSigma / b.vOverSigma).toFixed(0)}x, with a bulk velocity present in the disc case`;
+  });
 
   await checkAsync('the disc mass is REMOVED from the rigid potential, and accounted for', async () => {
     // Trap 1, checked at the level of bookkeeping before it is checked dynamically.

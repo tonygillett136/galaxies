@@ -1963,3 +1963,70 @@ the shipped disc is only 4.69% of the model mass, and no encounter is involved �
 tidally induced arms during a passage are a different and much stronger thing.
 Whether this reads on screen is a question for the renderer and has not been
 asked yet. It is not a physics claim and must not be answered by looking.
+
+---
+
+## Phase 2, day 1 continued — the merger remnant, and two instruments that lied
+
+Beat 19 of the beat sheet was "fit the remnant to an r¼ law and put the match on
+screen", which would have turned the film's central assertion into a
+demonstration. It was built and run. **It does not match**, and getting to that
+answer took three separate instrument failures, every one of which produced a
+plausible number rather than an error.
+
+### The result
+
+Merger scenario with live discs, 50,000 particles, dt 0.02, softening 0.2 kpc.
+Coalesced at t = 421 and then relaxed for 150 further time units, because
+profiling at the moment of coalescence measures the collision rather than its
+product. Progenitor disc through the identical fitter as the control:
+
+| | b/a | c/a | v_rot | σ | v/σ | Sérsic n |
+|---|---|---|---|---|---|---|
+| progenitor | 0.994 | 0.098 | 205 km/s | 29 km/s | **7.18** | **1.00** |
+| remnant | 0.856 | 0.560 | 27 km/s | 149 km/s | **0.18** | **1.58** |
+
+**Kinematically it becomes an elliptical.** Ordered rotation is destroyed by a
+factor of forty and the flat disc becomes a triaxial spheroid. That is the
+defining difference between a spiral and an elliptical and it is now
+demonstrable. **Photometrically it does not.** The Sérsic index moves from 1.00
+towards 4 and stops at 1.58.
+
+**Inferred, not measured:** 93.9% of the potential is a rigid halo on a
+prescribed orbit. Violent relaxation works through a time-varying potential, and
+here most of the potential is rigid and, after the halos coincide, static. Stars
+can lose ordered rotation — that is a velocity rearrangement — but their radial
+distribution is largely set by the fixed halo they settle into. Stage 2 tests it.
+
+### Three instruments, three lies
+
+**1. A negative step count that still reported success.** The first run set the
+end epoch to an absolute time, but `RestrictedSim` starts its clock at zero
+regardless of the spec's `tStart`, so the loop computed a negative step count,
+ran nothing — and the fitter still announced "FLIPPED: exponential disc → r¼
+spheroid". Two discs 85 kpc apart, measured about their mutual centre, are not an
+exponential either. Fixed by running a duration and gating the claim on the pair
+actually closing to 5 kpc.
+
+**2. A near miss reported as a miss, correctly.** The gated version stopped at
+5.01 kpc against a 5.00 threshold and refused to claim anything. That is the
+guard working, and it is worth recording that it felt like an annoyance.
+
+**3. v/σ that read 0.01 for a cold rotating disc.** The shape instrument reported
+the remnant as pressure-supported with v/σ = 0.01 — which was the finding I was
+about to write down. The control said the *progenitor* was 0.01 too. A cold disc
+rotating at 205 km/s cannot be pressure-supported, so the instrument was broken:
+inertia eigenvalues sorted without reordering their eigenvectors, so the "minor
+axis" was whichever axis Jacobi left in slot 2; and the galaxy's bulk velocity
+never subtracted. Both bugs give a plausible number. Rewritten in
+`src/engine/shape.js` using the angular-momentum direction as the rotation axis —
+a non-rotating triaxial system has no preferred spin axis, and asking for
+rotation about its shortest axis invents one — and it now carries a standing
+self-test that requires it to separate a cold disc from an isotropic blob. It
+reads 17.9 against 0.07, a factor of 245.
+
+**The pattern, again.** Every one of these was caught by a control and none by
+inspection. The measurement that mattered was not the remnant's number; it was
+the progenitor's number sitting next to it.
+
+91 assertions, 91 ran, 0 failed.

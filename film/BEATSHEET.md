@@ -66,7 +66,8 @@ the film, and the least demonstrable. Every claim gets its register marked.
 | 16 | **A different geometry, a different object.** Straight through the middle: a ring. | ring | **M** |
 | 17 | **The ordinary case.** Most galaxies are not caught in great collisions. They are quietly rearranged by companions far smaller than themselves. | minor merger | **M** for the mechanism, **C** for "most" |
 | 18 | **The merger.** Two spirals that cannot escape each other. Friction, orbital decay, coalescence at 1685 Myr. | merger, long | **M**; the wake is analytic — say so |
-| 19 | **The remnant, MEASURED.** Fit the remnant's surface-brightness profile and put the r¼ law on screen next to it. | science view, on screen | **M** — *this is new*, and it turns the film's central assertion into a demonstration |
+| 19 | **The remnant, MEASURED — it stops rotating.** 205 km/s of ordered rotation becomes 27 km/s, while random motion rises from 29 to 149 km/s. v/σ falls from **7.2 to 0.18**, a factor of forty. The flat disc (c/a 0.10) becomes a triaxial spheroid (c/a 0.56). | science view, numbers on screen | **M** — measured with the progenitor as control; *this is the beat self-gravity bought* |
+| 19b | **What we could NOT show.** The light profile only reaches Sérsic n = 1.58, not the n = 4 of a classical elliptical. Say so, briefly, or cut 19b and simply do not claim the profile. | — | **X** — see the note below |
 | 20 | **The nuance, kept.** Major mergers tend to produce ellipticals — but simulations also produce discs from major mergers, and whether it accounts for most real ellipticals is open. | graphic | **C** — do not state the tendency as a rule |
 | 21 | **What we cannot show.** S0s, ram-pressure stripping, starvation, the morphology–density relation. There is no gas in this model. | real imagery | **X** — name the limit or cut the beat |
 | 22 | **Home.** The Milky Way and Andromeda. | simulation | see below |
@@ -88,6 +89,36 @@ countdown.
 | 25 | **The invitation.** Every interacting pair in the sky is a single frame from a film we will never watch to the end. You can run every one of these yourself. | close card | link to the live app, deep-linked per chapter |
 
 ---
+
+## Beat 19, and why it changed
+
+The plan was to fit the remnant's surface-brightness profile against a de
+Vaucouleurs r¼ law and put the match on screen. **It does not match**, and the
+measurement is worth more than the beat that was planned.
+
+Measured, with the progenitor disc as the control through the identical fitter:
+
+| | b/a | c/a | v_rot | σ | v/σ | Sérsic n |
+|---|---|---|---|---|---|---|
+| progenitor disc | 0.994 | 0.098 | 205 km/s | 29 km/s | **7.18** | **1.00** |
+| remnant | 0.856 | 0.560 | 27 km/s | 149 km/s | **0.18** | **1.58** |
+
+So the **kinematic** transformation is complete and dramatic: a
+rotation-supported disc becomes a pressure-supported spheroid, and that is the
+defining difference between a spiral and an elliptical. The **photometric**
+transformation is only partial — n moves from 1.00 towards 4 and stops at 1.58.
+
+**Why, and this is inferred rather than measured:** 93.9% of the potential is a
+rigid halo following a prescribed orbit. Violent relaxation rearranges stellar
+energies through a *time-varying* potential, and here most of the potential is
+rigid and, once the two halos coincide, static. The stars can lose their ordered
+rotation — that is a rearrangement of velocities — but their final radial
+distribution is largely set by the fixed halo they settle into. Testing this
+needs Stage 2, a live halo. Until then the profile claim stays out of the film.
+
+This is a better beat than the one it replaces. "The disc stops turning" is
+visible, measurable and comprehensible; "the surface brightness follows an r¼
+law" is neither visible nor comprehensible to a general audience.
 
 ## What changes structurally
 
