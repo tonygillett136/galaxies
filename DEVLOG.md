@@ -2167,3 +2167,84 @@ ordered streaming as random motion — has not been tested because it needs the
 azimuthal mean velocity field removed first.
 
 95 assertions, 95 ran, 0 failed.
+
+---
+
+## Phase 2 — the live-halo heating, diagnosed
+
+Six hypotheses in, the answer is a standard composite-model mistake and it was
+found by measuring the halo rather than the disc.
+
+### First, a better instrument
+
+`src/engine/kinematics.js` separates ORDERED streaming from RANDOM motion by
+fitting a Fourier series in azimuth per radial ring: the fit is streaming, the
+residual is random. The naive rms of v_R about the centre conflates them, and a
+spiral arm carries large ordered radial motion.
+
+**Two versions of it failed their own self-test, in both directions, and the
+failures set the design.** Binning in (R, phi) reported σ_random = 0.075 for a
+*pure* cos(2φ) field, because the field varies across a 22.5° bin — the bias IS
+the bin width, so no estimator inside the bin removes it. A Fourier fit has no
+bin width. Separately, the noise a p-parameter fit absorbs is exactly
+(p−1)σ²/n, which is subtracted rather than estimated.
+
+A third failure was in the **test, not the instrument**: drawing φ and v from
+consecutive outputs of a weak LCG put a real position-velocity correlation into
+the synthetic data, which the fit correctly found. The explained sum of squares
+grew with n instead of holding at (p−1)σ². Swapping in `mulberry32` fixed it. The
+instrument was right and the test was manufacturing structure.
+
+It now recovers all three cases, including with a large bulk velocity present:
+pure streaming → random 0.0000; pure random → streaming 0.0046; and the naive
+rms reads 0.462 where the true random part is 0.300.
+
+### The answer: it is real heating, and the halo is contracting
+
+Applied to the live-halo runs:
+
+| halo N | RANDOM rise | STREAMING rise |
+|---|---|---|
+| 0 (rigid) | +2.0 km/s | +1.3 km/s |
+| 50,000 | **+16.4** | +6.1 |
+| 150,000 | **+15.0** | +6.1 |
+
+So the streaming hypothesis is **wrong** — that was the sixth. The disc really is
+being heated. But that sharpened the question into a useful shape: real, prompt,
+and independent of particle mass, occurring only when the halo can respond.
+
+Measuring the halo instead of the disc gave it up immediately. Over the same
+141 Myr, the inner halo **contracts by 23–38%**:
+
+| halo N | 1% / 5% / 25% mass radii (kpc) | change |
+|---|---|---|
+| 50,000 | 2.08 / 5.34 / 17.79 → 1.32 / 3.77 / 13.72 | −36.5%, −29.4%, −22.9% |
+| 150,000 | 2.05 / 5.22 / 17.71 → 1.28 / 3.64 / 13.57 | −37.6%, −30.3%, −23.4% |
+
+Nearly identical at both counts, which is exactly the N-independence that made
+two-body relaxation impossible.
+
+**The cause.** The halo was built as an *isolated* Hernquist sphere and a disc was
+then dropped into the middle of it. Its distribution function is the equilibrium
+one for a halo alone, not for halo + disc + bulge, so it contracts into the deeper
+combined potential — and that changing potential heats the disc. A rigid halo
+cannot respond, which is why the control stays cold.
+
+This is a known requirement of building composite N-body galaxy models and the
+project walked straight into it: **the halo must be built in the TOTAL potential,
+not superposed from two separately-equilibrated systems.**
+
+### What that means for Stage 2
+
+Not a resolution problem and not a reason to abandon a live halo. It is an
+initial-conditions problem of exactly the kind CLAUDE.md warns about, and it has
+a known fix: sample the halo's DF by Eddington inversion in the combined
+potential rather than using the analytic isolated-sphere DF. That is the next
+piece of work and it is well defined.
+
+**The lesson is where the measurement was pointed.** Five hypotheses were tested
+by measuring the disc, because the disc was the thing that looked wrong. The
+answer was in the halo, and it took thirty seconds to see once the question was
+asked of the right object.
+
+96 assertions, 96 ran, 0 failed.

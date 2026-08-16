@@ -59,7 +59,7 @@ deploy.
 ```bash
 python3 bench/devserver.py 8787               # serves with Cache-Control: no-store
 open http://127.0.0.1:8787/index.html
-open http://127.0.0.1:8787/test/index.html    # 95 standing assertions
+open http://127.0.0.1:8787/test/index.html    # 96 standing assertions
 node bench/mutate.mjs                         # break the code, require the suite to notice
 ```
 
@@ -119,7 +119,7 @@ repository is worth reading.
 
 ## How much of this is actually guarded
 
-95 standing assertions is the wrong number to quote on its own, because review rounds kept
+96 standing assertions is the wrong number to quote on its own, because review rounds kept
 finding assertions that pass when the code they guard is deleted. So the repository carries a
 mutation harness:
 

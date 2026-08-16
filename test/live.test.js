@@ -18,6 +18,8 @@ import { plummer } from '../src/engine/potentials.js';
 import { composite } from '../src/engine/potentials.js';
 import { record } from './measured.js';
 import { shapeKinematics } from '../src/engine/shape.js';
+import { decomposeDiscVelocities } from '../src/engine/kinematics.js';
+import { mulberry32 } from '../src/engine/galaxy.js';
 import { liveHernquistHalo, hernquistSigma2, hernquistSigma2Jeans, hernquistMassFrac, hernquistDF } from '../src/engine/livehalo.js';
 
 const Rd = 3.0;
@@ -71,7 +73,7 @@ async function evolve(device, ic, rigid, steps, eps = EPS) {
 
 export async function runLiveTests(device) {
   group('live tier — self-gravity, where the initial conditions are the risk');
-  expectChecks(9);
+  expectChecks(10);
 
   const model = galaxyModel(1.0);
   const { rigid, discMass } = rigidWithoutDisc(model);
@@ -166,6 +168,55 @@ export async function runLiveTests(device) {
     above(dR, 0.05, 'radius change when the disc gravity is double-counted');
     return `mean R ${before.meanR.toFixed(3)} -> ${after.meanR.toFixed(3)} kpc `
          + `(${(dR * 100).toFixed(1)}%, against a 5% tolerance the correct model passes) — the guard fires`;
+  });
+
+  await checkAsync('SELF-TEST: streaming and random motion are separated', async () => {
+    // An rms of v_R about the centre cannot tell a spiral arm's ordered inflow
+    // from thermal motion. This separates them by fitting a Fourier series in
+    // azimuth per ring; the fit is streaming, the residual is random.
+    //
+    // Two earlier versions of this failed their own self-test, in both
+    // directions, and the failures set the design: (R,phi) BINNING reported
+    // sigma_random = 0.075 for a pure cos(2phi) field, because the field varies
+    // across a 22.5 degree bin and no estimator inside the bin can remove a bias
+    // that IS the bin width. A Fourier fit has no bin width. Separately, the
+    // noise a p-parameter fit absorbs is exactly (p-1) sigma^2 / n, which is
+    // subtracted rather than estimated.
+    const rnd = mulberry32(987);
+    const gauss = () => { let u, v, q; do { u = rnd() * 2 - 1; v = rnd() * 2 - 1; q = u * u + v * v; } while (!q || q >= 1); return u * Math.sqrt(-2 * Math.log(q) / q); };
+    const build = (n, amp, sig, bulk) => {
+      const P = [];
+      for (let i = 0; i < n; i++) {
+        const R = 3 + 9 * Math.sqrt(rnd()), ph = rnd() * 2 * Math.PI;
+        const vR = amp * Math.cos(2 * ph) + sig * gauss();
+        P.push({ x: R * Math.cos(ph), y: R * Math.sin(ph), z: 0.1 * gauss(),
+          vx: vR * Math.cos(ph) - Math.sin(ph) + bulk, vy: vR * Math.sin(ph) + Math.cos(ph), vz: 0, m: 1 });
+      }
+      return P;
+    };
+    const run = (P) => decomposeDiscVelocities((i) => P[i],
+      Array.from({ length: P.length }, (_, i) => i), [0, 0, 0], { nR: 8, mMax: 4 });
+    const N = 30000, A = 0.5, S = 0.3, expS = A / Math.SQRT2;
+    const pureStream = run(build(N, A, 0, 0));
+    const pureRand = run(build(N, 0, S, 0));
+    const both = run(build(N, A, S, 2.0));       // and a large bulk velocity
+
+    below(pureStream.sigmaRandom, 0.04, 'random motion reported for a PURE streaming field');
+    below(Math.abs(pureStream.sigmaStreaming - expS), 0.05, 'streaming recovered from a pure streaming field');
+    below(pureRand.sigmaStreaming, 0.04, 'streaming reported for a PURE random field');
+    below(Math.abs(pureRand.sigmaRandom - S), 0.03, 'random recovered from a pure random field');
+    below(Math.abs(both.sigmaRandom - S), 0.03, 'random recovered when both are present, with a bulk velocity');
+    below(Math.abs(both.sigmaStreaming - expS), 0.05, 'streaming recovered when both are present');
+    // and the naive rms must genuinely conflate them, or there was nothing to fix
+    let s2 = 0, c = 0;
+    for (const P of [build(N, A, S, 0)]) for (const q of P) {
+      const R = Math.hypot(q.x, q.y); const vR = (q.vx * q.x + q.vy * q.y) / R; s2 += vR * vR; c++;
+    }
+    const naive = Math.sqrt(s2 / c);
+    above(naive / S, 1.3, 'the naive rms against the true random dispersion');
+    return `pure streaming -> random ${pureStream.sigmaRandom.toFixed(4)}, streaming ${pureStream.sigmaStreaming.toFixed(4)} (exp ${expS.toFixed(4)}); `
+         + `pure random -> random ${pureRand.sigmaRandom.toFixed(4)} (exp ${S}), streaming ${pureRand.sigmaStreaming.toFixed(4)}; `
+         + `the naive rms reads ${naive.toFixed(3)} where the random part is ${S}`;
   });
 
   await checkAsync('SPLIT DISPATCHES give the same answer as one long one', async () => {
