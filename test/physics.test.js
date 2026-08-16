@@ -18,12 +18,13 @@ import { RestrictedSim, erf, frictionWeight, frictionWeightX } from '../src/engi
 import { discOfRings, exponentialDisc } from '../src/engine/galaxy.js';
 import { galaxyModel, buildEncounter, SCENARIOS, domainOfValidity } from '../src/engine/encounter.js';
 import { pairTable } from '../src/engine/pairforce.js';
+import { vcircDiscFreeman, vcircDiscNumeric, I0, I1, K0, K1 } from '../src/engine/freeman.js';
 import { record } from './measured.js';
 
 const acc = [0, 0, 0];
 
 export function runPhysicsTests() {
-  expectChecks(56);
+  expectChecks(60);
 
   // ---------------------------------------------------------------- units
   group('units — asserted against physical constants, not against the doc');
@@ -379,6 +380,70 @@ export function runPhysicsTests() {
   });
 
   // --------------------------------------------------------------- kepler
+  // PHASE 2 PREP. When the disc becomes live particles the rigid potential must
+  // drop its Plummer disc term and the circular velocity must be rebuilt from
+  // bulge + halo + the disc's OWN gravity. That self term is not the Plummer term
+  // it replaces. Getting it wrong leaves the disc sitting in the wrong gravity,
+  // where it contracts or expands and still looks like a perfectly nice galaxy.
+  // These four run now, before the solver exists, so the guard is in place first.
+  group('exponential disc self-gravity — Freeman 1970, before it is needed');
+
+  check('the modified Bessel functions match known values', () => {
+    const known = [['I0(1)', I0(1), 1.2660658778], ['I1(1)', I1(1), 0.5651591040],
+                   ['K0(1)', K0(1), 0.4210244382], ['K1(1)', K1(1), 0.6019072302],
+                   ['I0(5)', I0(5), 27.239871824], ['K1(5)', K1(5), 0.0040446134]];
+    let worst = 0, which = '';
+    for (const [n, got, exp] of known) {
+      const rel = Math.abs(got - exp) / Math.abs(exp);
+      if (rel > worst) { worst = rel; which = n; }
+    }
+    below(worst, 2e-7, `worst Bessel relative error (${which})`);
+    return `6 values, worst ${worst.toExponential(2)} at ${which}`;
+  });
+
+  check('Freeman agrees with an INDEPENDENT quadrature of the same disc', () => {
+    // Not a self-comparison: the check integrates the disc potential directly in
+    // polar coordinates centred ON the field point, so dA = u du dtheta cancels
+    // the 1/u kernel and there is no singularity to special-case. Freeman's
+    // closed form and this share no algebra beyond the surface density.
+    let worst = 0, atR = 0;
+    for (const R of [0.5, 1, 2, 3, 5]) {
+      const a = vcircDiscFreeman(R, 1, 1, 1), b = vcircDiscNumeric(R, 1, 1, 1);
+      const rel = Math.abs(a - b) / b;
+      if (rel > worst) { worst = rel; atR = R; }
+    }
+    below(worst, 5e-6, 'worst Freeman vs quadrature disagreement');
+    record('freemanVsQuadrature', worst);
+    return `worst ${worst.toExponential(2)} at R = ${atR} Rd, over 5 radii`;
+  });
+
+  check('the rotation curve peaks at 2.15 scale lengths, as it must', () => {
+    let best = 0, bestR = 0;
+    for (let R = 0.5; R < 6; R += 0.001) {
+      const v = vcircDiscFreeman(R, 1, 1, 1);
+      if (v > best) { best = v; bestR = R; }
+    }
+    close(bestR, 2.15, 0.01, 'peak radius of the exponential disc rotation curve');
+    // and far outside it, the disc must look like a point mass
+    const R = 50, v = vcircDiscFreeman(R, 1, 1, 1);
+    close(v * v * R, 1.0, 5e-3, 'v^2 R at 50 scale lengths against GM');
+    return `peak at ${bestR.toFixed(3)} Rd (textbook 2.15); v^2 R = ${(v * v * R).toFixed(5)} at 50 Rd`;
+  });
+
+  check('SENSITIVITY: this guard rejects a disc mass that is 10 per cent wrong', () => {
+    // The whole point of the guard is to catch a disc whose own gravity has been
+    // mis-set — the double-counting trap. Prove it can see one.
+    const truth = vcircDiscFreeman(2.15, 1.0, 1, 1);
+    const wrong = vcircDiscFreeman(2.15, 1.1, 1, 1);
+    const rel = Math.abs(wrong - truth) / truth;
+    above(rel, 4e-2, 'shift seen when the disc mass is 10% wrong');
+    // and the doubling that Trap 1 actually produces
+    const doubled = vcircDiscFreeman(2.15, 2.0, 1, 1);
+    above(Math.abs(doubled - truth) / truth, 0.35, 'shift seen when the disc mass is DOUBLE-COUNTED');
+    return `10% mass error moves v_circ by ${(rel * 100).toFixed(1)}%; `
+         + `double-counting moves it by ${((doubled / truth - 1) * 100).toFixed(1)}%`;
+  });
+
   group('kepler — analytic self-consistency');
 
   check('state at true anomaly has the analytic radius', () => {
