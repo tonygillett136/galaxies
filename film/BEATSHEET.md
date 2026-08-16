@@ -67,7 +67,7 @@ the film, and the least demonstrable. Every claim gets its register marked.
 | 17 | **The ordinary case.** Most galaxies are not caught in great collisions. They are quietly rearranged by companions far smaller than themselves. | minor merger | **M** for the mechanism, **C** for "most" |
 | 18 | **The merger.** Two spirals that cannot escape each other. Friction, orbital decay, coalescence at 1685 Myr. | merger, long | **M**; the wake is analytic — say so |
 | 19 | **The remnant, MEASURED — it stops rotating.** 205 km/s of ordered rotation becomes 27 km/s, while random motion rises from 29 to 149 km/s. v/σ falls from **7.2 to 0.18**, a factor of forty. The flat disc (c/a 0.10) becomes a triaxial spheroid (c/a 0.56). | science view, numbers on screen | **M** — measured with the progenitor as control; *this is the beat self-gravity bought* |
-| 19b | **What we could NOT show.** The light profile only reaches Sérsic n = 1.58, not the n = 4 of a classical elliptical. Say so, briefly, or cut 19b and simply do not claim the profile. | — | **X** — see the note below |
+| 19b | **And the light changes shape too — but only if the halo can respond.** With a rigid halo the profile stays exponential (n = 1.58). With a live halo it flips to r¼ (n = 2.58). The control IS the beat. | science view, two profiles side by side | **M** — say *toward* a de Vaucouleurs profile, never *matches*: 2.58 is not 4 |
 | 20 | **The nuance, kept.** Major mergers tend to produce ellipticals — but simulations also produce discs from major mergers, and whether it accounts for most real ellipticals is open. | graphic | **C** — do not state the tendency as a rule |
 | 21 | **What we cannot show.** S0s, ram-pressure stripping, starvation, the morphology–density relation. There is no gas in this model. | real imagery | **X** — name the limit or cut the beat |
 | 22 | **Home.** The Milky Way and Andromeda. | simulation | see below |
@@ -106,15 +106,27 @@ Measured, with the progenitor disc as the control through the identical fitter:
 So the **kinematic** transformation is complete and dramatic: a
 rotation-supported disc becomes a pressure-supported spheroid, and that is the
 defining difference between a spiral and an elliptical. The **photometric**
-transformation is only partial — n moves from 1.00 towards 4 and stops at 1.58.
+transformation, with a rigid halo, was only partial — n moved from 1.00 to 1.58.
 
-**Why, and this is inferred rather than measured:** 93.9% of the potential is a
-rigid halo following a prescribed orbit. Violent relaxation rearranges stellar
-energies through a *time-varying* potential, and here most of the potential is
-rigid and, once the two halos coincide, static. The stars can lose their ordered
-rotation — that is a rearrangement of velocities — but their final radial
-distribution is largely set by the fixed halo they settle into. Testing this
-needs Stage 2, a live halo. Until then the profile claim stays out of the film.
+**That was inferred to be the rigid halo's fault, and the inference has since been
+tested.** With everything live — disc, bulge and halo, both galaxies, no
+prescribed orbit and real dynamical friction — the remnant reaches **n = 2.58 and
+prefers r¼ over an exponential**, which it did not before:
+
+| | Sérsic n | prefers | v/σ | c/a |
+|---|---|---|---|---|
+| progenitor (control) | 0.98 | exponential | 7.20 | 0.098 |
+| remnant, rigid halo | 1.58 | exponential | 0.18 | 0.560 |
+| remnant, live halo | **2.58** | **r¼** | 0.54 | 0.381 |
+
+Violent relaxation needs a potential that varies in time, and a rigid halo cannot
+provide one. **The control is the beat**: the light profile changes shape when,
+and only when, the halo is allowed to respond.
+
+Limits to keep in the narration: 2.58 is not 4, so the word is *toward*; the
+remnant retains more rotation than the rigid-halo one and is flatter, so it is a
+moderately rotating spheroid rather than a classic slow-rotating giant; and there
+is no gas, which concentrates real remnants.
 
 This is a better beat than the one it replaces. "The disc stops turning" is
 visible, measurable and comprehensible; "the surface brightness follows an r¼

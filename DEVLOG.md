@@ -2345,3 +2345,58 @@ message, so a syntax error costs two seconds instead of half an hour.
 The general shape is familiar from this project: **silence read as progress**. A
 harness that cannot distinguish "still working" from "died before starting" will
 always resolve that ambiguity in the most expensive direction.
+
+---
+
+## Phase 2 — the merger remnant, with nothing rigid
+
+The rigid-halo run left the remnant at Sérsic n = 1.58, preferring an exponential
+over r¼, and the *inferred* reason was that violent relaxation works through a
+time-varying potential while 93.9% of that model's potential was rigid and, once
+the halos coincided, static. That inference is now tested rather than asserted.
+
+`buildLiveEncounter(..., { liveHalo: true })` makes **everything** particles:
+disc, bulge and halo, for both galaxies, with the spheroids sampled by Eddington
+inversion in each galaxy's own total potential. Nothing is rigid, nothing follows
+a prescribed orbit, and **dynamical friction is real** — the wake that produces it
+exists rather than being replaced by an analytic drag on the centres.
+
+107,200 particles, dt = 0.04, softening 0.2 kpc, progenitor disc as the control
+through the identical fitter:
+
+| | Sérsic n | prefers | v/σ | c/a |
+|---|---|---|---|---|
+| CONTROL progenitor | 0.98 | exponential | 7.20 | 0.098 |
+| remnant, **rigid** halo | 1.58 | exponential | 0.18 | 0.560 |
+| remnant, **live** halo | **2.58** | **r¼** | 0.54 | 0.381 |
+
+**The profile flips.** With a live halo the remnant prefers r¼ over an
+exponential, which it did not with a rigid one, and the best-fit index moves from
+0.98 to 2.58. The progenitor still prefers the exponential, so the comparison
+means something.
+
+**Real friction is faster than the tuned analytic term.** The pair coalesced at
+**t = 260** against t = 421 for the Chandrasekhar drag, closing to 0.07 kpc. That
+is a prediction the model now makes rather than a parameter it was given.
+
+### What must NOT be claimed
+
+- **n = 2.58 is not n = 4.** The film should say the remnant moves *toward* a de
+  Vaucouleurs profile, not that it matches one. n ≈ 4 characterises bright
+  ellipticals; n ≈ 2–3 is ordinary for lower-mass ones, so 2.58 is a reasonable
+  place to land — but the honest word is "toward".
+- **The remnant rotates more than the rigid-halo one**, v/σ 0.54 against 0.18,
+  and is flatter (c/a 0.381 against 0.560). A moderately rotating, flattened
+  spheroid is a real class of object, but it is not the classic slow-rotating
+  giant elliptical, and calling it one would be the round-9 mistake again.
+- **There is no gas.** Dissipation concentrates real merger remnants, and a
+  single merger is not how a real elliptical is assembled.
+
+### Beat 19, finally
+
+It now has both halves. The kinematic transformation was always the vivid one —
+205 km/s of ordered rotation becoming random motion — and the photometric half is
+now demonstrable rather than absent: the light profile flips from exponential to
+r¼ when, and only when, the halo is allowed to respond. That second clause is the
+interesting part, and it is a better beat than the original plan, because the
+control is the story.
