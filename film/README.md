@@ -257,10 +257,25 @@ harmony rather than making noise. Spectral distance across a chord boundary is
 
 - narration gets a high-pass at 95 Hz, a small dip at 250 Hz, a presence lift at
   3.2 kHz, and a short slap echo so it sits in the same space as the music
-- the music is **side-chained to the voice**: 7.3 dB of ducking, measured, which
-  is inside the 6 to 9 dB broadcast norm. Deeper than that and the score vanishes
-- the final mix is normalised to **-13.2 LUFS, -1.5 dBTP**, which is YouTube's
-  target
+- the music bed sits at 0.45 gain and is **side-chained to the voice**, ducking a
+  further 10.3 dB while narration plays
+- the final mix is normalised to **-14.6 LUFS, -1.5 dBTP**, at YouTube's target
+
+### Balance the ratio, not the duck depth
+
+The number that matters is not how deep the duck is, it is **how far the voice
+sits above the music while the voice is speaking**. Broadcast practice for
+narration over a bed is 12 to 18 dB.
+
+The first mix had a respectable-looking 7.3 dB duck and was still wrong: the bed
+was loud enough underneath that the measured speech-to-music ratio was **1.4 dB**.
+The narration and the score were effectively the same loudness, which is exactly
+what it sounded like. Lowering the bed and deepening the duck brings it to
+**14.0 dB**, with the music resting at -26.9 dBFS between lines: present, and not
+competing.
+
+Measure the ratio on the **stems**, during speech only. Measuring the finished
+mix compares voice-plus-music against music and tells you almost nothing.
 
 Ducking depth has to be measured on the **music stem alone**. Measuring the
 finished mix compares voice-plus-ducked-music against music, which is not the
