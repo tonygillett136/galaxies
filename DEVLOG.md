@@ -2584,3 +2584,95 @@ drops **19 dB**, and the overall dynamic range is **39.4 dB**. The first attempt
 also left an unintended 3 s hole at the Act I/II boundary (-47.7 dB); Act II now
 begins two and a half seconds early so the strings swell into the act break
 rather than following a gap.
+
+---
+
+## Spatial sound: a room, not an effect
+
+The brief was atmosphere and a sense of space, explicitly not "in your face"
+stereo tricks. That decides the whole design, because the two are produced by
+different things: **space comes from a diffuse, decorrelated reverberant field,
+not from moving dry sources around the listener.** Panned dry material announces
+itself as a mix; a fairly centred source in a convincing field just sounds like a
+place.
+
+### What the platform actually accepts
+
+Checked rather than assumed, and it settles the format question:
+
+- **YouTube supports 5.1 for LIVE STREAMS ONLY.** Ordinary uploads are delivered
+  as stereo.
+- **Dolby Atmos is not supported at all**, and there is no open-source Atmos
+  encoder — it needs a licensed Dolby renderer or a DAW with Atmos support, none
+  of which is installed here. It would have been effort spent on a format the
+  target platform rejects.
+- Ambisonics is supported, but only for 360° video. This film is flat 16:9.
+
+So the deliverable your audience hears is **stereo — and therefore it should be
+binaural**, because most YouTube viewing is on headphones. A 5.1 master is a
+separate thing for anywhere that can carry six channels.
+
+### The head model, and why it is a model rather than a dataset
+
+`spatial.py` uses Woodworth's spherical-head ITD, `dt = (a/c)(θ + sin θ)`, plus
+frequency-dependent shadowing of the far ear. Verified against theory at 0/30/60/
+90°: **0.000 / 0.261 / 0.488 / 0.656 ms, matching to three decimals.**
+
+A measured HRTF set would be more accurate for *elevation*, which this film does
+not use. The model is explainable and testable, which an opaque dataset is not.
+
+**Mono compatibility is not optional** — a great many people will hear this on a
+phone. ITD becomes comb filtering the instant the channels are summed, so
+everything below 250 Hz stays mono and centred and ITD applies only above it.
+
+### The measurements that drove the decisions
+
+Interaural cross-correlation: 1.0 is a point inside the head, and good concert
+halls measure 0.2–0.5.
+
+| | IACC | mono fold-down |
+|---|---|---|
+| dry source, centred | 1.000 | 0.00 dB |
+| dry source at 90° | 0.578 | −3.13 dB |
+| **the diffuse tail alone** | **0.034** | −2.97 dB |
+| realistic dry+wet blend | 0.891 | −0.24 dB |
+
+The tail at 0.034 is the whole trick: two *independent* noise decays, one per
+ear, so the late field is essentially uncorrelated.
+
+Pad width was then chosen by measurement rather than taste:
+
+| pad spread | IACC | mono cost |
+|---|---|---|
+| ±32° | 0.728 | −0.67 dB |
+| ±50° | 0.581 | −1.11 dB |
+| **±70°** | **0.467** | −1.57 dB |
+| ±85° | 0.423 | −1.85 dB |
+
+±70° buys a genuinely enveloping field for a fold-down cost that only touches the
+music. And the pad's width is **real**: its two halves are different voice groups
+with independent random phases, measured at a mutual correlation of **0.028**, not
+one signal put through a widener. That survives a fold to mono; a phase trick does
+not.
+
+### Where it landed
+
+Score alone: IACC **0.509**, mono −1.54 dB. Narration: IACC **0.993**, mono
+−0.02 dB — dead centre and untouched. Finished stereo master: mono fold-down
+**−0.68 dB**, safe on a phone speaker.
+
+In the finished mix IACC reads 0.73 during music-led passages and 0.83 under
+narration, higher than the score in isolation. That is arithmetic rather than a
+fault: a centred intelligible voice and a maximally decorrelated field cannot
+occupy the same instant. The space opens up between and around the lines.
+
+### One thing deliberately not done
+
+The camera position and every galaxy's position are known per frame, so the score
+*could* be spatialised from the geometry — sound following the encounter as the
+camera arcs. It would be a real capability of having the 3D scene rather than
+footage. It is not in this film, for two reasons: it would be movement, which the
+brief ruled out, and space is silent. Music is understood as authorial; a sound
+positioned *on a galaxy* starts to imply something audible is happening there. A
+project that has already retracted one claim for outrunning its evidence should
+not invent an audible universe by accident.
